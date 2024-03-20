@@ -1,26 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SkateHub
 
-## Getting Started
+<p align="center">
+  <a href="#gear-build-setup">Build setup</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#memo-changelog">Changelog</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#rocket-nextjs-documentation">Next.js documentation</a>
+</p>
 
-First, run the development server:
+## SkateHub Frontend powered by Next.js
+
+The project requires [Node.js](https://nodejs.org) and [Backend-GraduateProgram-FullStack-2023](https://github.com/jpcmf/Backend-GraduateProgram-FullStack-2023) to run locally.
+
+## :gear: Build setup
+
+Welcome! Here's a quick guide to getting started with `SkateHub Frontend`. Let's dive in:
+
+### 👣 Step 1: Clone the repository
+
+First things first, let's clone the repository onto your local machine. If you're not sure how to do this, no worries! Here's a simple command you can run in your terminal:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# clone the repository
+
+git clone https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 👣 Step 2: Navigate to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Once the repository is cloned, navigate into the project directory using the cd command in your terminal:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+# navigate to the project directory
 
-## Learn More
+cd Frontend-GraduateProgram-FullStack-2024
+```
+
+### 👣 Step 3: Switch to the develop branch
+
+Our development work usually happens in the develop branch. Make sure you're on the right branch by executing the following command:
+
+```bash
+# switch to the develop branch
+
+git checkout develop
+```
+
+### 👣 Step 4: Configure environment variables
+
+Before running the project, you'll need to configure the environment variables. This typically involves setting up database credentials and other configurations. Locate the `.env.example` file in the project root directory, and create a new file named `.env` with your configurations. You may need to consult the project documentation for the required variables.
+
+```bash
+# configure environment variables
+
+cp .env.example .env.local
+```
+
+### 👣 Step 5: Install dependencies
+
+Now that you're in the project directory and on the correct branch, it's time to install all the dependencies. Simply run:
+
+```bash
+# install dependencies
+npm install
+```
+
+### 👣 Step 6: Run the project
+
+You're almost there! To start the application in development mode, just type the following command:
+
+```bash
+# run at localhost:3000
+npm run dev
+```
+
+And that's it! Your `SkateHub Frontend` should now be up and running locally on your [machine](http://localhost:3000).
+
+## :memo: Changelog
+
+### 2024
+
+- 2024-03-19 - Add a quick guide to getting started with the application [#1](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/1) _(v0.1.0)_
+
+## :rocket: Next.js documentation
 
 To learn more about Next.js, take a look at the following resources:
 
@@ -29,8 +89,6 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Made with 💙 by João Paulo Fricks
