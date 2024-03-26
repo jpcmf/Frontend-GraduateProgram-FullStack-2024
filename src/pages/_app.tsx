@@ -1,7 +1,8 @@
-import { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from '../styles/theme'
 import { fonts } from '@/lib/fonts'
+import { AppProps } from 'next/app'
+import { ChakraProvider } from '@chakra-ui/react'
+import { SidebarDrawerProvider } from '@/contexts/SidebarDrawerContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         `}
       </style>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <SidebarDrawerProvider>
+          <Component {...pageProps} />
+        </SidebarDrawerProvider>
       </ChakraProvider>
     </>
   )
