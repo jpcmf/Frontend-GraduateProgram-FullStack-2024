@@ -1,4 +1,6 @@
-# SkateHub
+<h1 align="center">
+    <img alt="SkateHub" title="SkateHub" src=".github/skatehub.svg" />
+</h1>
 
 <p align="center">
   <a href="#gear-build-setup">Build setup</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
