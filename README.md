@@ -78,6 +78,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-03-26 - Create the header component [#5](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/5) _(v0.1.4)_
 - 2024-03-26 - Create the home page of the SkateHub project [#4](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/4) _(v0.1.3)_
 - 2024-03-26 - Create the sidebar provider and components to handle with the aside menu [#3](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/3) _(v0.1.2)_
 - 2024-03-24 - Add [Chakra UI](https://chakra-ui.com/) to handle with the user interface [#2](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/2) _(v0.1.1)_
