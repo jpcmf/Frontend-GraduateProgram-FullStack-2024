@@ -78,7 +78,8 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
-- 2024-03-24 - Add [Chakra UI](https://chakra-ui.com/) to handle with the user interface [#1](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/2) _(v0.1.1)_
+- 2024-03-26 - Create the sidebar provider and components to handle with the desktop and mobile menu [#3](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/3) _(v0.1.2)_
+- 2024-03-24 - Add [Chakra UI](https://chakra-ui.com/) to handle with the user interface [#2](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/2) _(v0.1.1)_
 - 2024-03-19 - Add a quick guide to getting started with the application [#1](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/1) _(v0.1.0)_
 
 ## :rocket: Next.js documentation
