@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-03-27 - Add the `favicon` of the SkateHub project [#9](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/9) _(v0.1.7)_
 - 2024-03-27 - Add the `prettier.config.js` file to the project to handle with code formatter [#8](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/8) _(v0.1.6)_
 - 2024-03-27 - Create the `signin` page of the SkateHub project [#7](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/7) _(v0.1.5)_
 - 2024-03-26 - Create the `header` component [#5](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/5) _(v0.1.4)_
