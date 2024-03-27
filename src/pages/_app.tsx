@@ -1,10 +1,12 @@
-import { theme } from '../styles/theme'
-import { fonts } from '@/lib/fonts'
-import { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
-import { SidebarDrawerProvider } from '@/contexts/SidebarDrawerContext'
+import { theme } from "../styles/theme";
+import { fonts } from "@/lib/fonts";
+import { Session } from "next-auth";
+import { AppProps } from "next/app";
+import { ChakraProvider } from "@chakra-ui/react";
+import { SessionProvider } from "next-auth/react";
+import { SidebarDrawerProvider } from "@/contexts/SidebarDrawerContext";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps<{ session: Session }>) {
   return (
     <>
       <style jsx global>
@@ -14,13 +16,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           }
         `}
       </style>
-      <ChakraProvider theme={theme}>
-        <SidebarDrawerProvider>
-          <Component {...pageProps} />
-        </SidebarDrawerProvider>
-      </ChakraProvider>
+      <SessionProvider session={pageProps.session}>
+        <ChakraProvider theme={theme}>
+          <SidebarDrawerProvider>
+            <Component {...pageProps} />
+          </SidebarDrawerProvider>
+        </ChakraProvider>
+      </SessionProvider>
     </>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
