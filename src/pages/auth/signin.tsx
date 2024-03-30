@@ -1,11 +1,11 @@
 import * as yup from "yup";
-import Link from "next/link";
 import { Input } from "../../components/Form/Input";
-import { useEffect } from "react";
+import { Toast } from "@/components/Toast";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { LogoSkateHub } from "@/components/LogoSkateHub";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { Button, Flex, Stack, Text } from "@chakra-ui/react";
 
 type SignInFormData = {
@@ -20,6 +20,7 @@ const signInFormSchema = yup.object().shape({
 
 export default function SignIn() {
   const router = useRouter();
+  const { addToast } = Toast();
 
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(signInFormSchema)
@@ -34,43 +35,20 @@ export default function SignIn() {
       password: values.password
     });
 
-    if (result?.ok) {
+    if (result?.status === 200) {
       router.replace("/dashboard");
       return;
+    } else {
+      addToast({
+        title: "Erro de autenticação.",
+        message: "Verifique seus dados de login e tente novamente.",
+        type: "error"
+      });
     }
-
-    alert("Credenciais inválidas");
   };
-
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if (session === null) return;
-    console.log("session.jwt...", session?.jwt);
-  }, [session]);
 
   return (
     <Flex w="100vw" h="100vh" alignItems="center" justifyContent="center" flexDirection="column">
-      <div className="">
-        <h1>{session ? "Authenticated" : "Not authenticated"}</h1>
-        <div className="">
-          {session && (
-            <>
-              <h3>Session data</h3>
-              <p>E-mail: {session.user.email}</p>
-              <p>JWT from Strapi: Check console</p>
-            </>
-          )}
-        </div>
-        {session ? (
-          <button onClick={() => signOut()}>Sign out</button>
-        ) : (
-          <Link href="/auth/signin">
-            <button>Sign In</button>
-          </Link>
-        )}
-      </div>
-
       <Flex
         as="form"
         w="100%"
@@ -82,15 +60,9 @@ export default function SignIn() {
         onSubmit={handleSubmit(handleSignIn)}
       >
         <Stack spacing={4}>
-          <Text fontSize="3xl" fontWeight="bold" letterSpacing="tighter" w="64" align="center" margin="auto" h="12">
-            SkateHub
-            <Text color="green.400" as="span" ml="1">
-              .
-            </Text>
-            <Text as="small" color="gray.700" ml="1" fontSize="smaller" fontWeight="300">
-              dash
-            </Text>
-          </Text>
+          <Flex justifyContent="center" mb="4">
+            <LogoSkateHub />
+          </Flex>
           <Flex flexDir="column">
             <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
           </Flex>
@@ -98,7 +70,6 @@ export default function SignIn() {
             <Input id="password" type="password" label="Senha" {...register("password")} error={errors.password} />
           </Flex>
         </Stack>
-
         <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={formState.isSubmitting}>
           Entrar
         </Button>
