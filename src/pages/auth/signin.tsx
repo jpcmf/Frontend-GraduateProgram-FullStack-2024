@@ -1,12 +1,14 @@
 import * as yup from "yup";
-import { Input } from "../../components/Form/Input";
-import { Toast } from "@/components/Toast";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useContext } from "react";
+import { AxiosError } from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LogoSkateHub } from "@/components/LogoSkateHub";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Flex, Stack, Text } from "@chakra-ui/react";
+
+import { Input } from "@/components/Form/Input";
+import { Toast } from "@/components/Toast";
+import { AuthContext } from "@/contexts/AuthContext";
+import { LogoSkateHub } from "@/components/LogoSkateHub";
 
 type SignInFormData = {
   email: string;
@@ -19,7 +21,7 @@ const signInFormSchema = yup.object().shape({
 });
 
 export default function SignIn() {
-  const router = useRouter();
+  const { signIn } = useContext(AuthContext);
   const { addToast } = Toast();
 
   const { register, handleSubmit, formState } = useForm({
@@ -29,22 +31,17 @@ export default function SignIn() {
   const { errors } = formState;
 
   const handleSignIn: SubmitHandler<SignInFormData> = async values => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: values.email,
-      password: values.password
-    });
+    await signIn(values)
+      .then(_ => {})
+      .catch((error: AxiosError) => {
+        console.error("error: ", error.message);
 
-    if (result?.status === 200) {
-      router.replace("/dashboard");
-      return;
-    } else {
-      addToast({
-        title: "Erro de autenticação.",
-        message: "Verifique seus dados de login e tente novamente.",
-        type: "error"
+        addToast({
+          title: "Erro de autenticação.",
+          message: "Verifique seus dados de login e tente novamente.",
+          type: "error"
+        });
       });
-    }
   };
 
   return (
