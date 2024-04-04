@@ -20,7 +20,7 @@ export default function SignUp() {
         .string()
         .nonempty("Campo obrigatório.")
         .min(3, { message: "Usuário deve ter no mínimo 3 caracteres." }),
-      email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail dever ser um e-mail válido." }),
+      email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
       password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
       confirmPassword: z.string().nonempty("Campo obrigatório.")
     })
@@ -62,13 +62,14 @@ export default function SignUp() {
       } else {
         addToast({
           title: "Cadastro efetuado com sucesso.",
-          message: "Em breve você receberá um e-mail de confirmação para realizar o login na plataforma.",
+          message:
+            "Você receberá um e-mail para confirmar o seu endereço de e-mail. Por favor, verifique sua caixa de entrada.",
           type: "success"
         });
 
         route.push("/");
       }
-    } catch (error: Error | any) {
+    } catch (error: any) {
       if (error.status === 400) {
         addToast({
           title: "Usuário já cadastrado.",
@@ -83,7 +84,6 @@ export default function SignUp() {
           type: "error"
         });
       }
-    } finally {
     }
   };
 
@@ -115,14 +115,15 @@ export default function SignUp() {
             <LogoSkateHub />
           </Flex>
           <Flex flexDir="column">
-            <Box border="1px solid" borderColor="gray.700" borderRadius="md" p="4">
+            <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
               <Text fontSize="smaller" align="left">
-                Por favor, preencha as informações iniciais abaixo para concluir seu pré-cadastro. Após o envio, nossa
-                equipe administrativa receberá uma notificação e avaliará suas informações.
+                Preencha as informações abaixo para concluir seu pré-cadastro. Após a confirmação do e-mail, nossa
+                equipe administrativa avaliará suas informações. Verifique sua caixa de entrada para o e-mail de
+                confirmação.
               </Text>
               <Text fontSize="smaller" mt="4" align="left">
                 Assim que seu cadastro for aprovado, você receberá um e-mail de confirmação para realizar o login na
-                plataforma.
+                plataforma e preencher seu cadastro completo.
               </Text>
             </Box>
           </Flex>
