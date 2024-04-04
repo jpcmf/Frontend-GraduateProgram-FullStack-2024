@@ -16,7 +16,7 @@ export const Toast = () => {
       status: type,
       position: "top-right",
       isClosable: true,
-      duration: 3700,
+      duration: 5700,
       variant: "solid"
     });
   };
