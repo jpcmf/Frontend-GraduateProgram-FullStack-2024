@@ -1,9 +1,8 @@
 import * as yup from "yup";
 import { useContext } from "react";
-import { AxiosError } from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
 
 import { Input } from "@/components/Form/Input";
 import { Toast } from "@/components/Toast";
@@ -16,8 +15,8 @@ type SignInFormData = {
 };
 
 const signInFormSchema = yup.object().shape({
-  email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
-  password: yup.string().required("Password obrigatório")
+  email: yup.string().required("E-mail obrigatório.").email("E-mail inválido."),
+  password: yup.string().required("Password obrigatório.")
 });
 
 export default function SignIn() {
@@ -33,23 +32,42 @@ export default function SignIn() {
   const handleSignIn: SubmitHandler<SignInFormData> = async values => {
     await signIn(values)
       .then(_ => {})
-      .catch((error: AxiosError) => {
-        console.error("error: ", error.message);
-
-        addToast({
-          title: "Erro de autenticação.",
-          message: "Verifique seus dados de login e tente novamente.",
-          type: "error"
-        });
+      .catch(error => {
+        if (error.response?.data.error.message === "Your account email is not confirmed") {
+          addToast({
+            title: "Erro de autenticação.",
+            message: "Confirme seu e-mail para acessar a plataforma.",
+            type: "warning"
+          });
+        } else {
+          addToast({
+            title: "Erro de autenticação.",
+            message: "Verifique seus dados de login e tente novamente.",
+            type: "error"
+          });
+        }
       });
   };
 
   return (
-    <Flex w="100vw" h="100vh" alignItems="center" justifyContent="center" flexDirection="column">
+    <Flex
+      w={["100dvw"]}
+      h={["100dvh"]}
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+      bg="gray.900"
+      backgroundSize="cover"
+      backgroundRepeat="no-repeat"
+      backgroundBlendMode="overlay"
+      backgroundPosition="center bottom"
+      backgroundImage="../alexander-londono-unsplash.jpeg"
+      px={["4", "0"]}
+    >
       <Flex
         as="form"
         w="100%"
-        maxWidth={360}
+        maxWidth={425}
         bg="gray.800"
         p="8"
         borderRadius={8}
@@ -61,6 +79,17 @@ export default function SignIn() {
             <LogoSkateHub />
           </Flex>
           <Flex flexDir="column">
+            <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
+              <Text fontSize="smaller" align="left">
+                Por favor, insira seu e-mail e senha cadastrado abaixo. Se precisar de ajuda, entre em{" "}
+                <Text as="a" href="#" textDecoration="underline" color="gray.600">
+                  contato conosco
+                </Text>
+                .
+              </Text>
+            </Box>
+          </Flex>
+          <Flex flexDir="column">
             <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
           </Flex>
           <Flex flexDir="column">
@@ -70,7 +99,7 @@ export default function SignIn() {
         <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={formState.isSubmitting}>
           Entrar
         </Button>
-        <Text as="a" href="#" color="gray.600" mt="4" align={"center"} textDecoration={"underline"}>
+        <Text as="a" href="#" color="gray.600" mt="4" align="center" textDecoration="underline">
           Esqueci minha senha
         </Text>
       </Flex>

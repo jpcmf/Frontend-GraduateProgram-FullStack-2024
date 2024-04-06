@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
+import { API } from "@/utils/constant";
 
 type SignInData = {
   email: string;
@@ -8,7 +7,7 @@ type SignInData = {
 };
 
 export async function signInRequest({ email, password }: SignInData) {
-  const res = await axios.post(`${strapiUrl}/api/auth/local`, {
+  const res = await axios.post(`${API}/api/auth/local`, {
     identifier: email,
     password
   });
@@ -17,7 +16,7 @@ export async function signInRequest({ email, password }: SignInData) {
 }
 
 export async function userMe(token: string) {
-  const res = await axios.get(`${strapiUrl}/api/users/me`, {
+  const res = await axios.get(`${API}/api/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
