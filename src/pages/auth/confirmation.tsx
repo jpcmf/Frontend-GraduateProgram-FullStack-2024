@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -64,27 +65,32 @@ export default function Confirmation() {
   }, []);
 
   return (
-    <Flex
-      w={["100dvw"]}
-      h={["100dvh"]}
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-      bg="gray.900"
-      backgroundSize="cover"
-      backgroundRepeat="no-repeat"
-      backgroundBlendMode="overlay"
-      backgroundPosition="center 80%"
-      backgroundImage="../alexander-londono-unsplash-2.jpeg"
-      px={["4", "0"]}
-    >
-      <Image src="../loader.svg" alt="Loading" width={100} height={100} />
-      <Text as="h1" fontSize="3xl" fontWeight="bold" letterSpacing="normal" align="center" display="flex">
-        Seu e-mail está sendo confirmado...
-      </Text>
-      <Text fontWeight="normal" align="center" color="gray.300">
-        Por favor, aguarde alguns instantes.
-      </Text>
-    </Flex>
+    <>
+      <Head>
+        <title>Seu e-mail está sendo confirmado... - SkateHub</title>
+      </Head>
+      <Flex
+        w={["100dvw"]}
+        h={["100dvh"]}
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+        bg="gray.900"
+        backgroundSize="cover"
+        backgroundRepeat="no-repeat"
+        backgroundBlendMode="overlay"
+        backgroundPosition="center 80%"
+        backgroundImage="../alexander-londono-unsplash-2.jpeg"
+        px={["4", "0"]}
+      >
+        <Image src="../loader.svg" alt="Loading" width={100} height={100} />
+        <Text as="h1" fontSize="3xl" fontWeight="bold" letterSpacing="normal" align="center" display="flex">
+          Seu e-mail está sendo confirmado...
+        </Text>
+        <Text fontWeight="normal" align="center" color="gray.300">
+          Por favor, aguarde alguns instantes.
+        </Text>
+      </Flex>
+    </>
   );
 }
