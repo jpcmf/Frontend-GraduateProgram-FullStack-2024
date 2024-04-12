@@ -34,18 +34,29 @@ export default function SignIn() {
     await signIn(values)
       .then(_ => {})
       .catch(error => {
-        if (error.response?.data.error.message === "Your account email is not confirmed") {
-          addToast({
-            title: "Erro de autenticação.",
-            message: "Confirme seu e-mail para acessar a plataforma.",
-            type: "warning"
-          });
-        } else {
-          addToast({
-            title: "Erro de autenticação.",
-            message: "Verifique seus dados de login e tente novamente.",
-            type: "error"
-          });
+        switch (error.response?.data.error.message) {
+          case "Your account email is not confirmed":
+            addToast({
+              title: "Erro de autenticação.",
+              message: "Confirme seu e-mail para acessar a plataforma.",
+              type: "warning"
+            });
+            break;
+          case "Your account has been blocked by an administrator":
+            addToast({
+              title: "Erro de autenticação.",
+              message:
+                "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+              type: "error"
+            });
+            break;
+          default:
+            addToast({
+              title: "Erro de autenticação.",
+              message: "Verifique seus dados de login e tente novamente.",
+              type: "error"
+            });
+            break;
         }
       });
   };

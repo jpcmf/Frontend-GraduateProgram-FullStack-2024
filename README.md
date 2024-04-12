@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-04-11 - Update the `signin` page of the SkateHub project [#17](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/17) _(v0.1.13)_
 - 2024-04-08 - Create the `confirmation` page of the SkateHub project [#15](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/15) _(v0.1.12)_
 - 2024-04-06 - Update the `signin` page of the SkateHub project [#14](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/14) _(v0.1.11)_
 - 2024-04-03 - Create the `signup` page of the SkateHub project [#12](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/12) _(v0.1.10)_
