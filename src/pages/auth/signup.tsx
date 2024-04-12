@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -88,104 +89,111 @@ export default function SignUp() {
   };
 
   return (
-    <Flex
-      w={[null, "100dvw"]}
-      h={[null, "100dvh"]}
-      bg="gray.900"
-      alignItems="center"
-      justifyContent="center"
-      backgroundSize="cover"
-      backgroundRepeat="no-repeat"
-      backgroundBlendMode="overlay"
-      backgroundPosition="center bottom"
-      backgroundImage="../alexander-londono-unsplash.jpeg"
-    >
+    <>
+      <Head>
+        <title>Cadastrar - SkateHub</title>
+      </Head>
       <Flex
-        as="form"
-        w="100%"
-        maxWidth={720}
-        bg="gray.800"
-        p="8"
-        borderRadius={8}
-        flexDir="column"
-        onSubmit={handleSubmit(onFinish)}
+        w={[null, "100dvw"]}
+        h={[null, "100dvh"]}
+        bg="gray.900"
+        alignItems="center"
+        justifyContent="center"
+        backgroundSize="cover"
+        backgroundRepeat="no-repeat"
+        backgroundBlendMode="overlay"
+        backgroundPosition="center bottom"
+        backgroundImage="../alexander-londono-unsplash.jpeg"
+        px={["4", "0"]}
+        py={["4", "0"]}
       >
-        <Stack spacing={4}>
-          <Flex justifyContent="center" mb="4">
-            <LogoSkateHub />
-          </Flex>
-          <Flex flexDir="column">
-            <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
-              <Text fontSize="smaller" align="left">
-                Preencha as informações abaixo para concluir seu pré-cadastro. Após a confirmação do e-mail, nossa
-                equipe administrativa avaliará suas informações. Verifique sua caixa de entrada para o e-mail de
-                confirmação.
-              </Text>
-              <Text fontSize="smaller" mt="4" align="left">
-                Assim que seu cadastro for aprovado, você receberá um e-mail de confirmação para realizar o login na
-                plataforma e preencher seu cadastro completo.
-              </Text>
-            </Box>
-          </Flex>
-          <Flex flexDir="column">
-            <Input
-              id="name"
-              type="text"
-              label="Nome completo"
-              placeholder="Digite seu nome completo"
-              {...register("name")}
-              error={errors.name}
-            />
-          </Flex>
-          <Flex flexDir={["column", null, "row"]} gap="4">
-            <Input
-              id="username"
-              type="text"
-              label="Usuário"
-              placeholder="Digite seu nome de usuário"
-              {...register("username")}
-              error={errors.username}
-            />
-            <Input
-              id="email"
-              type="email"
-              label="E-mail"
-              placeholder="Digite seu e-mail"
-              {...register("email")}
-              error={errors.email}
-            />
-          </Flex>
-          <Flex flexDir={["column", null, "row"]} gap="4">
-            <Input
-              id="password"
-              type="password"
-              label="Senha"
-              placeholder="Digite uma senha"
-              {...register("password")}
-              error={errors.password}
-            />
-            <Input
-              id="confirmPassword"
-              type="password"
-              label="Confirmar senha"
-              placeholder="Confirme a senha"
-              {...register("confirmPassword")}
-              error={errors.confirmPassword}
-            />
-          </Flex>
-        </Stack>
-
-        <Button
-          type="submit"
-          mt="6"
-          colorScheme="green"
-          size="lg"
-          isLoading={isSubmitting}
-          loadingText="Cadastrando..."
+        <Flex
+          as="form"
+          w="100%"
+          maxWidth={720}
+          bg="gray.800"
+          p="8"
+          borderRadius={8}
+          flexDir="column"
+          onSubmit={handleSubmit(onFinish)}
         >
-          Cadastrar
-        </Button>
+          <Stack spacing={4}>
+            <Flex justifyContent="center" mb="4">
+              <LogoSkateHub />
+            </Flex>
+            <Flex flexDir="column">
+              <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
+                <Text fontSize="smaller" align="left">
+                  Preencha as informações abaixo para concluir seu pré-cadastro. Após a confirmação do e-mail, nossa
+                  equipe administrativa avaliará suas informações. Verifique sua caixa de entrada para o e-mail de
+                  confirmação.
+                </Text>
+                <Text fontSize="smaller" mt="4" align="left">
+                  Assim que seu cadastro for aprovado, você receberá um e-mail de confirmação para realizar o login na
+                  plataforma e preencher seu cadastro completo.
+                </Text>
+              </Box>
+            </Flex>
+            <Flex flexDir="column">
+              <Input
+                id="name"
+                type="text"
+                label="Nome completo"
+                placeholder="Digite seu nome completo"
+                {...register("name")}
+                error={errors.name}
+              />
+            </Flex>
+            <Flex flexDir={["column", null, "row"]} gap="4">
+              <Input
+                id="username"
+                type="text"
+                label="Usuário"
+                placeholder="Digite seu nome de usuário"
+                {...register("username")}
+                error={errors.username}
+              />
+              <Input
+                id="email"
+                type="email"
+                label="E-mail"
+                placeholder="Digite seu e-mail"
+                {...register("email")}
+                error={errors.email}
+              />
+            </Flex>
+            <Flex flexDir={["column", null, "row"]} gap="4">
+              <Input
+                id="password"
+                type="password"
+                label="Senha"
+                placeholder="Digite uma senha"
+                {...register("password")}
+                error={errors.password}
+              />
+              <Input
+                id="confirmPassword"
+                type="password"
+                label="Confirmar senha"
+                placeholder="Confirme a senha"
+                {...register("confirmPassword")}
+                error={errors.confirmPassword}
+              />
+            </Flex>
+          </Stack>
+
+          <Button
+            type="submit"
+            mt="6"
+            colorScheme="green"
+            size="lg"
+            isLoading={isSubmitting}
+            loadingText="Cadastrando..."
+          >
+            Cadastrar
+          </Button>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 }
