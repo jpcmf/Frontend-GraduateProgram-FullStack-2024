@@ -1,9 +1,12 @@
 import Head from "next/head";
 import { z } from "zod";
+import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
 
+import { API } from "@/utils/constant";
+import { Toast } from "@/components/Toast";
 import { Input } from "@/components/Form/Input";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
 
@@ -14,6 +17,9 @@ const forgotPasswordFormSchema = z.object({
 type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;
 
 export default function ForgotPassword() {
+  const route = useRouter();
+  const { addToast } = Toast();
+
   const {
     handleSubmit,
     register,
@@ -24,7 +30,30 @@ export default function ForgotPassword() {
   });
 
   const handleForgotPassword: SubmitHandler<ForgotPasswordFormSchema> = async values => {
-    console.log(values);
+    try {
+      await fetch(`${API}/api/auth/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(values)
+      });
+
+      addToast({
+        title: "E-mail enviado com sucesso.",
+        message:
+          "Verifique sua caixa de entrada para instruções sobre como recuperar sua senha. Ao clicar no link fornecido, você poderá definir uma nova senha.",
+        type: "success"
+      });
+
+      route.push("/auth/signin");
+    } catch (error) {
+      addToast({
+        title: "Erro ao processar solicitação.",
+        message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
+        type: "error"
+      });
+    }
   };
 
   return (
