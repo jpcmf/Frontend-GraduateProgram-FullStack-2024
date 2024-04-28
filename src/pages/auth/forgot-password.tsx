@@ -23,6 +23,7 @@ export default function ForgotPassword() {
   const {
     handleSubmit,
     register,
+    resetField,
     formState: { errors, isSubmitting }
   } = useForm<ForgotPasswordFormSchema>({
     resolver: zodResolver(forgotPasswordFormSchema),
@@ -39,6 +40,8 @@ export default function ForgotPassword() {
         body: JSON.stringify(values)
       });
 
+      resetField("email");
+
       addToast({
         title: "E-mail enviado com sucesso.",
         message:
@@ -46,7 +49,9 @@ export default function ForgotPassword() {
         type: "success"
       });
 
-      route.push("/auth/signin");
+      setTimeout(() => {
+        route.push("/auth/signin");
+      }, 5000);
     } catch (error) {
       addToast({
         title: "Erro ao processar solicitação.",
