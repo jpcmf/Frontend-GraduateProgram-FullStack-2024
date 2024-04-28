@@ -49,7 +49,9 @@ export default function ForgotPassword() {
         type: "success"
       });
 
-      route.push("/auth/signin");
+      setTimeout(() => {
+        route.push("/auth/signin");
+      }, 5000);
     } catch (error) {
       addToast({
         title: "Erro ao processar solicitação.",
