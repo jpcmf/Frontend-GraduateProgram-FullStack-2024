@@ -10,10 +10,19 @@ import { Toast } from "@/components/Toast";
 import { Input } from "@/components/Form/Input";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
 
-const resetPasswordFormSchema = z.object({
-  password: z.string().nonempty("Campo obrigatório."),
-  passwordConfirmation: z.string().nonempty("Campo obrigatório.")
-});
+const resetPasswordFormSchema = z
+  .object({
+    password: z.string().min(6, {
+      message: "Senha obrigatória. Mínimo de 6 caracteres."
+    }),
+    passwordConfirmation: z.string().min(6, {
+      message: "Senha de confirmação obrigatória."
+    })
+  })
+  .refine(data => data.password === data.passwordConfirmation, {
+    path: ["passwordConfirmation"],
+    message: "As senhas não coincidem."
+  });
 
 type ResetPasswordFormSchema = z.infer<typeof resetPasswordFormSchema>;
 
