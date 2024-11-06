@@ -1,9 +1,10 @@
 import Head from "next/head";
 import * as yup from "yup";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Stack, Text, Link } from "@chakra-ui/react";
 
 import { Input } from "@/components/Form/Input";
 import { Toast } from "@/components/Toast";
@@ -21,6 +22,7 @@ const signInFormSchema = yup.object().shape({
 });
 
 export default function SignIn() {
+  const router = useRouter();
   const { signIn } = useContext(AuthContext);
   const { addToast } = Toast();
 
@@ -115,9 +117,15 @@ export default function SignIn() {
           <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={formState.isSubmitting}>
             Entrar
           </Button>
-          <Text as="a" href="#" color="gray.600" mt="4" align="center" textDecoration="underline">
+          <Link
+            onClick={() => router.push("/auth/forgot-password")}
+            color="gray.600"
+            mt="4"
+            textAlign="center"
+            textDecoration="underline"
+          >
             Esqueci minha senha
-          </Text>
+          </Link>
         </Flex>
       </Flex>
     </>
