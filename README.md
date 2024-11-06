@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-11-06 - Create the `reset password` page [#21](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/21) _(v0.1.17)_
 - 2024-04-28 - Update the `forgot-password` page of the SkateHub project [#20](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/20) _(v0.1.16)_
 - 2024-04-28 - Redirect to the root route when attempting to access /auth [#19](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/19) _(v0.1.15)_
 - 2024-04-28 - Create the `forgot-password` page of the SkateHub project [#18](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/18) _(v0.1.14)_
