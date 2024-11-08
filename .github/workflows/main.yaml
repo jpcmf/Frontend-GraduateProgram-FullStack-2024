@@ -22,6 +22,14 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
+      # SET UP PNPM GLOBAL BIN DIRECTORY
+      - name: Set up pnpm global bin directory
+        run: pnpm setup
+
+      # ADD PNPM TO PATH
+      - name: Add pnpm to PATH
+        run: echo "export PATH=$(pnpm bin):\$PATH" >> $GITHUB_ENV
+
       # INSTALL DEPENDENCIES WITH PNPM
       - name: Install dependencies
         run: pnpm install
