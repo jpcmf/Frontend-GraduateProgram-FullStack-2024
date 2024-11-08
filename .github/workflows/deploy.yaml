@@ -4,6 +4,10 @@ on:
     branches: [master]
   pull_request:
     types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull_requests: write
+  deployments: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
