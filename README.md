@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-11-08 - Add vercel development deployment configuration [#31](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/31) _(v0.1.20)_
 - 2024-11-06 - Add the `forgot-password` button [#25](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/25) _(v0.1.19)_
 - 2024-11-06 - Upgrade libraries [#23](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/23) _(v0.1.18)_
 - 2024-11-06 - Create the `reset password` page [#21](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/21) _(v0.1.17)_
