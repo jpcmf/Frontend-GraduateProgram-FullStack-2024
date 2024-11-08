@@ -2,13 +2,14 @@ import Head from "next/head";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Flex, Stack } from "@chakra-ui/react";
+import { Button, Divider, Flex, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
 import { Input } from "@/components/Form/Input";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
+import Link from "next/link";
 
 const resetPasswordFormSchema = z
   .object({
@@ -109,14 +110,19 @@ export default function ResetPassword() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Stack spacing={4}>
-            <Flex justifyContent="center" mb="4">
-              <LogoSkateHub />
+            <Flex justifyContent="space-between" alignItems="center">
+              <h1 style={{ fontSize: "24px", fontWeight: 600 }}>Resetar senha</h1>
+              <Link href="/">
+                <LogoSkateHub width={148} />
+              </Link>
             </Flex>
+            <Divider borderColor="gray.900" />
+
             <Flex flexDir="column">
               <Input
                 id="password"
                 type="password"
-                label="Password"
+                label="Senha"
                 placeholder="Digite sua nova senha"
                 {...register("password")}
                 error={errors.password}
@@ -126,8 +132,8 @@ export default function ResetPassword() {
               <Input
                 id="passwordConfirmation"
                 type="password"
-                label="passwordConfirmation"
-                placeholder="Digite seu passwordConfirmation"
+                label="Confirmar senha"
+                placeholder="Confirmar a nova senha"
                 {...register("passwordConfirmation")}
                 error={errors.passwordConfirmation}
               />
