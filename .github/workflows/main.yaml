@@ -2,6 +2,7 @@ name: Vercel Development Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  SHELL: /bin/bash # Specify the shell
 on:
   push:
     branches:
@@ -22,9 +23,11 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # SET UP PNPM GLOBAL BIN DIRECTORY
+      # SET UP PNPM GLOBAL BIN DIRECTORY WITH EXPLICIT SHELL
       - name: Set up pnpm global bin directory
         run: pnpm setup
+        env:
+          SHELL: /bin/bash
 
       # ADD PNPM TO PATH
       - name: Add pnpm to PATH
