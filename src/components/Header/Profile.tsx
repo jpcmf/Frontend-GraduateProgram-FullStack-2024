@@ -23,29 +23,22 @@ export function Profile({ showProfileData = true }: ProfileProps) {
       )}
       <Menu>
         <MenuButton>
-          <Avatar
-            size="md"
-            name={user?.name}
-            bgColor="green.300"
-            // src="https://github.com/jpcmf.png"
-          />
+          <Avatar size="md" name={user?.name} bgColor="green.300" src={`https://robohash.org/${user?.email}`} />
         </MenuButton>
 
         <MenuList bg="gray.900" borderColor="gray.800">
-          <>
-            <MenuItem
-              icon={<RiLogoutCircleLine size={16} />}
-              onClick={signOut}
-              color="gray.600"
-              bg="gray.900"
-              _hover={{ color: "white" }}
-            >
-              Logout
-            </MenuItem>
-            <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
-              {user?.about}
-            </MenuItem>
-          </>
+          <MenuItem
+            icon={<RiLogoutCircleLine size={16} />}
+            onClick={signOut}
+            color="gray.600"
+            bg="gray.900"
+            _hover={{ color: "white" }}
+          >
+            Logout
+          </MenuItem>
+          <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
+            {user?.about}
+          </MenuItem>
         </MenuList>
       </Menu>
     </Flex>
