@@ -120,8 +120,8 @@ export default function SignUp() {
           onSubmit={handleSubmit(onFinish)}
         >
           <Stack spacing={4}>
-            <Flex justifyContent="space-between" mb="4">
-              <h1 style={{ fontSize: "32px", fontWeight: 600 }}>Cadastro</h1>
+            <Flex justifyContent="space-between" alignItems="center">
+              <h1 style={{ fontSize: "24px", fontWeight: 600 }}>Cadastro</h1>
               <Link href="/">
                 <LogoSkateHub width={148} />
               </Link>
