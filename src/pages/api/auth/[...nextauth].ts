@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import { signIn } from "../../../services/auth";
+import { signInRequest } from "../../../services/auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export default NextAuth({
@@ -14,7 +14,7 @@ export default NextAuth({
         if (credentials == null) return null;
 
         try {
-          const { user, jwt } = await signIn({
+          const { user, jwt } = await signInRequest({
             email: credentials.email,
             password: credentials.password
           });
