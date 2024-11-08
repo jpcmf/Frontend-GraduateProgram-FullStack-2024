@@ -1,9 +1,11 @@
 import Head from "next/head";
+import Link from "next/link";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { RiAlertLine } from "react-icons/ri";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
@@ -91,19 +93,14 @@ export default function ForgotPassword() {
           onSubmit={handleSubmit(handleForgotPassword)}
         >
           <Stack spacing={4}>
-            <Flex justifyContent="center" mb="4">
-              <LogoSkateHub />
+            <Flex justifyContent="space-between" alignItems="center">
+              <h1 style={{ fontSize: "24px", fontWeight: 600 }}>Esqueci senha</h1>
+              <Link href="/">
+                <LogoSkateHub width={148} />
+              </Link>
             </Flex>
-            <Flex flexDir="column">
-              <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
-                <Text fontSize="smaller" align="left">
-                  Insira o e-mail cadastrado abaixo e enviaremos um link para você criar uma nova senha.
-                </Text>
-                <Text fontSize="smaller" mt="4" align="left">
-                  Não se preocupe! Seu e-mail está seguro conosco.
-                </Text>
-              </Box>
-            </Flex>
+            <Divider borderColor="gray.900" />
+
             <Flex flexDir="column">
               <Input
                 id="email"
@@ -113,6 +110,14 @@ export default function ForgotPassword() {
                 {...register("email")}
                 error={errors.email}
               />
+            </Flex>
+            <Flex flexDir="column">
+              <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
+                <Text fontSize="smaller" align="left" display="flex">
+                  <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
+                  Não se preocupe! Enviaremos um link para você criar uma nova senha.
+                </Text>
+              </Box>
             </Flex>
           </Stack>
 

@@ -1,16 +1,11 @@
 interface LogoSkateHubProps {
   showLogoData?: boolean;
+  width?: number;
 }
 
-export function LogoSkateHub({ showLogoData = true }: LogoSkateHubProps) {
+export function LogoSkateHub({ showLogoData = true, width = 200 }: LogoSkateHubProps) {
   return (
-    <svg
-      height="56.205"
-      width="200"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 200 56.205"
-      version="1.1"
-    >
+    <svg height="56.205" width={width} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 56.205" version="1.1">
       <g transform="scale(2.34375)" fill="#fff">
         <path
           cx="25"

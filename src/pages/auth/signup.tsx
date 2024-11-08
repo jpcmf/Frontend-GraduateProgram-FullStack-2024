@@ -1,9 +1,11 @@
 import Head from "next/head";
+import Link from "next/link";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { RiAlertLine } from "react-icons/ri";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Flex, Text, Stack, Box } from "@chakra-ui/react";
+import { Button, Flex, Text, Stack, Box, Divider } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
 import { Input } from "@/components/Form/Input";
@@ -118,22 +120,14 @@ export default function SignUp() {
           onSubmit={handleSubmit(onFinish)}
         >
           <Stack spacing={4}>
-            <Flex justifyContent="center" mb="4">
-              <LogoSkateHub />
+            <Flex justifyContent="space-between" mb="4">
+              <h1 style={{ fontSize: "32px", fontWeight: 600 }}>Cadastro</h1>
+              <Link href="/">
+                <LogoSkateHub width={148} />
+              </Link>
             </Flex>
-            <Flex flexDir="column">
-              <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
-                <Text fontSize="smaller" align="left">
-                  Preencha as informações abaixo para concluir seu pré-cadastro. Após a confirmação do e-mail, nossa
-                  equipe administrativa avaliará suas informações. Verifique sua caixa de entrada para o e-mail de
-                  confirmação.
-                </Text>
-                <Text fontSize="smaller" mt="4" align="left">
-                  Assim que seu cadastro for aprovado, você receberá um e-mail de confirmação para realizar o login na
-                  plataforma e preencher seu cadastro completo.
-                </Text>
-              </Box>
-            </Flex>
+            <Divider borderColor="gray.900" />
+
             <Flex flexDir="column">
               <Input
                 id="name"
@@ -181,6 +175,16 @@ export default function SignUp() {
               />
             </Flex>
           </Stack>
+
+          <Flex flexDir="column" mt="6">
+            <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
+              <Text fontSize="smaller" mt="4" align="left" display="flex">
+                <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
+                Verifique sua caixa de entrada para o e-mail de confirmação. Assim que seu cadastro for aprovado, você
+                receberá um e-mail de confirmação para realizar o login na plataforma e preencher seu cadastro completo.
+              </Text>
+            </Box>
+          </Flex>
 
           <Button
             type="submit"

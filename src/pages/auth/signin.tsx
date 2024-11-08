@@ -1,10 +1,11 @@
 import Head from "next/head";
+import Link from "next/link";
 import * as yup from "yup";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Flex, Stack, Text, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Stack, Text, Link as ChakraLink } from "@chakra-ui/react";
 
 import { Input } from "@/components/Form/Input";
 import { Toast } from "@/components/Toast";
@@ -94,7 +95,9 @@ export default function SignIn() {
         >
           <Stack spacing={4}>
             <Flex justifyContent="center" mb="4">
-              <LogoSkateHub />
+              <Link href="/">
+                <LogoSkateHub />
+              </Link>
             </Flex>
             <Flex flexDir="column">
               <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
@@ -117,7 +120,7 @@ export default function SignIn() {
           <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={formState.isSubmitting}>
             Entrar
           </Button>
-          <Link
+          <ChakraLink
             onClick={() => router.push("/auth/forgot-password")}
             color="gray.600"
             mt="4"
@@ -125,7 +128,7 @@ export default function SignIn() {
             textDecoration="underline"
           >
             Esqueci minha senha
-          </Link>
+          </ChakraLink>
         </Flex>
       </Flex>
     </>
