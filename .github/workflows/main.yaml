@@ -3,6 +3,7 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   SHELL: /bin/bash
+  PNPM_HOME: ${{ runner.temp }}/.pnpm # Set PNPM_HOME in a temporary directory
 on:
   push:
     branches:
@@ -21,16 +22,10 @@ jobs:
           node-version: "20"
 
       - name: Install pnpm
-        run: npm install -g pnpm
-
-      # MANUALLY SET PNPM_HOME AND ADD TO PATH
-      - name: Set up pnpm global bin directory
         run: |
-          export PNPM_HOME="$HOME/.pnpm"
+          npm install -g pnpm
           mkdir -p "$PNPM_HOME"
-          echo "PNPM_HOME=$PNPM_HOME" >> $GITHUB_ENV
-          echo "PATH=$PNPM_HOME/bin:$PATH" >> $GITHUB_ENV
-        shell: bash
+          echo "$PNPM_HOME/bin" >> $GITHUB_PATH
 
       # INSTALL DEPENDENCIES WITH PNPM
       - name: Install dependencies
