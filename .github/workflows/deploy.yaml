@@ -1,12 +1,12 @@
 name: Deploy CI
 on:
   push:
-    branches: [master]
+    branches: ["main"]
   pull_request:
     types: [opened, synchronize, reopened]
 permissions:
   contents: read
-  pull_requests: write
+  pull-requests: write
   deployments: write
 jobs:
   deploy:
