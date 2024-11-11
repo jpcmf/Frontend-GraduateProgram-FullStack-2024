@@ -41,7 +41,11 @@ export default function SignIn() {
       .catch(error => {
         console.log("error...", error);
 
-        switch (error.response?.data.error.message) {
+        if (!error.response.data.error?.message) {
+          console.log("ping");
+        }
+
+        switch (error.response.data.error?.message) {
           case "Your account email is not confirmed":
             addToast({
               title: "Erro de autenticação.",
