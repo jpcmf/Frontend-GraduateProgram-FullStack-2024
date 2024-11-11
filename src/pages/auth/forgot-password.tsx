@@ -34,7 +34,7 @@ export default function ForgotPassword() {
 
   const handleForgotPassword: SubmitHandler<ForgotPasswordFormSchema> = async values => {
     try {
-      const response = await fetch(`${API}/api/auth/forgot-password`, {
+      const response = await fetch(`${API}/api/auth/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -42,30 +42,45 @@ export default function ForgotPassword() {
         body: JSON.stringify(values)
       });
 
-      const data = await response.json();
+      console.log("response...", response);
 
-      if (!data.ok) {
-        throw new Error(data.message);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      resetField("email");
+      const contentType = response.headers.get("content-type");
 
-      addToast({
-        title: "E-mail enviado com sucesso.",
-        message:
-          "Verifique sua caixa de entrada para instruções sobre como recuperar sua senha. Ao clicar no link fornecido, você poderá definir uma nova senha.",
-        type: "success"
-      });
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
 
-      setTimeout(() => {
-        route.push("/auth/signin");
-      }, 5000);
+        resetField("email");
+
+        addToast({
+          title: "E-mail enviado com sucesso.",
+          message:
+            "Verifique sua caixa de entrada para instruções sobre como recuperar sua senha. Ao clicar no link fornecido, você poderá definir uma nova senha.",
+          type: "success"
+        });
+
+        setTimeout(() => {
+          route.push("/auth/signin");
+        }, 5000);
+
+        return data;
+      } else {
+        const text = await response.text();
+        console.warn("Non-JSON response:", text);
+        return { error: "Non-JSON response", details: text };
+      }
     } catch (error) {
+      console.error("error...", error);
+
       addToast({
         title: "Erro ao processar solicitação.",
-        message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
+        message: "Houve um erro ao tentar recuperar a senha. Por favor, verifique seus dados e tente novamente.",
         type: "error"
       });
+      return { error: "Fetch error", details: error };
     }
   };
 
