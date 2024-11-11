@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
-import * as yup from "yup";
+import { z } from "zod";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Button, Flex, Stack, Text, Link as ChakraLink } from "@chakra-ui/react";
 
@@ -12,31 +12,35 @@ import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
 
-type SignInFormData = {
-  email: string;
-  password: string;
-};
-
-const signInFormSchema = yup.object().shape({
-  email: yup.string().required("E-mail obrigatório.").email("E-mail inválido."),
-  password: yup.string().required("Password obrigatório.")
+const signInFormSchema2 = z.object({
+  email: z.string().email({ message: "E-mail deve ser um e-mail válido." }).min(1, { message: "Campo obrigatório." }),
+  password: z.string().min(1, { message: "Campo obrigatório." })
 });
+
+type SignInFormSchema = z.infer<typeof signInFormSchema2>;
 
 export default function SignIn() {
   const router = useRouter();
   const { signIn } = useContext(AuthContext);
   const { addToast } = Toast();
 
-  const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(signInFormSchema)
+  const {
+    handleSubmit,
+    register,
+    resetField,
+    formState: { errors, isSubmitting }
+  } = useForm<SignInFormSchema>({
+    resolver: zodResolver(signInFormSchema2),
+    defaultValues: { email: "", password: "" },
+    mode: "onChange"
   });
 
-  const { errors } = formState;
-
-  const handleSignIn: SubmitHandler<SignInFormData> = async values => {
+  const handleSignIn: SubmitHandler<SignInFormSchema> = async values => {
     await signIn(values)
       .then(_ => {})
       .catch(error => {
+        console.log("error...", error);
+
         switch (error.response?.data.error.message) {
           case "Your account email is not confirmed":
             addToast({
@@ -86,7 +90,7 @@ export default function SignIn() {
         <Flex
           as="form"
           w="100%"
-          maxWidth={425}
+          maxWidth={480}
           bg="gray.800"
           p="8"
           borderRadius={8}
@@ -117,7 +121,7 @@ export default function SignIn() {
               <Input id="password" type="password" label="Senha" {...register("password")} error={errors.password} />
             </Flex>
           </Stack>
-          <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={formState.isSubmitting}>
+          <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={isSubmitting}>
             Entrar
           </Button>
           <ChakraLink
