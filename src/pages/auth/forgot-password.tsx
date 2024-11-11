@@ -34,13 +34,20 @@ export default function ForgotPassword() {
 
   const handleForgotPassword: SubmitHandler<ForgotPasswordFormSchema> = async values => {
     try {
-      await fetch(`${API}/api/auth/forgot-password`, {
+      const response = await fetch(`${API}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(values)
       });
+
+      const data = await response.json();
+      console.log("data...", data);
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
 
       resetField("email");
 
@@ -55,6 +62,7 @@ export default function ForgotPassword() {
         route.push("/auth/signin");
       }, 5000);
     } catch (error) {
+      console.log("error...", error);
       addToast({
         title: "Erro ao processar solicitação.",
         message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
@@ -85,7 +93,7 @@ export default function ForgotPassword() {
         <Flex
           as="form"
           w="100%"
-          maxWidth={425}
+          maxWidth={480}
           bg="gray.800"
           p="8"
           borderRadius={8}
@@ -94,10 +102,10 @@ export default function ForgotPassword() {
         >
           <Stack spacing={4}>
             <Flex justifyContent="space-between" alignItems="center">
-              <h1 style={{ fontSize: "24px", fontWeight: 600 }}>Esqueci senha</h1>
               <Link href="/">
                 <LogoSkateHub width={148} />
               </Link>
+              <h1 style={{ fontSize: "18px", fontWeight: 600 }}>Recuperar senha</h1>
             </Flex>
             <Divider borderColor="gray.900" />
 
