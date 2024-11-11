@@ -43,9 +43,8 @@ export default function ForgotPassword() {
       });
 
       const data = await response.json();
-      console.log("data...", data);
 
-      if (!response.ok) {
+      if (!data.ok) {
         throw new Error(data.message);
       }
 
@@ -62,7 +61,6 @@ export default function ForgotPassword() {
         route.push("/auth/signin");
       }, 5000);
     } catch (error) {
-      console.log("error...", error);
       addToast({
         title: "Erro ao processar solicitação.",
         message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
@@ -128,7 +126,6 @@ export default function ForgotPassword() {
               </Box>
             </Flex>
           </Stack>
-
           <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={isSubmitting} loadingText="Enviando...">
             Enviar link
           </Button>
