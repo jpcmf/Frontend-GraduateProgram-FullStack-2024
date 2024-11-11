@@ -42,8 +42,6 @@ export default function ForgotPassword() {
         body: JSON.stringify(values)
       });
 
-      console.log("response...", response);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -73,8 +71,6 @@ export default function ForgotPassword() {
         return { error: "Non-JSON response", details: text };
       }
     } catch (error) {
-      console.error("error...", error);
-
       addToast({
         title: "Erro ao processar solicitação.",
         message: "Houve um erro ao tentar recuperar a senha. Por favor, verifique seus dados e tente novamente.",
