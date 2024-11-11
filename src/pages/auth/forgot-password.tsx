@@ -34,7 +34,7 @@ export default function ForgotPassword() {
 
   const handleForgotPassword: SubmitHandler<ForgotPasswordFormSchema> = async values => {
     try {
-      await fetch(`${API}/api/auth/forgot-password`, {
+      const response = await fetch(`${API}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -42,24 +42,41 @@ export default function ForgotPassword() {
         body: JSON.stringify(values)
       });
 
-      resetField("email");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      addToast({
-        title: "E-mail enviado com sucesso.",
-        message:
-          "Verifique sua caixa de entrada para instruções sobre como recuperar sua senha. Ao clicar no link fornecido, você poderá definir uma nova senha.",
-        type: "success"
-      });
+      const contentType = response.headers.get("content-type");
 
-      setTimeout(() => {
-        route.push("/auth/signin");
-      }, 5000);
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+
+        resetField("email");
+
+        addToast({
+          title: "E-mail enviado com sucesso.",
+          message:
+            "Verifique sua caixa de entrada para instruções sobre como recuperar sua senha. Ao clicar no link fornecido, você poderá definir uma nova senha.",
+          type: "success"
+        });
+
+        setTimeout(() => {
+          route.push("/auth/signin");
+        }, 5000);
+
+        return data;
+      } else {
+        const text = await response.text();
+        console.warn("Non-JSON response:", text);
+        return { error: "Non-JSON response", details: text };
+      }
     } catch (error) {
       addToast({
         title: "Erro ao processar solicitação.",
-        message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
+        message: "Houve um erro ao tentar recuperar a senha. Por favor, verifique seus dados e tente novamente.",
         type: "error"
       });
+      return { error: "Fetch error", details: error };
     }
   };
 
@@ -85,7 +102,7 @@ export default function ForgotPassword() {
         <Flex
           as="form"
           w="100%"
-          maxWidth={425}
+          maxWidth={480}
           bg="gray.800"
           p="8"
           borderRadius={8}
@@ -94,10 +111,10 @@ export default function ForgotPassword() {
         >
           <Stack spacing={4}>
             <Flex justifyContent="space-between" alignItems="center">
-              <h1 style={{ fontSize: "24px", fontWeight: 600 }}>Esqueci senha</h1>
               <Link href="/">
                 <LogoSkateHub width={148} />
               </Link>
+              <h1 style={{ fontSize: "18px", fontWeight: 600 }}>Recuperar senha</h1>
             </Flex>
             <Divider borderColor="gray.900" />
 
@@ -120,7 +137,6 @@ export default function ForgotPassword() {
               </Box>
             </Flex>
           </Stack>
-
           <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={isSubmitting} loadingText="Enviando...">
             Enviar link
           </Button>
