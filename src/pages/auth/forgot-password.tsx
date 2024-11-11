@@ -34,7 +34,7 @@ export default function ForgotPassword() {
 
   const handleForgotPassword: SubmitHandler<ForgotPasswordFormSchema> = async values => {
     try {
-      const response = await fetch(`${API}/api/auth/`, {
+      const response = await fetch(`${API}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
