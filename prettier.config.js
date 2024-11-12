@@ -4,6 +4,6 @@ module.exports = {
   singleQuote: false,
   arrowParens: "avoid",
   trailingComma: "none",
-  endOfline: "auto",
+  // endOfline: "auto",
   tabWidth: 2
 };
