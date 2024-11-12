@@ -27,7 +27,6 @@ export default function SignIn() {
   const {
     handleSubmit,
     register,
-    resetField,
     formState: { errors, isSubmitting }
   } = useForm<SignInFormSchema>({
     resolver: zodResolver(signInFormSchema2),
@@ -75,7 +74,7 @@ export default function SignIn() {
   return (
     <>
       <Head>
-        <title>Entrar - SkateHub</title>
+        <title>Login - SkateHub</title>
       </Head>
       <Flex
         w={["100dvw"]}
