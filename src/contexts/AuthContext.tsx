@@ -7,6 +7,7 @@ import { signInRequest, userMe } from "../services/auth";
 type SignInData = {
   email: string;
   password: string;
+  recaptcha?: string;
 };
 
 type User = {
@@ -52,6 +53,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     setUser(user);
+
+    console.log("user...", user);
 
     Router.push("/dashboard");
   }
