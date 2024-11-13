@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-11-13 - Add reCAPTCHA verification to sign-in process [#59](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/59) _(v0.1.22)_
 - 2024-11-08 - Add Husky [#53](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/53) _(v0.1.21)_
 - 2024-11-08 - Add vercel development deployment configuration [#31](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/31) _(v0.1.20)_
 - 2024-11-06 - Add the `forgot-password` button [#25](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/25) _(v0.1.19)_
