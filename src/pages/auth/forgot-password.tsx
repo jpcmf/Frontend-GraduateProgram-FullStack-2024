@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +11,6 @@ import { Box, Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
 import { Input } from "@/components/Form/Input";
-import { LogoSkateHub } from "@/components/LogoSkateHub";
 
 const forgotPasswordFormSchema = z.object({
   email: z.string().email("E-mail inválido.").nonempty("Campo obrigatório.")
@@ -110,11 +110,13 @@ export default function ForgotPassword() {
           onSubmit={handleSubmit(handleForgotPassword)}
         >
           <Stack spacing={4}>
-            <Flex justifyContent="space-between" alignItems="center">
+            <Flex alignItems="center">
               <Link href="/">
-                <LogoSkateHub width={148} />
+                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
               </Link>
-              <h1 style={{ fontSize: "18px", fontWeight: 600 }}>Recuperar senha</h1>
+              <Text as="h1" fontSize="2xl" fontWeight="semibold">
+                Recuperar senha
+              </Text>
             </Flex>
             <Divider borderColor="gray.900" />
 
@@ -132,12 +134,20 @@ export default function ForgotPassword() {
               <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
                 <Text fontSize="smaller" align="left" display="flex">
                   <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
-                  Não se preocupe! Enviaremos um link para você criar uma nova senha.
+                  Enviaremos um link para você criar uma nova senha.
                 </Text>
               </Box>
             </Flex>
           </Stack>
-          <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={isSubmitting} loadingText="Enviando...">
+          <Button
+            type="submit"
+            mt="6"
+            colorScheme="green"
+            fontWeight="bold"
+            size="lg"
+            isLoading={isSubmitting}
+            loadingText="Enviando..."
+          >
             Enviar link
           </Button>
         </Flex>

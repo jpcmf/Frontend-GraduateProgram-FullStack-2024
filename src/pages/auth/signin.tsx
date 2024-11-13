@@ -107,24 +107,24 @@ export default function SignIn() {
               </Link>
             </Flex>
             <Flex flexDir="column">
-              <Box border="1px solid" bg="gray.900" borderColor="gray.900" borderRadius="md" p="4">
+              <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
+            </Flex>
+            <Flex flexDir="column">
+              <Input id="password" type="password" label="Senha" {...register("password")} error={errors.password} />
+            </Flex>
+            <Flex flexDir="column">
+              <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
                 <Text fontSize="smaller" align="left">
-                  Por favor, insira seu e-mail e senha cadastrado abaixo. Se precisar de ajuda, entre em{" "}
-                  <Text as="a" href="#" textDecoration="underline" color="gray.600">
+                  Se precisar de ajuda, entre em{" "}
+                  <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
                     contato conosco
                   </Text>
                   .
                 </Text>
               </Box>
             </Flex>
-            <Flex flexDir="column">
-              <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
-            </Flex>
-            <Flex flexDir="column">
-              <Input id="password" type="password" label="Senha" {...register("password")} error={errors.password} />
-            </Flex>
           </Stack>
-          <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={isSubmitting}>
+          <Button type="submit" mt="6" colorScheme="green" fontWeight="bold" size="lg" isLoading={isSubmitting}>
             Entrar
           </Button>
           <ChakraLink
@@ -133,6 +133,7 @@ export default function SignIn() {
             mt="4"
             textAlign="center"
             textDecoration="underline"
+            fontWeight="medium"
           >
             Esqueci minha senha
           </ChakraLink>

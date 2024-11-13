@@ -62,7 +62,7 @@ export default function Confirmation() {
       }
     }
     sendConfirmationEmail();
-  }, []);
+  }, [addToast, route]);
 
   return (
     <>
