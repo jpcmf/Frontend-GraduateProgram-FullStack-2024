@@ -52,7 +52,7 @@ export default function Home() {
                   w="100%"
                   onClick={() => router.push("/auth/signin")}
                 >
-                  Entrar
+                  Login
                 </Button>
                 <Button
                   type="button"
@@ -62,7 +62,7 @@ export default function Home() {
                   w="100%"
                   onClick={() => router.push("/auth/signup")}
                 >
-                  Cadastrar
+                  Criar uma conta
                 </Button>
               </Flex>
             </Flex>
