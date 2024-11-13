@@ -14,8 +14,8 @@ export const theme = extendTheme({
     }
   },
   fonts: {
-    heading: "var(--font-roboto)",
-    body: "var(--font-roboto)"
+    heading: "var(--font-raleway)",
+    body: "var(--font-raleway)"
   },
   styles: {
     global: {

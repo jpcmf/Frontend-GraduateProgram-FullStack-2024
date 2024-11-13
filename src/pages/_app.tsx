@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         {`
           :root {
             --font-roboto: ${fonts.roboto.style.fontFamily};
+            --font-raleway: ${fonts.raleway.style.fontFamily};
           }
         `}
       </style>
