@@ -36,11 +36,11 @@ export default function Home() {
                 <Flex hideFrom="md" marginBottom="10">
                   <LogoSkateHub />
                 </Flex>
-                <Text fontWeight="bold" fontSize="2xl" align="center" color="gray.300">
-                  Junte-se à comunidade e faça parte da evolução do esporte.
+                <Text fontWeight="bold" fontSize="3xl" align="center" color="gray.300">
+                  Junte-se à comunidade! Faça parte da evolução do esporte.
                 </Text>
-                <Text as="small" fontWeight="normal" align="center" color="gray.500">
-                  Faça login ou cadastre-se para começar a explorar todas as funcionalidades!
+                <Text mt="4" fontSize="lg" fontWeight="medium" align="center" color="gray.500">
+                  Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
                 </Text>
               </Flex>
               <Flex alignItems="center" justifyContent="center" flexDirection="row" gap="3" w="100%">
@@ -48,6 +48,7 @@ export default function Home() {
                   type="button"
                   mt="3"
                   colorScheme="green"
+                  fontWeight="bold"
                   size="lg"
                   w="100%"
                   onClick={() => router.push("/auth/signin")}
@@ -58,6 +59,7 @@ export default function Home() {
                   type="button"
                   mt="3"
                   colorScheme="pink"
+                  fontWeight="bold"
                   size="lg"
                   w="100%"
                   onClick={() => router.push("/auth/signup")}
@@ -74,6 +76,7 @@ export default function Home() {
                 align="center"
                 textDecoration="underline"
                 fontSize="smaller"
+                fontWeight="medium"
                 maxWidth="200px"
                 w="100%"
                 textAlign="right"
@@ -90,6 +93,7 @@ export default function Home() {
                 align="center"
                 textDecoration="underline"
                 fontSize="smaller"
+                fontWeight="medium"
                 maxWidth="200px"
                 w="100%"
                 textAlign="left"

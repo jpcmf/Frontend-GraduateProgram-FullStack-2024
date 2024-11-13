@@ -1,15 +1,15 @@
 import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Divider, Flex, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
 import { Input } from "@/components/Form/Input";
-import { LogoSkateHub } from "@/components/LogoSkateHub";
-import Link from "next/link";
 
 const resetPasswordFormSchema = z
   .object({
@@ -102,7 +102,7 @@ export default function ResetPassword() {
         <Flex
           as="form"
           w="100%"
-          maxWidth={425}
+          maxWidth={480}
           bg="gray.800"
           p="8"
           borderRadius={8}
@@ -110,11 +110,13 @@ export default function ResetPassword() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Stack spacing={4}>
-            <Flex justifyContent="space-between" alignItems="center">
-              <h1 style={{ fontSize: "24px", fontWeight: 600 }}>Resetar senha</h1>
+            <Flex alignItems="center">
               <Link href="/">
-                <LogoSkateHub width={148} />
+                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
               </Link>
+              <Text as="h1" fontSize="2xl" fontWeight="semibold">
+                Resetar senha
+              </Text>
             </Flex>
             <Divider borderColor="gray.900" />
 
@@ -139,7 +141,15 @@ export default function ResetPassword() {
               />
             </Flex>
           </Stack>
-          <Button type="submit" mt="6" colorScheme="green" size="lg" isLoading={isSubmitting} loadingText="Enviando...">
+          <Button
+            type="submit"
+            mt="6"
+            colorScheme="green"
+            fontWeight="bold"
+            size="lg"
+            isLoading={isSubmitting}
+            loadingText="Enviando..."
+          >
             Confirmar
           </Button>
         </Flex>
