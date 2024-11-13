@@ -46,6 +46,9 @@ importers:
       react-dom:
         specifier: latest
         version: 18.3.1(react@18.3.1)
+      react-google-recaptcha:
+        specifier: ^3.1.0
+        version: 3.1.0(react@18.3.1)
       react-hook-form:
         specifier: ^7.53.1
         version: 7.53.1(react@18.3.1)
@@ -71,6 +74,9 @@ importers:
       "@types/react-dom":
         specifier: latest
         version: 18.3.1
+      "@types/react-google-recaptcha":
+        specifier: ^2.1.9
+        version: 2.1.9
       eslint:
         specifier: latest
         version: 9.14.0
@@ -632,6 +638,10 @@ packages:
   "@types/react-dom@18.3.1":
     resolution:
       { integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ== }
+
+  "@types/react-google-recaptcha@2.1.9":
+    resolution:
+      { integrity: sha512-nT31LrBDuoSZJN4QuwtQSF3O89FVHC4jLhM+NtKEmVF5R1e8OY0Jo4//x2Yapn2aNHguwgX5doAq8Zo+Ehd0ug== }
 
   "@types/react@18.3.12":
     resolution:
@@ -1916,6 +1926,12 @@ packages:
     resolution:
       { integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A== }
 
+  react-async-script@1.2.0:
+    resolution:
+      { integrity: sha512-bCpkbm9JiAuMGhkqoAiC0lLkb40DJ0HOEJIku+9JDjxX3Rcs+ztEOG13wbrOskt3n2DTrjshhaQ/iay+SnGg5Q== }
+    peerDependencies:
+      react: ">=16.4.1"
+
   react-clientside-effect@1.2.6:
     resolution:
       { integrity: sha512-XGGGRQAKY+q25Lz9a/4EPqom7WRjz3z9R2k4jhVKA/puQFH/5Nt27vFZYql4m4NVNdUvX8PS3O7r/Zzm7cjUlg== }
@@ -1941,6 +1957,12 @@ packages:
     peerDependenciesMeta:
       "@types/react":
         optional: true
+
+  react-google-recaptcha@3.1.0:
+    resolution:
+      { integrity: sha512-cYW2/DWas8nEKZGD7SCu9BSuVz8iOcOLHChHyi7upUuVhkpkhYG/6N3KDiTQ3XAiZ2UAZkfvYKMfAHOzBOcGEg== }
+    peerDependencies:
+      react: ">=16.4.1"
 
   react-hook-form@7.53.1:
     resolution:
@@ -2785,6 +2807,10 @@ snapshots:
   "@types/prop-types@15.7.13": {}
 
   "@types/react-dom@18.3.1":
+    dependencies:
+      "@types/react": 18.3.12
+
+  "@types/react-google-recaptcha@2.1.9":
     dependencies:
       "@types/react": 18.3.12
 
@@ -3998,6 +4024,12 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
+  react-async-script@1.2.0(react@18.3.1):
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      prop-types: 15.8.1
+      react: 18.3.1
+
   react-clientside-effect@1.2.6(react@18.3.1):
     dependencies:
       "@babel/runtime": 7.26.0
@@ -4022,6 +4054,12 @@ snapshots:
       use-sidecar: 1.1.2(@types/react@18.3.12)(react@18.3.1)
     optionalDependencies:
       "@types/react": 18.3.12
+
+  react-google-recaptcha@3.1.0(react@18.3.1):
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-async-script: 1.2.0(react@18.3.1)
 
   react-hook-form@7.53.1(react@18.3.1):
     dependencies:
