@@ -40,7 +40,16 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "typescript": "latest"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint"
+    ]
   }
 }
