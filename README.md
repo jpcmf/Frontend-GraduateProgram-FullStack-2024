@@ -8,7 +8,7 @@
   <a href="#rocket-nextjs-documentation">Next.js documentation</a>
 </p>
 
-## SkateHub Frontend powered by Next.js
+## SkateHub Frontend
 
 The project requires [Next.js](https://nextjs.org), [Node.js](https://nodejs.org) and [Backend-GraduateProgram-FullStack-2023](https://github.com/jpcmf/Backend-GraduateProgram-FullStack-2023) to run locally.
 
@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-11-19 - Create an API Route for the Sitemap [#62](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/62) _(v0.1.23)_
 - 2024-11-13 - Add reCAPTCHA verification to sign-in process [#59](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/59) _(v0.1.22)_
 - 2024-11-08 - Add Husky [#53](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/53) _(v0.1.21)_
 - 2024-11-08 - Add vercel development deployment configuration [#31](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/31) _(v0.1.20)_
@@ -115,4 +116,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ---
 
-Made with 💙 by João Paulo Fricks
+Made with <span style="color: #6664F1;">&hearts;</span> in Brazil
