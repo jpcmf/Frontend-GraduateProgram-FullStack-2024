@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import ReCAPTCHA from "react-google-recaptcha";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RiAlertLine } from "react-icons/ri";
+import { useState, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Flex, Text, Stack, Box, Divider } from "@chakra-ui/react";
 
@@ -12,55 +14,71 @@ import { API } from "@/utils/constant";
 import { Input } from "@/components/Form/Input";
 import { Toast } from "@/components/Toast";
 
+const signUpSchema = z
+  .object({
+    name: z.string().nonempty("Campo obrigatório.").min(8, { message: "Nome deve ter no mínimo 8 caracteres." }),
+    username: z.string().nonempty("Campo obrigatório.").min(3, { message: "Usuário deve ter no mínimo 3 caracteres." }),
+    email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
+    password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
+    confirmPassword: z.string().nonempty("Campo obrigatório.")
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Senhas não conferem.",
+        path: ["confirmPassword"]
+      });
+    }
+  });
+
+type SignUpSchema = z.infer<typeof signUpSchema>;
+
 export default function SignUp() {
   const route = useRouter();
   const { addToast } = Toast();
-
-  const signUpSchema = z
-    .object({
-      name: z.string().nonempty("Campo obrigatório.").min(8, { message: "Nome deve ter no mínimo 8 caracteres." }),
-      username: z
-        .string()
-        .nonempty("Campo obrigatório.")
-        .min(3, { message: "Usuário deve ter no mínimo 3 caracteres." }),
-      email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
-      password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
-      confirmPassword: z.string().nonempty("Campo obrigatório.")
-    })
-    .superRefine(({ confirmPassword, password }, ctx) => {
-      if (confirmPassword !== password) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Senhas não conferem.",
-          path: ["confirmPassword"]
-        });
-      }
-    });
-
-  type SignUpSchema = z.infer<typeof signUpSchema>;
+  const [isVerified, setIsVerified] = useState(false);
+  const [isVerifiedError, setIsVerifiedError] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
   const {
     handleSubmit,
     register,
+    resetField,
     formState: { errors, isSubmitting }
   } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { username: "", email: "", password: "" }
+    defaultValues: { username: "", email: "", password: "" },
+    mode: "onChange"
   });
 
   const onFinish: SubmitHandler<SignUpSchema> = async values => {
+    if (!isVerified) {
+      setIsVerifiedError(true);
+      console.log("Please verify the reCAPTCHA.");
+      return;
+    }
+
     try {
+      const recaptchaValue = recaptchaRef.current?.getValue();
+
       const response = await fetch(`${API}/api/auth/local/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify({ ...values, recaptcha: recaptchaValue })
       });
 
       const data = await response.json();
 
       if (data.error) {
+        recaptchaRef.current?.reset();
+        resetField("email");
+        resetField("username");
+        resetField("password");
+        resetField("confirmPassword");
+        setIsVerified(false);
         throw data.error;
       } else {
         addToast({
@@ -87,6 +105,15 @@ export default function SignUp() {
           type: "error"
         });
       }
+    }
+  };
+
+  const onVerify = (token: string | null) => {
+    if (!token) return;
+
+    if (token) {
+      setIsVerified(true);
+      setIsVerifiedError(false);
     }
   };
 
@@ -178,12 +205,28 @@ export default function SignUp() {
             </Flex>
             <Flex flexDir="column">
               <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                <Text fontSize="smaller" align="left" display="flex">
+                <Text fontSize="smaller" align="left" display="flex" color="gray.500">
                   <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
                   Verifique sua caixa de entrada para o e-mail de confirmação.
                   {/* Assim que seu cadastro for aprovado, você receberá um e-mail de confirmação para realizar o login na plataforma e preencher seu cadastro completo. */}
                 </Text>
               </Box>
+            </Flex>
+            <Flex flexDir="column" alignItems="center">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                onChange={onVerify}
+                size="normal"
+                hl="pt-BR"
+                badge="inline"
+                id="recaptcha"
+              />
+              {isVerifiedError && (
+                <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
+                  Please verify that you are not a robot.
+                </Text>
+              )}
             </Flex>
           </Stack>
           <Button
