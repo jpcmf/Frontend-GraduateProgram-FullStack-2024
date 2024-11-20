@@ -105,6 +105,13 @@ export default function SignUp() {
           type: "error"
         });
       }
+
+      recaptchaRef.current?.reset();
+      resetField("email");
+      resetField("username");
+      resetField("password");
+      resetField("confirmPassword");
+      setIsVerified(false);
     }
   };
 
