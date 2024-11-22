@@ -88,7 +88,9 @@ export default function SignUp() {
           type: "success"
         });
 
-        route.push("/");
+        setTimeout(() => {
+          route.push("/");
+        }, 3000);
       }
     } catch (error: any) {
       if (error.status === 400) {
