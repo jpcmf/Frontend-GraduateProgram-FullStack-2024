@@ -44,7 +44,7 @@ export default function SignUp() {
   const {
     handleSubmit,
     register,
-    resetField,
+    reset,
     formState: { errors, isSubmitting }
   } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -74,10 +74,7 @@ export default function SignUp() {
 
       if (data.error) {
         recaptchaRef.current?.reset();
-        resetField("email");
-        resetField("username");
-        resetField("password");
-        resetField("confirmPassword");
+        reset();
         setIsVerified(false);
         throw data.error;
       } else {
@@ -109,10 +106,7 @@ export default function SignUp() {
       }
 
       recaptchaRef.current?.reset();
-      resetField("email");
-      resetField("username");
-      resetField("password");
-      resetField("confirmPassword");
+      reset();
       setIsVerified(false);
     }
   };
