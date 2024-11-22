@@ -1,33 +1,37 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Flex, Text } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 
 import { Toast } from "@/components/Toast";
 
 export default function Confirmation() {
   const route = useRouter();
   const { addToast } = Toast();
+  const [hasEmail, setHasEmail] = useState(false);
+  const hasInitiatedRef = useRef(false);
 
   useEffect(() => {
-    function getQueryParam(name: string) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
+    const handleConfirmation = async () => {
+      if (hasInitiatedRef.current) return;
 
-    async function sendConfirmationEmail() {
+      const userEmail = route.query.email as string;
+
+      if (!userEmail) {
+        setHasEmail(false);
+
+        addToast({
+          title: "Erro ao confirmar e-mail.",
+          message: "Parâmetro de e-mail não encontrado na URL.",
+          type: "error"
+        });
+        return;
+      }
+
       try {
-        const userEmail = getQueryParam("email");
-
-        if (!userEmail) {
-          addToast({
-            title: "Erro ao confirmar e-mail.",
-            message: "Parâmetro de e-mail não encontrado na URL.",
-            type: "error"
-          });
-          return;
-        }
+        setHasEmail(true);
+        hasInitiatedRef.current = true;
 
         const response = await fetch("/api/sendConfirmationEmail", {
           method: "POST",
@@ -37,32 +41,38 @@ export default function Confirmation() {
           body: JSON.stringify({ userEmail })
         });
 
-        if (response.ok) {
-          addToast({
-            title: "E-mail confirmado com sucesso.",
-            message:
-              "Nossa equipe avaliará suas informações e assim que aprovado seu cadastro, você receberá um e-mail de confirmação.",
-            type: "success"
-          });
-
-          route.push("/");
-        } else {
+        if (!response.ok) {
           addToast({
             title: "Erro ao confirmar e-mail.",
             message: "Erro ao enviar e-mail de confirmação: " + response.statusText,
             type: "error"
           });
+          return;
         }
-      } catch (error: any) {
+
         addToast({
-          title: "Erro ao confirmar e-mail.",
-          message: "Erro ao enviar e-mail de confirmação: " + error.message,
+          title: "E-mail confirmado com sucesso.",
+          message:
+            "Nossa equipe avaliará suas informações e assim que aprovado seu cadastro, você receberá um e-mail de confirmação.",
+          type: "success"
+        });
+
+        setTimeout(() => {
+          route.push("/");
+        }, 3000);
+      } catch (error) {
+        addToast({
+          title: "Erro de processamento",
+          message: "Ocorreu um erro inesperado. Tente novamente.",
           type: "error"
         });
       }
+    };
+
+    if (route.isReady && !hasInitiatedRef.current) {
+      handleConfirmation();
     }
-    sendConfirmationEmail();
-  }, [addToast, route]);
+  }, [route.isReady, route.query.email, addToast, route]);
 
   return (
     <>
@@ -83,13 +93,26 @@ export default function Confirmation() {
         backgroundImage="../alexander-londono-unsplash-2.jpeg"
         px={["4", "0"]}
       >
-        <Image src="../loader.svg" alt="Loading" width={100} height={100} />
-        <Text as="h1" fontSize="3xl" fontWeight="bold" letterSpacing="normal" align="center" display="flex">
-          Seu e-mail está sendo confirmado...
-        </Text>
-        <Text fontWeight="normal" align="center" color="gray.300">
-          Por favor, aguarde alguns instantes.
-        </Text>
+        {hasEmail ? (
+          <>
+            <Image src="../loader.svg" alt="Loading" width={100} height={100} />
+            <Text as="h1" fontSize="3xl" fontWeight="bold" letterSpacing="normal" align="center" display="flex">
+              Seu e-mail está sendo confirmado...
+            </Text>
+            <Text fontWeight="normal" align="center" color="gray.300" mt="2">
+              Por favor, aguarde alguns instantes.
+            </Text>
+          </>
+        ) : (
+          <>
+            <Text as="h1" fontSize="3xl" fontWeight="bold" letterSpacing="normal" align="center" display="flex">
+              Erro ao confirmar e-mail.
+            </Text>
+            <Text fontWeight="normal" align="center" color="gray.300" mt="2">
+              Parâmetro de e-mail não encontrado na URL.
+            </Text>
+          </>
+        )}
       </Flex>
     </>
   );
