@@ -4,8 +4,11 @@ import {
   RiChatSmile2Line,
   RiContactsLine,
   RiDashboardLine,
+  RiDirectionLine,
   RiEdit2Line,
-  RiShieldStarLine
+  RiPictureInPictureLine,
+  RiShieldStarLine,
+  RiTrophyLine
 } from "react-icons/ri";
 import { Stack } from "@chakra-ui/react";
 
@@ -44,7 +47,37 @@ export function SidebarNav() {
             color: "green.400"
           }}
         >
-          Campeonatos / Inscrições
+          Inscrições
+        </NavLink>
+        <NavLink
+          icon={RiTrophyLine}
+          href="/users"
+          _activeLink={{
+            textDecoration: "none",
+            color: "green.400"
+          }}
+        >
+          Campeonatos
+        </NavLink>
+        <NavLink
+          icon={RiPictureInPictureLine}
+          href="/users"
+          _activeLink={{
+            textDecoration: "none",
+            color: "green.400"
+          }}
+        >
+          Spots
+        </NavLink>
+        <NavLink
+          icon={RiDirectionLine}
+          href="/users"
+          _activeLink={{
+            textDecoration: "none",
+            color: "green.400"
+          }}
+        >
+          Navigate
         </NavLink>
         <NavLink
           icon={RiShieldStarLine}

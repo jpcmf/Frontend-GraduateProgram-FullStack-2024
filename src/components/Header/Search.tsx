@@ -8,13 +8,13 @@ export function Search() {
       flex="1"
       py="4"
       px="8"
-      ml="6"
       maxWidth={400}
       color="gray.200"
       position="relative"
       bg="gray.800"
       borderRadius="full"
       alignItems="center"
+      style={{ marginLeft: "88px" }}
     >
       <Input
         color="gray.50"
