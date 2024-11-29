@@ -1,6 +1,6 @@
 import Router from "next/router";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 
 import { signInRequest, userMe } from "../services/auth";
 
@@ -48,18 +48,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { user, jwt } = await signInRequest({ email, password });
 
     setCookie(undefined, "nextauth.token", jwt, {
-      // maxAge: 60 * 60 * 1 // 1 hour
-      maxAge: 180 // 3 minutes
+      maxAge: 60 * 60 * 1 // 1 hour
+      // maxAge: 60 * 60 * 24 * 1 // 1 day
     });
 
     setUser(user);
-
-    console.log("user...", user);
+    console.table(user);
 
     Router.push("/dashboard");
   }
 
   function signOut() {
+    setUser(null);
     destroyCookie(undefined, "nextauth.token");
     Router.push("/auth/signin");
   }
