@@ -48,8 +48,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { user, jwt } = await signInRequest({ email, password });
 
     setCookie(undefined, "nextauth.token", jwt, {
-      // maxAge: 60 * 60 * 1 // 1 hour
-      maxAge: 180 // 3 minutes
+      maxAge: 60 * 60 * 1 // 1 hour
+      // maxAge: 60 * 60 * 24 * 1 // 1 day
     });
 
     setUser(user);
