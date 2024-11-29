@@ -1,6 +1,6 @@
 import Router from "next/router";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 
 import { signInRequest, userMe } from "../services/auth";
 
