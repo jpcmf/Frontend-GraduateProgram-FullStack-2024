@@ -53,8 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     setUser(user);
-
-    console.log("user...", user);
+    console.table(user);
 
     Router.push("/dashboard");
   }
@@ -62,6 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   function signOut() {
     destroyCookie(undefined, "nextauth.token");
     Router.push("/auth/signin");
+    setUser(null);
   }
 
   return <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>{children}</AuthContext.Provider>;
