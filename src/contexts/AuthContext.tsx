@@ -59,9 +59,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function signOut() {
+    setUser(null);
     destroyCookie(undefined, "nextauth.token");
     Router.push("/auth/signin");
-    setUser(null);
   }
 
   return <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>{children}</AuthContext.Provider>;

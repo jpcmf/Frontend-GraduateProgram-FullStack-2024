@@ -1,6 +1,17 @@
 import { useContext } from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { Box, Flex, Text, Menu, Avatar, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Menu,
+  Avatar,
+  MenuList,
+  MenuItem,
+  MenuButton,
+  MenuDivider,
+  MenuGroup
+} from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
 
@@ -27,18 +38,27 @@ export function Profile({ showProfileData = true }: ProfileProps) {
         </MenuButton>
 
         <MenuList bg="gray.900" borderColor="gray.800">
-          <MenuItem
-            icon={<RiLogoutCircleLine size={16} />}
-            onClick={signOut}
-            color="gray.600"
-            bg="gray.900"
-            _hover={{ color: "white" }}
-          >
-            Logout
-          </MenuItem>
-          <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
-            {user?.about}
-          </MenuItem>
+          <MenuGroup title="Minha conta">
+            <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
+              {user?.about}
+            </MenuItem>
+            <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
+              My Account
+            </MenuItem>
+            <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
+              Payments{" "}
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              icon={<RiLogoutCircleLine size={16} />}
+              onClick={signOut}
+              color="gray.600"
+              bg="gray.900"
+              _hover={{ color: "white" }}
+            >
+              Logout
+            </MenuItem>
+          </MenuGroup>
         </MenuList>
       </Menu>
     </Flex>
