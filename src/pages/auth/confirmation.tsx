@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Flex, Text } from "@chakra-ui/react";
@@ -9,7 +10,7 @@ import { Toast } from "@/components/Toast";
 export default function Confirmation() {
   const route = useRouter();
   const { addToast } = Toast();
-  const [hasEmail, setHasEmail] = useState(false);
+  const [hasEmail, setHasEmail] = useState(true);
   const hasInitiatedRef = useRef(false);
 
   useEffect(() => {
@@ -26,11 +27,11 @@ export default function Confirmation() {
           message: "Parâmetro de e-mail não encontrado na URL.",
           type: "error"
         });
+
         return;
       }
 
       try {
-        setHasEmail(true);
         hasInitiatedRef.current = true;
 
         const response = await fetch("/api/sendConfirmationEmail", {
@@ -111,6 +112,11 @@ export default function Confirmation() {
             <Text fontWeight="normal" align="center" color="gray.300" mt="2">
               Parâmetro de e-mail não encontrado na URL.
             </Text>
+            <Link href="/">
+              <Text color="blue.500" align="center" mt="2">
+                Voltar para a página inicial
+              </Text>
+            </Link>
           </>
         )}
       </Flex>
