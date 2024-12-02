@@ -1,7 +1,10 @@
-export default function General() {
+import { Layout } from "@/shared/components/Layout";
+export default function GeneralPage() {
   return (
-    <div>
-      <h1>General Page</h1>
-    </div>
+    <Layout>
+      <div>
+        <h1>General Page</h1>
+      </div>
+    </Layout>
   );
 }
