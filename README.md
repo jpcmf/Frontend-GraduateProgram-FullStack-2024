@@ -80,29 +80,30 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-12-07 - Create `textarea` form component [#88](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/88) _(v0.1.26)_
 - 2024-11-19 - Add reCAPTCHA verification to sign-up process [#70](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/70) _(v0.1.25)_
 - 2024-11-19 - Add Lint-Staged to enhance pre-commit validations [#65](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/65) _(v0.1.24)_
 - 2024-11-19 - Create an API Route for the Sitemap [#62](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/62) _(v0.1.23)_
 - 2024-11-13 - Add reCAPTCHA verification to sign-in process [#59](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/59) _(v0.1.22)_
 - 2024-11-08 - Add Husky [#53](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/53) _(v0.1.21)_
 - 2024-11-08 - Add vercel development deployment configuration [#31](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/31) _(v0.1.20)_
-- 2024-11-06 - Add the `forgot-password` button [#25](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/25) _(v0.1.19)_
+- 2024-11-06 - Add `forgot-password` button [#25](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/25) _(v0.1.19)_
 - 2024-11-06 - Upgrade libraries [#23](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/23) _(v0.1.18)_
-- 2024-11-06 - Create the `reset password` page [#21](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/21) _(v0.1.17)_
-- 2024-04-28 - Update the `forgot-password` page of the SkateHub project [#20](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/20) _(v0.1.16)_
+- 2024-11-06 - Create `reset password` page [#21](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/21) _(v0.1.17)_
+- 2024-04-28 - Update `forgot-password` page [#20](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/20) _(v0.1.16)_
 - 2024-04-28 - Redirect to the root route when attempting to access /auth [#19](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/19) _(v0.1.15)_
-- 2024-04-28 - Create the `forgot-password` page of the SkateHub project [#18](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/18) _(v0.1.14)_
-- 2024-04-11 - Update the `signin` page of the SkateHub project [#17](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/17) _(v0.1.13)_
-- 2024-04-08 - Create the `confirmation` page of the SkateHub project [#15](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/15) _(v0.1.12)_
-- 2024-04-06 - Update the `signin` page of the SkateHub project [#14](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/14) _(v0.1.11)_
-- 2024-04-03 - Create the `signup` page of the SkateHub project [#12](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/12) _(v0.1.10)_
+- 2024-04-28 - Create `forgot-password` page [#18](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/18) _(v0.1.14)_
+- 2024-04-11 - Update `signin` page [#17](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/17) _(v0.1.13)_
+- 2024-04-08 - Create `confirmation` page [#15](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/15) _(v0.1.12)_
+- 2024-04-06 - Update `signin` page [#14](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/14) _(v0.1.11)_
+- 2024-04-03 - Create `signup` page [#12](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/12) _(v0.1.10)_
 - 2024-03-31 - Update `authentication` and `session` management [#11](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/11) _(v0.1.9)_
 - 2024-03-29 - Create the `toast` component [#10](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/10) _(v0.1.8)_
-- 2024-03-27 - Add the `favicon` of the SkateHub project [#9](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/9) _(v0.1.7)_
+- 2024-03-27 - Add the `favicon` [#9](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/9) _(v0.1.7)_
 - 2024-03-27 - Add the `prettier.config.js` file to the project to handle with code formatter [#8](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/8) _(v0.1.6)_
-- 2024-03-27 - Create the `signin` page of the SkateHub project [#7](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/7) _(v0.1.5)_
+- 2024-03-27 - Create the `signin` page [#7](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/7) _(v0.1.5)_
 - 2024-03-26 - Create the `header` component [#5](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/5) _(v0.1.4)_
-- 2024-03-26 - Create the `home` page of the SkateHub project [#4](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/4) _(v0.1.3)_
+- 2024-03-26 - Create the `home` page [#4](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/4) _(v0.1.3)_
 - 2024-03-26 - Create the `sidebar` provider and components to handle with the aside menu [#3](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/3) _(v0.1.2)_
 - 2024-03-24 - Add [Chakra UI](https://chakra-ui.com/) to handle with the user interface [#2](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/2) _(v0.1.1)_
 - 2024-03-19 - Add a quick guide to getting started with the application [#1](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/1) _(v0.1.0)_
