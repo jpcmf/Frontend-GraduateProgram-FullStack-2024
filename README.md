@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-12-07 - Implement user profile update functionality in AuthContext [#89](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/89) _(v0.1.27)_
 - 2024-12-07 - Create `textarea` form component [#88](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/88) _(v0.1.26)_
 - 2024-11-19 - Add reCAPTCHA verification to sign-up process [#70](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/70) _(v0.1.25)_
 - 2024-11-19 - Add Lint-Staged to enhance pre-commit validations [#65](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/65) _(v0.1.24)_
