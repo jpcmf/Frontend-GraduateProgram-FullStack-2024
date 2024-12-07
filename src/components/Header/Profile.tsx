@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import {
@@ -20,6 +21,7 @@ interface ProfileProps {
 }
 
 export function Profile({ showProfileData = true }: ProfileProps) {
+  const router = useRouter();
   const { user, signOut } = useContext(AuthContext);
 
   return (
@@ -39,14 +41,16 @@ export function Profile({ showProfileData = true }: ProfileProps) {
 
         <MenuList bg="gray.900" borderColor="gray.800">
           <MenuGroup title="Minha conta">
+            <MenuItem
+              color="gray.600"
+              bg="gray.900"
+              _hover={{ color: "white" }}
+              onClick={() => router.push("/user/edit")}
+            >
+              Editar
+            </MenuItem>
             <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
               {user?.about}
-            </MenuItem>
-            <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
-              My Account
-            </MenuItem>
-            <MenuItem color="gray.600" bg="gray.900" _hover={{ color: "white" }}>
-              Payments{" "}
             </MenuItem>
             <MenuDivider />
             <MenuItem

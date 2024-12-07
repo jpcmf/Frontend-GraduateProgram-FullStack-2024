@@ -2,7 +2,7 @@ import Router from "next/router";
 import { createContext, useEffect, useState } from "react";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
-import { signInRequest, userMe } from "../services/auth";
+import { signInRequest, updateUserProfile, userMe } from "../services/auth";
 
 type SignInData = {
   email: string;
@@ -11,37 +11,70 @@ type SignInData = {
 };
 
 type User = {
+  id: string;
   name: string;
   email: string;
   about: string;
+  username: string;
+  avatar_url: string;
+  website_url: string;
 };
+
+type UpdateUserData = Pick<User, "id" | "name" | "email" | "about" | "website_url">;
 
 type AuthContextType = {
   isAuthenticated: boolean;
   user: User | null;
   signIn: (data: SignInData) => Promise<void>;
   signOut: () => void;
+  updateUser: (data: UpdateUserData) => Promise<void>;
+  token: string | null;
+  isLoading: boolean;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = !!user;
 
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
 
-    if (token) {
-      userMe(token)
-        .then(response => {
-          setUser(response);
-        })
-        .catch(() => {
+    async function loadUserData() {
+      if (token) {
+        try {
+          setToken(token);
+          userMe(token)
+            .then(response => {
+              const userData = response.user || response;
+              setUser({
+                id: userData.id,
+                name: userData.name || userData.username || "User",
+                email: userData.email,
+                about: userData.about || "",
+                username: userData.username,
+                avatar_url: userData.avatar_url || "",
+                website_url: userData.website_url || ""
+              });
+            })
+            .catch(() => {
+              signOut();
+            });
+        } catch (error) {
           signOut();
-        });
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setIsLoading(false);
+      }
     }
+
+    loadUserData();
   }, []);
 
   async function signIn({ email, password }: SignInData) {
@@ -53,16 +86,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     setUser(user);
-    console.table(user);
-
+    setToken(jwt);
     Router.push("/dashboard");
+  }
+
+  async function updateUser(data: UpdateUserData) {
+    if (!user || !token) {
+      throw new Error("No authenticated user.");
+    }
+
+    try {
+      const updatedUser = await updateUserProfile(token, data);
+      setUser(prevUser => (prevUser ? { ...prevUser, ...updatedUser } : null));
+    } catch (error) {
+      console.error("Failed to update user.", error);
+      throw error;
+    }
   }
 
   function signOut() {
     setUser(null);
+    setToken("");
     destroyCookie(undefined, "nextauth.token");
     Router.push("/auth/signin");
   }
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, token, isLoading, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
