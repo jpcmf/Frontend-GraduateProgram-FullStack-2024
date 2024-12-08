@@ -8,7 +8,7 @@ import { useContext, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Button, Flex, Stack, Text, Link as ChakraLink } from "@chakra-ui/react";
 
-import { Input } from "@/components/Form/Input";
+import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
@@ -159,7 +159,14 @@ export default function SignIn() {
               )}
             </Flex>
           </Stack>
-          <Button type="submit" mt="6" colorScheme="green" fontWeight="bold" size="lg" isLoading={isSubmitting}>
+          <Button
+            type="submit"
+            mt="6"
+            colorScheme="green"
+            fontWeight="bold"
+            size={["md", "lg"]}
+            isLoading={isSubmitting}
+          >
             Entrar
           </Button>
           <ChakraLink

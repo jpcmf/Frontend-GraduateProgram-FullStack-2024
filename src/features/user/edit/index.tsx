@@ -109,13 +109,19 @@ export function UserEdit() {
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Button as="a" size="lg" fontSize="sm" colorScheme="whiteAlpha" onClick={() => router.push("/dashboard")}>
+              <Button
+                as="a"
+                size={["md", "lg"]}
+                fontSize="sm"
+                colorScheme="whiteAlpha"
+                onClick={() => router.push("/dashboard")}
+              >
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 isLoading={isSubmitting}
-                size="lg"
+                size={["md", "lg"]}
                 fontSize="sm"
                 colorScheme="green"
                 isDisabled={!user?.email}

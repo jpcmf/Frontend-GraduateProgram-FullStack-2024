@@ -49,7 +49,7 @@ export default function Home() {
                   mt="3"
                   colorScheme="green"
                   fontWeight="bold"
-                  size="lg"
+                  size={["md", "lg"]}
                   w="100%"
                   onClick={() => router.push("/auth/signin")}
                 >
@@ -60,7 +60,7 @@ export default function Home() {
                   mt="3"
                   colorScheme="pink"
                   fontWeight="bold"
-                  size="lg"
+                  size={["md", "lg"]}
                   w="100%"
                   onClick={() => router.push("/auth/signup")}
                 >

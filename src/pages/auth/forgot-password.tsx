@@ -10,7 +10,7 @@ import { Box, Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
-import { Input } from "@/components/Form/Input";
+import { Input } from "@/shared/components/Form/Input";
 
 const forgotPasswordFormSchema = z.object({
   email: z.string().email("E-mail inválido.").nonempty("Campo obrigatório.")
@@ -144,7 +144,7 @@ export default function ForgotPassword() {
             mt="6"
             colorScheme="green"
             fontWeight="bold"
-            size="lg"
+            size={["md", "lg"]}
             isLoading={isSubmitting}
             loadingText="Enviando..."
           >
