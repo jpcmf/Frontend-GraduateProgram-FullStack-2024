@@ -14,7 +14,7 @@ export const Toast = () => {
       title: title,
       description: message,
       status: type,
-      position: "top-right",
+      position: "bottom-right",
       isClosable: true,
       duration: 5700,
       variant: "solid"
