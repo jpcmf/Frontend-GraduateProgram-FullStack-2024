@@ -34,12 +34,12 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           bgColor="gray.900"
           variant="filled"
           _hover={{ bgColor: "gray.900" }}
-          size="lg"
+          size={["md", "lg"]}
           ref={ref}
           {...rest}
         />
       ) : (
-        <InputGroup size="lg">
+        <InputGroup size={["md", "lg"]}>
           <InputLeftAddon bgColor="gray.500" borderColor="gray.500" textColor="gray.900">
             {InputLeftAddonText}
           </InputLeftAddon>
@@ -50,7 +50,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
             bgColor="gray.900"
             variant="filled"
             _hover={{ bgColor: "gray.900" }}
-            size="lg"
+            size={["md", "lg"]}
             ref={ref}
             {...rest}
           />
