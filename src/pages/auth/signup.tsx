@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Flex, Text, Stack, Box, Divider } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
-import { Input } from "@/components/Form/Input";
+import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
 
 const signUpSchema = z
@@ -237,7 +237,7 @@ export default function SignUp() {
             mt="6"
             colorScheme="green"
             fontWeight="bold"
-            size="lg"
+            size={["md", "lg"]}
             isLoading={isSubmitting}
             loadingText="Cadastrando..."
           >
