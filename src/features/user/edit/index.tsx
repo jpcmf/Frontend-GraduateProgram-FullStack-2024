@@ -1,6 +1,9 @@
+import { z } from "zod";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { parseCookies } from "nookies";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
 import { Box, Button, Flex, Heading, Divider, SimpleGrid, VStack, HStack } from "@chakra-ui/react";
 
 import { Input } from "@/shared/components/Form/Input";
@@ -18,10 +21,21 @@ type RegisterForm = {
   // password_confirmation: string;
 };
 
+const UserEditFormSchema = z.object({
+  name: z.string().min(1, "Campo obrigatório."),
+  username: z.string().min(1, "Campo obrigatório."),
+  email: z.string().email("E-mail inválido.").min(1, "Campo obrigatório."),
+  about: z.string().max(255, "Máximo de 255 caracteres."),
+  website_url: z.string()
+  // .url("URL inválida.")
+});
+
+type UserEditFormSchema = z.infer<typeof UserEditFormSchema>;
+
 export function UserEdit() {
   const router = useRouter();
   const { addToast } = Toast();
-
+  const [isError, setIsError] = useState(false);
   const { user, updateUser } = useContext(AuthContext);
 
   const {
@@ -29,7 +43,10 @@ export function UserEdit() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset
-  } = useForm<RegisterForm>();
+  } = useForm<UserEditFormSchema>({
+    resolver: zodResolver(UserEditFormSchema),
+    mode: "onChange"
+  });
 
   useEffect(() => {
     if (user) {
@@ -42,23 +59,25 @@ export function UserEdit() {
       await updateUser({
         id: user ? user.id : "",
         name: values.name,
+        username: user ? user.username : "",
         email: values.email,
         about: values.about,
         website_url: values.website_url
       });
-
       addToast({
         title: "Usuário editado com sucesso.",
         message: "Seu perfil foi atualizado.",
         type: "success"
       });
-    } catch (error) {
+      setIsError(false);
+    } catch (error: any) {
       addToast({
         title: "Erro ao editar usuário.",
-        message: `Ocorreu um erro ao editar seu perfil: ${error}`,
+        message: `Ocorreu um erro ao editar seu perfil: ${error.response.data.error.message}`,
         type: "error"
       });
-      console.log("Erro ao editar usuário:", error);
+      console.error(error);
+      setIsError(true);
     }
   };
 
@@ -71,6 +90,9 @@ export function UserEdit() {
           </Heading>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing="4">
+            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+              <Input label="Nome de usuário" {...register("username")} error={errors.name} isDisabled />
+            </SimpleGrid>
             <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
               <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
               <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
@@ -94,6 +116,7 @@ export function UserEdit() {
                 placeholder="Ex. www.site.com.br"
                 {...register("website_url")}
                 error={errors.website_url}
+                isInvalid={isError}
               />
             </SimpleGrid>
 
@@ -135,3 +158,19 @@ export function UserEdit() {
     </Layout>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  const { ["nextauth.token"]: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false
+      }
+    };
+  }
+  return {
+    props: {}
+  };
+};
