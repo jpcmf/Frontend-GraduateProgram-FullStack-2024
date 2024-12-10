@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Button, Flex, Heading, Divider, SimpleGrid, VStack, HStack } from "@chakra-ui/react";
+import { parseCookies } from "nookies";
 
 import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
@@ -135,3 +136,19 @@ export function UserEdit() {
     </Layout>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  const { ["nextauth.token"]: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false
+      }
+    };
+  }
+  return {
+    props: {}
+  };
+};
