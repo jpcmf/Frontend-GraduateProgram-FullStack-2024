@@ -20,7 +20,7 @@ type User = {
   website_url: string;
 };
 
-type UpdateUserData = Pick<User, "id" | "name" | "email" | "about" | "website_url">;
+type UpdateUserData = Pick<User, "id" | "name" | "username" | "email" | "about" | "website_url">;
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -95,13 +95,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error("No authenticated user.");
     }
 
-    try {
-      const updatedUser = await updateUserProfile(token, data);
-      setUser(prevUser => (prevUser ? { ...prevUser, ...updatedUser } : null));
-    } catch (error) {
-      console.error("Failed to update user.", error);
-      throw error;
-    }
+    const updatedUser = await updateUserProfile(token, data);
+    setUser(prevUser => (prevUser ? { ...prevUser, ...updatedUser } : null));
   }
 
   function signOut() {
