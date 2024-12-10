@@ -1,8 +1,10 @@
+import { z } from "zod";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Flex, Heading, Divider, SimpleGrid, VStack, HStack } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { parseCookies } from "nookies";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import { Box, Button, Flex, Heading, Divider, SimpleGrid, VStack, HStack } from "@chakra-ui/react";
 
 import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
@@ -19,10 +21,20 @@ type RegisterForm = {
   // password_confirmation: string;
 };
 
+const UserEditFormSchema = z.object({
+  name: z.string().min(1, "Campo obrigatório."),
+  email: z.string().email("E-mail inválido.").min(1, "Campo obrigatório."),
+  about: z.string().max(255, "Máximo de 255 caracteres."),
+  website_url: z.string()
+  // .url("URL inválida.")
+});
+
+type UserEditFormSchema = z.infer<typeof UserEditFormSchema>;
+
 export function UserEdit() {
   const router = useRouter();
   const { addToast } = Toast();
-
+  const [isError, setIsError] = useState(false);
   const { user, updateUser } = useContext(AuthContext);
 
   const {
@@ -30,7 +42,10 @@ export function UserEdit() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset
-  } = useForm<RegisterForm>();
+  } = useForm<UserEditFormSchema>({
+    resolver: zodResolver(UserEditFormSchema),
+    mode: "onChange"
+  });
 
   useEffect(() => {
     if (user) {
@@ -47,19 +62,20 @@ export function UserEdit() {
         about: values.about,
         website_url: values.website_url
       });
-
       addToast({
         title: "Usuário editado com sucesso.",
         message: "Seu perfil foi atualizado.",
         type: "success"
       });
-    } catch (error) {
+      setIsError(false);
+    } catch (error: any) {
       addToast({
         title: "Erro ao editar usuário.",
-        message: `Ocorreu um erro ao editar seu perfil: ${error}`,
+        message: `Ocorreu um erro ao editar seu perfil: ${error.response.data.error.message}`,
         type: "error"
       });
-      console.log("Erro ao editar usuário:", error);
+      console.error(error);
+      setIsError(true);
     }
   };
 
@@ -95,6 +111,7 @@ export function UserEdit() {
                 placeholder="Ex. www.site.com.br"
                 {...register("website_url")}
                 error={errors.website_url}
+                isInvalid={isError}
               />
             </SimpleGrid>
 
