@@ -20,7 +20,7 @@ type User = {
   website_url: string;
 };
 
-type UpdateUserData = Pick<User, "id" | "name" | "email" | "about" | "website_url">;
+type UpdateUserData = Pick<User, "id" | "name" | "username" | "email" | "about" | "website_url">;
 
 type AuthContextType = {
   isAuthenticated: boolean;

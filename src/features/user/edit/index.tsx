@@ -23,6 +23,7 @@ type RegisterForm = {
 
 const UserEditFormSchema = z.object({
   name: z.string().min(1, "Campo obrigatório."),
+  username: z.string().min(1, "Campo obrigatório."),
   email: z.string().email("E-mail inválido.").min(1, "Campo obrigatório."),
   about: z.string().max(255, "Máximo de 255 caracteres."),
   website_url: z.string()
@@ -58,6 +59,7 @@ export function UserEdit() {
       await updateUser({
         id: user ? user.id : "",
         name: values.name,
+        username: user ? user.username : "",
         email: values.email,
         about: values.about,
         website_url: values.website_url
@@ -88,6 +90,9 @@ export function UserEdit() {
           </Heading>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing="4">
+            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+              <Input label="Nome de usuário" {...register("username")} error={errors.name} isDisabled />
+            </SimpleGrid>
             <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
               <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
               <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
