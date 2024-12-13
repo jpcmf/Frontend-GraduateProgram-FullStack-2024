@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-12-12 - Update user avatar handling and modify user data structure [#99](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/99) _(v0.1.29)_
 - 2024-12-07 - Add custom `404 error` page [#91](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/91) _(v0.1.28)_
 - 2024-12-07 - Implement user profile update functionality in AuthContext [#89](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/89) _(v0.1.27)_
 - 2024-12-07 - Create `textarea` form component [#88](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/88) _(v0.1.26)_
