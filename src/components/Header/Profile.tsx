@@ -38,7 +38,6 @@ export function Profile({ showProfileData = true }: ProfileProps) {
         <MenuButton>
           <Avatar
             size="md"
-            name={user?.name}
             bgColor="green.300"
             src={user?.avatar ? user?.avatar.url : "https://robohash.org/" + user?.email}
           />
