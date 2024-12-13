@@ -36,7 +36,11 @@ export function Profile({ showProfileData = true }: ProfileProps) {
       )}
       <Menu>
         <MenuButton>
-          <Avatar size="md" name={user?.name} bgColor="green.300" src={`https://robohash.org/${user?.email}`} />
+          <Avatar
+            size="md"
+            bgColor="green.300"
+            src={user?.avatar ? user?.avatar.url : "https://robohash.org/" + user?.email}
+          />
         </MenuButton>
 
         <MenuList bg="gray.900" borderColor="gray.800">

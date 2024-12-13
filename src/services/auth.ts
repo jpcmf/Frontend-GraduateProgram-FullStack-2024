@@ -11,9 +11,8 @@ type UpdateUserData = {
   name: string;
   email: string;
   about: string;
-  // username: string;
-  // avatar_url: string;
-  website_url: string;
+  username: string;
+  website_url?: string;
 };
 
 export async function signInRequest({ email, password }: SignInData) {
@@ -26,7 +25,7 @@ export async function signInRequest({ email, password }: SignInData) {
 }
 
 export async function userMe(token: string) {
-  const res = await axios.get(`${API}/api/users/me`, {
+  const res = await axios.get(`${API}/api/users/me?populate[avatar][fields][0]=url`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
@@ -45,7 +44,7 @@ export async function updateUserProfile(token: string, data: UpdateUserData) {
   formData.append("name", data.name);
   formData.append("email", data.email);
   formData.append("about", data.about);
-  formData.append("website_url", data.website_url);
+  formData.append("website_url", data.website_url || "");
 
   const res = await axios.put(`${API}/api/users/${data.id}`, formData, {
     headers: {

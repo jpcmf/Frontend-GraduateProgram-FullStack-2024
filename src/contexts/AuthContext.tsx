@@ -16,8 +16,12 @@ type User = {
   email: string;
   about: string;
   username: string;
-  avatar_url: string;
   website_url: string;
+  avatar: Avatar;
+};
+
+type Avatar = {
+  url: string;
 };
 
 type UpdateUserData = Pick<User, "id" | "name" | "username" | "email" | "about" | "website_url">;
@@ -57,8 +61,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 email: userData.email,
                 about: userData.about || "",
                 username: userData.username,
-                avatar_url: userData.avatar_url || "",
-                website_url: userData.website_url || ""
+                website_url: userData.website_url || "",
+                avatar: userData.avatar
               });
             })
             .catch(() => {
