@@ -9,7 +9,7 @@ export default function DashboardPage() {
 }
 
 export const getServerSideProps = async (ctx: any) => {
-  const { ["nextauth.token"]: token } = parseCookies(ctx);
+  const { ["auth.token"]: token } = parseCookies(ctx);
 
   if (!token) {
     return {
