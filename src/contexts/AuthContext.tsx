@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const { "nextauth.token": token } = parseCookies();
+    const { "auth.token": token } = parseCookies();
 
     async function loadUserData() {
       if (token) {
@@ -84,8 +84,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function signIn({ email, password }: SignInData) {
     const { user, jwt } = await signInRequest({ email, password });
 
-    setCookie(undefined, "nextauth.token", jwt, {
-      maxAge: 60 * 60 * 1 // 1 hour
+    setCookie(undefined, "auth.token", jwt, {
+      maxAge: 60 * 10 // 10 minutes
+      // maxAge: 60 * 60 * 1, // 1 hour
       // maxAge: 60 * 60 * 24 * 1 // 1 day
     });
 
@@ -106,7 +107,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   function signOut() {
     setUser(null);
     setToken("");
-    destroyCookie(undefined, "nextauth.token");
+    destroyCookie(undefined, "auth.token");
     Router.push("/auth/signin");
   }
 
