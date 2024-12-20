@@ -10,6 +10,7 @@ import { Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
 import { Input } from "@/shared/components/Form/Input";
+import { redirectIfAuthenticated } from "@/utils/auth";
 
 const resetPasswordFormSchema = z
   .object({
@@ -157,3 +158,7 @@ export default function ResetPassword() {
     </>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  return redirectIfAuthenticated(ctx);
+};

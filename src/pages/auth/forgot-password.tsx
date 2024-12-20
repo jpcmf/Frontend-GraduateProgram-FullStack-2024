@@ -11,6 +11,7 @@ import { Box, Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 import { API } from "@/utils/constant";
 import { Toast } from "@/components/Toast";
 import { Input } from "@/shared/components/Form/Input";
+import { redirectIfAuthenticated } from "@/utils/auth";
 
 const forgotPasswordFormSchema = z.object({
   email: z.string().email("E-mail inválido.").nonempty("Campo obrigatório.")
@@ -155,3 +156,7 @@ export default function ForgotPassword() {
     </>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  return redirectIfAuthenticated(ctx);
+};
