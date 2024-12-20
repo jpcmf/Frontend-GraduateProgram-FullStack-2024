@@ -12,6 +12,7 @@ import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
+import { redirectIfAuthenticated } from "@/utils/auth";
 
 const signInFormSchema = z.object({
   email: z.string().email({ message: "E-mail deve ser um e-mail válido." }).min(1, { message: "Campo obrigatório." }),
@@ -184,3 +185,7 @@ export default function SignIn() {
     </>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  return redirectIfAuthenticated(ctx);
+};

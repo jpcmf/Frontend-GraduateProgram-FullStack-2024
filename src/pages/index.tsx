@@ -4,6 +4,9 @@ import { Button, Flex, Grid, GridItem, Stack, Text } from "@chakra-ui/react";
 
 import packageJson from "../../package.json";
 import { LogoSkateHub } from "@/components/LogoSkateHub";
+// import { useEffect } from "react";
+// import { destroyCookie, parseCookies } from "nookies";
+import { redirectIfAuthenticated } from "@/utils/auth";
 
 export default function Home() {
   const router = useRouter();
@@ -112,3 +115,7 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  return redirectIfAuthenticated(ctx);
+};
