@@ -13,6 +13,7 @@ import { Button, Flex, Text, Stack, Box, Divider } from "@chakra-ui/react";
 import { API } from "@/utils/constant";
 import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
+import { redirectIfAuthenticated } from "@/utils/auth";
 
 const signUpSchema = z
   .object({
@@ -248,3 +249,7 @@ export default function SignUp() {
     </>
   );
 }
+
+export const getServerSideProps = async (ctx: any) => {
+  return redirectIfAuthenticated(ctx);
+};
