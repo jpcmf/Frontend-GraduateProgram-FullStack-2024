@@ -4,9 +4,20 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useRef, useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Flex, Stack, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { useContext, useRef, useState } from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Text,
+  Link as ChakraLink,
+  InputGroup,
+  InputRightElement,
+  IconButton
+} from "@chakra-ui/react";
 
 import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
@@ -28,6 +39,7 @@ export default function SignIn() {
   const [isVerified, setIsVerified] = useState(false);
   const [isVerifiedError, setIsVerifiedError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     handleSubmit,
@@ -129,7 +141,25 @@ export default function SignIn() {
               <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
             </Flex>
             <Flex flexDir="column">
-              <Input id="password" type="password" label="Senha" {...register("password")} error={errors.password} />
+              <InputGroup>
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  label="Senha"
+                  {...register("password")}
+                  error={errors.password}
+                />
+                <InputRightElement top={["8", "9"]} right="-2">
+                  <IconButton
+                    icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                    variant="unstyled"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    onClick={() => setShowPassword(!showPassword)}
+                    size="lg"
+                    color="gray.600"
+                  />
+                </InputRightElement>
+              </InputGroup>
             </Flex>
             <Flex flexDir="column">
               <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
