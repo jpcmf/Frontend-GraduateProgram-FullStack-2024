@@ -149,13 +149,14 @@ export default function SignIn() {
                   {...register("password")}
                   error={errors.password}
                 />
-                <InputRightElement>
+                <InputRightElement top={["8", "9"]} right="-2">
                   <IconButton
                     icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                     variant="unstyled"
                     aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                     onClick={() => setShowPassword(!showPassword)}
-                    size="sm"
+                    size="lg"
+                    color="gray.600"
                   />
                 </InputRightElement>
               </InputGroup>
