@@ -8,12 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RiAlertLine } from "react-icons/ri";
 import { useState, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Flex, Text, Stack, Box, Divider } from "@chakra-ui/react";
+import { Button, Flex, Text, Stack, Box, Divider, InputGroup, InputRightElement, IconButton } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
 import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
 import { redirectIfAuthenticated } from "@/utils/auth";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const signUpSchema = z
   .object({
@@ -41,6 +42,8 @@ export default function SignUp() {
   const [isVerified, setIsVerified] = useState(false);
   const [isVerifiedError, setIsVerifiedError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     handleSubmit,
@@ -190,22 +193,46 @@ export default function SignUp() {
               />
             </Flex>
             <Flex flexDir={["column", null, "row"]} gap="4">
-              <Input
-                id="password"
-                type="password"
-                label="Senha"
-                placeholder="Digite uma senha"
-                {...register("password")}
-                error={errors.password}
-              />
-              <Input
-                id="confirmPassword"
-                type="password"
-                label="Confirmar senha"
-                placeholder="Confirme a senha"
-                {...register("confirmPassword")}
-                error={errors.confirmPassword}
-              />
+              <InputGroup>
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  label="Senha"
+                  placeholder="Digite uma senha"
+                  {...register("password")}
+                  error={errors.password}
+                />
+                <InputRightElement top={["8", "9"]} right="-2">
+                  <IconButton
+                    icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                    variant="unstyled"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    onClick={() => setShowPassword(!showPassword)}
+                    size="lg"
+                    color="gray.600"
+                  />
+                </InputRightElement>
+              </InputGroup>
+              <InputGroup>
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  label="Confirmar senha"
+                  placeholder="Confirme a senha"
+                  {...register("confirmPassword")}
+                  error={errors.confirmPassword}
+                />
+                <InputRightElement top={["8", "9"]} right="-2">
+                  <IconButton
+                    icon={showConfirmPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                    variant="unstyled"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    size="lg"
+                    color="gray.600"
+                  />
+                </InputRightElement>
+              </InputGroup>
             </Flex>
             <Flex flexDir="column">
               <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
