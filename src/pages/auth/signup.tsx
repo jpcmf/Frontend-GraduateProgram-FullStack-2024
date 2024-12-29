@@ -8,13 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RiAlertLine } from "react-icons/ri";
 import { useState, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Button, Flex, Text, Stack, Box, Divider, InputGroup, InputRightElement, IconButton } from "@chakra-ui/react";
 
 import { API } from "@/utils/constant";
 import { Input } from "@/shared/components/Form/Input";
 import { Toast } from "@/components/Toast";
 import { redirectIfAuthenticated } from "@/utils/auth";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const signUpSchema = z
   .object({
