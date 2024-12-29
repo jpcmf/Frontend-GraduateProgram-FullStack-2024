@@ -19,7 +19,13 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 const signUpSchema = z
   .object({
     name: z.string().nonempty("Campo obrigatório.").min(8, { message: "Nome deve ter no mínimo 8 caracteres." }),
-    username: z.string().nonempty("Campo obrigatório.").min(3, { message: "Usuário deve ter no mínimo 3 caracteres." }),
+    username: z
+      .string()
+      .nonempty("Campo obrigatório.")
+      .min(3, { message: "Usuário deve ter no mínimo 3 caracteres." })
+      .refine(value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
+        message: "Usuário não pode ser um e-mail."
+      }),
     email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
     password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
     confirmPassword: z.string().nonempty("Campo obrigatório.")
