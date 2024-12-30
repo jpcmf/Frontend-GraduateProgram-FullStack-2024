@@ -80,6 +80,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2024
 
+- 2024-12-29 - Add username validation to prevent email format in sign-up form [#111](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/111) _(v0.1.31)_
 - 2024-12-19 - Implement server-side redirection for authenticated users [#103](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/103) _(v0.1.30)_
 - 2024-12-12 - Update user avatar handling and modify user data structure [#99](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/99) _(v0.1.29)_
 - 2024-12-07 - Add custom `404 error` page [#91](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/91) _(v0.1.28)_
