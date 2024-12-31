@@ -17,6 +17,7 @@ type User = {
   about: string;
   username: string;
   website_url: string;
+  instagram_url: string;
   avatar: Avatar;
 };
 
@@ -24,7 +25,7 @@ type Avatar = {
   url: string;
 };
 
-type UpdateUserData = Pick<User, "id" | "name" | "username" | "email" | "about" | "website_url">;
+type UpdateUserData = Pick<User, "id" | "name" | "username" | "email" | "about" | "website_url" | "instagram_url">;
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -62,6 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 about: userData.about || "",
                 username: userData.username,
                 website_url: userData.website_url || "",
+                instagram_url: userData.instagram_url || "",
                 avatar: userData.avatar
               });
             })
