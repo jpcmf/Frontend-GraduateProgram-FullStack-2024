@@ -17,6 +17,7 @@ type RegisterForm = {
   email: string;
   about: string;
   website_url: string;
+  instagram_url: string;
   // password: string;
   // password_confirmation: string;
 };
@@ -26,7 +27,8 @@ const UserEditFormSchema = z.object({
   username: z.string().min(1, "Campo obrigatório."),
   email: z.string().email("E-mail inválido.").min(1, "Campo obrigatório."),
   about: z.string().max(255, "Máximo de 255 caracteres."),
-  website_url: z.string()
+  website_url: z.string(),
+  instagram_url: z.string()
   // .url("URL inválida.")
 });
 
@@ -62,7 +64,8 @@ export function UserEdit() {
         username: user ? user.username : "",
         email: values.email,
         about: values.about,
-        website_url: values.website_url
+        website_url: values.website_url,
+        instagram_url: values.instagram_url
       });
       addToast({
         title: "Usuário editado com sucesso.",
@@ -108,6 +111,9 @@ export function UserEdit() {
                 InputLeftAddonText="instagram.com/"
                 label="Perfil Instagram"
                 placeholder="Ex. nome_do_usuário"
+                {...register("instagram_url")}
+                error={errors.instagram_url}
+                isInvalid={isError}
               />
               <Input
                 isInputGroup
