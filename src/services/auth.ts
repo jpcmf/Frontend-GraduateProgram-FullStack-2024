@@ -13,6 +13,7 @@ type UpdateUserData = {
   about: string;
   username: string;
   website_url?: string;
+  instagram_url?: string;
 };
 
 export async function signInRequest({ email, password }: SignInData) {
@@ -45,6 +46,7 @@ export async function updateUserProfile(token: string, data: UpdateUserData) {
   formData.append("email", data.email);
   formData.append("about", data.about);
   formData.append("website_url", data.website_url || "");
+  formData.append("instagram_url", data.instagram_url || "");
 
   const res = await axios.put(`${API}/api/users/${data.id}`, formData, {
     headers: {
