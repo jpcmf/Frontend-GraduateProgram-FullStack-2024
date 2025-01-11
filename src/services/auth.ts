@@ -26,12 +26,16 @@ export async function signInRequest({ email, password }: SignInData) {
 }
 
 export async function userMe(token: string) {
+  // use qs library to stringify the url with params
+  // npm i qs
   const res = await axios.get(`${API}/api/users/me?populate[avatar][fields][0]=url`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
     }
   });
+
+  console.log("res...", res);
 
   if (!res.data) {
     throw new Error("Failed to fetch user.");
