@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parseCookies } from "nookies";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { Box, Button, Flex, Heading, Divider, SimpleGrid, VStack, HStack } from "@chakra-ui/react";
@@ -164,19 +163,3 @@ export function UserEdit() {
     </Layout>
   );
 }
-
-export const getServerSideProps = async (ctx: any) => {
-  const { ["auth.token"]: token } = parseCookies(ctx);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
-  return {
-    props: {}
-  };
-};
