@@ -80,6 +80,8 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2025
 
+- 2025-01-15 - Move authentication logic to user edit page [#116](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/116) _(v0.1.33)_
+
 ### 2024
 
 - 2024-12-31 - Add `instagram_url` field to user profile and update related forms [#113](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/113) _(v0.1.32)_
