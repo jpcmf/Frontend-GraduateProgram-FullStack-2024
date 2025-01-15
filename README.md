@@ -2,6 +2,8 @@
     <img alt="SkateHub" title="SkateHub" src=".github/skatehub.svg" />
 </h1>
 
+![screenshot](.github/screenshot.png)
+
 <p align="center">
   <a href="#gear-build-setup">Build setup</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#memo-changelog">Changelog</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
