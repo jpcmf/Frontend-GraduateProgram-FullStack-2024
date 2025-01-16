@@ -2,6 +2,8 @@
     <img alt="SkateHub" title="SkateHub" src=".github/skatehub.svg" />
 </h1>
 
+![screenshot](.github/screenshot.png)
+
 <p align="center">
   <a href="#gear-build-setup">Build setup</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#memo-changelog">Changelog</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -79,6 +81,8 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 ## :memo: Changelog
 
 ### 2025
+
+- 2025-01-15 - Move authentication logic to user edit page [#116](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/116) _(v0.1.33)_
 
 ### 2024
 
