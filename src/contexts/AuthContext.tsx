@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
 import { signInRequest, updateUserProfile, userMe } from "../services/auth";
+import { Toast } from "@/components/Toast";
 
 type SignInData = {
   email: string;
@@ -43,6 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { addToast } = Toast();
 
   const isAuthenticated = !!user;
 
@@ -68,6 +70,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               });
             })
             .catch(() => {
+              addToast({
+                title: "Erro ao carregar usuário.",
+                message: "Ocorreu um erro ao carregar seus dados.",
+                type: "error"
+              });
               signOut();
             });
         } catch (error) {

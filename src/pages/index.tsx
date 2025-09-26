@@ -11,6 +11,20 @@ import { redirectIfAuthenticated } from "@/utils/auth";
 export default function Home() {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   // insert nookies to remove cache
+  //   const handleSessionExpired = () => {
+  //     destroyCookie(undefined, "auth.token");
+  //   };
+
+  //   const checkSessionValidity = () => {
+  //     const { "auth.token": token } = parseCookies();
+  //     console.log(token);
+  //   };
+
+  //   checkSessionValidity();
+  // }, []);
+
   return (
     <>
       <Head>
@@ -69,6 +83,11 @@ export default function Home() {
                 >
                   Criar uma conta
                 </Button>
+              </Flex>
+              <Flex>
+                Nós usamos cookies e outras tecnologias semelhantes para melhorar a sua experiência em nossos serviços,
+                personalizar publicidade e recomendar conteúdo de seu interesse. Ao utilizar nossos serviços, você
+                concorda com tal monitoramento. Para mais informações, consulte a nossa nova política de privacidade.
               </Flex>
             </Flex>
             <Flex alignItems="center" justifyContent="center" flexDirection="row">

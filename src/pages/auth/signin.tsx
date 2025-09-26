@@ -102,6 +102,11 @@ export default function SignIn() {
     }
   };
 
+  const handleGoogleSignIn = () => {
+    const strapiGoogleSignInUrl = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/connect/google`;
+    router.push(strapiGoogleSignInUrl);
+  };
+
   return (
     <>
       <Head>
@@ -200,6 +205,16 @@ export default function SignIn() {
           >
             Entrar
           </Button>
+          <ChakraLink
+            onClick={handleGoogleSignIn}
+            color="gray.600"
+            mt="4"
+            textAlign="center"
+            textDecoration="underline"
+            fontWeight="medium"
+          >
+            Entrar com Google
+          </ChakraLink>
           <ChakraLink
             onClick={() => router.push("/auth/forgot-password")}
             color="gray.600"
