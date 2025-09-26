@@ -6,21 +6,21 @@ import { FlatCompat } from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all,
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 });
 
 const config = [
-    {
-        ignores: [
-            "**/.next/**",
-            "**/node_modules/**",
-            "**/dist/**",
-            "**/coverage/**",
-        ],
-    },
-    ...compat.extends("next/core-web-vitals"),
+  {
+    ignores: [
+      "**/.next/**",
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/coverage/**",
+    ],
+  },
+  ...compat.extends("next/core-web-vitals"),
 ];
 
 export default config;
