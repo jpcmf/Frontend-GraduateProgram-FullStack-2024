@@ -1,6 +1,6 @@
 {
   "name": "skatehub-frontend",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -31,6 +31,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.36.0",
     "@types/cookie": "^0.6.0",
     "@types/node": "latest",
     "@types/nodemailer": "^6.4.16",
