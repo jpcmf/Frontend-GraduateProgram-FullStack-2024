@@ -1,5 +1,6 @@
 import Router from "next/router";
 import { createContext, useEffect, useState } from "react";
+
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
 import { signInRequest, updateUserProfile, userMe } from "../services/auth";

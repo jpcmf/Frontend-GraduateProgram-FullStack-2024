@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+
 import { parseCookies } from "nookies";
 
 export const redirectIfAuthenticated = (ctx: GetServerSidePropsContext) => {

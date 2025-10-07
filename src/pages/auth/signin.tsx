@@ -1,12 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
-import ReCAPTCHA from "react-google-recaptcha";
-import { z } from "zod";
 import { useRouter } from "next/router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+
 import {
   Box,
   Button,

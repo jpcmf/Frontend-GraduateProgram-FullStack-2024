@@ -1,5 +1,4 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
-import { Layout } from "@/shared/components/Layout";
 
 type DashboardProps = {
   user: any;

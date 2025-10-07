@@ -1,10 +1,16 @@
-import { Search } from "./Search";
-import { Profile } from "./Profile";
+import Link from "next/link";
+import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
-import { Notification } from "./Notification";
-import { LogoSkateHub } from "../LogoSkateHub";
+
+import { Button, Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
+
+import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
-import { Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
+
+import { LogoSkateHub } from "../LogoSkateHub";
+
+import { Notification } from "./Notification";
+import { Profile } from "./Profile";
 
 export function Header() {
   const { onOpen } = useSidebarDrawer();
