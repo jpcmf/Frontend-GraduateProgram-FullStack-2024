@@ -3,7 +3,7 @@ import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 
 interface ActiveLinkProps extends LinkProps {
-  children: ReactElement;
+  children: ReactElement<{ color?: string }>;
   shouldMatchExactHref?: boolean;
 }
 

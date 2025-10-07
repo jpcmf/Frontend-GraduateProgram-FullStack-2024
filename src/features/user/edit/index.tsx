@@ -1,15 +1,16 @@
-import { z } from "zod";
-import { useRouter } from "next/router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
-import { Box, Button, Flex, Heading, Divider, SimpleGrid, VStack, HStack } from "@chakra-ui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
-import { Input } from "@/shared/components/Form/Input";
+import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { Toast } from "@/components/Toast";
-import { Layout } from "@/shared/components/Layout";
-import { Textarea } from "@/shared/components/Form/Textarea";
 import { AuthContext } from "@/contexts/AuthContext";
+import { Input } from "@/shared/components/Form/Input";
+import { Textarea } from "@/shared/components/Form/Textarea";
+import { Layout } from "@/shared/components/Layout";
 
 type RegisterForm = {
   name: string;

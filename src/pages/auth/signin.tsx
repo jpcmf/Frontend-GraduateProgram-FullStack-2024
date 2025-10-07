@@ -1,35 +1,38 @@
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import {
   Box,
   Button,
   Flex,
-  Stack,
-  Text,
-  Link as ChakraLink,
+  IconButton,
   InputGroup,
   InputRightElement,
-  IconButton
+  Link as ChakraLink,
+  Stack,
+  Text
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "@/shared/components/Form/Input";
+import { LogoSkateHub } from "@/components/LogoSkateHub";
+import { ReusableModal } from "@/components/ReusableModal";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
-import { LogoSkateHub } from "@/components/LogoSkateHub";
+import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
+import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
 
-const signInFormSchema = z.object({
-  email: z.string().email({ message: "E-mail deve ser um e-mail válido." }).min(1, { message: "Campo obrigatório." }),
-  password: z.string().min(1, { message: "Campo obrigatório." })
-});
+// const signInFormSchema = z.object({
+//   email: z.string().email({ message: "E-mail deve ser um e-mail válido." }).min(1, { message: "Campo obrigatório." }),
+//   password: z.string().min(1, { message: "Campo obrigatório." })
+// });
 
-type SignInFormSchema = z.infer<typeof signInFormSchema>;
+// type SignInFormSchema = z.infer<typeof signInFormSchema>;
 
 export default function SignIn() {
   const router = useRouter();
@@ -56,7 +59,7 @@ export default function SignIn() {
       const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
       await signIn(newValues)
-        .then(_ => {})
+        .then(_ => { })
         .catch(error => {
           recaptchaRef.current?.reset();
           setIsVerified(false);
@@ -101,116 +104,143 @@ export default function SignIn() {
     }
   };
 
+  const handleClose = () => {
+    router.back();
+  };
+
+  // const handleSignIn2 = () => {
+  //   // Handle sign in logic here
+  //   console.log('Sign in clicked')
+  //   router.push('/')
+  // }
+
   return (
     <>
       <Head>
         <title>Login - SkateHub</title>
       </Head>
-      <Flex
-        w={["100dvw"]}
-        h={["100dvh"]}
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-        bg="gray.900"
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        backgroundBlendMode="overlay"
-        backgroundPosition="center bottom"
-        backgroundImage="../alexander-londono-unsplash.jpeg"
-        px={["4", "0"]}
+
+      <ReusableModal
+        isOpen={true}
+        onClose={handleClose}
+        size="6xl"
+      // footerContent={
+      //   <>
+      //     <Button variant='ghost' mr={3} onClick={handleClose}>
+      //       Cancel
+      //     </Button>
+      //     <Button colorScheme='blue' onClick={handleSignIn2}>
+      //       Sign In
+      //     </Button>
+      //   </>
+      // }
       >
         <Flex
-          as="form"
-          w="100%"
-          maxWidth={480}
-          bg="gray.800"
-          p="8"
-          borderRadius={8}
-          flexDir="column"
-          onSubmit={handleSubmit(handleSignIn)}
+          // w={["100dvw"]}
+          // h={["100dvh"]}
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          bg="gray.900"
+          backgroundSize="cover"
+          backgroundRepeat="no-repeat"
+          backgroundBlendMode="overlay"
+          backgroundPosition="center bottom"
+          backgroundImage="../alexander-londono-unsplash.jpeg"
+          px={["4", "0"]}
         >
-          <Stack spacing={4}>
-            <Flex justifyContent="center" mb="4">
-              <Link href="/">
-                <LogoSkateHub />
-              </Link>
-            </Flex>
-            <Flex flexDir="column">
-              <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
-            </Flex>
-            <Flex flexDir="column">
-              <InputGroup>
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  label="Senha"
-                  {...register("password")}
-                  error={errors.password}
-                />
-                <InputRightElement top={["8", "9"]} right="-2">
-                  <IconButton
-                    icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                    variant="unstyled"
-                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                    onClick={() => setShowPassword(!showPassword)}
-                    size="lg"
-                    color="gray.600"
+          <Flex
+            as="form"
+            w="100%"
+            maxWidth={480}
+            bg="gray.800"
+            p="8"
+            borderRadius={8}
+            flexDir="column"
+            onSubmit={handleSubmit(handleSignIn)}
+          >
+            <Stack spacing={4}>
+              <Flex justifyContent="center" mb="4">
+                <Link href="/">
+                  <LogoSkateHub />
+                </Link>
+              </Flex>
+              <Flex flexDir="column">
+                <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
+              </Flex>
+              <Flex flexDir="column">
+                <InputGroup>
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    label="Senha"
+                    {...register("password")}
+                    error={errors.password}
                   />
-                </InputRightElement>
-              </InputGroup>
-            </Flex>
-            <Flex flexDir="column">
-              <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                <Text fontSize="smaller" align="left">
-                  Se precisar de ajuda, entre em{" "}
-                  <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
-                    contato conosco
+                  <InputRightElement top={["8", "9"]} right="-2">
+                    <IconButton
+                      icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                      variant="unstyled"
+                      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                      onClick={() => setShowPassword(!showPassword)}
+                      size="lg"
+                      color="gray.600"
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </Flex>
+              <Flex flexDir="column">
+                <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
+                  <Text fontSize="smaller" align="left">
+                    Se precisar de ajuda, entre em{" "}
+                    <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
+                      contato conosco
+                    </Text>
+                    .
                   </Text>
-                  .
-                </Text>
-              </Box>
-            </Flex>
+                </Box>
+              </Flex>
 
-            <Flex flexDir="column" alignItems="center">
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                onChange={onVerify}
-                size="normal"
-                hl="pt-BR"
-                badge="inline"
-                id="recaptcha"
-              />
-              {isVerifiedError && (
-                <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
-                  Please verify that you are not a robot.
-                </Text>
-              )}
-            </Flex>
-          </Stack>
-          <Button
-            type="submit"
-            mt="6"
-            colorScheme="green"
-            fontWeight="bold"
-            size={["md", "lg"]}
-            isLoading={isSubmitting}
-          >
-            Entrar
-          </Button>
-          <ChakraLink
-            onClick={() => router.push("/auth/forgot-password")}
-            color="gray.600"
-            mt="4"
-            textAlign="center"
-            textDecoration="underline"
-            fontWeight="medium"
-          >
-            Esqueci minha senha
-          </ChakraLink>
+              <Flex flexDir="column" alignItems="center">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                  onChange={onVerify}
+                  size="normal"
+                  hl="pt-BR"
+                  badge="inline"
+                  id="recaptcha"
+                />
+                {isVerifiedError && (
+                  <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
+                    Please verify that you are not a robot.
+                  </Text>
+                )}
+              </Flex>
+            </Stack>
+            <Button
+              type="submit"
+              mt="6"
+              colorScheme="green"
+              fontWeight="bold"
+              size={["md", "lg"]}
+              isLoading={isSubmitting}
+            >
+              Entrar
+            </Button>
+            <ChakraLink
+              onClick={() => router.push("/auth/forgot-password")}
+              color="gray.600"
+              mt="4"
+              textAlign="center"
+              textDecoration="underline"
+              fontWeight="medium"
+            >
+              Esqueci minha senha
+            </ChakraLink>
+          </Flex>
         </Flex>
-      </Flex>
+      </ReusableModal>
     </>
   );
 }

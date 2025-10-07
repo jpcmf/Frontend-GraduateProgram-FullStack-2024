@@ -1,17 +1,18 @@
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { useRouter } from "next/router";
+
 import {
+  Avatar,
   Box,
   Flex,
-  Text,
   Menu,
-  Avatar,
-  MenuList,
-  MenuItem,
   MenuButton,
   MenuDivider,
-  MenuGroup
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  Text
 } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";

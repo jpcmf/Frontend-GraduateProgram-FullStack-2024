@@ -8,7 +8,7 @@ export const redirectIfAuthenticated = (ctx: GetServerSidePropsContext) => {
   if (token) {
     return {
       redirect: {
-        destination: "/dashboard",
+        destination: "/",
         permanent: false
       }
     };

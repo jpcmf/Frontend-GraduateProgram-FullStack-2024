@@ -2,11 +2,9 @@ import { AppProps } from "next/app";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import QueryProvider from "@/components/QueryProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SidebarDrawerProvider } from "@/contexts/SidebarDrawerContext";
 import { fonts } from "@/lib/fonts";
-import { Layout } from "@/shared/components/Layout";
 import { theme } from "@/styles/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -1,4 +1,5 @@
 import { Layout } from "@/shared/components/Layout";
+
 export default function GeneralPage() {
   return (
     <Layout>

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
+import Link from "next/link";
 
 import { Button, Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
 
@@ -14,6 +14,7 @@ import { Profile } from "./Profile";
 
 export function Header() {
   const { onOpen } = useSidebarDrawer();
+  const { isAuthenticated, user } = useContext(AuthContext);
 
   const isVisible = useBreakpointValue({
     base: false,
@@ -35,11 +36,25 @@ export function Header() {
 
       <LogoSkateHub showLogoData={isVisible} />
 
-      {isVisible && <Search />}
+      {/* Show Search for authenticated users on larger screens */}
+      {/* {isAuthenticated && isVisible && <Search />} */}
 
       <Flex align="center" ml="auto">
-        <Notification />
-        <Profile showProfileData={isVisible} />
+        {/* Show Notification only for authenticated users */}
+        {isAuthenticated && <Notification />}
+
+        {/* Show login button for non-authenticated users */}
+        {!isAuthenticated ? (
+          <>
+            <Button variant="ghost" colorScheme="green" as={Link} href="/login">
+              {/* <TbSkateboarding style={{ marginRight: "8px" }} size={20} /> */}
+              Faça seu login
+            </Button>
+          </>
+        ) : (
+          /* Show Profile for authenticated users */
+          <Profile showProfileData={isVisible} />
+        )}
       </Flex>
     </Flex>
   );

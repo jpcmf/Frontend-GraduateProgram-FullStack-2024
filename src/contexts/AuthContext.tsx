@@ -1,5 +1,5 @@
-import Router from "next/router";
 import { createContext, useEffect, useState } from "react";
+import Router from "next/router";
 
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(user);
     setToken(jwt);
-    Router.push("/dashboard");
+    Router.push("/");
   }
 
   async function updateUser(data: UpdateUserData) {
