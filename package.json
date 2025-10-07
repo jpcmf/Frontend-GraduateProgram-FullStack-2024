@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
+    "format:imports": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
     "prepare": "husky"
   },
@@ -41,6 +43,8 @@
     "@types/react-google-recaptcha": "^2.1.9",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
@@ -51,7 +55,7 @@
       "prettier --write"
     ],
     "src/**/*.{ts,tsx,js,jsx}": [
-      "eslint"
+      "eslint --fix"
     ]
   }
 }
