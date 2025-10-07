@@ -3,51 +3,38 @@
     "source.organizeImports": "explicit",
     "source.fixAll.eslint": "explicit"
   },
-  
-  
   "editor.formatOnSave": true,
-  
-  
   "[typescript]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
       "source.fixAll.eslint": "explicit"
     }
   },
-  
   "[typescriptreact]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit", 
+      "source.organizeImports": "explicit",
       "source.fixAll.eslint": "explicit"
     }
   },
-  
   "[javascript]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
       "source.fixAll.eslint": "explicit"
     }
   },
-  
   "[javascriptreact]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
       "source.fixAll.eslint": "explicit"
     }
   },
-  
-  
   "eslint.validate": [
     "javascript",
-    "javascriptreact", 
+    "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
-  
-  
   "files.autoSave": "onFocusChange",
-  
-  
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
