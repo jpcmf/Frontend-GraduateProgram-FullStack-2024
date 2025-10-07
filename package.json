@@ -56,5 +56,6 @@
     "src/**/*.{ts,tsx,js,jsx}": [
       "eslint --fix"
     ]
-  }
+  },
+  "packageManager": "pnpm@7.5.1"
 }
