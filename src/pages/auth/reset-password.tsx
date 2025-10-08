@@ -1,16 +1,17 @@
-import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import { z } from "zod";
-import { useRouter } from "next/router";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import { API } from "@/utils/constant";
+import { Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { Toast } from "@/components/Toast";
 import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
+import { API } from "@/utils/constant";
 
 const resetPasswordFormSchema = z
   .object({

@@ -1,8 +1,5 @@
 import { useState } from "react";
 
-import { Box } from "@chakra-ui/react";
-
-import { SkateHubStories } from "@/components/StoriesSwiper";
 import { Skatistas } from "@/features/skatistas";
 import { useUsers } from "@/hooks/useUsers";
 
@@ -25,17 +22,14 @@ export default function SkatistasPage() {
   if (isError) return <div>Error loading users</div>;
 
   return (
-    <Box w="100%">
-      <SkateHubStories />
-      <Skatistas
-        users={paginatedUsers?.users || []}
-        currentPage={currentPage}
-        pageSize={pageSize}
-        totalUsers={paginatedUsers?.totalFetchedUsers || 0}
-        isLoading={isFetching}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-      />
-    </Box>
+    <Skatistas
+      users={paginatedUsers?.users || []}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      totalUsers={paginatedUsers?.totalFetchedUsers || 0}
+      isLoading={isFetching}
+      onPageChange={handlePageChange}
+      onPageSizeChange={handlePageSizeChange}
+    />
   );
 }

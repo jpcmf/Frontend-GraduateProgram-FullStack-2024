@@ -1,7 +1,8 @@
-import { useRouter } from "next/router";
 import { ElementType } from "react";
 import Link, { LinkProps as NextLinkProps } from "next/link";
-import { Icon, Text, Link as ChakraLink, LinkProps as ChakraLinkProps } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+
+import { Icon, Link as ChakraLink, LinkProps as ChakraLinkProps, Text } from "@chakra-ui/react";
 
 interface NavLinkProps extends ChakraLinkProps {
   icon: ElementType;

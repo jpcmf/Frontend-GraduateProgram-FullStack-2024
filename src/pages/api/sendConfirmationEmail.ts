@@ -1,13 +1,14 @@
-import nodemailer from "nodemailer";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import nodemailer from "nodemailer";
+
 import {
-  NODEMAILER_REQUEST_SERVER,
-  NODEMAILER_TRANSPORTER_SERVICE,
-  NODEMAILER_TRANSPORTER_USER,
-  NODEMAILER_TRANSPORTER_PASS,
   NODEMAILER_OPTIONS_FROM,
-  NODEMAILER_OPTIONS_TO
+  NODEMAILER_OPTIONS_TO,
+  NODEMAILER_REQUEST_SERVER,
+  NODEMAILER_TRANSPORTER_PASS,
+  NODEMAILER_TRANSPORTER_SERVICE,
+  NODEMAILER_TRANSPORTER_USER
 } from "@/utils/constant";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

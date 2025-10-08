@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
-import { signInRequest } from "../../../services/auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+import { signInRequest } from "../../../services/auth";
 
 export default NextAuth({
   providers: [

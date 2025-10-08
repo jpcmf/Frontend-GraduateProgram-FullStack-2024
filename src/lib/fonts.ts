@@ -1,4 +1,4 @@
-import { Roboto, Raleway } from "next/font/google";
+import { Raleway, Roboto } from "next/font/google";
 
 const roboto = Roboto({
   subsets: ["latin"],

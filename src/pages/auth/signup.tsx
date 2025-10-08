@@ -1,20 +1,21 @@
-import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
+import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { z } from "zod";
-import { useRouter } from "next/router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { RiAlertLine } from "react-icons/ri";
-import { useState, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { Button, Flex, Text, Stack, Box, Divider, InputGroup, InputRightElement, IconButton } from "@chakra-ui/react";
+import { RiAlertLine } from "react-icons/ri";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import { API } from "@/utils/constant";
-import { Input } from "@/shared/components/Form/Input";
+import { Box, Button, Divider, Flex, IconButton, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { Toast } from "@/components/Toast";
+import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
+import { API } from "@/utils/constant";
 
 const signUpSchema = z
   .object({
@@ -27,6 +28,9 @@ const signUpSchema = z
         message: "Usuário não pode ser um e-mail."
       }),
     email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
+    city: z.string().optional(),
+    uf: z.string().optional(),
+    country: z.string().optional(),
     password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
     confirmPassword: z.string().nonempty("Campo obrigatório.")
   })
@@ -69,6 +73,8 @@ export default function SignUp() {
       return;
     }
 
+    console.log("values", values);
+
     try {
       const recaptchaValue = recaptchaRef.current?.getValue();
 
@@ -81,6 +87,8 @@ export default function SignUp() {
       });
 
       const data = await response.json();
+
+      console.log("data", data);
 
       if (data.error) {
         recaptchaRef.current?.reset();
@@ -180,7 +188,7 @@ export default function SignUp() {
                 error={errors.name}
               />
             </Flex>
-            <Flex flexDir={["column", null, "row"]} gap="4">
+            <Flex flexDir={["column", null, "column"]} gap="4">
               <Input
                 id="username"
                 type="text"
@@ -196,6 +204,32 @@ export default function SignUp() {
                 placeholder="Digite seu e-mail"
                 {...register("email")}
                 error={errors.email}
+              />
+            </Flex>
+            <Flex flexDir={["column", null, "row"]} gap="4">
+              <Input
+                id="city"
+                type="text"
+                label="Cidade"
+                placeholder="Digite sua cidade"
+                {...register("city")}
+                error={errors.city}
+              />
+              <Input
+                id="uf"
+                type="text"
+                label="Estado"
+                placeholder="Digite seu estado"
+                {...register("uf")}
+                error={errors.uf}
+              />
+              <Input
+                id="country"
+                type="text"
+                label="País"
+                placeholder="Digite seu país"
+                {...register("country")}
+                error={errors.country}
               />
             </Flex>
             <Flex flexDir={["column", null, "row"]} gap="4">

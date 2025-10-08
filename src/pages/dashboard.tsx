@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { parseCookies } from "nookies";
+
+// import { parseCookies } from "nookies";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Dashboard } from "@/features/dashboard";
 
@@ -8,18 +9,18 @@ export default function DashboardPage() {
   return <Dashboard user={user} />;
 }
 
-export const getServerSideProps = async (ctx: any) => {
-  const { ["auth.token"]: token } = parseCookies(ctx);
+// export const getServerSideProps = async (ctx: any) => {
+//   const { ["auth.token"]: token } = parseCookies(ctx);
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
-  return {
-    props: {}
-  };
-};
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false
+//       }
+//     };
+//   }
+//   return {
+//     props: {}
+//   };
+// };

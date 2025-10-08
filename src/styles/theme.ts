@@ -1,6 +1,11 @@
 import { extendTheme } from "@chakra-ui/react";
 
+import Modal from "./modal";
+
 export const theme = extendTheme({
+  components: {
+    Modal
+  },
   colors: {
     gray: {
       "900": "#262829",
@@ -15,7 +20,7 @@ export const theme = extendTheme({
   },
   fonts: {
     heading: "var(--font-raleway)",
-    body: "var(--font-raleway)"
+    body: "var(--font-roboto)"
   },
   styles: {
     global: {

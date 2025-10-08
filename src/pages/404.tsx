@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+
 import { Container, Flex, Text } from "@chakra-ui/react";
 
 export default function Error404() {

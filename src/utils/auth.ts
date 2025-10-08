@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+
 import { parseCookies } from "nookies";
 
 export const redirectIfAuthenticated = (ctx: GetServerSidePropsContext) => {
@@ -7,7 +8,7 @@ export const redirectIfAuthenticated = (ctx: GetServerSidePropsContext) => {
   if (token) {
     return {
       redirect: {
-        destination: "/dashboard",
+        destination: "/",
         permanent: false
       }
     };
