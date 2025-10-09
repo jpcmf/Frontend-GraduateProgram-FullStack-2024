@@ -1,14 +1,7 @@
 import {
-  RiBarChartBoxLine,
-  RiCashLine,
-  RiChatSmile2Line,
   RiContactsLine,
   RiDashboardLine,
-  RiDirectionLine,
-  RiEdit2Line,
-  RiPictureInPictureLine,
-  RiShieldStarLine,
-  RiTrophyLine
+  RiPictureInPictureLine
 } from "react-icons/ri";
 import { TbSkateboard } from "react-icons/tb";
 
@@ -52,6 +45,16 @@ export function SidebarNav() {
           >
             Cadastro geral
           </NavLink>
+          <NavLink
+            icon={RiPictureInPictureLine}
+            href="/spots"
+            _activeLink={{
+              textDecoration: "none",
+              color: "green.400"
+            }}
+          >
+            Spots
+          </NavLink>
           {/* <NavLink
             icon={RiEdit2Line}
             href="/users"
@@ -72,16 +75,6 @@ export function SidebarNav() {
           >
             Campeonatos
           </NavLink> */}
-          <NavLink
-            icon={RiPictureInPictureLine}
-            href="/users"
-            _activeLink={{
-              textDecoration: "none",
-              color: "green.400"
-            }}
-          >
-            Spots
-          </NavLink>
           {/* <NavLink
             icon={RiDirectionLine}
             href="/users"
