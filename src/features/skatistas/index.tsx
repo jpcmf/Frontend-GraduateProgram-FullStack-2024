@@ -1,6 +1,6 @@
-import { TbChevronLeft, TbChevronRight, TbSkateboarding } from "react-icons/tb";
+import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
-import { Box, Button, Flex, HStack, Icon, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 
 import { UserCard } from "@/components/CardUser";
 import type { UserBasicsWithPagination } from "@/types/usersBasics.type";
@@ -25,8 +25,8 @@ export function Skatistas({
   onPageSizeChange
 }: SkatistasProps) {
   const totalPages = Math.ceil(totalUsers / pageSize);
-  const startItem = currentPage;
-  const endItem = Math.min(currentPage * pageSize, totalUsers);
+  // const startItem = currentPage;
+  // const endItem = Math.min(currentPage * pageSize, totalUsers);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -58,7 +58,12 @@ export function Skatistas({
 
   return (
     <Box width={"100%"}>
-      {/* Header with count and page size selector */}
+      <SimpleGrid columns={{ sm: 3, md: 4, lg: 5 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
+        {users.data.map(user => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </SimpleGrid>
+
       <Flex
         bg="gray.800"
         borderRadius={8}
@@ -72,13 +77,12 @@ export function Skatistas({
         <Flex alignItems="center">
           <Text fontSize="sm" fontWeight="semibold" display={"flex"} alignItems="center" justifyContent={"center"}>
             {isLoading ? (
-              <Flex alignItems="center">
+              <Text as="span" alignItems="center">
                 <Spinner size="xs" mr={2} />
                 Carregando...
-              </Flex>
+              </Text>
             ) : (
               <>
-                <Icon as={TbSkateboarding} fontSize="xl" mr="2" />
                 Skatistas encontrados:{" "}
                 <Text as="span" ml={1} fontWeight="bold">
                   {totalUsers}
@@ -106,14 +110,6 @@ export function Skatistas({
         </Flex>
       </Flex>
 
-      {/* Users Grid */}
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 4, lg: 4 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
-        {users.data.map(user => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </SimpleGrid>
-
-      {/* Pagination Controls */}
       {totalPages > 1 && (
         <Flex
           justifyContent="space-between"
@@ -135,7 +131,6 @@ export function Skatistas({
               isDisabled={currentPage === 1 || isLoading}
               leftIcon={<TbChevronLeft />}
               variant="ghost"
-              // colorScheme="blue"
               color="green.400"
             >
               Anterior
@@ -148,7 +143,6 @@ export function Skatistas({
                 onClick={() => onPageChange(pageNum + 1)}
                 isDisabled={isLoading}
                 variant={pageNum === currentPage - 1 ? "ghost" : "ghost"}
-                // colorScheme="blue"
                 color={pageNum === currentPage - 1 ? "green.400" : "green.700"}
               >
                 {pageNum + 1}
@@ -161,7 +155,6 @@ export function Skatistas({
               isDisabled={currentPage >= totalPages || isLoading}
               rightIcon={<TbChevronRight />}
               variant="ghost"
-              // colorScheme="green"
               color="green.400"
             >
               Próxima
