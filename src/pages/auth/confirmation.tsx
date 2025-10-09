@@ -63,6 +63,7 @@ export default function Confirmation() {
           route.push("/");
         }, 3000);
       } catch (error) {
+        console.error(error);
         addToast({
           title: "Erro de processamento",
           message: "Ocorreu um erro inesperado. Tente novamente.",
