@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
-import Link from "next/link";
 
 import { Button, Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
 
@@ -45,12 +45,9 @@ export function Header() {
 
         {/* Show login button for non-authenticated users */}
         {!isAuthenticated ? (
-          <>
-            <Button variant="ghost" colorScheme="green" as={Link} href="/login">
-              {/* <TbSkateboarding style={{ marginRight: "8px" }} size={20} /> */}
-              Faça seu login
-            </Button>
-          </>
+          <Button color="white" bg="green.400" as={Link} href="/login" variant='solid'>
+            Faça seu login
+          </Button>
         ) : (
           /* Show Profile for authenticated users */
           <Profile showProfileData={isVisible} />
