@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
+import Link from "next/link";
 
 import { Button, Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
 
@@ -14,7 +14,7 @@ import { Profile } from "./Profile";
 
 export function Header() {
   const { onOpen } = useSidebarDrawer();
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const isVisible = useBreakpointValue({
     base: false,
