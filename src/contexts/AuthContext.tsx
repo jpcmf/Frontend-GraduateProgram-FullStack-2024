@@ -72,6 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               signOut();
             });
         } catch (error) {
+          console.error(error)
           signOut();
         } finally {
           setIsLoading(false);
