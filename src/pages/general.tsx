@@ -1,11 +1,14 @@
-import { Layout } from "@/shared/components/Layout";
+import { Box, Divider, Flex, Heading } from '@chakra-ui/react';
 
-export default function GeneralPage() {
+export default function GeneralRegistrationPage() {
   return (
-    <Layout>
-      <div>
-        <h1>General Page</h1>
-      </div>
-    </Layout>
-  );
+    <Box flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]}>
+      <Flex mb="8" direction="column">
+        <Heading size="lg" fontWeight="normal">
+          Cadastro Geral
+        </Heading>
+        <Divider my="6" borderColor="gray.700" />
+      </Flex>
+    </Box>
+  )
 }
