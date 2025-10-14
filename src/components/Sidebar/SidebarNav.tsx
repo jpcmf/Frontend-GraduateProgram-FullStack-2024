@@ -1,19 +1,18 @@
-import {
-  RiContactsLine,
-  RiDashboardLine,
-  RiPictureInPictureLine
-} from "react-icons/ri";
+import { RiContactsLine, RiDashboardLine, RiPictureInPictureLine } from "react-icons/ri";
 import { TbSkateboard } from "react-icons/tb";
 
 import { Box, Stack } from "@chakra-ui/react";
+
+import { LogoSkateHub } from "../LogoSkateHub";
 
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 
 export function SidebarNav() {
   return (
-    <Box bg={"gray.800"} p="6" borderRadius={8}>
+    <Box bg={"gray.800"} p="6" borderRadius={0} h="full">
       <Stack spacing="12" align="flex-start">
+        <LogoSkateHub />
         <NavSection title="Geral">
           <NavLink
             icon={RiDashboardLine}
