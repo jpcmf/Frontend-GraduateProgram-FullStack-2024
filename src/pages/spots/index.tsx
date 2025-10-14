@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 
 export default function SpotsPage() {
   return (
@@ -10,5 +10,5 @@ export default function SpotsPage() {
         <Divider my="6" borderColor="gray.700" />
       </Flex>
     </Box>
-  )
+  );
 }
