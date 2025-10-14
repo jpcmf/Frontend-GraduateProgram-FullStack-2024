@@ -1,99 +1,107 @@
 import React from "react";
 import { FaHeart, FaReact } from "react-icons/fa";
 import { SiChakraui, SiNextdotjs } from "react-icons/si";
-import Image from "next/image";
 
-import { Box, Container, Divider, Flex, HStack, Icon, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading, HStack, Icon, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+
+import { LogoSkateHub } from "../LogoSkateHub";
 
 export function Footer() {
   return (
-    <Box as="footer">
-      <Container maxW="container" bg="blackAlpha.300" py={8}>
-        <Flex direction={{ base: "column" }} justify="center" align="center" gap={4}>
-          <Box>
-            <Image src="/skatehub.png" alt="Skatehub" width={60} height={60} />
-          </Box>
-          <Box textAlign="center" mt={2}>
-            <Text fontSize="sm" color="gray.700">
-              <Text as="span" fontWeight="bold">
-                2025 - skatehub.app
-              </Text>
-            </Text>
-            <HStack justify="center" align="center" spacing={2} mt={3}>
-              <Icon as={FaReact} boxSize={4} color="gray.600" />
-              <Text color="gray.400">+</Text>
-              <Icon as={SiNextdotjs} boxSize={4} color="gray.600" />
-              <Text color="gray.400">+</Text>
-              <Icon as={SiChakraui} boxSize={4} color="gray.600" />
+    <Box as="footer" bg="gray.800" pt={12} pb={6}>
+      <Container maxW="max-content">
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8}>
+          <VStack align="flex-start" spacing={3}>
+            <HStack spacing={2}>
+              <LogoSkateHub color="gray" />
             </HStack>
-          </Box>
-        </Flex>
-      </Container>
-      <Container maxW="container" bg="blackAlpha.400" py={8}>
-        <Flex direction={{ base: "column", md: "column-reverse" }} justify="center" align="center" gap={4}>
-          <Text fontSize="xs" color="gray.600">
-            Esse projeto foi criado e é mantido unicamente por{" "}
-            <Link href="https://jpcmf.dev" color="gray.500" fontWeight="semibold" isExternal>
-              jpcmf
-            </Link>{" "}
-            - sem fins lucrativos.
-          </Text>
-          <Box>
-            <Link
-              href="#"
-              display="inline-flex"
-              alignItems="center"
-              gap={2}
-              px={4}
-              py={2}
-              bg="gray.900"
-              color="red.500"
-              border="1px"
-              borderColor="red.500"
-              borderRadius="md"
-              fontWeight="semibold"
-              fontSize="xs"
-              _hover={{
-                bg: "red.50",
-                textDecoration: "none"
-              }}
-              transition="all 0.2s"
-            >
-              <Icon as={FaHeart} />
-              Quero contribuir
+            <Text fontSize="sm" color="gray.600">
+              Conectando skatistas de todo o mundo.
+            </Text>
+          </VStack>
+
+          <VStack align="flex-start" spacing={3}>
+            <Heading as="h4" size="sm" fontWeight="bold" mb={1}>
+              Navegação
+            </Heading>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Dashboard
             </Link>
-          </Box>
-        </Flex>
-      </Container>
-      <Container maxW="container" bg="blackAlpha.400" pb={2}>
-        <Flex alignItems="center" justifyContent="center" flexDirection="row">
-          <Text
-            _hover={{ textDecoration: "underline" }}
-            align="center"
-            as="a"
-            color="gray.600"
-            fontSize="xs"
-            fontWeight="medium"
-            href="#"
-            px={1}
-            textAlign="right"
-          >
-            Termos de uso
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Skatistas
+            </Link>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Spots
+            </Link>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Cadastro
+            </Link>
+          </VStack>
+
+          <VStack align="flex-start" spacing={3}>
+            <Heading as="h4" size="sm" fontWeight="bold" mb={1}>
+              Legal
+            </Heading>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Termos de Serviço
+            </Link>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Política de Privacidade
+            </Link>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+              Sobre Nós
+            </Link>
+          </VStack>
+
+          <VStack align="flex-start" spacing={3}>
+            <Heading as="h4" size="sm" fontWeight="bold" mb={1}>
+              Contribua
+            </Heading>
+            <Text fontSize="sm" color="gray.600">
+              Esse projeto foi criado e é mantido por{" "}
+              <Link href="https://jpcmf.dev" color="gray.500" fontWeight="semibold" isExternal>
+                jpcmf.dev
+              </Link>
+              . Sem fins lucrativos.
+            </Text>
+            <Button leftIcon={<FaHeart />} colorScheme="red" size="sm" fontWeight="semibold">
+              Quero contribuir
+            </Button>
+          </VStack>
+        </SimpleGrid>
+
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          justify="space-between"
+          align="center"
+          pt={6}
+          borderTop="1px"
+          borderColor="gray.700"
+          gap={4}
+        >
+          <Text fontSize="sm" color="gray.600" display="flex" alignItems="center" gap={1}>
+            © {new Date().getFullYear()} SkateHub. Todos os direitos reservados.
           </Text>
-          <Divider borderColor="gray.700" orientation="vertical" height="8px" mx="1" />
-          <Text
-            _hover={{ textDecoration: "underline" }}
-            align="center"
-            as="a"
-            color="gray.600"
-            fontSize="xs"
-            fontWeight="medium"
-            href="#"
-            px={1}
-            textAlign="left"
-          >
-            Política de privacidade
-          </Text>
+
+          <HStack spacing={2}>
+            <Icon as={FaReact} boxSize={5} color="gray.600" />
+            <Text color="gray.500">+</Text>
+            <Icon as={SiNextdotjs} boxSize={5} color="gray.600" />
+            <Text color="gray.500">+</Text>
+            <Icon as={SiChakraui} boxSize={5} color="gray.600" />
+          </HStack>
+          {/* <HStack spacing={4}>
+            <Image src="/skatehub.png" alt="Skatehub" width={20} height={20} />
+            <Link href="#" _hover={{ opacity: 0.7 }}>
+              <Icon as={FaGlobe} boxSize={5} color="gray.500" />
+            </Link>
+            <Link href="#" _hover={{ opacity: 0.7 }}>
+              <Icon as={FaInstagram} boxSize={5} color="gray.500" />
+            </Link>
+            <Link href="#" _hover={{ opacity: 0.7 }}>
+              <Icon as={FaGithub} boxSize={5} color="gray.500" />
+            </Link>
+          </HStack> */}
         </Flex>
       </Container>
     </Box>
