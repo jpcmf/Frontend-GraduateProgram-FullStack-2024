@@ -1,6 +1,14 @@
 import React from "react";
 
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay
+} from "@chakra-ui/react";
 
 type ReusableModalProps = {
   isOpen: boolean;
