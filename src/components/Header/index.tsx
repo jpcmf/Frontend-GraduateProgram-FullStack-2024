@@ -89,7 +89,7 @@ export function Header() {
           )}
         </Flex>
       </Flex>
-      <ReusableModal isOpen={isLoginModalOpen} onClose={handleClose} title="Login" size="6xl">
+      <ReusableModal isOpen={isLoginModalOpen} onClose={handleClose} size="6xl">
         <LoginModal />
       </ReusableModal>
     </>
