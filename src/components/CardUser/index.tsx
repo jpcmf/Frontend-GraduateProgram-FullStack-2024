@@ -1,6 +1,7 @@
 import { FaGlobe, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
 
-import { Avatar, Box, Button, HStack, Icon, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Avatar as ChakraAvatar, Box, Button, HStack, Icon, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import Avatar from "boring-avatars";
 
 import type { UserBasics } from "@/types/usersBasics.type";
 
@@ -47,11 +48,11 @@ export function UserCard({ user }: { user: UserBasics }) {
       textAlign="center"
     >
       <VStack spacing={4}>
-        <Avatar
-          size="xl"
-          src={user?.avatar ? user.avatar.formats.thumbnail.url : "https://placehold.co/96x96/png"}
-          name={user.name}
-        />
+        {user?.avatar ? (
+          <ChakraAvatar size="xl" src={user.avatar.formats.thumbnail.url} name={user.name} />
+        ) : (
+          <Avatar name={user.name} variant="beam" size={96} />
+        )}
 
         <Text fontSize="xl" fontWeight="semibold" color="gray.700">
           {user.name}
