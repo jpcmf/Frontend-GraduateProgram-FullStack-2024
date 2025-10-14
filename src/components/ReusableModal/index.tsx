@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay
-} from "@chakra-ui/react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 
 type ReusableModalProps = {
   isOpen: boolean;
@@ -18,13 +12,12 @@ type ReusableModalProps = {
   isCentered?: boolean;
 };
 
-// Reusable Modal Component
 export const ReusableModal = ({
   isOpen,
   onClose,
-  // title,
+  title,
   children,
-  // footerContent,
+  footerContent,
   size = "md",
   isCentered = true
 }: ReusableModalProps) => {
@@ -34,8 +27,10 @@ export const ReusableModal = ({
     <Modal isCentered={isCentered} isOpen={isOpen} onClose={onClose} size={size}>
       <OverlayOne />
       <ModalContent>
+        {title && <ModalHeader>{title}</ModalHeader>}
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
+        {footerContent && <ModalFooter>{footerContent}</ModalFooter>}
       </ModalContent>
     </Modal>
   );
