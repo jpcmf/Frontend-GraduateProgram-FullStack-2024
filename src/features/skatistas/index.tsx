@@ -1,6 +1,6 @@
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
-import { Box, Button, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 
 import { UserCard } from "@/components/CardUser";
 import type { UserBasicsWithPagination } from "@/types/usersBasics.type";
@@ -67,15 +67,15 @@ export function Skatistas({
       <Flex
         bg="gray.800"
         borderRadius={8}
-        mb="4"
+        mb="8"
         p={["2", "4"]}
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="start"
         flexDirection={["column", "row"]}
         gap={2}
       >
         <Flex alignItems="center">
-          <Text fontSize="sm" fontWeight="semibold" display={"flex"} alignItems="center" justifyContent={"center"}>
+          <Text fontSize="sm" fontWeight="normal" display={"flex"} alignItems="center" justifyContent={"center"}>
             {isLoading ? (
               <Text as="span" alignItems="center">
                 <Spinner size="xs" mr={2} />
@@ -92,15 +92,16 @@ export function Skatistas({
           </Text>
         </Flex>
 
+        <Divider borderColor="gray.700" orientation="vertical" height="8px" mx="1" />
+
         <Flex alignItems="center" gap={2}>
           <Text fontSize="sm">Itens por página:</Text>
           <Select
-            size="sm"
+            size="xs"
             width="auto"
             value={pageSize}
             onChange={e => onPageSizeChange(Number(e.target.value))}
-            bg="gray.700"
-            borderColor="gray.600"
+            variant="flushed"
           >
             <option value={5}>5</option>
             <option value={10}>10</option>
@@ -108,60 +109,48 @@ export function Skatistas({
             <option value={50}>50</option>
           </Select>
         </Flex>
-      </Flex>
 
-      {totalPages > 1 && (
-        <Flex
-          justifyContent="space-between"
-          alignItems="center"
-          bg="gray.800"
-          borderRadius={8}
-          p={4}
-          flexDirection={["column", "row"]}
-          gap={4}
-        >
-          <Text fontSize="sm" color="gray.400">
-            Página {currentPage} de {totalPages}
-          </Text>
-
-          <HStack spacing={2}>
-            <Button
-              size="xs"
-              onClick={handlePreviousPage}
-              isDisabled={currentPage === 1 || isLoading}
-              leftIcon={<TbChevronLeft />}
-              variant="ghost"
-              color="green.400"
-            >
-              Anterior
-            </Button>
-
-            {generatePageNumbers().map(pageNum => (
+        {totalPages > 1 && (
+          <>
+            <HStack spacing={2} marginLeft="auto">
               <Button
-                key={pageNum}
                 size="xs"
-                onClick={() => onPageChange(pageNum + 1)}
-                isDisabled={isLoading}
-                variant={pageNum === currentPage - 1 ? "ghost" : "ghost"}
-                color={pageNum === currentPage - 1 ? "green.400" : "green.700"}
+                onClick={handlePreviousPage}
+                isDisabled={currentPage === 1 || isLoading}
+                leftIcon={<TbChevronLeft />}
+                variant="ghost"
+                color="green.400"
               >
-                {pageNum + 1}
+                Anterior
               </Button>
-            ))}
 
-            <Button
-              size="xs"
-              onClick={handleNextPage}
-              isDisabled={currentPage >= totalPages || isLoading}
-              rightIcon={<TbChevronRight />}
-              variant="ghost"
-              color="green.400"
-            >
-              Próxima
-            </Button>
-          </HStack>
-        </Flex>
-      )}
+              {generatePageNumbers().map(pageNum => (
+                <Button
+                  key={pageNum}
+                  size="xs"
+                  onClick={() => onPageChange(pageNum + 1)}
+                  isDisabled={isLoading}
+                  variant={pageNum === currentPage - 1 ? "ghost" : "ghost"}
+                  color={pageNum === currentPage - 1 ? "green.400" : "green.700"}
+                >
+                  {pageNum + 1}
+                </Button>
+              ))}
+
+              <Button
+                size="xs"
+                onClick={handleNextPage}
+                isDisabled={currentPage >= totalPages || isLoading}
+                rightIcon={<TbChevronRight />}
+                variant="ghost"
+                color="green.400"
+              >
+                Próxima
+              </Button>
+            </HStack>
+          </>
+        )}
+      </Flex>
     </Box>
   );
 }
