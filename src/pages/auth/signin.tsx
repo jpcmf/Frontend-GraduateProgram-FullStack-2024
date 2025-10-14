@@ -27,13 +27,6 @@ import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSc
 import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
 
-// const signInFormSchema = z.object({
-//   email: z.string().email({ message: "E-mail deve ser um e-mail válido." }).min(1, { message: "Campo obrigatório." }),
-//   password: z.string().min(1, { message: "Campo obrigatório." })
-// });
-
-// type SignInFormSchema = z.infer<typeof signInFormSchema>;
-
 export default function SignIn() {
   const router = useRouter();
   const { signIn } = useContext(AuthContext);
@@ -108,12 +101,6 @@ export default function SignIn() {
     router.back();
   };
 
-  // const handleSignIn2 = () => {
-  //   // Handle sign in logic here
-  //   console.log('Sign in clicked')
-  //   router.push('/')
-  // }
-
   return (
     <>
       <Head>
@@ -124,20 +111,8 @@ export default function SignIn() {
         isOpen={true}
         onClose={handleClose}
         size="6xl"
-      // footerContent={
-      //   <>
-      //     <Button variant='ghost' mr={3} onClick={handleClose}>
-      //       Cancel
-      //     </Button>
-      //     <Button colorScheme='blue' onClick={handleSignIn2}>
-      //       Sign In
-      //     </Button>
-      //   </>
-      // }
       >
         <Flex
-          // w={["100dvw"]}
-          // h={["100dvh"]}
           alignItems="center"
           justifyContent="center"
           flexDirection="column"
