@@ -1,6 +1,7 @@
 import { TbSkateboard } from "react-icons/tb";
 
-import { Avatar, Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
+import Avatar from "boring-avatars";
 
 export function SkateHubStories() {
   const stories = [
@@ -67,7 +68,7 @@ export function SkateHubStories() {
   ];
 
   const handleAddStory = (name: string) => {
-    alert(`Add story for ${name}`);
+    alert(`Story for ${name}`);
   };
 
   return (
@@ -116,7 +117,8 @@ export function SkateHubStories() {
                     transform: "rotate(-6deg)"
                   }}
                 >
-                  <Avatar size="xl" src={story.image} name={story.name} border="none" />
+                  {/* <ChakraAvatar size="xl" src={story.image} name={story.name} border="none" /> */}
+                  <Avatar name={story.name} variant="beam" size={96} />
                 </Link>
               </Box>
 
