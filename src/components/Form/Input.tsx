@@ -6,7 +6,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Input as ChakraInput,
-  InputProps as ChakraInputProps} from "@chakra-ui/react";
+  InputProps as ChakraInputProps
+} from "@chakra-ui/react";
 
 interface InputProps extends ChakraInputProps {
   label?: string;
