@@ -52,7 +52,7 @@ export default function SignIn() {
       const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
       await signIn(newValues)
-        .then(_ => { })
+        .then(_ => {})
         .catch(error => {
           recaptchaRef.current?.reset();
           setIsVerified(false);
@@ -107,11 +107,7 @@ export default function SignIn() {
         <title>Login - SkateHub</title>
       </Head>
 
-      <ReusableModal
-        isOpen={true}
-        onClose={handleClose}
-        size="6xl"
-      >
+      <ReusableModal isOpen={true} onClose={handleClose} size="6xl">
         <Flex
           alignItems="center"
           justifyContent="center"
