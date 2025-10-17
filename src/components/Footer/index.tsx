@@ -10,8 +10,8 @@ export function Footer() {
   return (
     <Box as="footer" bg="gray.800" pt={12} pb={6}>
       <Container maxW="max-content" px={6}>
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8} >
-          <VStack align="flex-start" spacing={3} >
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8}>
+          <VStack align="flex-start" spacing={3}>
             <HStack spacing={2}>
               <LogoSkateHub color="gray" />
             </HStack>
