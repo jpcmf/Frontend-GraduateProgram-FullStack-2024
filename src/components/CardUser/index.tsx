@@ -88,8 +88,7 @@ export function UserCard({ user }: { user: UserBasics }) {
           borderRadius="md"
           onClick={handleContact}
           _hover={{
-            transform: "translateY(-2px)",
-            shadow: "lg"
+            transform: "translateY(-2px)"
           }}
           transition="all 0.2s"
           fontSize="xs"
