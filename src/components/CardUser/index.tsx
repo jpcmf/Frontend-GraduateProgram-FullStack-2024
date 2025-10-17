@@ -36,7 +36,6 @@ export function UserCard({ user }: { user: UserBasics }) {
       borderColor={borderColor}
       borderRadius="xl"
       p={4}
-      shadow="lg"
       maxW="sm"
       w="full"
       textAlign="center"
