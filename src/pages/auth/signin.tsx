@@ -3,24 +3,24 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import Head from "next/head";
-import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 import {
   Box,
   Button,
+  Divider,
   Flex,
   IconButton,
   InputGroup,
   InputRightElement,
   Link as ChakraLink,
+  Link,
   Stack,
   Text
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { LogoSkateHub } from "@/components/LogoSkateHub";
-import { ReusableModal } from "@/components/ReusableModal";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
@@ -97,121 +97,124 @@ export default function SignIn() {
     }
   };
 
-  const handleClose = () => {
-    router.back();
-  };
-
   return (
     <>
       <Head>
         <title>Login - SkateHub</title>
       </Head>
-
-      <ReusableModal isOpen={true} onClose={handleClose} size="6xl">
+      <Flex
+        alignItems="center"
+        backgroundBlendMode="overlay"
+        backgroundImage="../alexander-londono-unsplash.jpeg"
+        backgroundPosition="initial"
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
+        bg="gray.900"
+        flexDirection="column"
+        height="100%"
+        justifyContent="center"
+        mb={8}
+        px={["4", "0"]}
+        py={8}
+        width="100%"
+      >
         <Flex
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-          bg="gray.900"
-          backgroundSize="cover"
-          backgroundRepeat="no-repeat"
-          backgroundBlendMode="overlay"
-          backgroundPosition="center bottom"
-          backgroundImage="../alexander-londono-unsplash.jpeg"
-          px={["4", "0"]}
+          as="form"
+          w="100%"
+          maxWidth={480}
+          bg="gray.800"
+          p="8"
+          borderRadius={8}
+          flexDir="column"
+          onSubmit={handleSubmit(handleSignIn)}
         >
-          <Flex
-            as="form"
-            w="100%"
-            maxWidth={480}
-            bg="gray.800"
-            p="8"
-            borderRadius={8}
-            flexDir="column"
-            onSubmit={handleSubmit(handleSignIn)}
-          >
-            <Stack spacing={4}>
-              <Flex justifyContent="center" mb="4">
-                <Link href="/">
-                  <LogoSkateHub />
-                </Link>
-              </Flex>
-              <Flex flexDir="column">
-                <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
-              </Flex>
-              <Flex flexDir="column">
-                <InputGroup>
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    label="Senha"
-                    {...register("password")}
-                    error={errors.password}
-                  />
-                  <InputRightElement top={["8", "9"]} right="-2">
-                    <IconButton
-                      icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                      variant="unstyled"
-                      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                      onClick={() => setShowPassword(!showPassword)}
-                      size="lg"
-                      color="gray.600"
-                    />
-                  </InputRightElement>
-                </InputGroup>
-              </Flex>
-              <Flex flexDir="column">
-                <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                  <Text fontSize="smaller" align="left">
-                    Se precisar de ajuda, entre em{" "}
-                    <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
-                      contato conosco
-                    </Text>
-                    .
-                  </Text>
-                </Box>
-              </Flex>
+          <Stack spacing={4}>
+            <Flex alignItems="center">
+              <Link href="/">
+                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
+              </Link>
+              <Text as="h1" fontSize="2xl" fontWeight="semibold">
+                Faça seu login
+              </Text>
+            </Flex>
+            <Divider borderColor="gray.900" />
 
-              <Flex flexDir="column" alignItems="center">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                  onChange={onVerify}
-                  size="normal"
-                  hl="pt-BR"
-                  badge="inline"
-                  id="recaptcha"
+            <Flex flexDir="column">
+              <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
+            </Flex>
+            <Flex flexDir="column">
+              <InputGroup>
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  label="Senha"
+                  {...register("password")}
+                  error={errors.password}
                 />
-                {isVerifiedError && (
-                  <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
-                    Please verify that you are not a robot.
-                  </Text>
-                )}
-              </Flex>
-            </Stack>
-            <Button
-              type="submit"
-              mt="6"
-              colorScheme="green"
-              fontWeight="bold"
-              size={["md", "lg"]}
-              isLoading={isSubmitting}
-            >
-              Entrar
-            </Button>
-            <ChakraLink
-              onClick={() => router.push("/auth/forgot-password")}
-              color="gray.600"
-              mt="4"
-              textAlign="center"
-              textDecoration="underline"
-              fontWeight="medium"
-            >
-              Esqueci minha senha
-            </ChakraLink>
+                <InputRightElement top={["8", "9"]} right="-2">
+                  <IconButton
+                    icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                    variant="unstyled"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    onClick={() => setShowPassword(!showPassword)}
+                    size="lg"
+                    color="gray.600"
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </Flex>
+
+            <Flex flexDir="column" alignItems="center">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                onChange={onVerify}
+                size="normal"
+                hl="pt-BR"
+                badge="inline"
+                id="recaptcha"
+              />
+              {isVerifiedError && (
+                <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
+                  Please verify that you are not a robot.
+                </Text>
+              )}
+            </Flex>
+          </Stack>
+          <Button
+            type="submit"
+            mt="6"
+            colorScheme="green"
+            fontWeight="bold"
+            size={["md", "lg"]}
+            isLoading={isSubmitting}
+          >
+            Entrar
+          </Button>
+          <ChakraLink
+            onClick={() => router.push("/auth/forgot-password")}
+            color="gray.600"
+            mt="4"
+            textAlign="center"
+            textDecoration="underline"
+            fontWeight="medium"
+          >
+            Esqueci minha senha
+          </ChakraLink>
+
+          <Flex flexDir="column" mt={4}>
+            <Box border="1px solid" borderColor="gray.900" borderRadius="md" p="1">
+              <Text fontSize="smaller" align="center" color="gray.600">
+                Se precisar de ajuda, entre em{" "}
+                <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
+                  contato conosco
+                </Text>
+                .
+              </Text>
+            </Box>
           </Flex>
         </Flex>
-      </ReusableModal>
+      </Flex>
     </>
   );
 }
