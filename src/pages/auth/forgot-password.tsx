@@ -88,8 +88,8 @@ export default function ForgotPassword() {
         <title>Esqueci minha senha - SkateHub</title>
       </Head>
       <Flex
-        w={["100dvw"]}
-        h={["100dvh"]}
+        width="100%"
+        height="100%"
         alignItems="center"
         justifyContent="center"
         flexDirection="column"
@@ -97,9 +97,11 @@ export default function ForgotPassword() {
         backgroundSize="cover"
         backgroundRepeat="no-repeat"
         backgroundBlendMode="overlay"
-        backgroundPosition="center bottom"
+        backgroundPosition="initial"
         backgroundImage="../alexander-londono-unsplash.jpeg"
         px={["4", "0"]}
+        py={8}
+        mb={8}
       >
         <Flex
           as="form"
