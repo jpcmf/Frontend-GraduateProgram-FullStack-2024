@@ -28,9 +28,9 @@ const signUpSchema = z
         message: "Usuário não pode ser um e-mail."
       }),
     email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
-    city: z.string().optional(),
-    uf: z.string().optional(),
-    country: z.string().optional(),
+    city: z.string().nonempty("Campo obrigatório."),
+    uf: z.string().nonempty("Campo obrigatório."),
+    country: z.string().nonempty("Campo obrigatório."),
     password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
     confirmPassword: z.string().nonempty("Campo obrigatório.")
   })
