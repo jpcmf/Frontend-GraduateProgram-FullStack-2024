@@ -49,11 +49,10 @@ type SignUpSchema = z.infer<typeof signUpSchema>;
 export default function SignUp() {
   const route = useRouter();
   const { addToast } = Toast();
-  const [isVerified, setIsVerified] = useState(false);
-  const [isVerifiedError, setIsVerifiedError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
   const {
     handleSubmit,
@@ -66,77 +65,65 @@ export default function SignUp() {
     mode: "onChange"
   });
 
-  const onFinish: SubmitHandler<SignUpSchema> = async values => {
-    if (!isVerified) {
-      setIsVerifiedError(true);
-      console.log("Please verify the reCAPTCHA.");
-      return;
-    }
+  const handleSignUp: SubmitHandler<SignUpSchema> = async values => {
+    if (recaptchaRef.current) {
+      try {
+        setIsExecutingRecaptcha(true);
+        // for v2 invisible, use executeAsync(). For v3, use execute()
+        const recaptchaValue =
+          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
+        const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
-    console.log("values", values);
+        const response = await fetch(`${API}/api/auth/local/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(newValues)
+        });
 
-    try {
-      const recaptchaValue = recaptchaRef.current?.getValue();
+        const data = await response.json();
 
-      const response = await fetch(`${API}/api/auth/local/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ...values, recaptcha: recaptchaValue })
-      });
+        if (data.error) {
+          recaptchaRef.current?.reset();
+          reset();
+          setIsExecutingRecaptcha(false);
+          throw data.error;
+        } else {
+          addToast({
+            title: "Cadastro efetuado com sucesso.",
+            message:
+              "Você receberá um e-mail para confirmar o seu endereço de e-mail. Por favor, verifique sua caixa de entrada.",
+            type: "success"
+          });
 
-      const data = await response.json();
+          setTimeout(() => {
+            route.push("/");
+          }, 3000);
+        }
+      } catch (error: any) {
+        if (error.status === 400) {
+          addToast({
+            title: "Usuário já cadastrado.",
+            message:
+              "Este usuário já está registrado em nosso sistema. Por favor, faça login ou recupere sua senha, se necessário.",
+            type: "error"
+          });
+        } else {
+          addToast({
+            title: "Erro ao processar solicitação.",
+            message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
+            type: "error"
+          });
+        }
 
-      console.log("data", data);
-
-      if (data.error) {
         recaptchaRef.current?.reset();
         reset();
-        setIsVerified(false);
-        throw data.error;
-      } else {
-        addToast({
-          title: "Cadastro efetuado com sucesso.",
-          message:
-            "Você receberá um e-mail para confirmar o seu endereço de e-mail. Por favor, verifique sua caixa de entrada.",
-          type: "success"
-        });
-
-        setTimeout(() => {
-          route.push("/");
-        }, 3000);
+        setIsExecutingRecaptcha(false);
       }
-    } catch (error: any) {
-      if (error.status === 400) {
-        addToast({
-          title: "Usuário já cadastrado.",
-          message:
-            "Este usuário já está registrado em nosso sistema. Por favor, faça login ou recupere sua senha, se necessário.",
-          type: "error"
-        });
-      } else {
-        addToast({
-          title: "Erro ao processar solicitação.",
-          message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
-          type: "error"
-        });
-      }
-
-      recaptchaRef.current?.reset();
-      reset();
-      setIsVerified(false);
     }
-  };
+  }
 
-  const onVerify = (token: string | null) => {
-    if (!token) return;
-
-    if (token) {
-      setIsVerified(true);
-      setIsVerifiedError(false);
-    }
-  };
 
   return (
     <>
@@ -144,28 +131,21 @@ export default function SignUp() {
         <title>Cadastrar - SkateHub</title>
       </Head>
       <Flex
-        w={[null, "100dvw"]}
-        h={[null, "100dvh"]}
-        bg="gray.900"
         alignItems="center"
+        bg="gray.900"
+        height="100%"
         justifyContent="center"
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        backgroundBlendMode="overlay"
-        backgroundPosition="center bottom"
-        backgroundImage="../alexander-londono-unsplash.jpeg"
-        px={["4", "0"]}
-        py={["4", "0"]}
+        mb={8}
+        width="100%"
       >
         <Flex
           as="form"
           w="100%"
-          maxWidth={720}
           bg="gray.800"
           p="8"
           borderRadius={8}
           flexDir="column"
-          onSubmit={handleSubmit(onFinish)}
+          onSubmit={handleSubmit(handleSignUp)}
         >
           <Stack spacing={4}>
             <Flex alignItems="center">
@@ -188,7 +168,7 @@ export default function SignUp() {
                 error={errors.name}
               />
             </Flex>
-            <Flex flexDir={["column", null, "column"]} gap="4">
+            <Flex flexDir={["column", null, "row"]} gap="4">
               <Input
                 id="username"
                 type="text"
@@ -274,43 +254,40 @@ export default function SignUp() {
                 </InputRightElement>
               </InputGroup>
             </Flex>
-            <Flex flexDir="column">
-              <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                <Text fontSize="smaller" align="left" display="flex" color="gray.500">
-                  <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
-                  Verifique sua caixa de entrada para o e-mail de confirmação.
-                  {/* Assim que seu cadastro for aprovado, você receberá um e-mail de confirmação para realizar o login na plataforma e preencher seu cadastro completo. */}
-                </Text>
-              </Box>
-            </Flex>
             <Flex flexDir="column" alignItems="center">
               <ReCAPTCHA
                 ref={recaptchaRef}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                onChange={onVerify}
-                size="normal"
+                size="invisible"
                 hl="pt-BR"
-                badge="inline"
+                badge="bottomright"
                 id="recaptcha"
+                onLoad={() => console.log("reCAPTCHA loaded")}
+                onError={error => console.error("reCAPTCHA error:", error)}
               />
-              {isVerifiedError && (
-                <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
-                  Please verify that you are not a robot.
-                </Text>
-              )}
             </Flex>
           </Stack>
-          <Button
-            type="submit"
-            mt="6"
-            colorScheme="green"
-            fontWeight="bold"
-            size={["md", "lg"]}
-            isLoading={isSubmitting}
-            loadingText="Cadastrando..."
-          >
-            Cadastrar
-          </Button>
+
+          <Flex flexDir={["column", null, "row"]} alignItems="end" mt={8}>
+            <Button
+              type="submit"
+              colorScheme="green"
+              fontWeight="bold"
+              size={["md", "lg"]}
+              isLoading={isSubmitting || isExecutingRecaptcha}
+              loadingText={isExecutingRecaptcha ? "Cadastrando..." : "Finalizando..."}
+              w={["100%", null, "3xs"]}
+              mr='auto'
+            >
+              Cadastrar
+            </Button>
+            <Box mt={[4, null, 0]} textAlign="center">
+              <Text fontSize="smaller" display="flex" justifyContent="center" color="gray.600">
+                <RiAlertLine size={16} style={{ marginRight: "0.3rem", flexShrink: "0" }} />
+                Verifique sua caixa de entrada para o e-mail de confirmação.
+              </Text>
+            </Box>
+          </Flex>
         </Flex>
       </Flex>
     </>
