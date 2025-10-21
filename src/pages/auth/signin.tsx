@@ -2,6 +2,7 @@ import { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -14,7 +15,6 @@ import {
   IconButton,
   InputGroup,
   InputRightElement,
-  Link as ChakraLink,
   Link,
   Stack,
   Text
@@ -31,10 +31,9 @@ export default function SignIn() {
   const router = useRouter();
   const { signIn } = useContext(AuthContext);
   const { addToast } = Toast();
-  const [isVerified, setIsVerified] = useState(false);
-  const [isVerifiedError, setIsVerifiedError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
   const {
     handleSubmit,
@@ -47,55 +46,113 @@ export default function SignIn() {
   });
 
   const handleSignIn: SubmitHandler<SignInFormSchema> = async values => {
-    if (isVerified) {
-      const recaptchaValue = recaptchaRef.current?.getValue();
-      const newValues = { ...values, recaptcha: recaptchaValue || undefined };
+    if (recaptchaRef.current) {
+      try {
+        setIsExecutingRecaptcha(true);
+        // for v2 invisible, use executeAsync(). For v3, use execute()
+        const recaptchaValue =
+          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
+        const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
-      await signIn(newValues)
-        .then(_ => {})
-        .catch(error => {
-          recaptchaRef.current?.reset();
-          setIsVerified(false);
+        await signIn(newValues)
+          .then(_ => {
+            recaptchaRef.current?.reset();
+          })
+          .catch(error => {
+            recaptchaRef.current?.reset();
 
-          switch (error.response.data.error?.message) {
-            case "Your account email is not confirmed":
-              addToast({
-                title: "Erro de autenticação.",
-                message: "Confirme seu e-mail para acessar a plataforma.",
-                type: "warning"
-              });
-              break;
-            case "Your account has been blocked by an administrator":
-              addToast({
-                title: "Erro de autenticação.",
-                message:
-                  "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
-                type: "error"
-              });
-              break;
-            default:
-              addToast({
-                title: "Erro de autenticação.",
-                message: "Verifique seus dados de login e tente novamente.",
-                type: "error"
-              });
-              break;
-          }
+            switch (error.response.data.error?.message) {
+              case "Your account email is not confirmed":
+                addToast({
+                  title: "Erro de autenticação.",
+                  message: "Confirme seu e-mail para acessar a plataforma.",
+                  type: "warning"
+                });
+                break;
+              case "Your account has been blocked by an administrator":
+                addToast({
+                  title: "Erro de autenticação.",
+                  message:
+                    "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+                  type: "error"
+                });
+                break;
+              default:
+                addToast({
+                  title: "Erro de autenticação.",
+                  message: "Verifique seus dados de login e tente novamente.",
+                  type: "error"
+                });
+                break;
+            }
+          });
+      } catch (error) {
+        console.error("reCAPTCHA execution failed:", error);
+        addToast({
+          title: "Erro de verificação.",
+          message: "Falha na verificação de segurança. Tente novamente.",
+          type: "error"
         });
+      } finally {
+        setIsExecutingRecaptcha(false);
+      }
     } else {
-      setIsVerifiedError(true);
-      console.log("Please verify the reCAPTCHA.");
+      addToast({
+        title: "Erro de verificação.",
+        message: "Sistema de verificação não está disponível.",
+        type: "error"
+      });
     }
   };
+  //   if (isVerified) {
+  //     const recaptchaValue = recaptchaRef.current?.getValue();
+  //     const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
-  const onVerify = (token: string | null) => {
-    if (!token) return;
+  //     await signIn(newValues)
+  //       .then(_ => { })
+  //       .catch(error => {
+  //         recaptchaRef.current?.reset();
+  //         setIsVerified(false);
 
-    if (token) {
-      setIsVerified(true);
-      setIsVerifiedError(false);
-    }
-  };
+  //         switch (error.response.data.error?.message) {
+  //           case "Your account email is not confirmed":
+  //             addToast({
+  //               title: "Erro de autenticação.",
+  //               message: "Confirme seu e-mail para acessar a plataforma.",
+  //               type: "warning"
+  //             });
+  //             break;
+  //           case "Your account has been blocked by an administrator":
+  //             addToast({
+  //               title: "Erro de autenticação.",
+  //               message:
+  //                 "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+  //               type: "error"
+  //             });
+  //             break;
+  //           default:
+  //             addToast({
+  //               title: "Erro de autenticação.",
+  //               message: "Verifique seus dados de login e tente novamente.",
+  //               type: "error"
+  //             });
+  //             break;
+  //         }
+  //       });
+  //   } else {
+  //     setIsVerifiedError(true);
+  //     console.log("Please verify the reCAPTCHA.");
+  //   }
+  // };
+
+  // const onVerify = (token: string | null) => {
+  //   if (!token) return;
+
+  //   if (token) {
+  //     setIsVerified(true);
+  //     setIsVerifiedError(false);
+  //   }
+  // };
 
   return (
     <>
@@ -104,24 +161,16 @@ export default function SignIn() {
       </Head>
       <Flex
         alignItems="center"
-        backgroundBlendMode="overlay"
-        backgroundImage="../alexander-londono-unsplash.jpeg"
-        backgroundPosition="initial"
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
         bg="gray.900"
         flexDirection="column"
         height="100%"
-        justifyContent="center"
+        justifyContent="start"
         mb={8}
-        px={["4", "0"]}
-        py={8}
         width="100%"
       >
         <Flex
           as="form"
           w="100%"
-          maxWidth={480}
           bg="gray.800"
           p="8"
           borderRadius={8}
@@ -138,11 +187,8 @@ export default function SignIn() {
               </Text>
             </Flex>
             <Divider borderColor="gray.900" />
-
-            <Flex flexDir="column">
+            <Flex flexDir={["column", null, "row"]} gap={4}>
               <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
-            </Flex>
-            <Flex flexDir="column">
               <InputGroup>
                 <Input
                   id="password"
@@ -163,58 +209,64 @@ export default function SignIn() {
                 </InputRightElement>
               </InputGroup>
             </Flex>
-
-            <Flex flexDir="column" alignItems="center">
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                onChange={onVerify}
-                size="normal"
-                hl="pt-BR"
-                badge="inline"
-                id="recaptcha"
-              />
-              {isVerifiedError && (
-                <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
-                  Please verify that you are not a robot.
-                </Text>
-              )}
-            </Flex>
           </Stack>
-          <Button
-            type="submit"
-            mt="6"
-            colorScheme="green"
-            fontWeight="bold"
-            size={["md", "lg"]}
-            isLoading={isSubmitting}
-          >
-            Entrar
-          </Button>
-          <ChakraLink
-            onClick={() => router.push("/auth/forgot-password")}
-            color="gray.600"
-            mt="4"
-            textAlign="center"
-            textDecoration="underline"
-            fontWeight="medium"
-          >
-            Esqueci minha senha
-          </ChakraLink>
 
-          <Flex flexDir="column" mt={4}>
-            <Box border="1px solid" borderColor="gray.900" borderRadius="md" p="1">
-              <Text fontSize="smaller" align="center" color="gray.600">
-                Se precisar de ajuda, entre em{" "}
-                <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
-                  contato conosco
-                </Text>
-                .
+          <Flex flexDir={["column", null, "column"]} alignItems="end">
+            <Flex w="100%" flexDir={["column", null, "row"]} mr="auto" alignItems="end">
+              <Button
+                type="submit"
+                mt="6"
+                colorScheme="green"
+                fontWeight="bold"
+                size={["md", "lg"]}
+                isLoading={isSubmitting || isExecutingRecaptcha}
+                loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
+                w={["100%", null, "3xs"]}
+              >
+                Entrar
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                mt="6"
+                color="gray.600"
+                fontWeight="medium"
+                size={["md", "lg"]}
+                ml={8}
+                onClick={() => router.push("/auth/forgot-password")}
+              >
+                Esqueci minha senha
+              </Button>
+            </Flex>
+            <Box mt={[4, null, 4]} textAlign="center">
+              <Text
+                as="a"
+                href="#"
+                _hover={{
+                  textDecoration: "underline"
+                }}
+                fontSize="smaller"
+                display="flex"
+                justifyContent="center"
+                color="gray.600"
+              >
+                <RiAlertLine size={16} style={{ marginRight: "0.3rem", flexShrink: "0" }} />
+                Se precisar de ajuda, entre em contato conosco.
               </Text>
             </Box>
           </Flex>
         </Flex>
       </Flex>
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+        size="invisible"
+        hl="pt-BR"
+        badge="bottomright"
+        id="recaptcha"
+        onLoad={() => console.log("reCAPTCHA loaded")}
+        onError={error => console.error("reCAPTCHA error:", error)}
+      />
     </>
   );
 }
