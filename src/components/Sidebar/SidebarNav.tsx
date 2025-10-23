@@ -11,7 +11,7 @@ import { NavSection } from "./NavSection";
 export function SidebarNav() {
   return (
     <Box bg={"gray.800"} p="6" borderRadius={0} h="full">
-      <Stack spacing="12" align="flex-start">
+      <Stack spacing="8" align="flex-start">
         <LogoSkateHub />
         <NavSection title="Geral">
           <NavLink
