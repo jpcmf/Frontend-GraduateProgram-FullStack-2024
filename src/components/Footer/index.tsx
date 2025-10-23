@@ -62,7 +62,7 @@ export function Footer() {
               <Link href="https://jpcmf.dev" color="gray.500" fontWeight="semibold" isExternal>
                 jpcmf.dev
               </Link>
-              . Sem fins lucrativos.
+              .
             </Text>
             <Button leftIcon={<FaHeart />} colorScheme="red" size="sm" fontWeight="semibold">
               Quero contribuir
