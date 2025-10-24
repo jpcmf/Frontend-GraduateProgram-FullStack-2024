@@ -112,14 +112,17 @@ export function Skatistas({
 
         {totalPages > 1 && (
           <>
-            <HStack spacing={2} marginLeft="auto">
+            <HStack spacing={2} marginLeft={[0, "auto"]} mt={[2, 0]}>
               <Button
                 size="xs"
                 onClick={handlePreviousPage}
                 isDisabled={currentPage === 1 || isLoading}
-                leftIcon={<TbChevronLeft />}
+                leftIcon={<TbChevronLeft size={16} />}
                 variant="ghost"
                 color="green.400"
+                _hover={{
+                  background: 'transparent'
+                }}
               >
                 Anterior
               </Button>
@@ -141,9 +144,12 @@ export function Skatistas({
                 size="xs"
                 onClick={handleNextPage}
                 isDisabled={currentPage >= totalPages || isLoading}
-                rightIcon={<TbChevronRight />}
+                rightIcon={<TbChevronRight size={16} />}
                 variant="ghost"
                 color="green.400"
+                _hover={{
+                  background: 'transparent'
+                }}
               >
                 Próxima
               </Button>
