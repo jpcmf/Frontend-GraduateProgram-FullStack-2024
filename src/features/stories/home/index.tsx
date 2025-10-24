@@ -1,7 +1,6 @@
-
 import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 
-import { StoriesSwiper } from '@/components/StoriesSwiper';
+import { StoriesSwiper } from "@/components/StoriesSwiper";
 
 export function StoriesHome() {
   return (
