@@ -3,7 +3,7 @@ import { TbSkateboard } from "react-icons/tb";
 import { Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
 import Avatar from "boring-avatars";
 
-export function SkateHubStories() {
+export function StoriesSwiper() {
   const stories = [
     {
       id: 1,
