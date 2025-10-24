@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 import { Skatistas } from "@/features/skatistas";
-import { useUsers } from '@/hooks/useUsers';
+import { useUsers } from "@/hooks/useUsers";
 
 export function SkatistasHome() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,5 +31,5 @@ export function SkatistasHome() {
       onPageChange={handlePageChange}
       onPageSizeChange={handlePageSizeChange}
     />
-  )
+  );
 }

@@ -121,7 +121,7 @@ export function Skatistas({
                 variant="ghost"
                 color="green.400"
                 _hover={{
-                  background: 'transparent'
+                  background: "transparent"
                 }}
               >
                 Anterior
@@ -148,7 +148,7 @@ export function Skatistas({
                 variant="ghost"
                 color="green.400"
                 _hover={{
-                  background: 'transparent'
+                  background: "transparent"
                 }}
               >
                 Próxima
