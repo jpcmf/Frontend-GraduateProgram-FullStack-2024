@@ -24,17 +24,20 @@ export function Footer() {
             <Heading as="h4" size="sm" fontWeight="bold" mb={1}>
               Navegação
             </Heading>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="/" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Dashboard
             </Link>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="/skatistas" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Skatistas
             </Link>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="/spots" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Spots
             </Link>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="/auth/signup" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Cadastro
+            </Link>
+            <Link href="/auth/signin" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
+              Login
             </Link>
           </VStack>
 
@@ -42,13 +45,13 @@ export function Footer() {
             <Heading as="h4" size="sm" fontWeight="bold" mb={1}>
               Legal
             </Heading>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Termos de Serviço
             </Link>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Política de Privacidade
             </Link>
-            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "teal.600" }}>
+            <Link href="#" fontSize="sm" color="gray.600" _hover={{ color: "green.600" }}>
               Sobre Nós
             </Link>
           </VStack>
