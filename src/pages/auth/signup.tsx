@@ -129,7 +129,7 @@ export default function SignUp() {
       <Head>
         <title>Cadastrar - SkateHub</title>
       </Head>
-      <Flex alignItems="center" bg="gray.900" height="100%" justifyContent="center" mb={8} width="100%">
+      <Flex alignItems="center" bg="gray.900" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"
           w="100%"
