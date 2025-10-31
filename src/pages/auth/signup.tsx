@@ -150,7 +150,7 @@ export default function SignUp() {
             </Flex>
             <Divider borderColor="gray.900" />
 
-            <Flex flexDir="column">
+            <Flex flexDir={["column", null, "row"]} gap="4">
               <Input
                 id="name"
                 type="text"
