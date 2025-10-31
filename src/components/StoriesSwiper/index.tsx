@@ -118,7 +118,7 @@ export function StoriesSwiper() {
                   }}
                 >
                   {/* <ChakraAvatar size="xl" src={story.image} name={story.name} border="none" /> */}
-                  <Avatar name={story.name} variant="beam" size={96} />
+                  <Avatar name={story.name} variant="marble" size={96} />
                 </Link>
               </Box>
 
