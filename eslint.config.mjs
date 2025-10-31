@@ -5,6 +5,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import importPlugin from "eslint-plugin-import";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +29,7 @@ const config = [
     plugins: {
       "simple-import-sort": simpleImportSort,
       "import": importPlugin,
+      "unused-imports": unusedImports,
     },
     rules: {
       "simple-import-sort/imports": [
@@ -52,6 +54,14 @@ const config = [
       "import/no-duplicates": "error",
       "import/no-unresolved": "off", // turn off as Next.js handles module resolution
       "import/order": "off", // we use simple-import-sort instead
+
+      // Remove unused imports automatically
+      "unused-imports/no-unused-imports": "error",
+      // Optional: flag unused vars but allow underscore prefix to intentionally ignore
+      "unused-imports/no-unused-vars": [
+        "warn",
+        { vars: "all", varsIgnorePattern: "^_", args: "after-used", argsIgnorePattern: "^_" },
+      ],
     },
   },
 ];

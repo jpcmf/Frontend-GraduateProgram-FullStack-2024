@@ -10,7 +10,6 @@ import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Input } from "@/shared/components/Form/Input";
 import { Textarea } from "@/shared/components/Form/Textarea";
-import { Layout } from "@/shared/components/Layout";
 
 type RegisterForm = {
   name: string;
@@ -85,48 +84,46 @@ export function UserEdit() {
   };
 
   return (
-    <Layout>
-      <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]}>
-        <Flex mb="8" direction="column">
-          <Heading size="lg" fontWeight="normal">
-            Editar
-          </Heading>
-          <Divider my="6" borderColor="gray.700" />
-          <VStack spacing="4">
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Input label="Nome de usuário" {...register("username")} error={errors.name} isDisabled />
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
-              <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Flex flexDirection="column">
-                <Textarea label="Sobre você" placeholder="Sobre você..." {...register("about")} error={errors.about} />
-              </Flex>
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Input
-                isInputGroup
-                InputLeftAddonText="instagram.com/"
-                label="Perfil Instagram"
-                placeholder="Ex. nome_do_usuário"
-                {...register("instagram_url")}
-                error={errors.instagram_url}
-                isInvalid={isError}
-              />
-              <Input
-                isInputGroup
-                InputLeftAddonText="https://"
-                label="Website Pessoal"
-                placeholder="Ex. www.site.com.br"
-                {...register("website_url")}
-                error={errors.website_url}
-                isInvalid={isError}
-              />
-            </SimpleGrid>
-
-            {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+    <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]}>
+      <Flex mb="8" direction="column">
+        <Heading size="lg" fontWeight="normal">
+          Editar
+        </Heading>
+        <Divider my="6" borderColor="gray.700" />
+        <VStack spacing="4">
+          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+            <Input label="Nome de usuário" {...register("username")} error={errors.name} isDisabled />
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+            <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
+            <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+            <Flex flexDirection="column">
+              <Textarea label="Sobre você" placeholder="Sobre você..." {...register("about")} error={errors.about} />
+            </Flex>
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+            <Input
+              isInputGroup
+              InputLeftAddonText="instagram.com/"
+              label="Perfil Instagram"
+              placeholder="Ex. nome_do_usuário"
+              {...register("instagram_url")}
+              error={errors.instagram_url}
+              isInvalid={isError}
+            />
+            <Input
+              isInputGroup
+              InputLeftAddonText="https://"
+              label="Website Pessoal"
+              placeholder="Ex. www.site.com.br"
+              {...register("website_url")}
+              error={errors.website_url}
+              isInvalid={isError}
+            />
+          </SimpleGrid>
+          {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <Input type="password" label="Senha" {...register("password")} error={errors.password} />
               <Input
                 type="password"
@@ -135,32 +132,31 @@ export function UserEdit() {
                 error={errors.password_confirmation}
               />
             </SimpleGrid> */}
-          </VStack>
-          <Flex mt="8" justify="flex-end">
-            <HStack spacing="4">
-              <Button
-                as="a"
-                size={["md", "lg"]}
-                fontSize="sm"
-                colorScheme="whiteAlpha"
-                onClick={() => router.push("/dashboard")}
-              >
-                Cancelar
-              </Button>
-              <Button
-                type="submit"
-                isLoading={isSubmitting}
-                size={["md", "lg"]}
-                fontSize="sm"
-                colorScheme="green"
-                isDisabled={!user?.email}
-              >
-                Salvar
-              </Button>
-            </HStack>
-          </Flex>
+        </VStack>
+        <Flex mt="8" justify="flex-end">
+          <HStack spacing="4">
+            <Button
+              as="a"
+              size={["md", "lg"]}
+              fontSize="sm"
+              colorScheme="whiteAlpha"
+              onClick={() => router.push("/dashboard")}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              isLoading={isSubmitting}
+              size={["md", "lg"]}
+              fontSize="sm"
+              colorScheme="green"
+              isDisabled={!user?.email}
+            >
+              Salvar
+            </Button>
+          </HStack>
         </Flex>
-      </Box>
-    </Layout>
+      </Flex>
+    </Box>
   );
 }

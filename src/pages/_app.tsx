@@ -18,6 +18,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             --font-roboto: ${fonts.roboto.style.fontFamily};
             --font-raleway: ${fonts.raleway.style.fontFamily};
           }
+          #__next {
+            display: flex;
+            flex-direction: column;
+            height: 100dvh;
+          }
         `}
       </style>
 

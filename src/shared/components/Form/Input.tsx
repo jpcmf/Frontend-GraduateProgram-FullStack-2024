@@ -8,9 +8,7 @@ import {
   Input as ChakraInput,
   InputGroup,
   InputLeftAddon,
-  InputProps as ChakraInputProps,
-  InputRightAddon,
-  Text
+  InputProps as ChakraInputProps
 } from "@chakra-ui/react";
 
 interface InputProps extends ChakraInputProps {

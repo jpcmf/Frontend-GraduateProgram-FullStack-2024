@@ -1,27 +1,29 @@
-import { forwardRef, ForwardRefRenderFunction } from "react";
+import { forwardRef, ForwardRefRenderFunction, ReactNode } from "react";
 import { FieldError } from "react-hook-form";
 
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input as ChakraInput,
-  InputProps as ChakraInputProps
+  Select as ChakraSelect,
+  SelectProps as ChakraSelectProps
 } from "@chakra-ui/react";
 
-interface InputProps extends ChakraInputProps {
+interface SelectProps extends ChakraSelectProps {
   label?: string;
   error?: FieldError;
+  children: ReactNode;
+  placeholder?: string;
 }
 
-const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, label, error = null, ...rest },
+const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
+  { name, label, error = null, children, placeholder, ...rest },
   ref
 ) => {
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
-      <ChakraInput
+      <ChakraSelect
         name={name}
         id={name}
         focusBorderColor="blue.500"
@@ -30,8 +32,11 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         _hover={{ bgColor: "gray.900" }}
         size="lg"
         ref={ref}
+        placeholder={placeholder}
         {...rest}
-      />
+      >
+        {children}
+      </ChakraSelect>
 
       {!!error && (
         <FormErrorMessage as="small" color="red.500" ml="1" mt="2" display="block" fontSize="smaller" fontWeight="300">
@@ -42,4 +47,4 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   );
 };
 
-export const Input = forwardRef(InputBase);
+export const Select = forwardRef(SelectBase);

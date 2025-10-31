@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Sidebar } from "@/components/Sidebar";
 
@@ -9,12 +10,15 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <Flex direction="column" h="100vh">
-      <Header />
-      <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
+    <>
+      <Flex direction="row" flex={1}>
         <Sidebar />
-        {children}
+        <Flex w="100%" direction="column" mt="0" maxWidth={1144} mx="" px={{ base: 6, lg: 0 }}>
+          <Header />
+          {children}
+        </Flex>
       </Flex>
-    </Flex>
+      <Footer />
+    </>
   );
 }

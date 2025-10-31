@@ -88,23 +88,17 @@ export default function ForgotPassword() {
         <title>Esqueci minha senha - SkateHub</title>
       </Head>
       <Flex
-        w={["100dvw"]}
-        h={["100dvh"]}
+        width="100%"
+        height="100%"
         alignItems="center"
-        justifyContent="center"
+        justifyContent="start"
         flexDirection="column"
         bg="gray.900"
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        backgroundBlendMode="overlay"
-        backgroundPosition="center bottom"
-        backgroundImage="../alexander-londono-unsplash.jpeg"
-        px={["4", "0"]}
+        mb={8}
       >
         <Flex
           as="form"
           w="100%"
-          maxWidth={480}
           bg="gray.800"
           p="8"
           borderRadius={8}
@@ -132,26 +126,28 @@ export default function ForgotPassword() {
                 error={errors.email}
               />
             </Flex>
-            <Flex flexDir="column">
-              <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                <Text fontSize="smaller" align="left" display="flex">
-                  <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
-                  Enviaremos um link para você criar uma nova senha.
-                </Text>
-              </Box>
-            </Flex>
           </Stack>
-          <Button
-            type="submit"
-            mt="6"
-            colorScheme="green"
-            fontWeight="bold"
-            size={["md", "lg"]}
-            isLoading={isSubmitting}
-            loadingText="Enviando..."
-          >
-            Enviar link
-          </Button>
+          <Flex flexDir={["column", null, "row"]} alignItems="end">
+            <Button
+              type="submit"
+              mt="6"
+              colorScheme="green"
+              fontWeight="bold"
+              size={["md", "lg"]}
+              isLoading={isSubmitting}
+              loadingText="Enviando..."
+              w={["100%", null, "3xs"]}
+              mr="auto"
+            >
+              Enviar link
+            </Button>
+            <Box mt={[4, null, 0]} textAlign="center">
+              <Text fontSize="smaller" display="flex" justifyContent="center" color="gray.600">
+                <RiAlertLine size={16} style={{ marginRight: "0.5rem", flexShrink: "0" }} />
+                Enviaremos um link para você criar uma nova senha.
+              </Text>
+            </Box>
+          </Flex>
         </Flex>
       </Flex>
     </>

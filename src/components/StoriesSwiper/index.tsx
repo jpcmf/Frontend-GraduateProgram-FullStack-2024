@@ -1,14 +1,15 @@
 import { TbSkateboard } from "react-icons/tb";
 
-import { Avatar, Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
+import Avatar from "boring-avatars";
 
-export function SkateHubStories() {
+export function StoriesSwiper() {
   const stories = [
     {
       id: 1,
       name: "You",
       image: "https://placekitten.com/250/250",
-      isUser: true
+      isUser: false
     },
     {
       id: 2,
@@ -26,13 +27,13 @@ export function SkateHubStories() {
       id: 4,
       name: "Blam blam",
       image: "https://placekitten.com/400/400",
-      isUser: false
+      isUser: true
     },
     {
       id: 5,
       name: "Whiskers",
       image: "https://placekitten.com/350/350",
-      isUser: false
+      isUser: true
     },
     {
       id: 6,
@@ -44,34 +45,34 @@ export function SkateHubStories() {
       id: 7,
       name: "Bootsie",
       image: "https://placekitten.com/200/200",
-      isUser: false
+      isUser: true
     },
     {
       id: 8,
       name: "Sketch",
       image: "https://placekitten.com/300/300",
-      isUser: false
+      isUser: true
     },
     {
       id: 9,
       name: "Blam blam",
       image: "https://placekitten.com/400/400",
-      isUser: false
+      isUser: true
     },
     {
       id: 10,
       name: "Whiskers",
       image: "https://placekitten.com/350/350",
-      isUser: false
+      isUser: true
     }
   ];
 
   const handleAddStory = (name: string) => {
-    alert(`Add story for ${name}`);
+    alert(`Story for ${name}`);
   };
 
   return (
-    <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="155px">
+    <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="164px">
       <HStack
         w="100%"
         position="absolute"
@@ -103,7 +104,6 @@ export function SkateHubStories() {
             <Box position="relative">
               <Box
                 bgGradient={story.isUser ? "gray.800" : "linear(to-tr, green.100, purple.600)"}
-                // bgGradient="linear(to-tr, green.100, purple.600)"
                 borderRadius="full"
                 p={0.5}
               >
@@ -117,7 +117,8 @@ export function SkateHubStories() {
                     transform: "rotate(-6deg)"
                   }}
                 >
-                  <Avatar size="xl" src={story.image} name={story.name} border="none" />
+                  {/* <ChakraAvatar size="xl" src={story.image} name={story.name} border="none" /> */}
+                  <Avatar name={story.name} variant="marble" size={96} />
                 </Link>
               </Box>
 
@@ -143,12 +144,12 @@ export function SkateHubStories() {
             </Box>
 
             <Link
+              mt={1}
               fontSize="sm"
               fontWeight="medium"
-              color="gray.100"
+              color={story.isUser ? "gray.600" : "gray.100"}
               _hover={{
-                textDecoration: "underline",
-                color: "gray.900"
+                color: story.isUser ? "gray.700" : "gray.600"
               }}
             >
               {story.name}

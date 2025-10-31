@@ -2,46 +2,38 @@ import { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
-import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 import {
   Box,
   Button,
+  Divider,
   Flex,
   IconButton,
   InputGroup,
   InputRightElement,
-  Link as ChakraLink,
+  Link,
   Stack,
   Text
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { LogoSkateHub } from "@/components/LogoSkateHub";
-import { ReusableModal } from "@/components/ReusableModal";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
 import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
 
-// const signInFormSchema = z.object({
-//   email: z.string().email({ message: "E-mail deve ser um e-mail válido." }).min(1, { message: "Campo obrigatório." }),
-//   password: z.string().min(1, { message: "Campo obrigatório." })
-// });
-
-// type SignInFormSchema = z.infer<typeof signInFormSchema>;
-
 export default function SignIn() {
   const router = useRouter();
   const { signIn } = useContext(AuthContext);
   const { addToast } = Toast();
-  const [isVerified, setIsVerified] = useState(false);
-  const [isVerifiedError, setIsVerifiedError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
   const {
     handleSubmit,
@@ -54,193 +46,227 @@ export default function SignIn() {
   });
 
   const handleSignIn: SubmitHandler<SignInFormSchema> = async values => {
-    if (isVerified) {
-      const recaptchaValue = recaptchaRef.current?.getValue();
-      const newValues = { ...values, recaptcha: recaptchaValue || undefined };
+    if (recaptchaRef.current) {
+      try {
+        setIsExecutingRecaptcha(true);
+        // for v2 invisible, use executeAsync(). For v3, use execute()
+        const recaptchaValue =
+          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
+        const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
-      await signIn(newValues)
-        .then(_ => { })
-        .catch(error => {
-          recaptchaRef.current?.reset();
-          setIsVerified(false);
+        await signIn(newValues)
+          .then(_ => {
+            recaptchaRef.current?.reset();
+          })
+          .catch(error => {
+            recaptchaRef.current?.reset();
 
-          switch (error.response.data.error?.message) {
-            case "Your account email is not confirmed":
-              addToast({
-                title: "Erro de autenticação.",
-                message: "Confirme seu e-mail para acessar a plataforma.",
-                type: "warning"
-              });
-              break;
-            case "Your account has been blocked by an administrator":
-              addToast({
-                title: "Erro de autenticação.",
-                message:
-                  "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
-                type: "error"
-              });
-              break;
-            default:
-              addToast({
-                title: "Erro de autenticação.",
-                message: "Verifique seus dados de login e tente novamente.",
-                type: "error"
-              });
-              break;
-          }
+            switch (error.response.data.error?.message) {
+              case "Your account email is not confirmed":
+                addToast({
+                  title: "Erro de autenticação.",
+                  message: "Confirme seu e-mail para acessar a plataforma.",
+                  type: "warning"
+                });
+                break;
+              case "Your account has been blocked by an administrator":
+                addToast({
+                  title: "Erro de autenticação.",
+                  message:
+                    "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+                  type: "error"
+                });
+                break;
+              default:
+                addToast({
+                  title: "Erro de autenticação.",
+                  message: "Verifique seus dados de login e tente novamente.",
+                  type: "error"
+                });
+                break;
+            }
+          });
+      } catch (error) {
+        console.error("reCAPTCHA execution failed:", error);
+        addToast({
+          title: "Erro de verificação.",
+          message: "Falha na verificação de segurança. Tente novamente.",
+          type: "error"
         });
+      } finally {
+        setIsExecutingRecaptcha(false);
+      }
     } else {
-      setIsVerifiedError(true);
-      console.log("Please verify the reCAPTCHA.");
+      addToast({
+        title: "Erro de verificação.",
+        message: "Sistema de verificação não está disponível.",
+        type: "error"
+      });
     }
   };
+  //   if (isVerified) {
+  //     const recaptchaValue = recaptchaRef.current?.getValue();
+  //     const newValues = { ...values, recaptcha: recaptchaValue || undefined };
 
-  const onVerify = (token: string | null) => {
-    if (!token) return;
+  //     await signIn(newValues)
+  //       .then(_ => { })
+  //       .catch(error => {
+  //         recaptchaRef.current?.reset();
+  //         setIsVerified(false);
 
-    if (token) {
-      setIsVerified(true);
-      setIsVerifiedError(false);
-    }
-  };
+  //         switch (error.response.data.error?.message) {
+  //           case "Your account email is not confirmed":
+  //             addToast({
+  //               title: "Erro de autenticação.",
+  //               message: "Confirme seu e-mail para acessar a plataforma.",
+  //               type: "warning"
+  //             });
+  //             break;
+  //           case "Your account has been blocked by an administrator":
+  //             addToast({
+  //               title: "Erro de autenticação.",
+  //               message:
+  //                 "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+  //               type: "error"
+  //             });
+  //             break;
+  //           default:
+  //             addToast({
+  //               title: "Erro de autenticação.",
+  //               message: "Verifique seus dados de login e tente novamente.",
+  //               type: "error"
+  //             });
+  //             break;
+  //         }
+  //       });
+  //   } else {
+  //     setIsVerifiedError(true);
+  //     console.log("Please verify the reCAPTCHA.");
+  //   }
+  // };
 
-  const handleClose = () => {
-    router.back();
-  };
+  // const onVerify = (token: string | null) => {
+  //   if (!token) return;
 
-  // const handleSignIn2 = () => {
-  //   // Handle sign in logic here
-  //   console.log('Sign in clicked')
-  //   router.push('/')
-  // }
+  //   if (token) {
+  //     setIsVerified(true);
+  //     setIsVerifiedError(false);
+  //   }
+  // };
 
   return (
     <>
       <Head>
         <title>Login - SkateHub</title>
       </Head>
-
-      <ReusableModal
-        isOpen={true}
-        onClose={handleClose}
-        size="6xl"
-      // footerContent={
-      //   <>
-      //     <Button variant='ghost' mr={3} onClick={handleClose}>
-      //       Cancel
-      //     </Button>
-      //     <Button colorScheme='blue' onClick={handleSignIn2}>
-      //       Sign In
-      //     </Button>
-      //   </>
-      // }
+      <Flex
+        alignItems="center"
+        bg="gray.900"
+        flexDirection="column"
+        height="100%"
+        justifyContent="start"
+        mb={8}
+        width="100%"
       >
         <Flex
-          // w={["100dvw"]}
-          // h={["100dvh"]}
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-          bg="gray.900"
-          backgroundSize="cover"
-          backgroundRepeat="no-repeat"
-          backgroundBlendMode="overlay"
-          backgroundPosition="center bottom"
-          backgroundImage="../alexander-londono-unsplash.jpeg"
-          px={["4", "0"]}
+          as="form"
+          w="100%"
+          bg="gray.800"
+          p="8"
+          borderRadius={8}
+          flexDir="column"
+          onSubmit={handleSubmit(handleSignIn)}
         >
-          <Flex
-            as="form"
-            w="100%"
-            maxWidth={480}
-            bg="gray.800"
-            p="8"
-            borderRadius={8}
-            flexDir="column"
-            onSubmit={handleSubmit(handleSignIn)}
-          >
-            <Stack spacing={4}>
-              <Flex justifyContent="center" mb="4">
-                <Link href="/">
-                  <LogoSkateHub />
-                </Link>
-              </Flex>
-              <Flex flexDir="column">
-                <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
-              </Flex>
-              <Flex flexDir="column">
-                <InputGroup>
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    label="Senha"
-                    {...register("password")}
-                    error={errors.password}
-                  />
-                  <InputRightElement top={["8", "9"]} right="-2">
-                    <IconButton
-                      icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                      variant="unstyled"
-                      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                      onClick={() => setShowPassword(!showPassword)}
-                      size="lg"
-                      color="gray.600"
-                    />
-                  </InputRightElement>
-                </InputGroup>
-              </Flex>
-              <Flex flexDir="column">
-                <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                  <Text fontSize="smaller" align="left">
-                    Se precisar de ajuda, entre em{" "}
-                    <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
-                      contato conosco
-                    </Text>
-                    .
-                  </Text>
-                </Box>
-              </Flex>
-
-              <Flex flexDir="column" alignItems="center">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                  onChange={onVerify}
-                  size="normal"
-                  hl="pt-BR"
-                  badge="inline"
-                  id="recaptcha"
+          <Stack spacing={4}>
+            <Flex alignItems="center">
+              <Link href="/">
+                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
+              </Link>
+              <Text as="h1" fontSize="2xl" fontWeight="semibold">
+                Faça seu login
+              </Text>
+            </Flex>
+            <Divider borderColor="gray.900" />
+            <Flex flexDir={["column", null, "row"]} gap={4}>
+              <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
+              <InputGroup>
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  label="Senha"
+                  {...register("password")}
+                  error={errors.password}
                 />
-                {isVerifiedError && (
-                  <Text fontSize={"13.3px"} fontWeight="semibold" color="red.500" mt="1.5">
-                    Please verify that you are not a robot.
-                  </Text>
-                )}
-              </Flex>
-            </Stack>
-            <Button
-              type="submit"
-              mt="6"
-              colorScheme="green"
-              fontWeight="bold"
-              size={["md", "lg"]}
-              isLoading={isSubmitting}
-            >
-              Entrar
-            </Button>
-            <ChakraLink
-              onClick={() => router.push("/auth/forgot-password")}
-              color="gray.600"
-              mt="4"
-              textAlign="center"
-              textDecoration="underline"
-              fontWeight="medium"
-            >
-              Esqueci minha senha
-            </ChakraLink>
+                <InputRightElement top={["8", "9"]} right="-2">
+                  <IconButton
+                    icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                    variant="unstyled"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    onClick={() => setShowPassword(!showPassword)}
+                    size="lg"
+                    color="gray.600"
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </Flex>
+          </Stack>
+
+          <Flex flexDir={["column", null, "column"]} alignItems="end">
+            <Flex w="100%" flexDir={["column", null, "row"]} mr="auto" alignItems="end">
+              <Button
+                type="submit"
+                mt="6"
+                colorScheme="green"
+                fontWeight="bold"
+                size={["md", "lg"]}
+                isLoading={isSubmitting || isExecutingRecaptcha}
+                loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
+                w={["100%", null, "3xs"]}
+              >
+                Entrar
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                mt="6"
+                color="gray.600"
+                fontWeight="medium"
+                size={["md", "lg"]}
+                ml={8}
+                onClick={() => router.push("/auth/forgot-password")}
+              >
+                Esqueci minha senha
+              </Button>
+            </Flex>
+            <Box mt={[4, null, 4]} textAlign="center">
+              <Text
+                as="a"
+                href="#"
+                _hover={{
+                  textDecoration: "underline"
+                }}
+                fontSize="smaller"
+                display="flex"
+                justifyContent="center"
+                color="gray.600"
+              >
+                <RiAlertLine size={16} style={{ marginRight: "0.3rem", flexShrink: "0" }} />
+                Se precisar de ajuda, entre em contato conosco.
+              </Text>
+            </Box>
           </Flex>
         </Flex>
-      </ReusableModal>
+      </Flex>
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+        size="invisible"
+        hl="pt-BR"
+        badge="bottomright"
+        id="recaptcha"
+        onLoad={() => console.log("reCAPTCHA loaded")}
+        onError={error => console.error("reCAPTCHA error:", error)}
+      />
     </>
   );
 }
