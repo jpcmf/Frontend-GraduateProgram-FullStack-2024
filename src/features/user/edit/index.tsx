@@ -9,29 +9,47 @@ import { z } from "zod";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Input } from "@/shared/components/Form/Input";
+import { Select } from "@/shared/components/Form/Select";
 import { Textarea } from "@/shared/components/Form/Textarea";
 
 type RegisterForm = {
   name: string;
   email: string;
+  username: string;
+  categoryValue: string;
   about: string;
   website_url: string;
   instagram_url: string;
+  //TODO: implement password change
   // password: string;
   // password_confirmation: string;
 };
 
 const UserEditFormSchema = z.object({
   name: z.string().min(1, "Campo obrigatório."),
-  username: z.string().min(1, "Campo obrigatório."),
   email: z.string().email("E-mail inválido.").min(1, "Campo obrigatório."),
+  username: z.string().min(1, "Campo obrigatório."),
+  categoryValue: z.string().nonempty("Campo obrigatório."),
   about: z.string().max(255, "Máximo de 255 caracteres."),
   website_url: z.string(),
   instagram_url: z.string()
-  // .url("URL inválida.")
 });
 
 type UserEditFormSchema = z.infer<typeof UserEditFormSchema>;
+
+const CATEGORIES = [
+  { id: 1, name: "Iniciante", value: "iniciante" },
+  { id: 2, name: "Amador", value: "amador" },
+  { id: 3, name: "Profissional", value: "profissional" },
+  { id: 4, name: "Pro Master", value: "pro-master" },
+  { id: 5, name: "Pro Legend", value: "pro-legend" },
+  { id: 6, name: "Master", value: "master" },
+  { id: 7, name: "Grand Master", value: "grand-master" },
+  { id: 8, name: "Grand Legend", value: "grand-legend" },
+  { id: 9, name: "Vintage", value: "vintage" },
+  { id: 10, name: "Open", value: "open" },
+  { id: 11, name: "Paraskatista", value: "paraskatista" }
+];
 
 export function UserEdit() {
   const router = useRouter();
@@ -51,16 +69,36 @@ export function UserEdit() {
 
   useEffect(() => {
     if (user) {
-      reset(user);
+      // reset(user);
+      reset({
+        name: user.name || "",
+        email: user.email || "",
+        username: user.username || "",
+        categoryValue: user.category?.value || "",
+        about: user.about || "",
+        website_url: user.website_url || "",
+        instagram_url: user.instagram_url || ""
+      });
     }
   }, [user, reset]);
 
   const handleEditUser: SubmitHandler<RegisterForm> = async values => {
     try {
+      const selectedCategory = CATEGORIES.find(cat => cat.value === values.categoryValue);
+
+      if (!selectedCategory) {
+        throw new Error("Categoria inválida");
+      }
+
       await updateUser({
         id: user ? user.id : "",
         name: values.name,
         username: user ? user.username : "",
+        category: {
+          id: selectedCategory.id,
+          name: selectedCategory.name,
+          value: selectedCategory.value
+        },
         email: values.email,
         about: values.about,
         website_url: values.website_url,
@@ -84,7 +122,15 @@ export function UserEdit() {
   };
 
   return (
-    <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]}>
+    <Box
+      as="form"
+      onSubmit={handleSubmit(handleEditUser)}
+      flex="1"
+      borderRadius={8}
+      bg="gray.800"
+      p={["6", "8"]}
+      mb={8}
+    >
       <Flex mb="8" direction="column">
         <Heading size="lg" fontWeight="normal">
           Editar
@@ -92,11 +138,23 @@ export function UserEdit() {
         <Divider my="6" borderColor="gray.700" />
         <VStack spacing="4">
           <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-            <Input label="Nome de usuário" {...register("username")} error={errors.name} isDisabled />
-          </SimpleGrid>
-          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
             <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
             <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+            <Input label="Usuário" {...register("username")} error={errors.name} isDisabled />
+            <Select
+              label="Categoria"
+              placeholder="Selecione sua categoria"
+              error={errors.categoryValue}
+              {...register("categoryValue")}
+            >
+              {CATEGORIES.map(category => (
+                <option key={category.value} value={category.value}>
+                  {category.name}
+                </option>
+              ))}
+            </Select>
           </SimpleGrid>
           <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
             <Flex flexDirection="column">
@@ -123,6 +181,7 @@ export function UserEdit() {
               isInvalid={isError}
             />
           </SimpleGrid>
+          {/* TODO: implement password change */}
           {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <Input type="password" label="Senha" {...register("password")} error={errors.password} />
               <Input
