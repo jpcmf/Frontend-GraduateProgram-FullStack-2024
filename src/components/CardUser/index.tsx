@@ -114,7 +114,6 @@ export function UserCard({ user }: { user: UserBasics }) {
                 transition="all 0.2s"
                 fontSize="xs"
                 gap={1}
-                disabled={!isAuthenticated ? true : false}
               >
                 <TbUserPlus size={20} />
               </Button>
@@ -131,7 +130,6 @@ export function UserCard({ user }: { user: UserBasics }) {
                 transition="all 0.2s"
                 fontSize="xs"
                 gap={1}
-                disabled={!isAuthenticated ? true : false}
               >
                 <TbMessage size={20} />
               </Button>
