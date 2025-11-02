@@ -142,7 +142,7 @@ export function UserEdit() {
             <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
           </SimpleGrid>
           <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-            <Input label="Usuário" {...register("username")} error={errors.name} isDisabled />
+            <Input label="Usuário" {...register("username")} error={errors.username} isDisabled />
             <Select
               label="Categoria"
               placeholder="Selecione sua categoria"
