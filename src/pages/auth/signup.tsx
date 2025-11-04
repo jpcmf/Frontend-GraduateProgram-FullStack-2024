@@ -14,7 +14,7 @@ import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
 import { CATEGORIES } from "@/const/categories";
-import { REGEX_PATTERNS, VALIDATION_MESSAGES } from "@/const/validation";
+import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const/validation";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
@@ -22,12 +22,15 @@ import { API } from "@/utils/constant";
 
 const signUpSchema = z
   .object({
-    name: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED).min(8, { message: VALIDATION_MESSAGES.NAME_TOO_SHORT }),
+    name: z
+      .string()
+      .nonempty(VALIDATION_MESSAGES.REQUIRED)
+      .min(VALIDATION_RULES.NAME.MIN_LENGTH, { message: VALIDATION_MESSAGES.NAME_TOO_SHORT }),
     email: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED).email({ message: VALIDATION_MESSAGES.INVALID_EMAIL }),
     username: z
       .string()
       .nonempty(VALIDATION_MESSAGES.REQUIRED)
-      .min(3, { message: VALIDATION_MESSAGES.USERNAME_TOO_SHORT })
+      .min(VALIDATION_RULES.USERNAME.MIN_LENGTH, { message: VALIDATION_MESSAGES.USERNAME_TOO_SHORT })
       .refine(value => !REGEX_PATTERNS.EMAIL.test(value), {
         message: VALIDATION_MESSAGES.USERNAME_IS_EMAIL
       }),
@@ -38,14 +41,14 @@ const signUpSchema = z
     password: z
       .string()
       .nonempty(VALIDATION_MESSAGES.REQUIRED)
-      .min(6, { message: VALIDATION_MESSAGES.PASSWORD_TOO_SHORT }),
+      .min(VALIDATION_RULES.PASSWORD.MIN_LENGTH, { message: VALIDATION_MESSAGES.PASSWORD_TOO_SHORT }),
     confirmPassword: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED)
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: "custom",
-        message: "Senhas não conferem.",
+        message: VALIDATION_MESSAGES.PASSWORDS_DONT_MATCH,
         path: ["confirmPassword"]
       });
     }
