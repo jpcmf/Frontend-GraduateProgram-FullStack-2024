@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
-import { CATEGORIES } from '@/const/categories';
+import { CATEGORIES } from "@/const/categories";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
@@ -83,11 +83,6 @@ export default function SignUp() {
         const newValues = {
           ...restValues,
           category: selectedCategory?.id,
-          // category: {
-          // id: selectedCategory?.id || 0,
-          // name: selectedCategory?.name || "",
-          // value: selectedCategory?.value || ""
-          // },
           recaptcha: recaptchaValue || undefined
         };
 
