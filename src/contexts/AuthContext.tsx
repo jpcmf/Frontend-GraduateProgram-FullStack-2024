@@ -72,7 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 name: userData.name || userData.username || "User",
                 email: userData.email,
                 username: userData.username,
-                category: userData.category || "",
+                category: userData.category,
                 about: userData.about || "",
                 website_url: userData.website_url || "",
                 instagram_url: userData.instagram_url || "",
