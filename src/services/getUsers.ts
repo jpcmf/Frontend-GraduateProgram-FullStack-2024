@@ -21,7 +21,7 @@ export async function getUsers2(currentPage?: number, pageSize?: number) {
 
 export async function getCustomUsersWithPagination(currentPage?: number, pageSize?: number) {
   const res = await axios.get(
-    `${API}/api/custom-users?populate[0]=address&populate[1]=avatar&pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&pagination[withCount]=true`
+    `${API}/api/custom-users?populate[0]=address&populate[1]=avatar&populate[2]=category&pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&pagination[withCount]=true`
   );
 
   return res.data;

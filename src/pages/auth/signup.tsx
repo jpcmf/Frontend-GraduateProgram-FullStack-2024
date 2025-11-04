@@ -13,13 +13,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
+import { CATEGORIES } from "@/const/categories";
 import { Input } from "@/shared/components/Form/Input";
+import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
 import { API } from "@/utils/constant";
 
 const signUpSchema = z
   .object({
     name: z.string().nonempty("Campo obrigatório.").min(8, { message: "Nome deve ter no mínimo 8 caracteres." }),
+    email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
     username: z
       .string()
       .nonempty("Campo obrigatório.")
@@ -27,7 +30,7 @@ const signUpSchema = z
       .refine(value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
         message: "Usuário não pode ser um e-mail."
       }),
-    email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
+    category: z.string().nonempty("Campo obrigatório."),
     city: z.string().nonempty("Campo obrigatório."),
     uf: z.string().nonempty("Campo obrigatório."),
     country: z.string().nonempty("Campo obrigatório."),
@@ -72,7 +75,14 @@ export default function SignUp() {
         // for v2 invisible, use executeAsync(). For v3, use execute()
         const recaptchaValue =
           (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
-        const newValues = { ...values, recaptcha: recaptchaValue || undefined };
+
+        const selectedCategory = CATEGORIES.find(cat => cat.value === values.category);
+
+        const newValues = {
+          ...values,
+          category: selectedCategory?.id,
+          recaptcha: recaptchaValue || undefined
+        };
 
         const response = await fetch(`${API}/api/auth/local/register`, {
           method: "POST",
@@ -159,6 +169,14 @@ export default function SignUp() {
                 {...register("name")}
                 error={errors.name}
               />
+              <Input
+                id="email"
+                type="email"
+                label="E-mail"
+                placeholder="Digite seu e-mail"
+                {...register("email")}
+                error={errors.email}
+              />
             </Flex>
             <Flex flexDir={["column", null, "row"]} gap="4">
               <Input
@@ -169,14 +187,18 @@ export default function SignUp() {
                 {...register("username")}
                 error={errors.username}
               />
-              <Input
-                id="email"
-                type="email"
-                label="E-mail"
-                placeholder="Digite seu e-mail"
-                {...register("email")}
-                error={errors.email}
-              />
+              <Select
+                label="Categoria"
+                placeholder="Selecione sua categoria"
+                error={errors.category}
+                {...register("category")}
+              >
+                {CATEGORIES.map(category => (
+                  <option key={category.value} value={category.value}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
             </Flex>
             <Flex flexDir={["column", null, "row"]} gap="4">
               <Input

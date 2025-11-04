@@ -64,6 +64,24 @@ export function StoriesSwiper() {
       name: "Whiskers",
       image: "https://placekitten.com/350/350",
       isUser: true
+    },
+    {
+      id: 11,
+      name: "Whiskers",
+      image: "https://placekitten.com/350/350",
+      isUser: true
+    },
+    {
+      id: 12,
+      name: "Whiskers",
+      image: "https://placekitten.com/350/350",
+      isUser: true
+    },
+    {
+      id: 13,
+      name: "Whiskers",
+      image: "https://placekitten.com/350/350",
+      isUser: true
     }
   ];
 
@@ -72,7 +90,7 @@ export function StoriesSwiper() {
   };
 
   return (
-    <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="164px">
+    <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="134px">
       <HStack
         w="100%"
         position="absolute"
@@ -118,7 +136,7 @@ export function StoriesSwiper() {
                   }}
                 >
                   {/* <ChakraAvatar size="xl" src={story.image} name={story.name} border="none" /> */}
-                  <Avatar name={story.name} variant="marble" size={96} />
+                  <Avatar name={story.name} variant="marble" size={66} />
                 </Link>
               </Box>
 
