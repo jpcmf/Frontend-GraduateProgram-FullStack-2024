@@ -82,6 +82,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2025
 
+- 2025-11-03 - Standardize validation messages [#125](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/125) _(v0.1.36)_
 - 2025-11-01 - Add category definition [#124](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/124) _(v0.1.35)_
 - 2025-09-25 - Add ESLint packages to devDependencies for improved linting support [#121](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/121) _(v0.1.34)_
 - 2025-01-15 - Move authentication logic to user edit page [#116](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/116) _(v0.1.33)_

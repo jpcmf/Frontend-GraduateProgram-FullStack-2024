@@ -10,12 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
+import { VALIDATION_MESSAGES } from "@/const/validation";
 import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
 import { API } from "@/utils/constant";
 
 const forgotPasswordFormSchema = z.object({
-  email: z.string().email("E-mail inválido.").nonempty("Campo obrigatório.")
+  email: z.string().email(VALIDATION_MESSAGES.INVALID_EMAIL)
 });
 
 type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;

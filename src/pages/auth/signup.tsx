@@ -14,6 +14,7 @@ import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
 import { CATEGORIES } from "@/const/categories";
+import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const/validation";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
@@ -21,27 +22,33 @@ import { API } from "@/utils/constant";
 
 const signUpSchema = z
   .object({
-    name: z.string().nonempty("Campo obrigatório.").min(8, { message: "Nome deve ter no mínimo 8 caracteres." }),
-    email: z.string().nonempty("Campo obrigatório.").email({ message: "E-mail deve ser um e-mail válido." }),
+    name: z
+      .string()
+      .nonempty(VALIDATION_MESSAGES.REQUIRED)
+      .min(VALIDATION_RULES.NAME.MIN_LENGTH, { message: VALIDATION_MESSAGES.NAME_TOO_SHORT }),
+    email: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED).email({ message: VALIDATION_MESSAGES.INVALID_EMAIL }),
     username: z
       .string()
-      .nonempty("Campo obrigatório.")
-      .min(3, { message: "Usuário deve ter no mínimo 3 caracteres." })
-      .refine(value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
-        message: "Usuário não pode ser um e-mail."
+      .nonempty(VALIDATION_MESSAGES.REQUIRED)
+      .min(VALIDATION_RULES.USERNAME.MIN_LENGTH, { message: VALIDATION_MESSAGES.USERNAME_TOO_SHORT })
+      .refine(value => !REGEX_PATTERNS.EMAIL.test(value), {
+        message: VALIDATION_MESSAGES.USERNAME_IS_EMAIL
       }),
-    category: z.string().nonempty("Campo obrigatório."),
-    city: z.string().nonempty("Campo obrigatório."),
-    uf: z.string().nonempty("Campo obrigatório."),
-    country: z.string().nonempty("Campo obrigatório."),
-    password: z.string().nonempty("Campo obrigatório.").min(6, { message: "Senha deve ter no mínimo 6 caracteres." }),
-    confirmPassword: z.string().nonempty("Campo obrigatório.")
+    category: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+    city: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+    uf: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+    country: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+    password: z
+      .string()
+      .nonempty(VALIDATION_MESSAGES.REQUIRED)
+      .min(VALIDATION_RULES.PASSWORD.MIN_LENGTH, { message: VALIDATION_MESSAGES.PASSWORD_TOO_SHORT }),
+    confirmPassword: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED)
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: "custom",
-        message: "Senhas não conferem.",
+        message: VALIDATION_MESSAGES.PASSWORDS_DONT_MATCH,
         path: ["confirmPassword"]
       });
     }
