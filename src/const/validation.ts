@@ -15,6 +15,9 @@ export const VALIDATION_RULES = {
     MIN_LENGTH: 8,
     MAX_LENGTH: 100
   },
+  ABOUT: {
+    MAX_LENGTH: 255
+  },
   UF: {
     MAX_LENGTH: 2
   }
@@ -29,7 +32,8 @@ export const VALIDATION_MESSAGES = {
   PASSWORD_NEEDS_UPPERCASE: "Senha deve conter pelo menos uma letra maiúscula",
   PASSWORD_NEEDS_NUMBER: "Senha deve conter pelo menos um número",
   USERNAME_TOO_SHORT: `Usuário deve ter no mínimo ${VALIDATION_RULES.USERNAME.MIN_LENGTH} caracteres`,
-  NAME_TOO_SHORT: `Nome deve ter no mínimo ${VALIDATION_RULES.NAME.MIN_LENGTH} caracteres`
+  NAME_TOO_SHORT: `Nome deve ter no mínimo ${VALIDATION_RULES.NAME.MIN_LENGTH} caracteres`,
+  ABOUT_MAX_LENGTH: `Máximo de ${VALIDATION_RULES.ABOUT.MAX_LENGTH} caracteres`
 } as const;
 
 export const REGEX_PATTERNS = {
