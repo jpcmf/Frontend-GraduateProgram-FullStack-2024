@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
+import { CATEGORIES } from '@/const/categories';
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
@@ -29,7 +30,7 @@ const signUpSchema = z
       .refine(value => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
         message: "Usuário não pode ser um e-mail."
       }),
-    categoryValue: z.string().nonempty("Campo obrigatório."),
+    category: z.string().nonempty("Campo obrigatório."),
     city: z.string().nonempty("Campo obrigatório."),
     uf: z.string().nonempty("Campo obrigatório."),
     country: z.string().nonempty("Campo obrigatório."),
@@ -47,20 +48,6 @@ const signUpSchema = z
   });
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
-
-const CATEGORIES = [
-  { name: "Iniciante", value: "iniciante" },
-  { name: "Amador", value: "amador" },
-  { name: "Profissional", value: "profissional" },
-  { name: "Pro Master", value: "pro-master" },
-  { name: "Pro Legend", value: "pro-legend" },
-  { name: "Master", value: "master" },
-  { name: "Grand Master", value: "grand-master" },
-  { name: "Grand Legend", value: "grand-legend" },
-  { name: "Vintage", value: "vintage" },
-  { name: "Open", value: "open" },
-  { name: "Paraskatista", value: "paraskatista" }
-];
 
 export default function SignUp() {
   const route = useRouter();
@@ -89,16 +76,18 @@ export default function SignUp() {
         const recaptchaValue =
           (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
 
-        const selectedCategory = CATEGORIES.find(cat => cat.value === values.categoryValue);
+        const selectedCategory = CATEGORIES.find(cat => cat.value === values.category);
 
         const { ...restValues } = values;
 
         const newValues = {
           ...restValues,
-          category: {
-            name: selectedCategory?.name || "",
-            value: selectedCategory?.value || ""
-          },
+          category: selectedCategory?.id,
+          // category: {
+          // id: selectedCategory?.id || 0,
+          // name: selectedCategory?.name || "",
+          // value: selectedCategory?.value || ""
+          // },
           recaptcha: recaptchaValue || undefined
         };
 
@@ -208,8 +197,8 @@ export default function SignUp() {
               <Select
                 label="Categoria"
                 placeholder="Selecione sua categoria"
-                error={errors.categoryValue}
-                {...register("categoryValue")}
+                error={errors.category}
+                {...register("category")}
               >
                 {CATEGORIES.map(category => (
                   <option key={category.value} value={category.value}>
