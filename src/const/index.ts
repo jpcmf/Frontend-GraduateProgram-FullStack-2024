@@ -1,2 +1,2 @@
 export * from "./categories";
-export * from './validation'
+export * from "./validation";
