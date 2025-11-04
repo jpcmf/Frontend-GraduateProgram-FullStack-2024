@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
+import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const";
 import { CATEGORIES } from "@/const/categories";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Input } from "@/shared/components/Form/Input";
@@ -27,11 +28,11 @@ type RegisterForm = {
 };
 
 const UserEditFormSchema = z.object({
-  name: z.string().min(1, "Campo obrigatório."),
-  email: z.string().email("E-mail inválido.").min(1, "Campo obrigatório."),
-  username: z.string().min(1, "Campo obrigatório."),
-  categoryValue: z.string().nonempty("Campo obrigatório."),
-  about: z.string().max(255, "Máximo de 255 caracteres."),
+  name: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  email: z.string().email(VALIDATION_MESSAGES.INVALID_EMAIL).min(1, VALIDATION_MESSAGES.REQUIRED),
+  username: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  categoryValue: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+  about: z.string().max(VALIDATION_RULES.ABOUT.MAX_LENGTH, VALIDATION_MESSAGES.ABOUT_MAX_LENGTH),
   website_url: z.string(),
   instagram_url: z.string()
 });
