@@ -78,10 +78,8 @@ export default function SignUp() {
 
         const selectedCategory = CATEGORIES.find(cat => cat.value === values.category);
 
-        const { ...restValues } = values;
-
         const newValues = {
-          ...restValues,
+          ...values,
           category: selectedCategory?.id,
           recaptcha: recaptchaValue || undefined
         };
