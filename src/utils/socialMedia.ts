@@ -12,7 +12,7 @@ export function openWebsite(url: string | undefined | null): void {
 
   const cleanUrl = url.trim();
   if (!cleanUrl) return;
-  
+
   const fullUrl = cleanUrl.startsWith("http://") || cleanUrl.startsWith("https://") ? cleanUrl : `https://${cleanUrl}`;
 
   window.open(fullUrl, "_blank", "noopener,noreferrer");
