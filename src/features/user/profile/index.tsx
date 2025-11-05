@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useUser } from "@/hooks/useUser";
+import { openInstagram, openWebsite } from "@/utils/socialMedia";
 
 export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
@@ -76,7 +77,7 @@ export function UserProfile({ userId }: { userId: string }) {
       <Flex minH="100vh">
         <Box flex={1}>
           <Box>
-            <Box bg={cardBg} borderRadius="lg" shadow="sm" p={8}>
+            <Box bg={cardBg} borderRadius="xl" shadow="sm" p={8}>
               <Flex direction={{ base: "column", md: "row" }} align={{ base: "center", md: "start" }} gap={8}>
                 <Box position="relative" flexShrink={0}>
                   <Box bgGradient="linear(to-tr, green.100, purple.600)" borderRadius="full" p={0.5}>
@@ -141,12 +142,16 @@ export function UserProfile({ userId }: { userId: string }) {
                   </HStack>
 
                   <HStack spacing={4}>
-                    <Link href="#" _hover={{ opacity: 0.8 }}>
-                      <Icon as={FaInstagram} w={6} h={6} />
-                    </Link>
-                    <Link href="#" _hover={{ color: "blue.500" }}>
-                      <Icon as={FaGlobe} w={6} h={6} />
-                    </Link>
+                    {user?.instagram_url && (
+                      <Link as="button" onClick={() => openInstagram(user.instagram_url)} _hover={{ opacity: 0.8 }}>
+                        <Icon as={FaInstagram} w={6} h={6} />
+                      </Link>
+                    )}
+                    {user?.website_url && (
+                      <Link as="button" onClick={() => openWebsite(user.website_url)} _hover={{ opacity: 0.8 }}>
+                        <Icon as={FaGlobe} w={6} h={6} />
+                      </Link>
+                    )}
                   </HStack>
 
                   <Text textAlign={{ base: "center", md: "left" }}>{user?.about}</Text>
@@ -165,7 +170,7 @@ export function UserProfile({ userId }: { userId: string }) {
               </Box>
               <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
                 {tricks.map(trick => (
-                  <Box key={trick.id} bg={cardBg} borderRadius="lg" overflow="hidden" shadow="sm">
+                  <Box key={trick.id} bg={cardBg} borderRadius="xl" overflow="hidden" shadow="sm">
                     <Image src={trick.image} alt={trick.title} w="full" h="160px" objectFit="cover" />
                     <Box p={4}>
                       <Text fontWeight="semibold">{trick.title}</Text>
