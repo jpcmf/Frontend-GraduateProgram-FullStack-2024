@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 import { getUser } from "@/services/getUser";
-import type { UserBasics } from '@/types/usersBasics.type';
+import type { UserBasics } from "@/types/usersBasics.type";
 
 type UseUserOptions = Omit<UseQueryOptions<UserBasics, Error>, "queryKey" | "queryFn">;
 
