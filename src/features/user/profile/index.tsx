@@ -97,8 +97,7 @@ export function UserProfile({ userId }: { userId: string }) {
                         src={user?.avatar?.formats?.thumbnail.url}
                         name={user?.name}
                         border="none"
-                      >
-                      </ChakraAvatar>
+                      ></ChakraAvatar>
                     </Link>
                   </Box>
 
