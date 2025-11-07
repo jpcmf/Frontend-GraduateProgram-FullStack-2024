@@ -34,7 +34,22 @@ const signUpSchema = z
       .refine(value => !REGEX_PATTERNS.EMAIL.test(value), {
         message: VALIDATION_MESSAGES.USERNAME_IS_EMAIL
       }),
-    category: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+    category: z.enum(
+      [
+        "iniciante",
+        "amador",
+        "profissional",
+        "pro-master",
+        "pro-legend",
+        "master",
+        "grand-master",
+        "grand-legend",
+        "vintage",
+        "open",
+        "paraskatista"
+      ],
+      { errorMap: () => ({ message: VALIDATION_MESSAGES.REQUIRED }) }
+    ),
     city: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
     uf: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
     country: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
@@ -80,14 +95,13 @@ export default function SignUp() {
       try {
         setIsExecutingRecaptcha(true);
         // for v2 invisible, use executeAsync(). For v3, use execute()
-        const recaptchaValue =
-          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
+        const recaptchaValue = (await recaptchaRef.current.executeAsync?.()) || recaptchaRef.current.execute?.();
 
-        const selectedCategory = CATEGORIES.find(cat => cat.value === values.category);
+        const selectedCategory2 = getCategoryByValue(values.category);
 
         const newValues = {
           ...values,
-          category: selectedCategory?.id,
+          category: selectedCategory2?.id,
           recaptcha: recaptchaValue || undefined
         };
 
