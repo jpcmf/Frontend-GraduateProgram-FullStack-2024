@@ -1,6 +1,17 @@
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
-import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  HStack,
+  Select,
+  SimpleGrid,
+  Spinner,
+  Text,
+  useColorModeValue
+} from "@chakra-ui/react";
 
 import { UserCard } from "@/components/CardUser";
 import type { UserBasicsWithPagination } from "@/types/UserBasicsWithPagination.type";
