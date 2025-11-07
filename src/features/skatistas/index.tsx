@@ -1,6 +1,6 @@
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
-import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { UserCard } from "@/components/CardUser";
 import type { UserBasicsWithPagination } from "@/types/UserBasicsWithPagination.type";
@@ -24,6 +24,7 @@ export function Skatistas({
   onPageChange,
   onPageSizeChange
 }: SkatistasProps) {
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   const totalPages = Math.ceil(totalUsers / pageSize);
   // const startItem = currentPage;
   // const endItem = Math.min(currentPage * pageSize, totalUsers);
@@ -65,7 +66,7 @@ export function Skatistas({
       </SimpleGrid>
 
       <Flex
-        bg="gray.800"
+        bg={bgColor}
         borderRadius={8}
         mb="8"
         p={["2", "4"]}
