@@ -1,6 +1,5 @@
 import React from "react";
 import { FaGlobe, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
-import { TbSkateboard } from "react-icons/tb";
 
 import {
   Avatar as ChakraAvatar,
@@ -27,8 +26,8 @@ import { openInstagram, openWebsite } from "@/utils/socialMedia";
 export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
 
-  // const bgColor = useColorModeValue('gray.100', '#1f2228');
-  const cardBg = useColorModeValue("gray.800", "rgba(31, 34, 40, 0.5)");
+  const titleBgColor = useColorModeValue("white", "gray.900");
+  const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
   // const textColor = useColorModeValue("gray.800", "gray.200");
   const mutedColor = useColorModeValue("gray.600", "gray.400");
 
@@ -68,10 +67,10 @@ export function UserProfile({ userId }: { userId: string }) {
     <>
       <Box mb={6}>
         <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" bg="gray.900" py={0} pr={4}>
+          <Heading size="lg" bg={titleBgColor} py={0} pr={4} position="relative" zIndex={1}>
             Perfil
           </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
+          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex="0" />
         </Flex>
       </Box>
       <Flex minH="100vh">
@@ -98,19 +97,19 @@ export function UserProfile({ userId }: { userId: string }) {
                         src={user?.avatar?.formats?.thumbnail.url}
                         name={user?.name}
                         border="none"
-                      />
+                      >
+                      </ChakraAvatar>
                     </Link>
                   </Box>
 
                   <IconButton
-                    icon={<TbSkateboard size={16} />}
                     aria-label="Online status"
                     position="absolute"
                     bottom={3}
                     right={2}
                     size="sm"
                     borderRadius="full"
-                    color="gray.800"
+                    color="gray.100"
                     bg="green.300"
                     border="2px solid"
                     borderColor="gray.800"
@@ -162,8 +161,8 @@ export function UserProfile({ userId }: { userId: string }) {
             <Box mt={8}>
               <Box mb={6}>
                 <Flex direction="row" alignItems="center" position="relative">
-                  <Heading size="lg" bg="gray.900" py={0} pr={4}>
-                    Últimas manobras
+                  <Heading size="lg" bg={titleBgColor} py={0} pr={4} position="relative" zIndex={1}>
+                    Últimas
                   </Heading>
                   <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
                 </Flex>
