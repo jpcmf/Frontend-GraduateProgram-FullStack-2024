@@ -13,8 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
-import { CATEGORIES } from "@/const/categories";
-import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const/validation";
+import { CATEGORIES, getCategoryByValue } from "@/lib/const/categories";
+import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const/validation";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";

@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
-import { VALIDATION_MESSAGES } from "@/const/validation";
+import { VALIDATION_MESSAGES } from "@/lib/const/validation";
 import { Input } from "@/shared/components/Form/Input";
 import { redirectIfAuthenticated } from "@/utils/auth";
 import { API } from "@/utils/constant";

@@ -7,8 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
-import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const";
-import { CATEGORIES } from "@/const/categories";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
