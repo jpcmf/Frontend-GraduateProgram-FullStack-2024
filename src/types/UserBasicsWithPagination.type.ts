@@ -5,6 +5,7 @@ export type UserBasicsWithPagination = {
     email: string;
     username: string;
     category: {
+      id: string;
       name: string;
       value?: string;
     };
