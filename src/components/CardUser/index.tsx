@@ -14,7 +14,6 @@ import {
   useColorModeValue,
   VStack
 } from "@chakra-ui/react";
-import Avatar from "boring-avatars";
 
 import { AuthContext } from "@/contexts/AuthContext";
 import type { UserBasics } from "@/types/usersBasics.type";
@@ -37,20 +36,14 @@ export function UserCard({ user }: { user: UserBasics }) {
     <Box bg={bgColor} borderRadius="xl" p={4} maxW="sm" w="full" textAlign="center">
       <VStack spacing={4}>
         <Link href={`/user/${user.id}`} prefetch={true}>
-          {user?.avatar ? (
-            <ChakraAvatar
-              size="xl"
-              src={user.avatar.formats.thumbnail.url}
-              name={user.name}
-              border="2px solid"
-              borderColor="transparent"
-              _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
-              borderRadius="full"
-              p={0.5}
-            />
-          ) : (
-            <Avatar name={user.name} size={96} />
-          )}
+          <ChakraAvatar
+            size="xl"
+            bgColor={user?.avatar ? "gray.800" : "gray.700"}
+            src={user?.avatar ? user.avatar.formats.thumbnail.url : "https://robohash.org/" + user?.name}
+            border="2px solid transparent"
+            _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
+            p={0.5}
+          />
         </Link>
         <VStack spacing={1}>
           <Text fontSize="xl" color={nameTextColor}>

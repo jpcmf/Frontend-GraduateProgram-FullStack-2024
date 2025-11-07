@@ -1,8 +1,7 @@
-import { TbSkateboard } from "react-icons/tb";
-
-import { Avatar as ChakraAvatar, Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
+import { Avatar as ChakraAvatar, Box, Flex, HStack, Link, useColorModeValue, VStack } from "@chakra-ui/react";
 
 export function StoriesSwiper() {
+  const bgColor = useColorModeValue("white", "gray.900");
   const stories = [
     {
       id: 1,
@@ -78,15 +77,16 @@ export function StoriesSwiper() {
     },
     {
       id: 13,
+
       name: "Whiskers",
       image: "",
       isUser: true
     }
   ];
 
-  const handleAddStory = (name: string) => {
-    alert(`Story for ${name}`);
-  };
+  // const handleAddStory = (name: string) => {
+  //   alert(`Story for ${name}`);
+  // };
 
   return (
     <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="134px">
@@ -120,13 +120,13 @@ export function StoriesSwiper() {
           <VStack key={story.id} spacing={1} flexShrink={0}>
             <Box position="relative">
               <Box
-                bgGradient={story.isUser ? "gray.800" : "linear(to-tr, green.100, purple.600)"}
+                bgGradient={story.isUser ? "linear(to-tr, gray.800, gray.700)" : "linear(to-tr, green.100, purple.600)"}
                 borderRadius="full"
                 p={0.5}
               >
                 <Link
                   display="block"
-                  bg="gray.800"
+                  bg={bgColor}
                   borderRadius="full"
                   p={1}
                   transition="transform 0.2s"
@@ -137,35 +137,12 @@ export function StoriesSwiper() {
                   <ChakraAvatar
                     w="66px"
                     h="66px"
-                    bgColor="green.300"
+                    bgColor={story.isUser ? "gray.800" : "green.300"}
                     src={story?.image ? story.image : "https://robohash.org/" + story?.name}
                   />
                 </Link>
               </Box>
-
-              <IconButton
-                icon={<TbSkateboard size={16} />}
-                aria-label="Add story"
-                position="absolute"
-                bottom={0}
-                right={2}
-                size="sm"
-                borderRadius="full"
-                color={story.isUser ? "gray.500" : "gray.800"}
-                bg={story.isUser ? "gray.900" : "green.400"}
-                border="2px solid"
-                borderColor="gray.800"
-                w={5}
-                h={5}
-                minW={5}
-                fontSize="lg"
-                onClick={() => handleAddStory(story.name)}
-                _hover={{
-                  bg: story.isUser ? "gray.700" : "green.700"
-                }}
-              />
             </Box>
-
             <Link
               mt={1}
               fontSize="sm"
