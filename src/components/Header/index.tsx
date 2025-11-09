@@ -55,7 +55,7 @@ export function Header() {
 
   return (
     <>
-      <Flex as="header" w="100%" maxWidth={1144} mx="auto" my="8" align="center" px="0">
+      <Flex as="header" w="100%" maxWidth={1144} mx="auto" mt="8" align="center" px="0">
         {!isVisible && (
           <IconButton
             aria-label="Open navigation"
