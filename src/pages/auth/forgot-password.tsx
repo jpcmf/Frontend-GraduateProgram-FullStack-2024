@@ -3,10 +3,11 @@ import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Box, Button, Divider, Flex, Heading, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { VALIDATION_MESSAGES } from "@/lib/const/validation";
 import { Input } from "@/shared/components/Form/Input";
@@ -24,7 +25,6 @@ export default function ForgotPassword() {
   const { addToast } = Toast();
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const titleBgColor = useColorModeValue("white", "gray.900");
 
   const {
     handleSubmit,
@@ -89,14 +89,7 @@ export default function ForgotPassword() {
       <Head>
         <title>Esqueci minha senha - SkateHub</title>
       </Head>
-      <Box mb={6}>
-        <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" fontWeight="semibold" bg={titleBgColor} py={0} pr={4}>
-            Recuperar senha
-          </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
-        </Flex>
-      </Box>
+      <TitleSection title="Recuperar senha" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"

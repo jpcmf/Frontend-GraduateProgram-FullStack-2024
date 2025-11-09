@@ -9,9 +9,7 @@ import { useRouter } from "next/router";
 import {
   Box,
   Button,
-  Divider,
   Flex,
-  Heading,
   IconButton,
   InputGroup,
   InputRightElement,
@@ -22,6 +20,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { CATEGORIES, getCategoryByValue } from "@/lib/const/categories";
 import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const/validation";
@@ -90,7 +89,6 @@ export default function SignUp() {
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const titleBgColor = useColorModeValue("white", "gray.900");
 
   const {
     handleSubmit,
@@ -174,14 +172,7 @@ export default function SignUp() {
       <Head>
         <title>Cadastrar - SkateHub</title>
       </Head>
-      <Box mb={6}>
-        <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" fontWeight="semibold" bg={titleBgColor} py={0} pr={4}>
-            Criar uma conta
-          </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
-        </Flex>
-      </Box>
+      <TitleSection title="Criar uma conta" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"

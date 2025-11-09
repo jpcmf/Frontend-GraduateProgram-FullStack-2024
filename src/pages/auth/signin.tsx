@@ -9,9 +9,7 @@ import { useRouter } from "next/router";
 import {
   Box,
   Button,
-  Divider,
   Flex,
-  Heading,
   IconButton,
   InputGroup,
   InputRightElement,
@@ -21,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
@@ -36,7 +35,6 @@ export default function SignIn() {
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const titleBgColor = useColorModeValue("white", "gray.900");
 
   const {
     handleSubmit,
@@ -162,14 +160,7 @@ export default function SignIn() {
       <Head>
         <title>Login - SkateHub</title>
       </Head>
-      <Box mb={6}>
-        <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" fontWeight="semibold" bg={titleBgColor} py={0} pr={4}>
-            Faça seu login
-          </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
-        </Flex>
-      </Box>
+      <TitleSection title="Faça seu login" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"
