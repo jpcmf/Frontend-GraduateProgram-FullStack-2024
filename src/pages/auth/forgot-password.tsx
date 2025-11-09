@@ -132,9 +132,10 @@ export default function ForgotPassword() {
             <Button
               type="submit"
               mt="6"
-              colorScheme="green"
-              fontWeight="bold"
-              size={["md", "lg"]}
+              color="white"
+              bg="green.400"
+              _hover={{ bg: "green.600" }}
+              size={["sm", "md"]}
               isLoading={isSubmitting}
               loadingText="Enviando..."
               w={["100%", null, "3xs"]}
