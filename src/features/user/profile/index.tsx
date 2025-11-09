@@ -70,7 +70,7 @@ export function UserProfile({ userId }: { userId: string }) {
           <Heading size="lg" bg={titleBgColor} py={0} pr={4} position="relative" zIndex={1}>
             Perfil
           </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex="0" />
+          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={0} />
         </Flex>
       </Box>
       <Flex minH="100vh">
