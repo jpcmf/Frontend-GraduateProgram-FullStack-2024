@@ -6,7 +6,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Select as ChakraSelect,
-  SelectProps as ChakraSelectProps
+  SelectProps as ChakraSelectProps,
+  useColorModeValue
 } from "@chakra-ui/react";
 
 interface SelectProps extends ChakraSelectProps {
@@ -20,16 +21,20 @@ const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
   { name, label, error = null, children, placeholder, ...rest },
   ref
 ) => {
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.900");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const bgHoverColor = useColorModeValue("blackAlpha.200", "blackAlpha.300");
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
       <ChakraSelect
         name={name}
         id={name}
-        focusBorderColor="blue.500"
-        bgColor="gray.900"
+        focusBorderColor="green.500"
+        bgColor={bgColor}
+        color={textColor}
         variant="filled"
-        _hover={{ bgColor: "gray.900" }}
+        _hover={{ bgColor: bgHoverColor }}
         size="lg"
         ref={ref}
         placeholder={placeholder}
