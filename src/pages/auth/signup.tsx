@@ -95,7 +95,8 @@ export default function SignUp() {
       try {
         setIsExecutingRecaptcha(true);
         // for v2 invisible, use executeAsync(). For v3, use execute()
-        const recaptchaValue = (await recaptchaRef.current.executeAsync?.()) || recaptchaRef.current.execute?.();
+        const recaptchaValue =
+          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
 
         const selectedCategory2 = getCategoryByValue(values.category);
 
