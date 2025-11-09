@@ -111,7 +111,7 @@ export function SidebarNav() {
                 color: "green.400"
               }}
             >
-              Cadastro geral
+              Cadastro atleta
             </NavLink>
           </NavSection>
         )}
