@@ -37,7 +37,8 @@ export default function LoginModal() {
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const bgPrimaryButton = useColorModeValue("green.400", "green.400");
+  const bgColorPrimaryButton = useColorModeValue("green.400", "green.400");
+  const primaryTextColor = useColorModeValue("white", "gray.100");
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
 
   const {
@@ -202,8 +203,8 @@ export default function LoginModal() {
                 <Button
                   type="submit"
                   mt="6"
-                  // colorScheme="green"
-                  bg={bgPrimaryButton}
+                  bg={bgColorPrimaryButton}
+                  color={primaryTextColor}
                   _hover={{ bg: "green.600" }}
                   fontWeight="bold"
                   size={["md", "lg"]}
