@@ -77,7 +77,6 @@ export function StoriesSwiper() {
     },
     {
       id: 13,
-
       name: "Whiskers",
       image: "",
       isUser: true
