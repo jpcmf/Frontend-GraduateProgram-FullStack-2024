@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, useColorModeValue, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -44,6 +44,10 @@ export function UserEdit() {
   const { addToast } = Toast();
   const [isError, setIsError] = useState(false);
   const { user, updateUser } = useContext(AuthContext);
+
+  const bgColor = useColorModeValue('blackAlpha.100', 'gray.800')
+  const titleBgColor = useColorModeValue("white", "gray.900");
+  const bgCancelButton = useColorModeValue("whiteAlpha.100", "blackAlpha.300");
 
   const {
     register,
@@ -113,7 +117,7 @@ export function UserEdit() {
     <>
       <Box mb={6}>
         <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" bg="gray.900" py={0} pr={4}>
+          <Heading size="lg" bg={titleBgColor} py={0} pr={4}>
             Editar
           </Heading>
           <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
@@ -125,15 +129,11 @@ export function UserEdit() {
         onSubmit={handleSubmit(handleEditUser)}
         flex="1"
         borderRadius={8}
-        bg="gray.800"
+        bg={bgColor}
         p={["6", "8"]}
         mb={8}
       >
         <Flex mb="8" direction="column">
-          {/* <Heading size="lg" fontWeight="normal">
-            Editar
-          </Heading>
-          <Divider my="6" borderColor="gray.700" /> */}
           <VStack spacing="4">
             <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
               <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
@@ -172,7 +172,7 @@ export function UserEdit() {
               <Input
                 isInputGroup
                 InputLeftAddonText="https://"
-                label="Website Pessoal"
+                label="Website pessoal"
                 placeholder="Ex. www.site.com.br"
                 {...register("website_url")}
                 error={errors.website_url}
@@ -193,10 +193,10 @@ export function UserEdit() {
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
               <Button
+                cursor="pointer"
                 as="a"
                 size={["md", "lg"]}
-                fontSize="sm"
-                colorScheme="whiteAlpha"
+                bg={bgCancelButton}
                 onClick={() => router.push("/dashboard")}
               >
                 Cancelar
@@ -205,8 +205,8 @@ export function UserEdit() {
                 type="submit"
                 isLoading={isSubmitting}
                 size={["md", "lg"]}
-                fontSize="sm"
-                colorScheme="green"
+                color="white"
+                bg="green.400"
                 isDisabled={!user?.email}
               >
                 Salvar
