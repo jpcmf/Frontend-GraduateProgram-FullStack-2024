@@ -49,6 +49,10 @@ export function Header() {
     );
   };
 
+  const handleSignupClick = () => {
+    router.push("/auth/signup");
+  };
+
   return (
     <>
       <Flex as="header" w="100%" maxWidth={1144} mx="auto" my="8" align="center" px="0">
@@ -70,32 +74,6 @@ export function Header() {
 
           {!isAuthenticated ? (
             <Flex gap={2}>
-              {/* <Button
-                as={Link}
-                href={{
-                  pathname: router.pathname,
-                  query: { ...router.query, modal: "login" }
-                }}
-                variant="ghost"
-                border="1px"
-                borderColor="green.400"
-                color="green.400"
-                gap={2}
-                px={4}
-                py={2}
-                fontWeight="semibold"
-                fontSize="sm"
-                _hover={{
-                  textDecoration: "none",
-                  transform: "translateY(-2px)",
-                  shadow: "lg"
-                }}
-                transition="all 0.2s"
-              >
-                <TbSkateboard size={18} />
-                Faça seu login
-              </Button> */}
-
               <Button
                 onClick={handleLoginClick}
                 color="white"
@@ -107,13 +85,10 @@ export function Header() {
               </Button>
 
               <Button
-                // mt="3"
                 variant="ghost"
                 color={textSecondaryButton}
-                // fontWeight="bold"
                 size={["sm", "md"]}
-                w="100%"
-                onClick={() => router.push("/auth/signup")}
+                onClick={handleSignupClick}
               >
                 Criar uma conta
               </Button>
