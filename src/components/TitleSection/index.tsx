@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
 
 export function TitleSection({ title }: { title: string }) {
   const titleBgColor = useColorModeValue("white", "gray.900");
