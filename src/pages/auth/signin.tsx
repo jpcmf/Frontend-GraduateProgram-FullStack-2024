@@ -216,9 +216,10 @@ export default function SignIn() {
               <Button
                 type="submit"
                 mt="6"
-                colorScheme="green"
-                fontWeight="bold"
-                size={["md", "lg"]}
+                color="white"
+                bg="green.400"
+                _hover={{ bg: "green.600" }}
+                size={["sm", "md"]}
                 isLoading={isSubmitting || isExecutingRecaptcha}
                 loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
                 w={["100%", null, "3xs"]}
@@ -231,8 +232,8 @@ export default function SignIn() {
                 mt="6"
                 color="gray.600"
                 fontWeight="medium"
-                size={["md", "lg"]}
-                ml={8}
+                size={["sm", "md"]}
+                ml={2}
                 onClick={() => router.push("/auth/forgot-password")}
               >
                 Esqueci minha senha
