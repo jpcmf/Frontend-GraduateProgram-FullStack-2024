@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 import {
@@ -12,12 +11,13 @@ import {
   Button,
   Divider,
   Flex,
+  Heading,
   IconButton,
   InputGroup,
   InputRightElement,
-  Link,
   Stack,
-  Text
+  Text,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -34,6 +34,9 @@ export default function SignIn() {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
+
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const titleBgColor = useColorModeValue("white", "gray.900");
 
   const {
     handleSubmit,
@@ -159,34 +162,25 @@ export default function SignIn() {
       <Head>
         <title>Login - SkateHub</title>
       </Head>
-      <Flex
-        alignItems="center"
-        bg="gray.900"
-        flexDirection="column"
-        height="100%"
-        justifyContent="start"
-        mb={8}
-        width="100%"
-      >
+      <Box mb={6}>
+        <Flex direction="row" alignItems="center" position="relative">
+          <Heading size="lg" fontWeight="semibold" bg={titleBgColor} py={0} pr={4}>
+            Faça seu login
+          </Heading>
+          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
+        </Flex>
+      </Box>
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"
           w="100%"
-          bg="gray.800"
+          bg={bgColor}
           p="8"
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleSignIn)}
         >
           <Stack spacing={4}>
-            <Flex alignItems="center">
-              <Link href="/">
-                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
-              </Link>
-              <Text as="h1" fontSize="2xl" fontWeight="semibold">
-                Faça seu login
-              </Text>
-            </Flex>
-            <Divider borderColor="gray.900" />
             <Flex flexDir={["column", null, "row"]} gap={4}>
               <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
               <InputGroup>
