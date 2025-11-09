@@ -306,9 +306,10 @@ export default function SignUp() {
           <Flex flexDir={["column", null, "row"]} alignItems="end" mt={8}>
             <Button
               type="submit"
-              colorScheme="green"
-              fontWeight="bold"
-              size={["md", "lg"]}
+              color="white"
+              bg="green.400"
+              _hover={{ bg: "green.600" }}
+              size={["sm", "md"]}
               isLoading={isSubmitting || isExecutingRecaptcha}
               loadingText={isExecutingRecaptcha ? "Cadastrando..." : "Finalizando..."}
               w={["100%", null, "3xs"]}
