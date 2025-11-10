@@ -14,7 +14,8 @@ import {
   InputRightElement,
   Link as ChakraLink,
   Stack,
-  Text
+  Text,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -34,6 +35,11 @@ export default function LoginModal() {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
+
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const bgColorPrimaryButton = useColorModeValue("green.400", "green.400");
+  const primaryTextColor = useColorModeValue("white", "gray.100");
+  const textSecondaryButton = useColorModeValue("gray.800", "green.400");
 
   const {
     handleSubmit,
@@ -110,7 +116,7 @@ export default function LoginModal() {
       <GridItem
         hideBelow="md"
         colSpan={{ md: 2, lg: 2, xl: 3 }}
-        bg="gray.800"
+        bg={bgColor}
         backgroundSize="cover"
         backgroundRepeat="no-repeat"
         backgroundBlendMode="overlay"
@@ -197,7 +203,9 @@ export default function LoginModal() {
                 <Button
                   type="submit"
                   mt="6"
-                  colorScheme="green"
+                  bg={bgColorPrimaryButton}
+                  color={primaryTextColor}
+                  _hover={{ bg: "green.600" }}
                   fontWeight="bold"
                   size={["md", "lg"]}
                   isLoading={isSubmitting || isExecutingRecaptcha}
@@ -223,7 +231,7 @@ export default function LoginModal() {
                 type="button"
                 mt="3"
                 variant="ghost"
-                colorScheme="green"
+                color={textSecondaryButton}
                 fontWeight="bold"
                 size={["md", "lg"]}
                 w="100%"

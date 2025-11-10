@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { FaGlobe, FaInstagram } from "react-icons/fa";
 import { TbMapPinHeart, TbMessage, TbUserPlus } from "react-icons/tb";
+import Link from "next/link";
 
 import {
   Avatar as ChakraAvatar,
@@ -13,46 +14,43 @@ import {
   useColorModeValue,
   VStack
 } from "@chakra-ui/react";
-import Avatar from "boring-avatars";
 
 import { AuthContext } from "@/contexts/AuthContext";
 import type { UserBasics } from "@/types/usersBasics.type";
+import { openInstagram, openWebsite } from "@/utils/socialMedia";
 
 export function UserCard({ user }: { user: UserBasics }) {
   const { isAuthenticated } = useContext(AuthContext);
 
-  const bgColor = useColorModeValue("gray.800", "gray.800");
-  const textColor = useColorModeValue("gray.300", "gray.300");
-  const iconColor = useColorModeValue("gray.400", "gray.400");
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const iconColor = useColorModeValue("gray.800", "gray.400");
+  const nameTextColor = useColorModeValue("gray.800", "gray.100");
+  const categoryTextColor = useColorModeValue("gray.400", "gray.600");
 
   const handleContact = () => {
     alert("Contact functionality - implement your preferred method!");
   };
 
-  const openInstagram = () => {
-    if (!user.instagram_url) return;
-    window.open(`https://instagram.com/${user.instagram_url.replace("@", "")}`, "_blank");
-  };
-
-  const openWebsite = () => {
-    if (!user.website_url) return;
-    window.open(`https://${user.website_url}`, "_blank");
-  };
-
   return (
     <Box bg={bgColor} borderRadius="xl" p={4} maxW="sm" w="full" textAlign="center">
       <VStack spacing={4}>
-        {user?.avatar ? (
-          <ChakraAvatar size="xl" src={user.avatar.formats.thumbnail.url} name={user.name} />
-        ) : (
-          <Avatar name={user.name} size={96} />
-        )}
+        <Link href={`/user/${user.id}`} prefetch={true}>
+          <ChakraAvatar
+            size="xl"
+            bgColor={user?.avatar ? "gray.800" : "gray.700"}
+            src={user?.avatar ? user.avatar.formats.thumbnail.url : "https://robohash.org/" + user?.name}
+            border="2px solid transparent"
+            _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
+            p={0.5}
+          />
+        </Link>
         <VStack spacing={1}>
-          <Text fontSize="xl" fontWeight="semibold" color="gray.100">
+          <Text fontSize="xl" color={nameTextColor}>
             {user.name}
           </Text>
           <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
-            <Text fontSize="md" color="gray.600">
+            <Text fontSize="md" color={categoryTextColor}>
               {user.category?.name ? user.category.name : "Skater"}
             </Text>
           </Box>
@@ -72,7 +70,7 @@ export function UserCard({ user }: { user: UserBasics }) {
         </HStack>
 
         <HStack spacing={4} h="5">
-          <VStack spacing={1} cursor="pointer" onClick={openInstagram}>
+          <VStack spacing={1} cursor="pointer" onClick={() => openInstagram(user.instagram_url)}>
             {user.instagram_url && (
               <Icon
                 as={FaInstagram}
@@ -85,7 +83,7 @@ export function UserCard({ user }: { user: UserBasics }) {
           </VStack>
 
           {user.website_url && (
-            <VStack spacing={1} cursor="pointer" onClick={openWebsite}>
+            <VStack spacing={1} cursor="pointer" onClick={() => openWebsite(user.website_url)}>
               <Icon
                 as={FaGlobe}
                 boxSize={5}

@@ -1,10 +1,8 @@
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
-import { TbSkateboard } from "react-icons/tb";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Button, Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { Button, Flex, Icon, IconButton, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
@@ -19,6 +17,7 @@ export function Header() {
   const { onOpen } = useSidebarDrawer();
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
+  const textSecondaryButton = useColorModeValue("gray.800", "green.400");
 
   const isVisible = useBreakpointValue({
     base: false,
@@ -39,9 +38,24 @@ export function Header() {
     );
   };
 
+  const handleLoginClick = () => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, modal: "login" }
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const handleSignupClick = () => {
+    router.push("/auth/signup");
+  };
+
   return (
     <>
-      <Flex as="header" w="100%" maxWidth={1144} mx="auto" my="8" align="center" px="0">
+      <Flex as="header" w="100%" maxWidth={1144} mx="auto" mt="8" align="center" px="0">
         {!isVisible && (
           <IconButton
             aria-label="Open navigation"
@@ -55,35 +69,25 @@ export function Header() {
 
         {/* {isAuthenticated && isVisible && <Search />} */}
 
-        <Flex align="center" ml="auto">
+        <Flex alignItems="center" ml="auto">
           {isAuthenticated && <Notification />}
 
           {!isAuthenticated ? (
-            <Button
-              as={Link}
-              href={{
-                pathname: router.pathname,
-                query: { ...router.query, modal: "login" }
-              }}
-              variant="ghost"
-              border="1px"
-              borderColor="green.400"
-              color="green.400"
-              gap={2}
-              px={4}
-              py={2}
-              fontWeight="semibold"
-              fontSize="sm"
-              _hover={{
-                textDecoration: "none",
-                transform: "translateY(-2px)",
-                shadow: "lg"
-              }}
-              transition="all 0.2s"
-            >
-              <TbSkateboard size={18} />
-              Faça seu login
-            </Button>
+            <Flex gap={2}>
+              <Button
+                onClick={handleLoginClick}
+                color="white"
+                bg="green.400"
+                size={["sm", "md"]}
+                _hover={{ bg: "green.600" }}
+              >
+                Login
+              </Button>
+
+              <Button variant="ghost" color={textSecondaryButton} size={["sm", "md"]} onClick={handleSignupClick}>
+                Criar uma conta
+              </Button>
+            </Flex>
           ) : (
             <Profile showProfileData={isVisible} />
           )}

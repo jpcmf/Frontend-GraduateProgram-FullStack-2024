@@ -11,3 +11,10 @@ export const CATEGORIES = [
   { id: 10, name: "Open", value: "open" },
   { id: 11, name: "Paraskatista", value: "paraskatista" }
 ] as const;
+
+export type CategoryValue = (typeof CATEGORIES)[number]["value"];
+export type CategoryId = (typeof CATEGORIES)[number]["id"];
+
+export const getCategoryById = (id: CategoryId) => CATEGORIES.find(cat => cat.id === id);
+
+export const getCategoryByValue = (value: CategoryValue) => CATEGORIES.find(cat => cat.value === value);

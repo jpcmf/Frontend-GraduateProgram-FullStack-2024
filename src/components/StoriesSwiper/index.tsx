@@ -1,93 +1,91 @@
-import { TbSkateboard } from "react-icons/tb";
-
-import { Box, Flex, HStack, IconButton, Link, VStack } from "@chakra-ui/react";
-import Avatar from "boring-avatars";
+import { Avatar as ChakraAvatar, Box, Flex, HStack, Link, useColorModeValue, VStack } from "@chakra-ui/react";
 
 export function StoriesSwiper() {
+  const bgColor = useColorModeValue("white", "gray.900");
   const stories = [
     {
       id: 1,
       name: "You",
-      image: "https://placekitten.com/250/250",
+      image: "",
       isUser: false
     },
     {
       id: 2,
       name: "Bootsie",
-      image: "https://placekitten.com/200/200",
+      image: "",
       isUser: false
     },
     {
       id: 3,
       name: "Sketch",
-      image: "https://placekitten.com/300/300",
+      image: "",
       isUser: false
     },
     {
       id: 4,
       name: "Blam blam",
-      image: "https://placekitten.com/400/400",
+      image: "",
       isUser: true
     },
     {
       id: 5,
       name: "Whiskers",
-      image: "https://placekitten.com/350/350",
+      image: "",
       isUser: true
     },
     {
       id: 6,
       name: "You",
-      image: "https://placekitten.com/250/250",
+      image: "",
       isUser: true
     },
     {
       id: 7,
       name: "Bootsie",
-      image: "https://placekitten.com/200/200",
+      image: "",
       isUser: true
     },
     {
       id: 8,
       name: "Sketch",
-      image: "https://placekitten.com/300/300",
+      image: "",
       isUser: true
     },
     {
       id: 9,
       name: "Blam blam",
-      image: "https://placekitten.com/400/400",
+      image: "",
       isUser: true
     },
     {
       id: 10,
       name: "Whiskers",
-      image: "https://placekitten.com/350/350",
+      image: "",
       isUser: true
     },
     {
       id: 11,
       name: "Whiskers",
-      image: "https://placekitten.com/350/350",
+      image: "",
       isUser: true
     },
     {
       id: 12,
       name: "Whiskers",
-      image: "https://placekitten.com/350/350",
+      image: "",
       isUser: true
     },
     {
       id: 13,
       name: "Whiskers",
-      image: "https://placekitten.com/350/350",
+      image: "",
       isUser: true
     }
   ];
 
-  const handleAddStory = (name: string) => {
-    alert(`Story for ${name}`);
-  };
+  // const handleAddStory = (name: string) => {
+  //   alert(`Story for ${name}`);
+  // };
 
   return (
     <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="134px">
@@ -121,13 +119,13 @@ export function StoriesSwiper() {
           <VStack key={story.id} spacing={1} flexShrink={0}>
             <Box position="relative">
               <Box
-                bgGradient={story.isUser ? "gray.800" : "linear(to-tr, green.100, purple.600)"}
+                bgGradient={story.isUser ? "linear(to-tr, gray.800, gray.700)" : "linear(to-tr, green.100, purple.600)"}
                 borderRadius="full"
                 p={0.5}
               >
                 <Link
                   display="block"
-                  bg="gray.800"
+                  bg={bgColor}
                   borderRadius="full"
                   p={1}
                   transition="transform 0.2s"
@@ -135,32 +133,15 @@ export function StoriesSwiper() {
                     transform: "rotate(-6deg)"
                   }}
                 >
-                  {/* <ChakraAvatar size="xl" src={story.image} name={story.name} border="none" /> */}
-                  <Avatar name={story.name} variant="marble" size={66} />
+                  <ChakraAvatar
+                    w="66px"
+                    h="66px"
+                    bgColor={story.isUser ? "gray.800" : "green.300"}
+                    src={story?.image ? story.image : "https://robohash.org/" + story?.name}
+                  />
                 </Link>
               </Box>
-
-              <IconButton
-                icon={<TbSkateboard />}
-                aria-label="Add story"
-                position="absolute"
-                bottom={0}
-                right={1}
-                size="sm"
-                borderRadius="full"
-                colorScheme="green"
-                border="2px solid white"
-                w={8}
-                h={8}
-                minW={8}
-                fontSize="lg"
-                onClick={() => handleAddStory(story.name)}
-                _hover={{
-                  bg: "green.700"
-                }}
-              />
             </Box>
-
             <Link
               mt={1}
               fontSize="sm"

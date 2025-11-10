@@ -6,7 +6,7 @@ type DashboardProps = {
 
 export function Dashboard({ user }: DashboardProps) {
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 8 }} w="100dvw">
+    <SimpleGrid m={0} columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 4 }} w="">
       <Box p={["6", "8"]} bg="gray.800" borderRadius={8} flex="50%">
         <Text fontSize="lg" fontWeight="bold" mb="4">
           Status do cadastro do atleta

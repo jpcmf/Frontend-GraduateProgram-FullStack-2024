@@ -4,17 +4,26 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Box, Button, Divider, Flex, IconButton, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  InputGroup,
+  InputRightElement,
+  Stack,
+  Text,
+  useColorModeValue
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
-import { CATEGORIES } from "@/const/categories";
-import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const/validation";
+import { CATEGORIES, getCategoryByValue } from "@/lib/const/categories";
+import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const/validation";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
@@ -34,7 +43,22 @@ const signUpSchema = z
       .refine(value => !REGEX_PATTERNS.EMAIL.test(value), {
         message: VALIDATION_MESSAGES.USERNAME_IS_EMAIL
       }),
-    category: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
+    category: z.enum(
+      [
+        "iniciante",
+        "amador",
+        "profissional",
+        "pro-master",
+        "pro-legend",
+        "master",
+        "grand-master",
+        "grand-legend",
+        "vintage",
+        "open",
+        "paraskatista"
+      ],
+      { errorMap: () => ({ message: VALIDATION_MESSAGES.REQUIRED }) }
+    ),
     city: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
     uf: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
     country: z.string().nonempty(VALIDATION_MESSAGES.REQUIRED),
@@ -64,6 +88,8 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+
   const {
     handleSubmit,
     register,
@@ -83,11 +109,11 @@ export default function SignUp() {
         const recaptchaValue =
           (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
 
-        const selectedCategory = CATEGORIES.find(cat => cat.value === values.category);
+        const selectedCategory2 = getCategoryByValue(values.category);
 
         const newValues = {
           ...values,
-          category: selectedCategory?.id,
+          category: selectedCategory2?.id,
           recaptcha: recaptchaValue || undefined
         };
 
@@ -146,27 +172,18 @@ export default function SignUp() {
       <Head>
         <title>Cadastrar - SkateHub</title>
       </Head>
-      <Flex alignItems="center" bg="gray.900" height="100%" justifyContent="start" mb={8} width="100%">
+      <TitleSection title="Criar uma conta" />
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"
           w="100%"
-          bg="gray.800"
+          bg={bgColor}
           p="8"
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleSignUp)}
         >
           <Stack spacing={4}>
-            <Flex alignItems="center">
-              <Link href="/">
-                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
-              </Link>
-              <Text as="h1" fontSize="2xl" fontWeight="semibold">
-                Criar uma conta
-              </Text>
-            </Flex>
-            <Divider borderColor="gray.900" />
-
             <Flex flexDir={["column", null, "row"]} gap="4">
               <Input
                 id="name"
@@ -292,9 +309,10 @@ export default function SignUp() {
           <Flex flexDir={["column", null, "row"]} alignItems="end" mt={8}>
             <Button
               type="submit"
-              colorScheme="green"
-              fontWeight="bold"
-              size={["md", "lg"]}
+              color="white"
+              bg="green.400"
+              _hover={{ bg: "green.600" }}
+              size={["sm", "md"]}
               isLoading={isSubmitting || isExecutingRecaptcha}
               loadingText={isExecutingRecaptcha ? "Cadastrando..." : "Finalizando..."}
               w={["100%", null, "3xs"]}

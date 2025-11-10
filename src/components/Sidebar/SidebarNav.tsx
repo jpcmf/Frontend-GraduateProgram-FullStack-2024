@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { RiContactsLine, RiDashboardLine, RiPictureInPictureLine } from "react-icons/ri";
 import { TbSkateboard } from "react-icons/tb";
 
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
+
+import { AuthContext } from "@/contexts/AuthContext";
 
 import { LogoSkateHub } from "../LogoSkateHub";
 
@@ -9,8 +12,10 @@ import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 
 export function SidebarNav() {
+  const { isAuthenticated } = useContext(AuthContext);
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   return (
-    <Box bg={"gray.800"} p="6" borderRadius={0} h="full">
+    <Box bg={bgColor} p="6" borderRadius={0} h="full">
       <Stack spacing="8" align="flex-start">
         <LogoSkateHub />
         <NavSection title="Geral">
@@ -33,16 +38,6 @@ export function SidebarNav() {
             }}
           >
             Skatistas
-          </NavLink>
-          <NavLink
-            icon={RiContactsLine}
-            href="/general"
-            _activeLink={{
-              textDecoration: "none",
-              color: "green.400"
-            }}
-          >
-            Cadastro geral
           </NavLink>
           <NavLink
             icon={RiPictureInPictureLine}
@@ -105,6 +100,21 @@ export function SidebarNav() {
             Atendimento
           </NavLink> */}
         </NavSection>
+
+        {isAuthenticated && (
+          <NavSection title="Usuário">
+            <NavLink
+              icon={RiContactsLine}
+              href="/general"
+              _activeLink={{
+                textDecoration: "none",
+                color: "green.400"
+              }}
+            >
+              Cadastro atleta
+            </NavLink>
+          </NavSection>
+        )}
 
         {/* <NavSection title="Financeiro">
           <NavLink

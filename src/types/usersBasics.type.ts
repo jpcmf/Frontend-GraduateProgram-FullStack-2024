@@ -4,6 +4,7 @@ export type UserBasics = {
   email: string;
   username: string;
   category: {
+    id: string;
     name: string;
     value?: string;
   };

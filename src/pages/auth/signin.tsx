@@ -4,23 +4,22 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 import {
   Box,
   Button,
-  Divider,
   Flex,
   IconButton,
   InputGroup,
   InputRightElement,
-  Link,
   Stack,
-  Text
+  Text,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
@@ -34,6 +33,8 @@ export default function SignIn() {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
+
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   const {
     handleSubmit,
@@ -159,34 +160,18 @@ export default function SignIn() {
       <Head>
         <title>Login - SkateHub</title>
       </Head>
-      <Flex
-        alignItems="center"
-        bg="gray.900"
-        flexDirection="column"
-        height="100%"
-        justifyContent="start"
-        mb={8}
-        width="100%"
-      >
+      <TitleSection title="Faça seu login" />
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
           as="form"
           w="100%"
-          bg="gray.800"
+          bg={bgColor}
           p="8"
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleSignIn)}
         >
           <Stack spacing={4}>
-            <Flex alignItems="center">
-              <Link href="/">
-                <Image src="/skatehub.png" alt="SkateHub" width={42} height={42} style={{ marginRight: "16px" }} />
-              </Link>
-              <Text as="h1" fontSize="2xl" fontWeight="semibold">
-                Faça seu login
-              </Text>
-            </Flex>
-            <Divider borderColor="gray.900" />
             <Flex flexDir={["column", null, "row"]} gap={4}>
               <Input id="email" type="email" label="E-mail" {...register("email")} error={errors.email} />
               <InputGroup>
@@ -216,9 +201,10 @@ export default function SignIn() {
               <Button
                 type="submit"
                 mt="6"
-                colorScheme="green"
-                fontWeight="bold"
-                size={["md", "lg"]}
+                color="white"
+                bg="green.400"
+                _hover={{ bg: "green.600" }}
+                size={["sm", "md"]}
                 isLoading={isSubmitting || isExecutingRecaptcha}
                 loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
                 w={["100%", null, "3xs"]}
@@ -231,8 +217,8 @@ export default function SignIn() {
                 mt="6"
                 color="gray.600"
                 fontWeight="medium"
-                size={["md", "lg"]}
-                ml={8}
+                size={["sm", "md"]}
+                ml={2}
                 onClick={() => router.push("/auth/forgot-password")}
               >
                 Esqueci minha senha

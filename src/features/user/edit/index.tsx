@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, useColorModeValue, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
-import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/const";
-import { CATEGORIES } from "@/const/categories";
 import { AuthContext } from "@/contexts/AuthContext";
+import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const";
+import { CATEGORIES } from "@/lib/const/categories";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { Textarea } from "@/shared/components/Form/Textarea";
@@ -44,6 +44,10 @@ export function UserEdit() {
   const { addToast } = Toast();
   const [isError, setIsError] = useState(false);
   const { user, updateUser } = useContext(AuthContext);
+
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const titleBgColor = useColorModeValue("white", "gray.900");
+  const bgCancelButton = useColorModeValue("whiteAlpha.100", "blackAlpha.300");
 
   const {
     register,
@@ -110,67 +114,73 @@ export function UserEdit() {
   };
 
   return (
-    <Box
-      as="form"
-      onSubmit={handleSubmit(handleEditUser)}
-      flex="1"
-      borderRadius={8}
-      bg="gray.800"
-      p={["6", "8"]}
-      mb={8}
-    >
-      <Flex mb="8" direction="column">
-        <Heading size="lg" fontWeight="normal">
-          Editar
-        </Heading>
-        <Divider my="6" borderColor="gray.700" />
-        <VStack spacing="4">
-          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-            <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
-            <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
-          </SimpleGrid>
-          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-            <Input label="Usuário" {...register("username")} error={errors.username} isDisabled />
-            <Select
-              label="Categoria"
-              placeholder="Selecione sua categoria"
-              error={errors.categoryValue}
-              {...register("categoryValue")}
-            >
-              {CATEGORIES.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.name}
-                </option>
-              ))}
-            </Select>
-          </SimpleGrid>
-          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-            <Flex flexDirection="column">
-              <Textarea label="Sobre você" placeholder="Sobre você..." {...register("about")} error={errors.about} />
-            </Flex>
-          </SimpleGrid>
-          <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-            <Input
-              isInputGroup
-              InputLeftAddonText="instagram.com/"
-              label="Perfil Instagram"
-              placeholder="Ex. nome_do_usuário"
-              {...register("instagram_url")}
-              error={errors.instagram_url}
-              isInvalid={isError}
-            />
-            <Input
-              isInputGroup
-              InputLeftAddonText="https://"
-              label="Website Pessoal"
-              placeholder="Ex. www.site.com.br"
-              {...register("website_url")}
-              error={errors.website_url}
-              isInvalid={isError}
-            />
-          </SimpleGrid>
-          {/* TODO: implement password change */}
-          {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+    <>
+      <Box mb={6}>
+        <Flex direction="row" alignItems="center" position="relative">
+          <Heading size="lg" bg={titleBgColor} py={0} pr={4}>
+            Editar
+          </Heading>
+          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
+        </Flex>
+      </Box>
+
+      <Box
+        as="form"
+        onSubmit={handleSubmit(handleEditUser)}
+        flex="1"
+        borderRadius={8}
+        bg={bgColor}
+        p={["6", "8"]}
+        mb={8}
+      >
+        <Flex mb="8" direction="column">
+          <VStack spacing="4">
+            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+              <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
+              <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
+            </SimpleGrid>
+            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+              <Input label="Usuário" {...register("username")} error={errors.username} isDisabled />
+              <Select
+                label="Categoria"
+                placeholder="Selecione sua categoria"
+                error={errors.categoryValue}
+                {...register("categoryValue")}
+              >
+                {CATEGORIES.map(category => (
+                  <option key={category.value} value={category.value}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
+            </SimpleGrid>
+            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+              <Flex flexDirection="column">
+                <Textarea label="Sobre você" placeholder="Sobre você..." {...register("about")} error={errors.about} />
+              </Flex>
+            </SimpleGrid>
+            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+              <Input
+                isInputGroup
+                InputLeftAddonText="instagram.com/"
+                label="Perfil Instagram"
+                placeholder="Ex. nome_do_usuário"
+                {...register("instagram_url")}
+                error={errors.instagram_url}
+                isInvalid={isError}
+              />
+              <Input
+                isInputGroup
+                InputLeftAddonText="https://"
+                label="Website pessoal"
+                placeholder="Ex. www.site.com.br"
+                {...register("website_url")}
+                error={errors.website_url}
+                isInvalid={isError}
+              />
+            </SimpleGrid>
+            {/* TODO: implement password change */}
+            {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <Input type="password" label="Senha" {...register("password")} error={errors.password} />
               <Input
                 type="password"
@@ -179,31 +189,32 @@ export function UserEdit() {
                 error={errors.password_confirmation}
               />
             </SimpleGrid> */}
-        </VStack>
-        <Flex mt="8" justify="flex-end">
-          <HStack spacing="4">
-            <Button
-              as="a"
-              size={["md", "lg"]}
-              fontSize="sm"
-              colorScheme="whiteAlpha"
-              onClick={() => router.push("/dashboard")}
-            >
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              isLoading={isSubmitting}
-              size={["md", "lg"]}
-              fontSize="sm"
-              colorScheme="green"
-              isDisabled={!user?.email}
-            >
-              Salvar
-            </Button>
-          </HStack>
+          </VStack>
+          <Flex mt="8" justify="flex-end">
+            <HStack spacing="4">
+              <Button
+                cursor="pointer"
+                as="a"
+                size={["md", "lg"]}
+                bg={bgCancelButton}
+                onClick={() => router.push("/dashboard")}
+              >
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                isLoading={isSubmitting}
+                size={["md", "lg"]}
+                color="white"
+                bg="green.400"
+                isDisabled={!user?.email}
+              >
+                Salvar
+              </Button>
+            </HStack>
+          </Flex>
         </Flex>
-      </Flex>
-    </Box>
+      </Box>
+    </>
   );
 }

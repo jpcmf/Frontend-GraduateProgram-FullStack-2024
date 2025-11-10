@@ -1,14 +1,21 @@
-import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Grid, useColorModeValue } from "@chakra-ui/react";
 
-export default function GeneralRegistrationPage() {
+import { TitleSection } from "@/components/TitleSection";
+
+export default function AthleteRegistrationPage() {
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   return (
-    <Box flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]} mb={8}>
-      <Flex mb="8" direction="column">
-        <Heading size="lg" fontWeight="normal">
-          Cadastro geral
-        </Heading>
-        <Divider my="6" borderColor="gray.700" />
-      </Flex>
-    </Box>
+    <>
+      <TitleSection title="Cadastro atleta" />
+      <Box flex="1" borderRadius={8} bg={bgColor} p={["6", "8"]} mb={8}>
+        <Flex mb="8" direction="column">
+          <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
+            <Box>Image 1</Box>
+            <Box>Image 2</Box>
+            <Box>Image 3</Box>
+          </Grid>
+        </Flex>
+      </Box>
+    </>
   );
 }
