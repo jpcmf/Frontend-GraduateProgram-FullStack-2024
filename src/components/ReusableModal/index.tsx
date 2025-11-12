@@ -20,6 +20,8 @@ type ReusableModalProps = {
   isCentered?: boolean;
 };
 
+const OverlayOne = () => <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px) hue-rotate(90deg)" />;
+
 export const ReusableModal = ({
   isOpen,
   onClose,
@@ -29,8 +31,6 @@ export const ReusableModal = ({
   size = "md",
   isCentered = true
 }: ReusableModalProps) => {
-  const OverlayOne = () => <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px) hue-rotate(90deg)" />;
-
   return (
     <Modal isCentered={isCentered} isOpen={isOpen} onClose={onClose} size={size}>
       <OverlayOne />
