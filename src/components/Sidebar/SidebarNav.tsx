@@ -101,22 +101,20 @@ export function SidebarNav() {
           </NavLink> */}
         </NavSection>
 
-        {
-          isAuthenticated && (
-            <NavSection title="Usuário">
-              <NavLink
-                icon={RiContactsLine}
-                href="/general"
-                _activeLink={{
-                  textDecoration: "none",
-                  color: "green.400"
-                }}
-              >
-                Cadastro atleta
-              </NavLink>
-            </NavSection>
-          )
-        }
+        {isAuthenticated && (
+          <NavSection title="Usuário">
+            <NavLink
+              icon={RiContactsLine}
+              href="/general"
+              _activeLink={{
+                textDecoration: "none",
+                color: "green.400"
+              }}
+            >
+              Cadastro atleta
+            </NavLink>
+          </NavSection>
+        )}
 
         {/* <NavSection title="Financeiro">
           <NavLink
@@ -149,7 +147,7 @@ export function SidebarNav() {
           Item 2
           </NavLink>
         </NavSection> */}
-      </Stack >
-    </Box >
+      </Stack>
+    </Box>
   );
 }
