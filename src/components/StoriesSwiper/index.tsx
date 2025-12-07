@@ -143,7 +143,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
         </HStack>
       </Flex>
       <ReusableModal isOpen={isStoryModalOpen} onClose={handleCloseModal} size="full">
-        <StoriesModal userId={currentUserId} onClose={(handleCloseModal)} />
+        <StoriesModal userId={currentUserId} onClose={handleCloseModal} />
       </ReusableModal>
     </>
   );
