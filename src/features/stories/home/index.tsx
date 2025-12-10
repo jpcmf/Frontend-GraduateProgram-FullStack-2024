@@ -1,11 +1,11 @@
-import { Box, Divider, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { StoriesSwiper } from "@/components/StoriesSwiper";
 import { useStories } from "@/hooks/useStories";
 
 export function StoriesHome() {
   const titleBgColor = useColorModeValue("white", "gray.900");
-  const { data } = useStories();
+  const { data, isLoading, isError } = useStories();
 
   const stories =
     data?.data?.map(story => ({
@@ -15,6 +15,22 @@ export function StoriesHome() {
       image: "",
       isUserOffline: false //TODO: implement logic to determine if the user is offline
     })) || [];
+
+  if (isLoading) {
+    return (
+      <Flex justify="center" align="center" minH="139px">
+        <Spinner size="lg" color="green.400" />
+      </Flex>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Flex justify="center" align="center" minH="139px">
+        <Text color="red.500">Erro ao carregar stories.</Text>
+      </Flex>
+    );
+  }
 
   return (
     <>
