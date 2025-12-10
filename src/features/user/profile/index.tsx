@@ -56,7 +56,7 @@ export function UserProfile({ userId }: { userId: string }) {
   ];
 
   if (isLoading) {
-    return <Spinner />;
+    return <Spinner size="lg" color="green.400" />;
   }
 
   if (error) {
