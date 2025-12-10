@@ -8,7 +8,7 @@ export function StoriesHome() {
   const { data } = useStories();
 
   const stories =
-    data?.data.map(story => ({
+    data?.data?.map(story => ({
       id: story.id,
       storyAuthorId: story.attributes.author.data.id,
       name: story.attributes.author.data.attributes.username,
