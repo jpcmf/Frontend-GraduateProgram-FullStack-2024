@@ -38,3 +38,4 @@ next-env.d.ts
 public/original
 launch.json
 .github/workflows/main.yaml
+.zed
