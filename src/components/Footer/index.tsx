@@ -1,4 +1,3 @@
-import React from "react";
 import { FaHeart, FaReact } from "react-icons/fa";
 import { SiChakraui, SiNextdotjs } from "react-icons/si";
 
