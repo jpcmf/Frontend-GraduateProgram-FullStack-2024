@@ -7,7 +7,7 @@ export function StoriesHome() {
   const titleBgColor = useColorModeValue("white", "gray.900");
   const { data } = useStories();
 
-  const stories2 =
+  const stories =
     data?.data.map(story => ({
       id: story.id,
       storyAuthorId: story.attributes.author.data.id,
@@ -26,7 +26,7 @@ export function StoriesHome() {
           <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
         </Flex>
       </Box>
-      <StoriesSwiper stories={stories2} />
+      <StoriesSwiper stories={stories} />
     </>
   );
 }
