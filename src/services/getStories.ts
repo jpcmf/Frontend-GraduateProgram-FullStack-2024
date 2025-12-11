@@ -10,7 +10,7 @@ export async function getStories(): Promise<any> {
     return res.data;
   } catch (error) {
     console.error("Error fetching stories:", error);
-    throw error;  
+    throw error;
   }
 }
 
