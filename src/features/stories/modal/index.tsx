@@ -88,11 +88,11 @@ export function StoriesModal({ userId, onClose }: StoriesModalProps) {
       width={432}
       height={768}
       onAllStoriesEnd={() => {
-        console.log("All stories ended");
+        console.warn("All stories ended");
         onClose();
       }}
       onStoryEnd={(storyIndex: number) => {
-        console.log("Story ended:", storyIndex);
+        console.warn("Story ended:", storyIndex);
       }}
     />
   );
