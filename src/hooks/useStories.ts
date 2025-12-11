@@ -1,36 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getStories } from "@/services/getStories";
-
-type StoryAttributes = {
-  url: string;
-  duration: number;
-  see_more_enabled: boolean;
-  see_more_text: string | null;
-  see_more_link: string | null;
-  createdAt: string;
-  updatedAt: string;
-  author: {
-    data: {
-      id: number;
-      attributes: {
-        username: string;
-      };
-    };
-  };
-};
-
-type StoryData = {
-  id: number;
-  attributes: StoryAttributes;
-};
-
-type UserBasicsWithStories = {
-  data: StoryData[];
-};
+import type { StoriesResponse } from "@/types/stories";
 
 export function useStories() {
-  return useQuery<UserBasicsWithStories, Error>({
+  return useQuery<StoriesResponse, Error>({
     queryKey: ["stories"],
     queryFn: () => {
       return getStories();
