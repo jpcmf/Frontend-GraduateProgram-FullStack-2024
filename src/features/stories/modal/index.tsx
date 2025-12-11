@@ -25,8 +25,8 @@ interface StoriesModalProps {
 export function StoriesModal({ userId, onClose }: StoriesModalProps) {
   const { data, isLoading, isError, error } = useStoriesByUserId(userId);
 
-  // console.log(userId);
-  // console.log("useStoriesByUserId", data);
+  console.warn(userId);
+  console.warn("useStoriesByUserId", data);
 
   const stories = (() => {
     try {
