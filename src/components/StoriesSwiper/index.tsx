@@ -40,7 +40,6 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   }, [stories]);
 
   const handleViewStory = (story: (typeof stories)[number]) => {
-    console.log(story);
     router.push(
       {
         pathname: router.pathname,

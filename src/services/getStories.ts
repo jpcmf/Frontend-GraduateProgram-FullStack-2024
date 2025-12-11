@@ -6,7 +6,6 @@ export async function getStories() {
   const res = await axios.get(
     `${API}/api/stories?populate[author][fields][0]=username&populate[author][fields][1]=avatar`
   );
-  console.log("res...", res);
 
   return res.data;
 }
