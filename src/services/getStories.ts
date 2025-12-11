@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import type { StoriesResponse } from '@/types/stories';
+import type { StoriesResponse } from "@/types/stories";
 import { API } from "@/utils/constant";
 
 export async function getStories(): Promise<StoriesResponse> {
