@@ -1,4 +1,3 @@
-import React from "react";
 import { FaHeart, FaReact } from "react-icons/fa";
 import { SiChakraui, SiNextdotjs } from "react-icons/si";
 
@@ -29,7 +28,7 @@ export function Footer() {
         <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8}>
           <VStack align="flex-start" spacing={3}>
             <HStack spacing={2}>
-              <LogoSkateHub color="gray" />
+              <LogoSkateHub width={150} color="gray" />
             </HStack>
             <Text fontSize="sm" color="gray.600">
               Conectando skatistas de todo o mundo.

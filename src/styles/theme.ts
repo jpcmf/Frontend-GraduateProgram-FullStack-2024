@@ -1,6 +1,6 @@
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 
-import Modal from "./modal";
+import { modalTheme } from "@/lib/theme";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
@@ -10,7 +10,7 @@ const config: ThemeConfig = {
 export const theme = extendTheme({
   config,
   components: {
-    Modal
+    Modal: modalTheme
   },
   colors: {
     gray: {

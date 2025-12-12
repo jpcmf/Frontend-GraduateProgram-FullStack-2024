@@ -306,7 +306,7 @@ export default function SignUp() {
             </Flex>
           </Stack>
 
-          <Flex flexDir={["column", null, "row"]} alignItems="end" mt={8}>
+          <Flex flexDir={["column", null, "row"]} alignItems="end" mt={2}>
             <Button
               type="submit"
               color="white"

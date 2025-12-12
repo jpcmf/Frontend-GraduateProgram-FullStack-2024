@@ -123,7 +123,7 @@ export default function LoginModal() {
         backgroundPosition="center 15%"
         backgroundImage="./tom-morbey-unsplash-2.jpeg"
       >
-        <Flex marginLeft="8" marginTop="5">
+        <Flex marginLeft="6" marginTop="6">
           <LogoSkateHub />
         </Flex>
       </GridItem>
