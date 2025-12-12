@@ -82,6 +82,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2025
 
+- 2025-12-12 - Implements a user stories feature [#131](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/131) _(v0.2.1)_
 - 2025-11-13 - Bump Next.js version [#128](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/128) _(v0.2.0)_
 - 2025-11-03 - Add UserProfile component to display user information [#126](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/126) _(v0.1.37)_
 - 2025-11-03 - Standardize validation messages [#125](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/125) _(v0.1.36)_
