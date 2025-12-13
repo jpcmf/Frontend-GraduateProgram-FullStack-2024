@@ -33,7 +33,7 @@ const TextareaBase: ForwardRefRenderFunction<HTMLTextAreaElement, TextareaProps>
         color={textColor}
         variant="filled"
         _hover={{ bgColor: bgHoverColor }}
-        size="lg"
+        size="md"
         ref={ref}
         {...rest}
       />

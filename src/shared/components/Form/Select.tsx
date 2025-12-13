@@ -35,7 +35,7 @@ const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
         color={textColor}
         variant="filled"
         _hover={{ bgColor: bgHoverColor }}
-        size="lg"
+        size="md"
         ref={ref}
         placeholder={placeholder}
         {...rest}
