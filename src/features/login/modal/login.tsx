@@ -176,17 +176,6 @@ export default function LoginModal() {
                       </InputRightElement>
                     </InputGroup>
                   </Flex>
-                  {/* <Flex flexDir="column">
-                      <Box border="1px solid" bg="blackAlpha.50" borderColor="gray.900" borderRadius="md" p="4">
-                        <Text fontSize="smaller" align="left">
-                          Se precisar de ajuda, entre em{" "}
-                          <Text as="a" href="#" textDecoration="underline" fontWeight="medium" color="gray.600">
-                            contato conosco
-                          </Text>
-                          .
-                        </Text>
-                      </Box>
-                    </Flex> */}
                   <Flex flexDir="column" alignItems="center">
                     <ReCAPTCHA
                       ref={recaptchaRef}
@@ -207,7 +196,7 @@ export default function LoginModal() {
                   color={primaryTextColor}
                   _hover={{ bg: "green.600" }}
                   fontWeight="bold"
-                  size={["md", "lg"]}
+                  size={["sm", "md"]}
                   isLoading={isSubmitting || isExecutingRecaptcha}
                   loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
                 >
@@ -233,7 +222,7 @@ export default function LoginModal() {
                 variant="ghost"
                 color={textSecondaryButton}
                 fontWeight="bold"
-                size={["md", "lg"]}
+                size={["sm", "md"]}
                 w="100%"
                 onClick={() => router.push("/auth/signup")}
               >
