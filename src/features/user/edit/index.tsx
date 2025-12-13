@@ -168,6 +168,7 @@ export function UserEdit() {
                 {...register("instagram_url")}
                 error={errors.instagram_url}
                 isInvalid={isError}
+                size="md"
               />
               <Input
                 isInputGroup
@@ -177,6 +178,7 @@ export function UserEdit() {
                 {...register("website_url")}
                 error={errors.website_url}
                 isInvalid={isError}
+                size="md"
               />
             </SimpleGrid>
             {/* TODO: implement password change */}
@@ -192,19 +194,13 @@ export function UserEdit() {
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Button
-                cursor="pointer"
-                as="a"
-                size={["md", "lg"]}
-                bg={bgCancelButton}
-                onClick={() => router.push("/dashboard")}
-              >
+              <Button cursor="pointer" as="a" size="md" bg={bgCancelButton} onClick={() => router.push("/dashboard")}>
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 isLoading={isSubmitting}
-                size={["md", "lg"]}
+                size="md"
                 color="white"
                 bg="green.400"
                 isDisabled={!user?.email}
