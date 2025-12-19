@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RiContactsLine, RiDashboardLine, RiPictureInPictureLine } from "react-icons/ri";
+import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPictureInPictureLine } from "react-icons/ri";
 import { TbSkateboard } from "react-icons/tb";
 
 import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
@@ -103,6 +103,16 @@ export function SidebarNav() {
 
         {isAuthenticated && (
           <NavSection title="Usuário">
+            <NavLink
+              icon={RiPencilRulerFill}
+              href="/dashboard"
+              _activeLink={{
+                textDecoration: "none",
+                color: "green.400"
+              }}
+            >
+              Painel do criador
+            </NavLink>
             <NavLink
               icon={RiContactsLine}
               href="/general"
