@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPictureInPictureLine } from "react-icons/ri";
-import { TbSkateboard } from "react-icons/tb";
+import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine } from "react-icons/ri";
+import { TbUsers } from "react-icons/tb";
 
 import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 
@@ -30,7 +30,7 @@ export function SidebarNav() {
             Dashboard
           </NavLink>
           <NavLink
-            icon={TbSkateboard}
+            icon={TbUsers}
             href="/skatistas"
             _activeLink={{
               textDecoration: "none",
@@ -40,7 +40,7 @@ export function SidebarNav() {
             Skatistas
           </NavLink>
           <NavLink
-            icon={RiPictureInPictureLine}
+            icon={RiPinDistanceLine}
             href="/spots"
             _activeLink={{
               textDecoration: "none",
