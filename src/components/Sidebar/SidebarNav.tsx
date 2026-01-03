@@ -16,7 +16,7 @@ export function SidebarNav() {
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   return (
     <Box bg={bgColor} p="6" borderRadius={0} h="full">
-      <Stack spacing="10" align="flex-start">
+      <Stack spacing="12" align="flex-start">
         <LogoSkateHub />
         <NavSection title="Principal">
           <NavLink
