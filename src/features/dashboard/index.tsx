@@ -121,9 +121,7 @@ export function Dashboard({ user }: DashboardProps) {
               {user.confirmed ? (
                 <>
                   <Icon as={RiThumbUpLine} boxSize={5} color="green.400" />
-                  <Text fontSize="md">
-                    Regular
-                  </Text>
+                  <Text fontSize="md">Regular</Text>
                 </>
               ) : (
                 <>
@@ -139,18 +137,14 @@ export function Dashboard({ user }: DashboardProps) {
             </Text>
             <HStack>
               <Icon as={RiCircleFill} boxSize={5} color={user.blocked ? "red.400" : "green.400"} />
-              <Text fontSize="md">
-                {user.blocked ? "Bloqueada" : "Ativa"}
-              </Text>
+              <Text fontSize="md">{user.blocked ? "Bloqueada" : "Ativa"}</Text>
             </HStack>
             <Text fontSize="lg" fontWeight="bold" mb="1">
               Dados de acesso da semana
             </Text>
             <HStack>
               <Icon as={RiUploadFill} boxSize={5} color={user.blocked ? "red.400" : "green.400"} />
-              <Text fontSize="md">
-                Última atualização: {formatSmartDate(user?.updatedAt || "...")}
-              </Text>
+              <Text fontSize="md">Última atualização: {formatSmartDate(user?.updatedAt || "...")}</Text>
             </HStack>
           </VStack>
         </Box>
