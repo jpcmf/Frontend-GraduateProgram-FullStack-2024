@@ -125,10 +125,10 @@ export function Dashboard({ user }: DashboardProps) {
                 </>
               ) : (
                 <>
-                  <Text fontSize="x-large" color="red.400">
+                  <Icon as={RiThumbDownLine} boxSize={5} color="red.400" />
+                  <Text fontSize="md">
                     Irregular
                   </Text>
-                  <Icon as={RiThumbDownLine} boxSize={5} color="red.400" />
                 </>
               )}
             </HStack>
