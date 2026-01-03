@@ -5,7 +5,8 @@ import {
   RiMapPin2Line,
   RiThumbDownLine,
   RiThumbUpLine,
-  RiUploadFill
+  RiUploadFill,
+  RiVideoAddLine
 } from "react-icons/ri";
 import Link from "next/link";
 
@@ -21,7 +22,6 @@ type DashboardProps = {
 
 export function Dashboard({ user }: DashboardProps) {
   const borderColor = useColorModeValue("green.200", "green.800");
-  const textColor = useColorModeValue("gray.600", "gray.300");
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   const buttonBgColor = useColorModeValue("green.200", "green.800");
   const hoverBgColor = useColorModeValue("green.200", "green.400");
@@ -42,7 +42,7 @@ export function Dashboard({ user }: DashboardProps) {
           flexDirection="column"
           _hover={{ textDecoration: "none", bg: hoverBgColor }}
         >
-          <Icon as={RiBookOpenLine} boxSize={8} mb={4} />
+          <Icon as={RiVideoAddLine} boxSize={8} mb={4} />
           <Heading size="md" mb={4}>
             Criar um story
           </Heading>
