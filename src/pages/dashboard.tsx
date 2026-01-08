@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import type { GetServerSidePropsContext } from 'next';
+import type { GetServerSidePropsContext } from "next";
 
 import { Box } from "@chakra-ui/react";
 import { parseCookies } from "nookies";
