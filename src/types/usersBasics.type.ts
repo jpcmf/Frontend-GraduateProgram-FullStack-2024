@@ -24,4 +24,7 @@ export type UserBasics = {
     uf?: string;
     city?: string;
   };
+  blocked?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };

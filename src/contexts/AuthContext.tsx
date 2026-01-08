@@ -3,34 +3,14 @@ import Router from "next/router";
 
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
+import type { User } from "@/types/User.type";
+
 import { signInRequest, updateUserProfile, userMe } from "../services/auth";
 
 type SignInData = {
   email: string;
   password: string;
   recaptcha?: string;
-};
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  username: string;
-  category: Category;
-  about: string;
-  website_url: string;
-  instagram_url: string;
-  avatar: Avatar;
-};
-
-type Avatar = {
-  url: string;
-};
-
-type Category = {
-  id: number;
-  name: string;
-  value: string;
 };
 
 type UpdateUserData = Pick<
@@ -76,7 +56,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 about: userData.about || "",
                 website_url: userData.website_url || "",
                 instagram_url: userData.instagram_url || "",
-                avatar: userData.avatar
+                avatar: userData.avatar,
+                address: userData.address || {},
+                updatedAt: userData.updatedAt,
+                blocked: userData.blocked,
+                confirmed: userData.confirmed
               });
             })
             .catch(() => {
@@ -100,8 +84,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { user, jwt } = await signInRequest({ email, password });
 
     setCookie(undefined, "auth.token", jwt, {
-      maxAge: 60 * 10 // 10 minutes
-      // maxAge: 60 * 60 * 1, // 1 hour
+      // maxAge: 60 * 10 // 10 minutes
+      maxAge: 60 * 60 * 1 // 1 hour
       // maxAge: 60 * 60 * 24 * 1 // 1 day
     });
 

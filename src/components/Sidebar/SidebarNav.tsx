@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { RiContactsLine, RiDashboardLine, RiPictureInPictureLine } from "react-icons/ri";
-import { TbSkateboard } from "react-icons/tb";
+import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine } from "react-icons/ri";
+import { TbUsers } from "react-icons/tb";
 
 import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 
@@ -16,7 +16,7 @@ export function SidebarNav() {
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   return (
     <Box bg={bgColor} p="6" borderRadius={0} h="full">
-      <Stack spacing="10" align="flex-start">
+      <Stack spacing="12" align="flex-start">
         <LogoSkateHub />
         <NavSection title="Principal">
           <NavLink
@@ -30,7 +30,7 @@ export function SidebarNav() {
             Dashboard
           </NavLink>
           <NavLink
-            icon={TbSkateboard}
+            icon={TbUsers}
             href="/skatistas"
             _activeLink={{
               textDecoration: "none",
@@ -40,7 +40,7 @@ export function SidebarNav() {
             Skatistas
           </NavLink>
           <NavLink
-            icon={RiPictureInPictureLine}
+            icon={RiPinDistanceLine}
             href="/spots"
             _activeLink={{
               textDecoration: "none",
@@ -103,6 +103,16 @@ export function SidebarNav() {
 
         {isAuthenticated && (
           <NavSection title="Usuário">
+            <NavLink
+              icon={RiPencilRulerFill}
+              href="/dashboard"
+              _activeLink={{
+                textDecoration: "none",
+                color: "green.400"
+              }}
+            >
+              Painel do criador
+            </NavLink>
             <NavLink
               icon={RiContactsLine}
               href="/general"
