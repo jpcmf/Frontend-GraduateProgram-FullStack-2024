@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import type { GetServerSidePropsContext } from "next";
 
-import { Box } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 import { parseCookies } from "nookies";
 
 import { TitleSection } from "@/components/TitleSection";
@@ -9,10 +9,10 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { Dashboard } from "@/features/dashboard";
 
 export default function DashboardPage() {
-  const { user } = useContext(AuthContext);
+  const { user, isLoading } = useContext(AuthContext);
 
-  if (!user) {
-    return <Box>Loading...</Box>;
+  if (!user || isLoading) {
+    return <Spinner size="lg" color="green.400" />;
   }
 
   return (
