@@ -141,7 +141,7 @@ export function Dashboard({ user }: DashboardProps) {
               Dados de acesso da semana
             </Text>
             <HStack>
-              <Icon as={RiUploadFill} boxSize={5} color={user.blocked ? "red.400" : "green.400"} />
+              <Icon as={RiUploadFill} boxSize={5} color="green.400" />
               <Text fontSize="md">Última atualização: {formatSmartDate(user?.updatedAt || "Indisponível")}</Text>
             </HStack>
           </VStack>
