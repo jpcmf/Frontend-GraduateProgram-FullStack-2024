@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import type { GetServerSidePropsContext } from 'next';
 
 import { Box } from "@chakra-ui/react";
 import { parseCookies } from "nookies";
@@ -24,7 +25,7 @@ export default function DashboardPage() {
   );
 }
 
-export const getServerSideProps = async (ctx: any) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { ["auth.token"]: token } = parseCookies(ctx);
 
   if (!token) {
