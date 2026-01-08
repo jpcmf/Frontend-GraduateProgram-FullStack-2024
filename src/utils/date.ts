@@ -24,7 +24,7 @@ export function formatSmartDate(date: string | Date | number): string {
 
     const daysDiff = Math.floor((Date.now() - parsedDate.getTime()) / (1000 * 60 * 60 * 24));
 
-    if (daysDiff < 7) {
+    if (daysDiff >= 0 && daysDiff < 7) {
       return formatRelative(parsedDate, new Date(), { locale: ptBR });
     }
 
