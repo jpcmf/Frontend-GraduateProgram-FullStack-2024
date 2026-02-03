@@ -260,7 +260,7 @@ export default function SignUp() {
                   {...register("password")}
                   error={errors.password}
                 />
-                <InputRightElement top={["8", "9"]} right="-2">
+                <InputRightElement top={8} right="-2">
                   <IconButton
                     icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                     variant="unstyled"
@@ -280,7 +280,7 @@ export default function SignUp() {
                   {...register("confirmPassword")}
                   error={errors.confirmPassword}
                 />
-                <InputRightElement top={["8", "9"]} right="-2">
+                <InputRightElement top={8} right="-2">
                   <IconButton
                     icon={showConfirmPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                     variant="unstyled"

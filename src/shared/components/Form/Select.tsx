@@ -30,7 +30,7 @@ const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
       <ChakraSelect
         name={name}
         id={name}
-        focusBorderColor="green.500"
+        focusBorderColor="gray.600"
         bgColor={bgColor}
         color={textColor}
         variant="filled"

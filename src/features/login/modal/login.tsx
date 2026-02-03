@@ -164,7 +164,7 @@ export default function LoginModal() {
                         {...register("password")}
                         error={errors.password}
                       />
-                      <InputRightElement top={["8", "1"]} right="-2">
+                      <InputRightElement top={0} right="-2">
                         <IconButton
                           icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                           variant="unstyled"
