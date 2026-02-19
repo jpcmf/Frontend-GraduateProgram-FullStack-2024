@@ -123,7 +123,7 @@ export function UserEdit() {
           <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
         </Flex>
       </Box>
-
+      {user && <ProfileHeader user={user} variant="edit" />}
       <Box
         as="form"
         onSubmit={handleSubmit(handleEditUser)}
