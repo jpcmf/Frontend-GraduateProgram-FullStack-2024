@@ -1,7 +1,7 @@
 type Category = {
   id: number;
   name: string;
-  value: string;
+  value?: string;
 };
 
 type Address = {
@@ -12,6 +12,11 @@ type Address = {
 
 type Avatar = {
   url: string;
+  formats?: {
+    thumbnail?: {
+      url: string;
+    };
+  };
 };
 
 export type User = {
