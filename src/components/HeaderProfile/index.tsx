@@ -122,9 +122,11 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
               {user?.address?.city}, {user?.address?.uf}, {user?.address?.country}
             </Text>
           </HStack>
-          <Text fontSize="sm" color={textSecondary} mb={{ base: "2", md: "0" }}>
-            Personalize como os outros veem você na plataforma.
-          </Text>
+          {variant === "profile" && (
+            <Text fontSize="sm" color={textSecondary} mb={{ base: "2", md: "0" }}>
+              Personalize como os outros veem você na plataforma.
+            </Text>
+          )}
         </Box>
 
         <Box
@@ -133,30 +135,32 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
           alignItems={{ base: "center", md: "end" }}
           gap={4}
         >
-          <HStack spacing={4}>
-            {user?.instagram_url && (
-              <Link as="button" onClick={() => openInstagram(user.instagram_url)} _hover={{ opacity: 0.8 }}>
-                <Icon as={FaInstagram} w={6} h={6} />
-              </Link>
-            )}
-            {user?.website_url && (
-              <Link as="button" onClick={() => openWebsite(user.website_url)} _hover={{ opacity: 0.8 }}>
-                <Icon as={FaGlobe} w={6} h={6} />
-              </Link>
-            )}
-          </HStack>
           {variant === "profile" && (
-            <Button
-              variant="ghost"
-              onClick={handleEditProfileClick}
-              color="white"
-              bg="blackAlpha.300"
-              size={["sm", "md"]}
-              gap={2}
-            >
-              <Icon as={TbEdit} />
-              Editar perfil
-            </Button>
+            <>
+              <HStack spacing={4}>
+                {user?.instagram_url && (
+                  <Link as="button" onClick={() => openInstagram(user.instagram_url)} _hover={{ opacity: 0.8 }}>
+                    <Icon as={FaInstagram} w={6} h={6} />
+                  </Link>
+                )}
+                {user?.website_url && (
+                  <Link as="button" onClick={() => openWebsite(user.website_url)} _hover={{ opacity: 0.8 }}>
+                    <Icon as={FaGlobe} w={6} h={6} />
+                  </Link>
+                )}
+              </HStack>
+              <Button
+                variant="ghost"
+                onClick={handleEditProfileClick}
+                color="white"
+                bg="blackAlpha.300"
+                size={["sm", "md"]}
+                gap={2}
+              >
+                <Icon as={TbEdit} />
+                Editar perfil
+              </Button>
+            </>
           )}
 
           {variant === "edit" && (
