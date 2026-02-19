@@ -27,7 +27,7 @@ interface ProfileHeaderProps {
   variant?: "profile" | "edit";
 }
 
-export function ProfileHeader({ user, variant = "profile" }: ProfileHeaderProps) {
+export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
   const { isAuthenticated } = useContext(AuthContext);
   const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
   const textSecondary = useColorModeValue("slate.500", "zinc.400");
