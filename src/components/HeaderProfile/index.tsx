@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import { FaGlobe, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
-import { TbEdit, TbPhoto } from "react-icons/tb";
+import { TbEdit, TbEye, TbPhoto } from "react-icons/tb";
 import router from "next/router";
 
 import {
@@ -17,15 +18,36 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
+import { AuthContext } from "@/contexts/AuthContext";
 import type { UserBasics } from "@/types/usersBasics.type";
 import { openInstagram, openWebsite } from "@/utils/socialMedia";
 
-export function ProfileHeader({ user }: { user: UserBasics }) {
+interface ProfileHeaderProps {
+  user: UserBasics;
+  variant?: "profile" | "edit";
+}
+
+export function ProfileHeader({ user, variant = "profile" }: ProfileHeaderProps) {
+  const { isAuthenticated } = useContext(AuthContext);
   const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
   const textSecondary = useColorModeValue("slate.500", "zinc.400");
   const avatarBorder = useColorModeValue("surface.light", "surface.dark");
   const handleEditProfileClick = () => {
-    router.push("/user/edit");
+    if (isAuthenticated) {
+      router.push("/user/edit");
+    } else {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, modal: "login" }
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+  };
+  const handleViewProfileClick = () => {
+    router.push(`/user/${user.id}`);
   };
   return (
     <Box position="relative" mb="6" bg={cardBg} borderRadius="xl" overflow="hidden" shadow="sm">
@@ -123,19 +145,33 @@ export function ProfileHeader({ user }: { user: UserBasics }) {
               </Link>
             )}
           </HStack>
+          {variant === "profile" && (
+            <Button
+              variant="ghost"
+              onClick={handleEditProfileClick}
+              color="white"
+              bg="blackAlpha.300"
+              size={["sm", "md"]}
+              gap={2}
+            >
+              <Icon as={TbEdit} />
+              Editar perfil
+            </Button>
+          )}
 
-          <Button
-            variant="ghost"
-            onClick={handleEditProfileClick}
-            color="white"
-            bg="blackAlpha.100"
-            size={["sm", "md"]}
-            // _hover={{ bg: "green.600" }}
-            gap={2}
-          >
-            <Icon as={TbEdit} />
-            Editar perfil
-          </Button>
+          {variant === "edit" && (
+            <Button
+              variant="ghost"
+              onClick={handleViewProfileClick}
+              color="white"
+              bg="blackAlpha.300"
+              size={["sm", "md"]}
+              gap={2}
+            >
+              <Icon as={TbEye} />
+              Visualizar perfil
+            </Button>
+          )}
         </Box>
       </Flex>
     </Box>
