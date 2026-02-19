@@ -1,4 +1,3 @@
-
 import { Box, Divider, Flex, Grid, Heading, Image, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { ProfileHeader } from "@/components/HeaderProfile";
@@ -57,7 +56,7 @@ export function UserProfile({ userId }: { userId: string }) {
           <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={0} />
         </Flex>
       </Box>
-      <ProfileHeader user={user} />
+      <ProfileHeader user={user} variant="profile" />
       {user.about && (
         <Box bg={cardBg} borderRadius="xl" shadow="sm" p={8} mb={6}>
           <Heading size="md" py={0} pr={4} mb={4}>
