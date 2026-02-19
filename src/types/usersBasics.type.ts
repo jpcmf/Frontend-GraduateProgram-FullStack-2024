@@ -4,7 +4,7 @@ export type UserBasics = {
   email: string;
   username: string;
   category: {
-    id: string;
+    id: number;
     name: string;
     value?: string;
   };
@@ -13,9 +13,9 @@ export type UserBasics = {
   instagram_url?: string;
   avatar: {
     url?: string;
-    formats: {
-      thumbnail: {
-        url?: string;
+    formats?: {
+      thumbnail?: {
+        url: string;
       };
     };
   };
