@@ -6,6 +6,7 @@ import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, useColorModeVa
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import { ProfileHeader } from "@/components/HeaderProfile";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const";
