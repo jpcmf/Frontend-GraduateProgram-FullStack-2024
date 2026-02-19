@@ -14,7 +14,7 @@ export type UserBasicsWithPagination = {
     instagram_url?: string;
     avatar: {
       url?: string;
-      format?: {
+      formats?: {
         thumbnail?: {
           url: string;
         };
