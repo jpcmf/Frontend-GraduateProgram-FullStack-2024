@@ -10,7 +10,7 @@ type SignInData = {
 type Category = {
   id: number;
   name: string;
-  value: string;
+  value?: string;
 };
 
 type UpdateUserData = {
