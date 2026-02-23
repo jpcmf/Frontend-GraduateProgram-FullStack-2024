@@ -86,22 +86,24 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
             borderColor={avatarBorder}
             shadow="xl"
           />
-          <Flex
-            position="absolute"
-            inset="0"
-            borderRadius="full"
-            bg="blackAlpha.600"
-            opacity="0"
-            _groupHover={{ opacity: 1 }}
-            align="center"
-            justify="center"
-            transition="opacity 0.2s"
-            cursor="pointer"
-          >
-            <Box as="span" className="material-icons-outlined" color="white" fontSize="3xl">
-              <TbPhoto />
-            </Box>
-          </Flex>
+          {variant === "edit" && (
+            <Flex
+              position="absolute"
+              inset="0"
+              borderRadius="full"
+              bg="blackAlpha.600"
+              opacity="0"
+              _groupHover={{ opacity: 1 }}
+              align="center"
+              justify="center"
+              transition="opacity 0.2s"
+              cursor="pointer"
+            >
+              <Box as="span" className="material-icons-outlined" color="white" fontSize="3xl">
+                <TbPhoto />
+              </Box>
+            </Flex>
+          )}
         </Box>
 
         <Box flex="1" textAlign={{ base: "center", md: "left" }}>
