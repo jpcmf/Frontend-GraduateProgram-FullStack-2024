@@ -8,6 +8,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
 import LoginModal from "@/features/login/modal/login";
 
+import { LogoSkateHub } from "../LogoSkateHub";
 import { ReusableModal } from "../ReusableModal";
 
 import { Notification } from "./Notification";
@@ -55,7 +56,8 @@ export function Header() {
 
   return (
     <>
-      <Flex as="header" w="100%" maxWidth={1144} mx="auto" mt="8" align="center" px="0">
+      <Flex as="header" w="100%" backgroundColor="gray.800" mx="auto" align="center" px="6" py="4">
+        <LogoSkateHub />
         {!isVisible && (
           <IconButton
             aria-label="Open navigation"
@@ -73,7 +75,7 @@ export function Header() {
           {isAuthenticated && <Notification />}
 
           {!isAuthenticated ? (
-            <Flex gap={2}>
+            <Flex gap={2} py="2">
               <Button
                 onClick={handleLoginClick}
                 color="white"
