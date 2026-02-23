@@ -80,6 +80,10 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ## :memo: Changelog
 
+### 2026
+
+- 2026-02-22 - Add improvements to the layout [#138](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/138) _(v0.2.3)_
+
 ### 2025
 
 - 2025-12-12 - Implements a user stories feature [#131](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/131) _(v0.2.1)_
