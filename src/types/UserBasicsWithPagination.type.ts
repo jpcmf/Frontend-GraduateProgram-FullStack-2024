@@ -5,7 +5,7 @@ export type UserBasicsWithPagination = {
     email: string;
     username: string;
     category: {
-      id: string;
+      id: number;
       name: string;
       value?: string;
     };
@@ -14,9 +14,9 @@ export type UserBasicsWithPagination = {
     instagram_url?: string;
     avatar: {
       url?: string;
-      formats: {
-        thumbnail: {
-          url?: string;
+      formats?: {
+        thumbnail?: {
+          url: string;
         };
       };
     };

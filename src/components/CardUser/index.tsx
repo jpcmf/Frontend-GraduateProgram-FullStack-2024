@@ -39,7 +39,7 @@ export function UserCard({ user }: { user: UserBasics }) {
           <ChakraAvatar
             size="xl"
             bgColor={user?.avatar ? "gray.800" : "gray.700"}
-            src={user?.avatar ? user.avatar.formats.thumbnail.url : "https://robohash.org/" + user?.name}
+            src={user?.avatar ? user.avatar?.formats?.thumbnail?.url : "https://robohash.org/" + user?.name}
             border="2px solid transparent"
             _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
             p={0.5}

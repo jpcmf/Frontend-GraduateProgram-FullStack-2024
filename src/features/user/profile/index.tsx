@@ -1,34 +1,13 @@
-import React from "react";
-import { FaGlobe, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
+import { Box, Divider, Flex, Grid, Heading, Image, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
 
-import {
-  Avatar as ChakraAvatar,
-  Badge,
-  Box,
-  Divider,
-  Flex,
-  Grid,
-  Heading,
-  HStack,
-  Icon,
-  IconButton,
-  Image,
-  Link,
-  Spinner,
-  Text,
-  useColorModeValue,
-  VStack
-} from "@chakra-ui/react";
-
+import { ProfileHeader } from "@/components/HeaderProfile";
 import { useUser } from "@/hooks/useUser";
-import { openInstagram, openWebsite } from "@/utils/socialMedia";
 
 export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
 
-  const titleBgColor = useColorModeValue("white", "gray.900");
   const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
-  // const textColor = useColorModeValue("gray.800", "gray.200");
+  const titleBgColor = useColorModeValue("white", "gray.900");
   const mutedColor = useColorModeValue("gray.600", "gray.400");
 
   const tricks = [
@@ -63,6 +42,10 @@ export function UserProfile({ userId }: { userId: string }) {
     return <Text>Error: {error.message}</Text>;
   }
 
+  if (!user) {
+    return <Text>User not found.</Text>;
+  }
+
   return (
     <>
       <Box mb={6}>
@@ -73,10 +56,19 @@ export function UserProfile({ userId }: { userId: string }) {
           <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={0} />
         </Flex>
       </Box>
+      <ProfileHeader user={user} variant="profile" />
+      {user.about && (
+        <Box bg={cardBg} borderRadius="xl" shadow="sm" p={8} mb={6}>
+          <Heading size="md" py={0} pr={4} mb={4}>
+            Sobre
+          </Heading>
+          <Text textAlign={{ base: "center", md: "left" }}>{user?.about}</Text>
+        </Box>
+      )}
       <Flex minH="100vh">
         <Box flex={1}>
           <Box>
-            <Box bg={cardBg} borderRadius="xl" shadow="sm" p={8}>
+            {/* <Box bg={cardBg} borderRadius="xl" shadow="sm" p={8}>
               <Flex direction={{ base: "column", md: "row" }} align={{ base: "center", md: "start" }} gap={8}>
                 <Box position="relative" flexShrink={0}>
                   <Box bgGradient="linear(to-tr, green.100, purple.600)" borderRadius="full" p={0.5}>
@@ -94,7 +86,7 @@ export function UserProfile({ userId }: { userId: string }) {
                         size="2xl"
                         w="120px"
                         h="120px"
-                        src={user?.avatar?.formats?.thumbnail.url}
+                        src={user?.avatar?.formats?.thumbnail?.url}
                         name={user?.name}
                         border="none"
                       />
@@ -155,7 +147,7 @@ export function UserProfile({ userId }: { userId: string }) {
                   <Text textAlign={{ base: "center", md: "left" }}>{user?.about}</Text>
                 </VStack>
               </Flex>
-            </Box>
+            </Box> */}
 
             <Box mt={8}>
               <Box mb={6}>
