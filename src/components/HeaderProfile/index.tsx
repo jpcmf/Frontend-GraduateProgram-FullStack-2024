@@ -28,7 +28,7 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, user: authUser } = useContext(AuthContext);
   const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
   const textSecondary = useColorModeValue("slate.500", "zinc.400");
   const avatarBorder = useColorModeValue("surface.light", "surface.dark");
@@ -49,6 +49,8 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
   const handleViewProfileClick = () => {
     router.push(`/user/${user.id}`);
   };
+  console.log(authUser?.id);
+
   return (
     <Box position="relative" mb="6" bg={cardBg} borderRadius="xl" overflow="hidden" shadow="sm">
       <Box h="48" w="full" bgGradient="linear(to-r, zinc.800, zinc.900)" overflow="hidden">
@@ -124,7 +126,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
               {user?.address?.city}, {user?.address?.uf}, {user?.address?.country}
             </Text>
           </HStack>
-          {variant === "profile" && (
+          {variant === "profile" && authUser?.id === user?.id && (
             <Text fontSize="sm" color={textSecondary} mb={{ base: "2", md: "0" }}>
               Personalize como os outros veem você na plataforma.
             </Text>
@@ -151,17 +153,19 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
                   </Link>
                 )}
               </HStack>
-              <Button
-                variant="ghost"
-                onClick={handleEditProfileClick}
-                color="white"
-                bg="blackAlpha.300"
-                size={["sm", "md"]}
-                gap={2}
-              >
-                <Icon as={TbEdit} />
-                Editar perfil
-              </Button>
+              {authUser?.id === user?.id && (
+                <Button
+                  variant="ghost"
+                  onClick={handleEditProfileClick}
+                  color="white"
+                  bg="blackAlpha.300"
+                  size={["sm", "md"]}
+                  gap={2}
+                >
+                  <Icon as={TbEdit} />
+                  Editar perfil
+                </Button>
+              )}
             </>
           )}
 
