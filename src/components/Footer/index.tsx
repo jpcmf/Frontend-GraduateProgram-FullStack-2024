@@ -19,11 +19,10 @@ import {
 import { LogoSkateHub } from "../LogoSkateHub";
 
 export function Footer() {
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
   const bgButtonColor = useColorModeValue("red.500", "red.600");
   const textButtonColor = useColorModeValue("white", "gray.100");
   return (
-    <Box as="footer" bg={bgColor} pt={12} pb={6}>
+    <Box as="footer" pt={12} pb={6}>
       <Container maxW="max-content" px={6}>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8}>
           <VStack align="flex-start" spacing={3}>
