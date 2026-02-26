@@ -48,7 +48,6 @@ export function UserEdit() {
   const { user, updateUser } = useContext(AuthContext);
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const titleBgColor = useColorModeValue("white", "gray.900");
   const bgCancelButton = useColorModeValue("whiteAlpha.100", "blackAlpha.300");
 
   const {

@@ -8,7 +8,6 @@ export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
 
   const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
-  const titleBgColor = useColorModeValue("white", "gray.900");
   const mutedColor = useColorModeValue("gray.600", "gray.400");
 
   const tricks = [
