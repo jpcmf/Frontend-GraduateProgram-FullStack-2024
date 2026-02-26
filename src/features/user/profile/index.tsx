@@ -1,6 +1,7 @@
-import { Box, Divider, Flex, Grid, Heading, Image, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Image, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { ProfileHeader } from "@/components/HeaderProfile";
+import { TitleSection } from "@/components/TitleSection";
 import { useUser } from "@/hooks/useUser";
 
 export function UserProfile({ userId }: { userId: string }) {
@@ -48,14 +49,7 @@ export function UserProfile({ userId }: { userId: string }) {
 
   return (
     <>
-      <Box mb={6}>
-        <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" bg={titleBgColor} py={0} pr={4} position="relative" zIndex={1}>
-            Perfil
-          </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={0} />
-        </Flex>
-      </Box>
+      <TitleSection title="Perfil" />
       <ProfileHeader user={user} variant="profile" />
       {user.about && (
         <Box bg={cardBg} borderRadius="xl" shadow="sm" p={8} mb={6}>
@@ -150,14 +144,7 @@ export function UserProfile({ userId }: { userId: string }) {
             </Box> */}
 
             <Box mt={8}>
-              <Box mb={6}>
-                <Flex direction="row" alignItems="center" position="relative">
-                  <Heading size="lg" bg={titleBgColor} py={0} pr={4} position="relative" zIndex={1}>
-                    Últimas
-                  </Heading>
-                  <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
-                </Flex>
-              </Box>
+              <TitleSection title="Últimas" />
               <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
                 {tricks.map(trick => (
                   <Box key={trick.id} bg={cardBg} borderRadius="xl" overflow="hidden" shadow="sm">
