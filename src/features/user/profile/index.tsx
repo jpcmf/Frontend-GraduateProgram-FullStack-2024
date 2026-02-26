@@ -144,7 +144,7 @@ export function UserProfile({ userId }: { userId: string }) {
             </Box> */}
 
             <Box mt={8}>
-              <TitleSection title="Últimas" />
+              <TitleSection title="Últimas" size="md" />
               <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
                 {tricks.map(trick => (
                   <Box key={trick.id} bg={cardBg} borderRadius="xl" overflow="hidden" shadow="sm">
