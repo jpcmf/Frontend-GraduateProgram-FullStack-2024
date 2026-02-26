@@ -8,6 +8,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
 import LoginModal from "@/features/login/modal/login";
 
+import { LogoSkateHub } from "../LogoSkateHub";
 import { ReusableModal } from "../ReusableModal";
 
 import { Notification } from "./Notification";
@@ -18,6 +19,7 @@ export function Header() {
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   const isVisible = useBreakpointValue({
     base: false,
@@ -55,7 +57,8 @@ export function Header() {
 
   return (
     <>
-      <Flex as="header" w="100%" maxWidth={1144} mx="auto" mt="8" align="center" px="0">
+      <Flex as="header" w="100%" backgroundColor={bgColor} mx="auto" align="center" px="6" py="4">
+        <LogoSkateHub />
         {!isVisible && (
           <IconButton
             aria-label="Open navigation"
@@ -73,18 +76,18 @@ export function Header() {
           {isAuthenticated && <Notification />}
 
           {!isAuthenticated ? (
-            <Flex gap={2}>
+            <Flex gap={2} py="2">
               <Button
                 onClick={handleLoginClick}
                 color="white"
                 bg="green.400"
-                size={["sm", "md"]}
+                size={["sm", "sm"]}
                 _hover={{ bg: "green.600" }}
               >
                 Login
               </Button>
 
-              <Button variant="ghost" color={textSecondaryButton} size={["sm", "md"]} onClick={handleSignupClick}>
+              <Button variant="ghost" color={textSecondaryButton} size={["sm", "sm"]} onClick={handleSignupClick}>
                 Criar uma conta
               </Button>
             </Flex>

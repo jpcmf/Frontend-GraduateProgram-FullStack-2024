@@ -70,7 +70,7 @@ export function Skatistas({
 
   return (
     <Box width={"100%"}>
-      <SimpleGrid columns={{ sm: 3, md: 4, lg: 5 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
+      <SimpleGrid columns={{ sm: 3, md: 4, xl: 6 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
         {users.data.map(user => (
           <UserCard key={user.id} user={user} />
         ))}

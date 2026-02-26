@@ -38,7 +38,7 @@ export function Sidebar() {
   }
 
   return (
-    <Box as="aside" w="64" mr="8" flexShrink={0}>
+    <Box as="aside" w="64" flexShrink={0}>
       <SidebarNav />
     </Box>
   );

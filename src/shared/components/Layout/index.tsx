@@ -11,14 +11,16 @@ type LayoutProps = {
 export function Layout({ children }: LayoutProps) {
   return (
     <>
+      <Header />
       <Flex direction="row" flex={1}>
         <Sidebar />
-        <Flex w="100%" direction="column" mt="0" maxWidth={1144} mx="" px={{ base: 6, lg: 0 }}>
-          <Header />
-          {children}
+        <Flex w="100%" direction="column" mt="0" px={{ base: 6, lg: 0 }}>
+          <Flex flex={1} direction="column" mt={8} mx={8}>
+            {children}
+          </Flex>
+          <Footer />
         </Flex>
       </Flex>
-      <Footer />
     </>
   );
 }

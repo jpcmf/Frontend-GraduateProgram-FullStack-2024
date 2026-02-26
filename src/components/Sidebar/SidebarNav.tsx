@@ -6,8 +6,6 @@ import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
 
-import { LogoSkateHub } from "../LogoSkateHub";
-
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 
@@ -17,7 +15,6 @@ export function SidebarNav() {
   return (
     <Box bg={bgColor} p="6" borderRadius={0} h="full">
       <Stack spacing="12" align="flex-start">
-        <LogoSkateHub />
         <NavSection title="Principal">
           <NavLink
             icon={RiDashboardLine}
