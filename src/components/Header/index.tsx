@@ -81,13 +81,13 @@ export function Header() {
                 onClick={handleLoginClick}
                 color="white"
                 bg="green.400"
-                size={["sm", "md"]}
+                size={["sm", "sm"]}
                 _hover={{ bg: "green.600" }}
               >
                 Login
               </Button>
 
-              <Button variant="ghost" color={textSecondaryButton} size={["sm", "md"]} onClick={handleSignupClick}>
+              <Button variant="ghost" color={textSecondaryButton} size={["sm", "sm"]} onClick={handleSignupClick}>
                 Criar uma conta
               </Button>
             </Flex>
