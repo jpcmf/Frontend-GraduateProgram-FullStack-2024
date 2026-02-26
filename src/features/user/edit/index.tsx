@@ -2,11 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, SimpleGrid, useColorModeValue, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { ProfileHeader } from "@/components/HeaderProfile";
+import { TitleSection } from '@/components/TitleSection';
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const";
@@ -116,14 +117,8 @@ export function UserEdit() {
 
   return (
     <>
-      <Box mb={6}>
-        <Flex direction="row" alignItems="center" position="relative">
-          <Heading size="lg" bg={titleBgColor} py={0} pr={4}>
-            Editar
-          </Heading>
-          <Divider my="0" borderColor="gray.700" position="absolute" left={0} right={0} zIndex={-1} />
-        </Flex>
-      </Box>
+      <TitleSection title="Editar" />
+
       {user && <ProfileHeader user={user} variant="edit" />}
       <Box
         as="form"
