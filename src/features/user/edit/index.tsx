@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { ProfileHeader } from "@/components/HeaderProfile";
-import { TitleSection } from '@/components/TitleSection';
+import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const";
