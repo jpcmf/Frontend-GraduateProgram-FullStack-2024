@@ -86,7 +86,6 @@ export function UserEdit() {
       }
 
       await updateUser({
-        // id: user ? user.id : "",
         id: user.id,
         name: values.name,
         username: user ? user.username : "",
