@@ -59,7 +59,6 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
   const handleViewProfileClick = () => {
     router.push(`/user/${user.id}`);
   };
-  console.log(authUser?.id);
   const handleAvatarClick = () => {
     if (variant === "edit") {
       fileInputRef.current?.click();
