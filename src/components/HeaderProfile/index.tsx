@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 import { FaGlobe, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
 import { TbEdit, TbEye, TbPhoto } from "react-icons/tb";
 import router from "next/router";
@@ -14,13 +14,17 @@ import {
   Icon,
   Image,
   Link,
+  Spinner,
   Text,
   useColorModeValue
 } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
+import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import type { UserBasics } from "@/types/usersBasics.type";
 import { openInstagram, openWebsite } from "@/utils/socialMedia";
+
+import { Toast } from "../Toast";
 
 interface ProfileHeaderProps {
   user: UserBasics;
@@ -29,9 +33,15 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
   const { isAuthenticated, user: authUser } = useContext(AuthContext);
+  const { handleUploadAvatar, isUploading } = useAvatarUpload();
+  const { addToast } = Toast();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
   const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
   const textSecondary = useColorModeValue("slate.500", "zinc.400");
-  const avatarBorder = useColorModeValue("surface.light", "surface.dark");
+
   const handleEditProfileClick = () => {
     if (isAuthenticated) {
       router.push("/user/edit");
@@ -50,6 +60,41 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
     router.push(`/user/${user.id}`);
   };
   console.log(authUser?.id);
+  const handleAvatarClick = () => {
+    if (variant === "edit") {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file || !authUser?.id) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setAvatarPreview(previewUrl);
+
+    try {
+      await handleUploadAvatar(file, authUser.id);
+      addToast({
+        title: "Avatar atualizado.",
+        message: "Sua foto de perfil foi salva com sucesso.",
+        type: "success"
+      });
+    } catch {
+      URL.revokeObjectURL(previewUrl);
+      setAvatarPreview(null);
+      addToast({
+        title: "Erro ao enviar avatar.",
+        message: "Não foi possível atualizar sua foto. Tente novamente.",
+        type: "error"
+      });
+    } finally {
+      event.target.value = "";
+    }
+  };
+
+  const avatarSrc = avatarPreview ?? user?.avatar?.formats?.thumbnail?.url;
 
   return (
     <Box position="relative" mb="6" bg={cardBg} borderRadius="xl" overflow="hidden" shadow="sm">
@@ -74,37 +119,41 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
         <Box
           position="relative"
           role="group"
-          bgGradient="linear(to-tr, green.100, purple.600)"
+          bgGradient="linear(to-tr, green.400, white)"
+          // border={`3px solid`}
+          // borderColor="red.400"
           borderRadius="full"
-          p={0.5}
+          // p={0}
+          cursor={variant === "edit" ? "pointer" : "default"}
+          onClick={handleAvatarClick}
         >
           <Avatar
             size="2xl"
             name={user?.name}
-            src={user?.avatar?.formats?.thumbnail?.url}
+            src={avatarSrc}
             w={{ base: "32", md: "40" }}
             h={{ base: "32", md: "40" }}
-            border="4px"
-            borderColor={avatarBorder}
-            shadow="xl"
+            p={0.5}
           />
           {variant === "edit" && (
-            <Flex
-              position="absolute"
-              inset="0"
-              borderRadius="full"
-              bg="blackAlpha.600"
-              opacity="0"
-              _groupHover={{ opacity: 1 }}
-              align="center"
-              justify="center"
-              transition="opacity 0.2s"
-              cursor="pointer"
-            >
-              <Box as="span" className="material-icons-outlined" color="white" fontSize="3xl">
-                <TbPhoto />
-              </Box>
-            </Flex>
+            <>
+              <Flex
+                position="absolute"
+                inset="0"
+                borderRadius="full"
+                bg="blackAlpha.600"
+                opacity={isUploading ? 1 : 0}
+                _groupHover={{ opacity: 1 }}
+                align="center"
+                justify="center"
+                transition="opacity 0.2s"
+                cursor="pointer"
+              >
+                {isUploading ? <Spinner color="white" size="md" /> : <Icon as={TbPhoto} color="white" boxSize={6} />}
+              </Flex>
+
+              <input ref={fileInputRef} type="file" accept="image/*" hidden onChange={handleAvatarChange} />
+            </>
           )}
         </Box>
 
