@@ -119,11 +119,9 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
         <Box
           position="relative"
           role="group"
-          bgGradient="linear(to-tr, green.400, white)"
-          // border={`3px solid`}
-          // borderColor="red.400"
+          border={`3px solid`}
+          borderColor="green.400"
           borderRadius="full"
-          // p={0}
           cursor={variant === "edit" ? "pointer" : "default"}
           onClick={handleAvatarClick}
         >
@@ -133,7 +131,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
             src={avatarSrc}
             w={{ base: "32", md: "40" }}
             h={{ base: "32", md: "40" }}
-            p={0.5}
+            m={1}
           />
           {variant === "edit" && (
             <>
@@ -148,6 +146,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
                 justify="center"
                 transition="opacity 0.2s"
                 cursor="pointer"
+                m={1}
               >
                 {isUploading ? <Spinner color="white" size="md" /> : <Icon as={TbPhoto} color="white" boxSize={6} />}
               </Flex>
