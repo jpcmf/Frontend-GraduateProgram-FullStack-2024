@@ -16,18 +16,18 @@ import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { Textarea } from "@/shared/components/Form/Textarea";
 
-type RegisterForm = {
-  name: string;
-  email: string;
-  username: string;
-  categoryValue: string;
-  about: string;
-  website_url: string;
-  instagram_url: string;
-  //TODO: implement password change
-  // password: string;
-  // password_confirmation: string;
-};
+// type RegisterForm = {
+//   name: string;
+//   email: string;
+//   username: string;
+//   categoryValue: string;
+//   about: string;
+//   website_url: string;
+//   instagram_url: string;
+//   //TODO: implement password change
+//   // password: string;
+//   // password_confirmation: string;
+// };
 
 const UserEditFormSchema = z.object({
   name: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
@@ -75,7 +75,9 @@ export function UserEdit() {
     }
   }, [user, reset]);
 
-  const handleEditUser: SubmitHandler<RegisterForm> = async values => {
+  const handleEditUser: SubmitHandler<UserEditFormSchema> = async values => {
+    if (!user?.id) return;
+
     try {
       const selectedCategory = CATEGORIES.find(cat => cat.value === values.categoryValue);
 
@@ -84,7 +86,8 @@ export function UserEdit() {
       }
 
       await updateUser({
-        id: user ? user.id : "",
+        // id: user ? user.id : "",
+        id: user.id,
         name: values.name,
         username: user ? user.username : "",
         category: {
