@@ -36,10 +36,12 @@ export default function LoginModal() {
   const [showPassword, setShowPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
 
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const bgColorPrimaryButton = useColorModeValue("green.400", "green.400");
+  const bgColor = useColorModeValue("white", "gray.800");
+  const bgColorPrimaryButton = useColorModeValue("green.300", "green.400");
   const primaryTextColor = useColorModeValue("white", "gray.100");
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
+  const titleTextColor = useColorModeValue("gray.800", "gray.100");
+  const subTitleTextColor = useColorModeValue("gray.600", "gray.500");
 
   const {
     handleSubmit,
@@ -127,17 +129,17 @@ export default function LoginModal() {
           <LogoSkateHub />
         </Flex>
       </GridItem>
-      <GridItem colStart={{ base: 1, md: 3, lg: 3, xl: 4 }} colEnd={6} bg="gray.800">
+      <GridItem colStart={{ base: 1, md: 3, lg: 3, xl: 4 }} colEnd={6} bgColor={bgColor}>
         <Stack spacing="4" py={["4", "8"]} px={["4", "12"]}>
           <Flex flexDir="column" flexGrow="1" alignItems="center" justifyContent="center">
             <Flex flexDir="column" w="100%" alignItems="center" mb="10">
               <Flex hideFrom="md" marginBottom="10">
                 <LogoSkateHub />
               </Flex>
-              <Text fontWeight="bold" fontSize="3xl" align="center" color="gray.300">
+              <Text fontWeight="bold" fontSize="3xl" align="center" color={titleTextColor}>
                 Junte-se à comunidade! Faça parte da evolução do esporte.
               </Text>
-              <Text mt="4" fontSize="lg" fontWeight="medium" align="center" color="gray.500">
+              <Text mt="4" fontSize="lg" fontWeight="medium" align="center" color={subTitleTextColor}>
                 Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
               </Text>
             </Flex>
