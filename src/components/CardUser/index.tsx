@@ -38,17 +38,19 @@ export function UserCard({ user }: { user: UserBasics }) {
         <Link href={`/user/${user.id}`} prefetch={true}>
           <ChakraAvatar
             size="xl"
-            bgColor={user?.avatar ? "gray.800" : "gray.700"}
-            src={user?.avatar ? user.avatar?.formats?.thumbnail?.url : "https://robohash.org/" + user?.name}
+            name={user?.name}
+            src={user?.avatar ? user.avatar?.formats?.thumbnail?.url : undefined}
             border="2px solid transparent"
             _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
             p={0.5}
           />
         </Link>
         <VStack spacing={1}>
-          <Text fontSize="xl" color={nameTextColor}>
-            {user.name}
-          </Text>
+          <Link href={`/user/${user.id}`} prefetch={true}>
+            <Text fontSize="xl" color={nameTextColor}>
+              {user.name}
+            </Text>
+          </Link>
           <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
             <Text fontSize="md" color={categoryTextColor}>
               {user.category?.name ? user.category.name : "Skater"}
