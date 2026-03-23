@@ -6,7 +6,7 @@ import { API } from "@/utils/constant";
 export async function getStories(): Promise<StoriesResponse> {
   try {
     const res = await axios.get(
-      `${API}/api/stories?populate[author][fields][0]=username&populate[author][fields][1]=avatar`
+      `${API}/api/stories?populate[author][fields][0]=username&populate[author][fields][1]=avatar&populate[author][fields][2]=name`
     );
     return res.data;
   } catch (error) {
