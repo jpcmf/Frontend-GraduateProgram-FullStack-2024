@@ -38,8 +38,8 @@ export function UserCard({ user }: { user: UserBasics }) {
         <Link href={`/user/${user.id}`} prefetch={true}>
           <ChakraAvatar
             size="xl"
-            bgColor={user?.avatar ? "gray.800" : "gray.700"}
-            src={user?.avatar ? user.avatar?.formats?.thumbnail?.url : "https://robohash.org/" + user?.name}
+            name={user?.name}
+            src={user?.avatar ? user.avatar?.formats?.thumbnail?.url : undefined}
             border="2px solid transparent"
             _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
             p={0.5}
