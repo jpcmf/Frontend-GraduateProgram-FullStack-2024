@@ -11,8 +11,8 @@ export function StoriesHome() {
     data?.data?.map(story => ({
       id: story.id,
       storyAuthorId: story.attributes.author.data.id,
-      name: story.attributes.author.data.attributes.username,
-      image: "",
+      name: story.attributes.author.data.attributes.name,
+      image: "", // TODO: implement logic to fetch user image
       isUserOffline: false //TODO: implement logic to determine if the user is offline
     })) || [];
 
