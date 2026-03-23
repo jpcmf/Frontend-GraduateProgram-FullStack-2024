@@ -46,9 +46,11 @@ export function UserCard({ user }: { user: UserBasics }) {
           />
         </Link>
         <VStack spacing={1}>
-          <Text fontSize="xl" color={nameTextColor}>
-            {user.name}
-          </Text>
+          <Link href={`/user/${user.id}`} prefetch={true}>
+            <Text fontSize="xl" color={nameTextColor}>
+              {user.name}
+            </Text>
+          </Link>
           <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
             <Text fontSize="md" color={categoryTextColor}>
               {user.category?.name ? user.category.name : "Skater"}
