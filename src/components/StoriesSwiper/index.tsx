@@ -23,7 +23,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   const textOfflineUser = useColorModeValue("gray.100", "gray.600");
   const textOnlineUser = useColorModeValue("gray.600", "gray.100");
   const textHoverUser = useColorModeValue("gray.100", "gray.600");
-  const bgUserAvatar = useColorModeValue("gray.100", "gray.800");
+  const bgUserAvatar = useColorModeValue("gray.300", "gray.100");
 
   const isStoryModalOpen = router.query.modal === "stories";
   const currentUserId = router.query.userId as string;
@@ -119,6 +119,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
                     <ChakraAvatar
                       w="66px"
                       h="66px"
+                      name={story.name}
                       bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
                       src={story?.image ? story.image : "https://robohash.org/" + story?.name}
                       style={{ filter: story.isUserOffline ? `grayscale(100%)` : "none" }}
