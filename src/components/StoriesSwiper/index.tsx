@@ -119,6 +119,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
                     <ChakraAvatar
                       w="66px"
                       h="66px"
+                      name={story.name}
                       bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
                       src={story?.image ? story.image : "https://robohash.org/" + story?.name}
                       style={{ filter: story.isUserOffline ? `grayscale(100%)` : "none" }}
