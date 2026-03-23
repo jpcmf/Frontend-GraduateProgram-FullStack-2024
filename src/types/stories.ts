@@ -10,6 +10,7 @@ type StoryAttributes = {
     data: {
       id: number;
       attributes: {
+        name: string;
         username: string;
       };
     };
