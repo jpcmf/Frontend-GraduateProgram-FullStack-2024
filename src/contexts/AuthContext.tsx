@@ -74,22 +74,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadUserData();
   }, []);
 
-  // Detect cookie expiry when the user returns to the tab (e.g. after 1 hour in background)
+  // Detect cookie removal in all cases:
+  // - setInterval: catches expiry or manual deletion while the tab is active
+  // - visibilitychange: catches expiry that happened while the tab was in background
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        const { "auth.token": cookieToken } = parseCookies();
-        if (!cookieToken && user) {
-          setUser(null);
-          setToken(null);
-          destroyCookie(undefined, "auth.token");
-          Router.push("/auth/signin");
-        }
+    const checkCookie = () => {
+      const { "auth.token": cookieToken } = parseCookies();
+      if (!cookieToken && user) {
+        setUser(null);
+        setToken(null);
+        destroyCookie(undefined, "auth.token");
+        Router.push("/auth/signin");
       }
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        checkCookie();
+      }
+    };
+
+    const intervalId = setInterval(checkCookie, 5000);
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [user]);
 
   async function signIn({ email, password }: SignInData) {
