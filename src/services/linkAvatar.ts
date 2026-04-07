@@ -1,23 +1,14 @@
-import axios from "axios";
-
-import { API } from "@/utils/constant";
+import { apiClient } from "@/lib/apiClient";
 
 export async function linkAvatar(userId: number | string, fileId: number | string, token: string) {
-  try {
-    const res = await axios.put(
-      `${API}/api/users/${userId}`,
-      {
-        avatar: fileId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+  const res = await apiClient.put(
+    `/api/users/${userId}`,
+    { avatar: fileId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    );
-    console.log(res);
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+    }
+  );
+  return res.data;
 }

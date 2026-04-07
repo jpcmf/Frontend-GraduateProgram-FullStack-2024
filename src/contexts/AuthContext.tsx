@@ -44,30 +44,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (token) {
         try {
           setToken(token);
-          userMe(token)
-            .then(response => {
-              const userData = response.user || response;
-              setUser({
-                id: userData.id,
-                name: userData.name || userData.username || "User",
-                email: userData.email,
-                username: userData.username,
-                category: userData.category,
-                about: userData.about || "",
-                website_url: userData.website_url || "",
-                instagram_url: userData.instagram_url || "",
-                avatar: userData.avatar,
-                address: userData.address || {},
-                updatedAt: userData.updatedAt,
-                blocked: userData.blocked,
-                confirmed: userData.confirmed
-              });
-            })
-            .catch(() => {
-              signOut();
-            });
-        } catch (error) {
-          console.error(error);
+          const response = await userMe(token);
+          const userData = response.user || response;
+          setUser({
+            id: userData.id,
+            name: userData.name || userData.username || "User",
+            email: userData.email,
+            username: userData.username,
+            category: userData.category,
+            about: userData.about || "",
+            website_url: userData.website_url || "",
+            instagram_url: userData.instagram_url || "",
+            avatar: userData.avatar,
+            address: userData.address || {},
+            updatedAt: userData.updatedAt,
+            blocked: userData.blocked,
+            confirmed: userData.confirmed
+          });
+        } catch {
           signOut();
         } finally {
           setIsLoading(false);
@@ -79,6 +73,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     loadUserData();
   }, []);
+
+  // Detect cookie expiry when the user returns to the tab (e.g. after 1 hour in background)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        const { "auth.token": cookieToken } = parseCookies();
+        if (!cookieToken && user) {
+          setUser(null);
+          setToken(null);
+          destroyCookie(undefined, "auth.token");
+          Router.push("/auth/signin");
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [user]);
 
   async function signIn({ email, password }: SignInData) {
     const { user, jwt } = await signInRequest({ email, password });
