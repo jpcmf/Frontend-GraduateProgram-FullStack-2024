@@ -108,8 +108,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setCookie(undefined, "auth.token", jwt, {
       // maxAge: 60 * 10 // 10 minutes
-      maxAge: 60 * 60 * 1 // 1 hour
+      maxAge: 60 * 60 * 1, // 1 hour
       // maxAge: 60 * 60 * 24 * 1 // 1 day
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/"
     });
 
     setUser(user);
