@@ -1,4 +1,5 @@
 import type { GetServerSidePropsContext } from "next";
+
 import { parseCookies } from "nookies";
 
 import { UserEdit } from "@/features/user/edit";
