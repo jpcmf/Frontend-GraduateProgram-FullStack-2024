@@ -5,22 +5,22 @@ import nodemailer from "nodemailer";
 import {
   NODEMAILER_OPTIONS_FROM,
   NODEMAILER_OPTIONS_TO,
-  NODEMAILER_REQUEST_SERVER,
   NODEMAILER_TRANSPORTER_PASS,
   NODEMAILER_TRANSPORTER_SERVICE,
   NODEMAILER_TRANSPORTER_USER
 } from "@/utils/constant";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    // Check if request is coming from the server
-    if (!req.headers || !req.headers.host || !req.headers.host.startsWith(`${NODEMAILER_REQUEST_SERVER}`)) {
-      res.status(403).json({ message: "Forbidden" });
-      return;
-    }
-
     // Extract user information from the request body
     const { userEmail } = req.body;
+
+    if (!userEmail || typeof userEmail !== "string" || !EMAIL_REGEX.test(userEmail)) {
+      res.status(400).json({ message: "Invalid email address" });
+      return;
+    }
 
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
