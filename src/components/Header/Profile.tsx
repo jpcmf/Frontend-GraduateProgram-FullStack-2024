@@ -14,7 +14,8 @@ import {
   MenuItem,
   MenuList,
   Text,
-  useColorMode
+  useColorMode,
+  useColorModeValue
 } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
@@ -27,6 +28,10 @@ export function Profile({ showProfileData = true }: ProfileProps) {
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, signOut } = useContext(AuthContext);
+  const bgColor = useColorModeValue("white", "gray.900");
+  const borderColor = useColorModeValue("white", "gray.700");
+  const menuItemBgHoverColor = useColorModeValue("gray.100", "white");
+  const menuItemTextColor = useColorModeValue("gray.600", "gray.500");
 
   return (
     <Flex align="center">
@@ -53,12 +58,12 @@ export function Profile({ showProfileData = true }: ProfileProps) {
           />
         </MenuButton>
 
-        <MenuList bg="gray.900" borderColor="gray.800">
+        <MenuList bg={bgColor} borderColor={borderColor}>
           <MenuGroup title="Minha conta">
             <MenuItem
-              color="gray.600"
-              bg="gray.900"
-              _hover={{ color: "white" }}
+              color={menuItemTextColor}
+              bg={bgColor}
+              _hover={{ color: menuItemBgHoverColor }}
               onClick={() => router.push("/user/edit")}
               px={4}
             >
@@ -68,9 +73,9 @@ export function Profile({ showProfileData = true }: ProfileProps) {
             <MenuItem
               icon={colorMode === "light" ? <TbMoon size={16} /> : <TbSun size={16} />}
               onClick={toggleColorMode}
-              color="gray.600"
-              bg="gray.900"
-              _hover={{ color: "white" }}
+              color={menuItemTextColor}
+              bg={bgColor}
+              _hover={{ color: menuItemBgHoverColor }}
               py={0}
             >
               {colorMode === "light" ? "Ativar modo escuro" : "Ativar modo claro"}
@@ -79,9 +84,9 @@ export function Profile({ showProfileData = true }: ProfileProps) {
             <MenuItem
               icon={<RiLogoutCircleLine size={16} />}
               onClick={signOut}
-              color="gray.600"
-              bg="gray.900"
-              _hover={{ color: "white" }}
+              color={menuItemTextColor}
+              bg={bgColor}
+              _hover={{ color: menuItemBgHoverColor }}
               py={0}
             >
               Logout
