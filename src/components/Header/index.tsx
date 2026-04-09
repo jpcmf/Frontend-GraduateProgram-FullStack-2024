@@ -57,7 +57,7 @@ export function Header() {
 
   return (
     <>
-      <Flex as="header" w="100%" backgroundColor={bgColor} mx="auto" align="center" px="6" py="4">
+      <Flex as="header" w="100%" backgroundColor={bgColor} mx="auto" alignItems="center" px="6" py="2">
         <LogoSkateHub />
         {!isVisible && (
           <IconButton
@@ -76,7 +76,7 @@ export function Header() {
           {isAuthenticated && <Notification />}
 
           {!isAuthenticated ? (
-            <Flex gap={2} py="2">
+            <Flex gap={2} py="3">
               <Button
                 onClick={handleLoginClick}
                 color="white"
