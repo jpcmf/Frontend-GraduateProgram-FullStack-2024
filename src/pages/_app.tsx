@@ -2,6 +2,7 @@ import { AppProps } from "next/app";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import QueryProvider from "@/components/QueryProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SidebarDrawerProvider } from "@/contexts/SidebarDrawerContext";
@@ -26,17 +27,19 @@ function MyApp({ Component, pageProps }: AppProps) {
         `}
       </style>
 
-      <AuthProvider>
-        <ChakraProvider theme={theme}>
-          <SidebarDrawerProvider>
-            <QueryProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </QueryProvider>
-          </SidebarDrawerProvider>
-        </ChakraProvider>
-      </AuthProvider>
+      <ErrorBoundary>
+        <AuthProvider>
+          <ChakraProvider theme={theme}>
+            <SidebarDrawerProvider>
+              <QueryProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </QueryProvider>
+            </SidebarDrawerProvider>
+          </ChakraProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </>
   );
 }
