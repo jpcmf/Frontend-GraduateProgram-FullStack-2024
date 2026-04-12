@@ -23,7 +23,7 @@ type StoryAttributes = {
           } | null;
         };
       };
-    };
+    } | null;
   };
 };
 

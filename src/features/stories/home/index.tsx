@@ -24,7 +24,13 @@ export function StoriesHome() {
   }
 
   const stories = (data?.data ?? [])
-    .filter(story => story.attributes.author?.data != null)
+    .filter(
+      (
+        story
+      ): story is typeof story & {
+        attributes: { author: { data: NonNullable<typeof story.attributes.author.data> } };
+      } => story.attributes.author?.data != null
+    )
     .map(story => ({
       id: story.id,
       storyAuthorId: story.attributes.author.data.id,
