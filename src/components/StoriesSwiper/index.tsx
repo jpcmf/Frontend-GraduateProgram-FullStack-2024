@@ -143,7 +143,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
                       h="66px"
                       name={story.name}
                       bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
-                      src={story?.image ? story.image : "https://robohash.org/" + story?.name}
+                      src={story?.image ? story.image : undefined}
                       style={{ filter: story.isUserOffline ? `grayscale(100%)` : "none" }}
                     />
                   </Link>
