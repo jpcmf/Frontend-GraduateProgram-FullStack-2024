@@ -41,6 +41,14 @@ This project uses **Spec-Driven Development**. Every feature must follow this pr
 - Types for API responses live in `src/types/<feature>.ts`
 - Auth state is accessed via the `useAuth` hook (`src/hooks/useAuth.ts`) — never import `AuthContext` directly
 
+## Playwright / Browser Verification
+
+When using Playwright tools for visual verification:
+
+- After taking screenshots, snapshots, or saving console/network logs to `.playwright-mcp/`, delete all generated files in that folder before ending the session.
+- Use `rm -rf .playwright-mcp/*` after verification is complete.
+- Never commit `.playwright-mcp/` contents — they are temporary debugging artifacts.
+
 ## Code Quality Rules
 
 - No `console.log`, `console.warn`, or `console.error` in any production file
