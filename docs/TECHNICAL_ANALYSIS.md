@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 2026 (PRs #146, #147)
+> Date: April 2026 · Last updated: April 2026 (PRs #146, #147, #148, #149)
 
 ---
 
@@ -24,8 +24,8 @@
 
 > ✅ The dead NextAuth system was removed in PR #147. The codebase now has a single auth system.
 
-| System | Files | Status |
-| --- | --- | --- |
+| System                 | Files                                                                          | Status                        |
+| ---------------------- | ------------------------------------------------------------------------------ | ----------------------------- |
 | **Custom cookie auth** | `src/contexts/AuthContext.tsx`, `src/services/auth.ts`, `src/lib/apiClient.ts` | Active — the only auth system |
 
 ### Token Lifecycle (current state after PR #146)
@@ -369,8 +369,6 @@ try {
 
 ### B-3: `uploadAvatar` Silently Returns `undefined` on Error — ✅ FIXED (PR #146)
 
-**File:** `src/services/uploadAvatar.ts`
-
 ```ts
 } catch (error) {
   console.log(error);
@@ -401,7 +399,7 @@ const payload = {
 
 But the `UpdateUserData` type says `category: Category` (an object). The Strapi API likely accepts either, but the type is misleading and will cause a TypeScript error if strict mode is enforced.
 
-### B-5: `getServerSideProps` Using `any` Type
+### B-5: `getServerSideProps` Using `any` Type — ✅ FIXED (PR #148)
 
 **File:** `src/pages/user/edit.tsx:9`
 
@@ -411,7 +409,7 @@ export const getServerSideProps = async (ctx: any) => {
 
 This bypasses TypeScript. Use `GetServerSidePropsContext` as done in `dashboard.tsx`.
 
-### B-6: `AuthContext` Created Without Default Values
+### B-6: `AuthContext` Created Without Default Values — ✅ FIXED (PR #148)
 
 **File:** `src/contexts/AuthContext.tsx:31`
 
@@ -439,7 +437,7 @@ export const AuthContext = createContext<AuthContextType>({
 
 ## 5. Performance Improvements
 
-### P-1: `QueryClient` Missing Global Configuration
+### P-1: `QueryClient` Missing Global Configuration — ✅ FIXED (PR #148)
 
 **File:** `src/components/QueryProvider/index.tsx`
 
@@ -469,7 +467,7 @@ const [queryClient] = useState(
 );
 ```
 
-### P-2: No Image Domain Configuration for Strapi Production URL
+### P-2: No Image Domain Configuration for Strapi Production URL — ✅ FIXED (PR #149)
 
 **File:** `next.config.ts`
 
@@ -485,9 +483,9 @@ const nextConfig: NextConfig = {
 };
 ```
 
-### P-3: No Loading/Error Boundaries
+### P-3: No Loading/Error Boundaries — ✅ FIXED (PR #149)
 
-The app has no `ErrorBoundary` component and no global error handling in TanStack Query's `QueryClient`. Unhandled errors in async components or query fetchers will crash the entire page tree.
+The app now has a global `ErrorBoundary` component (`src/components/ErrorBoundary/index.tsx`) wrapping the entire page tree in `_app.tsx`. Unhandled errors in async components or query fetchers are caught and display a user-facing fallback with a "Try again" reset option.
 
 ---
 
@@ -495,9 +493,9 @@ The app has no `ErrorBoundary` component and no global error handling in TanStac
 
 ### BP-1: Dual Authentication Systems — ✅ RESOLVED (PR #147)
 
-The dead NextAuth system (`pages/api/auth/[...nextauth].ts`, `types/next-auth.d.ts`) was deleted. The codebase now has a single auth system (custom cookie + Strapi). The `next-auth` package can be removed from `package.json` in a future cleanup.
+The dead NextAuth system (`pages/api/auth/[...nextauth].ts`, `types/next-auth.d.ts`) was deleted. The codebase now has a single auth system (custom cookie + Strapi). The `next-auth` package was removed from `package.json` in PR #149.
 
-### BP-2: Route Protection is Scattered and Inconsistent
+### BP-2: Route Protection is Scattered and Inconsistent — ✅ FIXED (PR #148)
 
 Each protected page must manually add a `getServerSideProps` guard. This pattern is error-prone: any new page that forgets to add it is unprotected.
 
@@ -532,7 +530,7 @@ The `token` is stored in `AuthContext` and passed to service functions as a para
 
 With the `apiClient` interceptor approach (Section 2), the token is read directly from the cookie in the interceptor. No component needs to handle the token at all.
 
-### BP-4: No Custom Hook for Accessing Auth
+### BP-4: No Custom Hook for Accessing Auth — ✅ FIXED (PR #148)
 
 Consumers import `AuthContext` directly via `useContext`:
 
@@ -595,42 +593,42 @@ Browser
 
 ### ~~Priority 1 — Fix the Broken Auth State~~ ✅ DONE (PR #146)
 
-| Task | File(s) | Status |
-| --- | --- | --- |
-| Create `apiClient` with 401 interceptor | `src/lib/apiClient.ts` | ✅ Done |
-| Replace `axios` with `apiClient` in all services | `src/services/*.ts` | ✅ Done |
+| Task                                                          | File(s)                        | Status  |
+| ------------------------------------------------------------- | ------------------------------ | ------- |
+| Create `apiClient` with 401 interceptor                       | `src/lib/apiClient.ts`         | ✅ Done |
+| Replace `axios` with `apiClient` in all services              | `src/services/*.ts`            | ✅ Done |
 | Add `setInterval` + `visibilitychange` guard to `AuthContext` | `src/contexts/AuthContext.tsx` | ✅ Done |
-| Fix `userMe` not being awaited in `useEffect` | `src/contexts/AuthContext.tsx` | ✅ Done |
+| Fix `userMe` not being awaited in `useEffect`                 | `src/contexts/AuthContext.tsx` | ✅ Done |
 
 ### ~~Priority 2 — Security Hardening~~ ✅ DONE (PR #147)
 
-| Task | File(s) | Status |
-| --- | --- | --- |
-| Remove `NEXT_PUBLIC_` from reCAPTCHA secret key | `.env.local`, `.env.example` | ✅ Done |
-| Add `secure`, `sameSite`, `path` to `setCookie` | `AuthContext.tsx` | ✅ Done |
-| Delete dead NextAuth endpoint and types | `pages/api/auth/[...nextauth].ts`, `types/next-auth.d.ts` | ✅ Done |
-| Remove `console.log` from service files | `uploadAvatar.ts`, `linkAvatar.ts` | ✅ Done |
-| Replace host-header check with email validation | `sendConfirmationEmail.ts` | ✅ Done |
+| Task                                            | File(s)                                                   | Status  |
+| ----------------------------------------------- | --------------------------------------------------------- | ------- |
+| Remove `NEXT_PUBLIC_` from reCAPTCHA secret key | `.env.local`, `.env.example`                              | ✅ Done |
+| Add `secure`, `sameSite`, `path` to `setCookie` | `AuthContext.tsx`                                         | ✅ Done |
+| Delete dead NextAuth endpoint and types         | `pages/api/auth/[...nextauth].ts`, `types/next-auth.d.ts` | ✅ Done |
+| Remove `console.log` from service files         | `uploadAvatar.ts`, `linkAvatar.ts`                        | ✅ Done |
+| Replace host-header check with email validation | `sendConfirmationEmail.ts`                                | ✅ Done |
 
-### Priority 3 — Architecture Improvements
+### ~~Priority 3 — Architecture Improvements~~ ✅ DONE (PR #148)
 
-| Task                                                 | File(s)                           | Effort  |
+| Task                                                 | File(s)                           | Status  |
 | ---------------------------------------------------- | --------------------------------- | ------- |
-| Add `middleware.ts` for centralized route protection | `src/middleware.ts` (new file)    | Medium  |
-| Create `useAuth` custom hook                         | `src/hooks/useAuth.ts` (new file) | Trivial |
-| Fix `AuthContext` default values                     | `AuthContext.tsx:31`              | Trivial |
-| Add `retry` config to `QueryClient`                  | `QueryProvider/index.tsx`         | Trivial |
-| Fix `getServerSideProps` `any` typing                | `pages/user/edit.tsx`             | Trivial |
+| Add `middleware.ts` for centralized route protection | `src/middleware.ts` (new file)    | ✅ Done |
+| Create `useAuth` custom hook                         | `src/hooks/useAuth.ts` (new file) | ✅ Done |
+| Fix `AuthContext` default values                     | `AuthContext.tsx:31`              | ✅ Done |
+| Add `retry` config to `QueryClient`                  | `QueryProvider/index.tsx`         | ✅ Done |
+| Fix `getServerSideProps` `any` typing                | `pages/user/edit.tsx`             | ✅ Done |
 
-### Priority 4 — Quality of Life
+### ~~Priority 4 — Quality of Life~~ ✅ DONE (PR #149)
 
-| Task                                                   | File(s)                                  | Effort  |
-| ------------------------------------------------------ | ---------------------------------------- | ------- |
-| Add `images.remotePatterns` to next.config             | `next.config.ts`                         | Trivial |
-| Add global `ErrorBoundary` component                   | `src/components/ErrorBoundary.tsx` (new) | Medium  |
-| Fix `uploadAvatar` silent error swallowing             | `src/services/uploadAvatar.ts`           | Trivial |
-| Decide and remove one auth system (NextAuth vs custom) | Multiple files                           | Medium  |
+| Task                                       | File(s)                                  | Status            |
+| ------------------------------------------ | ---------------------------------------- | ----------------- |
+| Add `images.remotePatterns` to next.config | `next.config.ts`                         | ✅ Done           |
+| Add global `ErrorBoundary` component       | `src/components/ErrorBoundary/index.tsx` | ✅ Done           |
+| Fix `uploadAvatar` silent error swallowing | `src/services/uploadAvatar.ts`           | ✅ Done (PR #146) |
+| Remove `next-auth` from `package.json`     | `package.json`                           | ✅ Done           |
 
 ---
 
-_Initial analysis from commit `7285d6c`. Updated to reflect PR #146 (JWT token expiry fix) and PR #147 (security hardening)._
+_Initial analysis from commit `7285d6c`. Updated to reflect PR #146 (JWT token expiry fix), PR #147 (security hardening), PR #148 (architecture improvements), and PR #149 (quality of life)._
