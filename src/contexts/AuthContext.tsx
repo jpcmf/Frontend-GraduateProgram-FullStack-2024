@@ -3,6 +3,7 @@ import Router from "next/router";
 
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
+import { queryClient } from "@/lib/queryClient";
 import type { User } from "@/types/User.type";
 
 import { signInRequest, updateUserProfile, userMe } from "../services/auth";
@@ -125,6 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(user);
     setToken(jwt);
+    queryClient.invalidateQueries({ queryKey: ["stories"] });
     Router.push("/");
   }
 
@@ -141,6 +143,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setToken("");
     destroyCookie(undefined, "auth.token");
+    queryClient.clear();
     Router.push("/auth/signin");
   }
 

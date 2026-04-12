@@ -12,8 +12,18 @@ type StoryAttributes = {
       attributes: {
         name: string;
         username: string;
+        avatar: {
+          data: {
+            attributes: {
+              url: string;
+              formats?: {
+                thumbnail?: { url: string };
+              };
+            };
+          } | null;
+        };
       };
-    };
+    } | null;
   };
 };
 

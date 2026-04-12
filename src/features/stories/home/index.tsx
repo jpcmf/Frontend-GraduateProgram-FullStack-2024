@@ -7,15 +7,6 @@ import { useStories } from "@/hooks/useStories";
 export function StoriesHome() {
   const { data, isLoading, isError } = useStories();
 
-  const stories =
-    data?.data?.map(story => ({
-      id: story.id,
-      storyAuthorId: story.attributes.author.data.id,
-      name: story.attributes.author.data.attributes.name,
-      image: "", // TODO: implement logic to fetch user image
-      isUserOffline: false //TODO: implement logic to determine if the user is offline
-    })) || [];
-
   if (isLoading) {
     return (
       <Flex justify="center" align="center" minH="139px">
@@ -28,6 +19,33 @@ export function StoriesHome() {
     return (
       <Flex justify="center" align="center" minH="139px">
         <Text color="red.500">Erro ao carregar stories.</Text>
+      </Flex>
+    );
+  }
+
+  const stories = (data?.data ?? [])
+    .filter(
+      (
+        story
+      ): story is typeof story & {
+        attributes: { author: { data: NonNullable<typeof story.attributes.author.data> } };
+      } => story.attributes.author?.data != null
+    )
+    .map(story => ({
+      id: story.id,
+      storyAuthorId: story.attributes.author.data.id,
+      name: story.attributes.author.data.attributes.name,
+      image:
+        story.attributes.author.data.attributes.avatar?.data?.attributes?.formats?.thumbnail?.url ??
+        story.attributes.author.data.attributes.avatar?.data?.attributes?.url ??
+        "",
+      isUserOffline: false //TODO: implement logic to determine if the user is offline
+    }));
+
+  if (stories.length === 0) {
+    return (
+      <Flex justify="center" align="center" minH="139px">
+        <Text color="gray.500">Nenhum story nas últimas 24 horas.</Text>
       </Flex>
     );
   }
