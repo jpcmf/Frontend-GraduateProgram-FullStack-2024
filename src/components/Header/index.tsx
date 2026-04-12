@@ -20,6 +20,7 @@ export function Header() {
   const router = useRouter();
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const borderColor = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
 
   const isVisible = useBreakpointValue({
     base: false,
@@ -57,7 +58,17 @@ export function Header() {
 
   return (
     <>
-      <Flex as="header" w="100%" backgroundColor={bgColor} mx="auto" alignItems="center" px="6" py="2">
+      <Flex
+        as="header"
+        w="100%"
+        backgroundColor={bgColor}
+        mx="auto"
+        alignItems="center"
+        px="6"
+        py="2"
+        borderBottom="1px solid"
+        borderColor={borderColor}
+      >
         <LogoSkateHub />
         {!isVisible && (
           <IconButton

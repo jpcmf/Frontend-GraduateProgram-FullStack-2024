@@ -12,8 +12,9 @@ import { NavSection } from "./NavSection";
 export function SidebarNav() {
   const { isAuthenticated } = useContext(AuthContext);
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const borderColor = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
   return (
-    <Box bg={bgColor} p="6" borderRadius={0} h="full">
+    <Box bg={bgColor} p="6" borderRadius={0} h="full" borderRight="1px solid" borderColor={borderColor}>
       <Stack spacing="12" align="flex-start">
         <NavSection title="Principal">
           <NavLink
