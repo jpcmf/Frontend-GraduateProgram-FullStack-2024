@@ -57,13 +57,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
   const { mutate: deleteSpot, isPending: isDeleting } = useDeleteSpot();
 
   const { name, description, type, address, photos, created_by_user } = spot.attributes;
-  console.log(spot.attributes);
-
-
   const isOwner = !!user && !!created_by_user?.data && String(user.id) === String(created_by_user.data.id);
-
-  console.log("isOwner", isOwner);
-
 
   function handleDelete() {
     deleteSpot(spot.id, {
