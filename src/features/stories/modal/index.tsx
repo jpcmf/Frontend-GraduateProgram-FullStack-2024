@@ -25,6 +25,9 @@ interface StoriesModalProps {
 export function StoriesModal({ userId, onClose }: StoriesModalProps) {
   const { data, isLoading, isError, error } = useStoriesByUserId(userId);
 
+  console.warn(userId);
+  console.warn("useStoriesByUserId", data);
+
   const stories = (() => {
     try {
       if (!data?.data || !Array.isArray(data.data)) {
@@ -85,9 +88,12 @@ export function StoriesModal({ userId, onClose }: StoriesModalProps) {
       width={432}
       height={768}
       onAllStoriesEnd={() => {
+        console.warn("All stories ended");
         onClose();
       }}
-      onStoryEnd={(_storyIndex: number) => {}}
+      onStoryEnd={(storyIndex: number) => {
+        console.warn("Story ended:", storyIndex);
+      }}
     />
   );
 }

@@ -12,10 +12,7 @@ export function StoriesHome() {
       id: story.id,
       storyAuthorId: story.attributes.author.data.id,
       name: story.attributes.author.data.attributes.name,
-      image:
-        story.attributes.author.data.attributes.avatar?.data?.attributes?.formats?.thumbnail?.url ??
-        story.attributes.author.data.attributes.avatar?.data?.attributes?.url ??
-        "",
+      image: "", // TODO: implement logic to fetch user image
       isUserOffline: false //TODO: implement logic to determine if the user is offline
     })) || [];
 
