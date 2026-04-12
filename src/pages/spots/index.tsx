@@ -2,7 +2,7 @@ import NextLink from "next/link";
 
 import { Box, Button, Flex, Grid, Spinner, Text } from "@chakra-ui/react";
 
-import { TitleSection } from '@/components/TitleSection';
+import { TitleSection } from "@/components/TitleSection";
 import { SpotCard } from "@/features/spots/SpotCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useSpots } from "@/hooks/useSpots";
