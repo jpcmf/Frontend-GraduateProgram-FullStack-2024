@@ -7,18 +7,6 @@ import { useStories } from "@/hooks/useStories";
 export function StoriesHome() {
   const { data, isLoading, isError } = useStories();
 
-  const stories =
-    data?.data?.map(story => ({
-      id: story.id,
-      storyAuthorId: story.attributes.author.data.id,
-      name: story.attributes.author.data.attributes.name,
-      image:
-        story.attributes.author.data.attributes.avatar?.data?.attributes?.formats?.thumbnail?.url ??
-        story.attributes.author.data.attributes.avatar?.data?.attributes?.url ??
-        "",
-      isUserOffline: false //TODO: implement logic to determine if the user is offline
-    })) || [];
-
   if (isLoading) {
     return (
       <Flex justify="center" align="center" minH="139px">
@@ -34,6 +22,19 @@ export function StoriesHome() {
       </Flex>
     );
   }
+
+  const stories = (data?.data ?? [])
+    .filter(story => story.attributes.author?.data != null)
+    .map(story => ({
+      id: story.id,
+      storyAuthorId: story.attributes.author.data.id,
+      name: story.attributes.author.data.attributes.name,
+      image:
+        story.attributes.author.data.attributes.avatar?.data?.attributes?.formats?.thumbnail?.url ??
+        story.attributes.author.data.attributes.avatar?.data?.attributes?.url ??
+        "",
+      isUserOffline: false //TODO: implement logic to determine if the user is offline
+    }));
 
   if (stories.length === 0) {
     return (
