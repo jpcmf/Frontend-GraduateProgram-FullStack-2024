@@ -12,8 +12,8 @@ export function useStoriesByUserId(userId: string) {
       }
       return getStoriesByUserId(userId);
     },
-    enabled: !!userId, // only fetch when userId is defined
-    staleTime: 1000 * 60 * 5, // consider data fresh for 5 minutes
+    enabled: !!userId,
+    staleTime: 1000 * 60, // 1 minute — stories expire within 24h
     refetchOnWindowFocus: false
   });
 }

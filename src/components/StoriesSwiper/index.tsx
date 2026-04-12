@@ -54,8 +54,10 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
     );
   };
 
+  const currentIndex = uniqueStories.findIndex(s => s.storyAuthorId.toString() === currentUserId);
+
   const handleCloseModal = () => {
-    const { modal, userId, ...restQuery } = router.query;
+    const { modal: _modal, userId: _userId, ...restQuery } = router.query;
     router.push(
       {
         pathname: router.pathname,
@@ -64,6 +66,26 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
       undefined,
       { shallow: true }
     );
+  };
+
+  const handleAdvanceToNextUser = () => {
+    const nextStory = uniqueStories[currentIndex + 1];
+    if (nextStory) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            modal: "stories",
+            userId: nextStory.storyAuthorId.toString()
+          }
+        },
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      handleCloseModal();
+    }
   };
 
   return (
@@ -143,7 +165,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
         </HStack>
       </Flex>
       <ReusableModal isOpen={isStoryModalOpen} onClose={handleCloseModal} size="full">
-        <StoriesModal userId={currentUserId} onClose={handleCloseModal} />
+        <StoriesModal userId={currentUserId} onClose={handleCloseModal} onAllStoriesEnd={handleAdvanceToNextUser} />
       </ReusableModal>
     </>
   );

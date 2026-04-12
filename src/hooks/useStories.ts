@@ -9,7 +9,7 @@ export function useStories() {
     queryFn: () => {
       return getStories();
     },
-    staleTime: 1000 * 60 * 5, // consider data fresh for 5 minutes
+    staleTime: 1000 * 60, // 1 minute — stories expire within 24h
     refetchOnWindowFocus: false
   });
 }

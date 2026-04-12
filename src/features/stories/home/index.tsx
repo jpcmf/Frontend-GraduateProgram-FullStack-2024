@@ -35,6 +35,14 @@ export function StoriesHome() {
     );
   }
 
+  if (stories.length === 0) {
+    return (
+      <Flex justify="center" align="center" minH="139px">
+        <Text color="gray.500">Nenhum story nas últimas 24 horas.</Text>
+      </Flex>
+    );
+  }
+
   return (
     <>
       <Box mb={6}>

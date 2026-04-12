@@ -20,9 +20,10 @@ interface StoryItem {
 interface StoriesModalProps {
   userId: string;
   onClose: () => void;
+  onAllStoriesEnd?: () => void;
 }
 
-export function StoriesModal({ userId, onClose }: StoriesModalProps) {
+export function StoriesModal({ userId, onClose, onAllStoriesEnd }: StoriesModalProps) {
   const { data, isLoading, isError, error } = useStoriesByUserId(userId);
 
   const stories = (() => {
@@ -40,13 +41,12 @@ export function StoriesModal({ userId, onClose }: StoriesModalProps) {
           }
         })
       }));
-    } catch (error) {
-      console.error("Error transforming stories:", error);
+    } catch (_err) {
       return [];
     }
   })();
 
-  if (isLoading || !userId) {
+  if (isLoading || !userId || stories.length === 0) {
     return (
       <Center bg="transparent">
         <Spinner size="lg" color="green.400" />
@@ -80,12 +80,17 @@ export function StoriesModal({ userId, onClose }: StoriesModalProps) {
 
   return (
     <Stories
+      key={userId}
       stories={stories}
       defaultInterval={1500}
       width={432}
       height={768}
       onAllStoriesEnd={() => {
-        onClose();
+        if (onAllStoriesEnd) {
+          onAllStoriesEnd();
+        } else {
+          onClose();
+        }
       }}
       onStoryEnd={(_storyIndex: number) => {}}
     />
