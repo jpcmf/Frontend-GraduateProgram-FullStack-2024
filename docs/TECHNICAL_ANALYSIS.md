@@ -193,7 +193,7 @@ useEffect(() => {
     if (!cookieToken && user) {
       setUser(null);
       setToken(null);
-      destroyCookie(undefined, "auth.token");
+      destroyCookie(undefined, "auth.token", { path: "/" });
       Router.push("/auth/signin");
     }
   };
@@ -211,6 +211,8 @@ useEffect(() => {
   };
 }, [user]);
 ```
+
+> **Important:** `destroyCookie` must be called with `{ path: "/" }` to match the `path` used when the cookie was set. Without it, the browser silently ignores the deletion — see [B-7](#b-7-destroycookie-missing-path--logout-does-not-clear-cookie).
 
 #### Step 4 (Optional) — Silent token refresh
 
@@ -437,6 +439,38 @@ export const AuthContext = createContext<AuthContextType>({
 });
 ```
 
+> ✅ **FIXED** — The default context value in `AuthContext.tsx` was updated to use explicit no-ops. (Spots feature branch)
+
+### B-7: `destroyCookie` Missing `path` — Logout Does Not Clear Cookie — ✅ FIXED (feat/spots)
+
+**File:** `src/contexts/AuthContext.tsx`
+
+`destroyCookie` was called without the `{ path: "/" }` option in two places:
+
+```ts
+// signOut() — before fix
+destroyCookie(undefined, "auth.token");
+
+// checkCookie() polling useEffect — before fix
+destroyCookie(undefined, "auth.token");
+```
+
+When a browser cookie is set with an explicit `path` attribute (e.g., `path=/`), the browser only accepts a deletion (`Set-Cookie: auth.token=; maxAge=-1`) if the deletion request includes the same `path`. Without it, the deletion header does not match the existing cookie and the browser silently keeps it. The result: pressing Logout appeared to work in the UI (React state was cleared) but the `auth.token` cookie persisted in the browser. On the next page load, `parseCookies()` found the cookie, `userMe()` was called with the still-valid JWT, and the user was treated as logged in again.
+
+**Why it wasn't caught in Playwright tests:** Playwright manages cookies in an isolated context. `document.cookie` manipulation in tests may not enforce `path` matching the same way a real browser does. The bug only manifests in a real browser session.
+
+**Fix applied:**
+
+```ts
+// signOut()
+destroyCookie(undefined, "auth.token", { path: "/" });
+
+// checkCookie() polling useEffect
+destroyCookie(undefined, "auth.token", { path: "/" });
+```
+
+Both calls now match the `path: "/"` set during `signIn()` via `setCookie`.
+
 ---
 
 ## 5. Performance Improvements
@@ -610,9 +644,10 @@ Browser
 | ---------------------------------------------------- | ------------------------- | ------- | ------- |
 | Add `middleware.ts` for centralized route protection | `src/middleware.ts`       | Medium  | ✅ Done |
 | Create `useAuth` custom hook                         | `src/hooks/useAuth.ts`    | Trivial | ✅ Done |
-| Fix `AuthContext` default values                     | `AuthContext.tsx:31`      | Trivial | Open    |
+| Fix `AuthContext` default values                     | `AuthContext.tsx:31`      | Trivial | ✅ Done |
 | Add `retry` config to `QueryClient`                  | `QueryProvider/index.tsx` | Trivial | Open    |
 | Fix `getServerSideProps` `any` typing                | `pages/user/edit.tsx`     | Trivial | Open    |
+| Fix `destroyCookie` missing `path` (logout bug)      | `AuthContext.tsx`         | Trivial | ✅ Done |
 
 ### Priority 4 — Quality of Life
 
@@ -624,7 +659,7 @@ Browser
 
 ---
 
-_Initial analysis from commit `7285d6c`. Updated to reflect PR #146 (JWT token expiry fix), PR #147 (security hardening), the Stories feature (fix/stories-avatar branch), and the Spots feature (feat/spots branch)._
+_Initial analysis from commit `7285d6c`. Updated to reflect PR #146 (JWT token expiry fix), PR #147 (security hardening), the Stories feature (fix/stories-avatar branch), the Spots feature (feat/spots branch), and the logout cookie path fix (feat/spots branch)._
 
 ---
 

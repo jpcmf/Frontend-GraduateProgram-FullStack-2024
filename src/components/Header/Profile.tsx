@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { TbMoon, TbSun } from "react-icons/tb";
 import { useRouter } from "next/router";
@@ -18,7 +17,7 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
-import { AuthContext } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ProfileProps {
   showProfileData: boolean | undefined;
@@ -27,7 +26,7 @@ interface ProfileProps {
 export function Profile({ showProfileData = true }: ProfileProps) {
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { user, signOut } = useContext(AuthContext);
+  const { user, signOut } = useAuth();
   const bgColor = useColorModeValue("white", "gray.900");
   const borderColor = useColorModeValue("white", "gray.700");
   const menuItemBgHoverColor = useColorModeValue("gray.100", "white");

@@ -92,7 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!cookieToken && user) {
         setUser(null);
         setToken(null);
-        destroyCookie(undefined, "auth.token");
+        destroyCookie(undefined, "auth.token", { path: "/" });
         Router.push("/auth/signin");
       }
     };
@@ -141,8 +141,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   function signOut() {
     setUser(null);
-    setToken("");
-    destroyCookie(undefined, "auth.token");
+    setToken(null);
+    destroyCookie(undefined, "auth.token", { path: "/" });
     queryClient.clear();
     Router.push("/auth/signin");
   }
