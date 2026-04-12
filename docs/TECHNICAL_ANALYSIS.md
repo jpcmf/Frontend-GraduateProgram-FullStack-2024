@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 2026 (PRs #146, #147)
+> Date: April 2026 · Last updated: April 2026 (PRs #146, #147, Stories feature, Spots feature)
 
 ---
 
@@ -15,6 +15,8 @@
 6. [Best Practice Violations](#6-best-practice-violations)
 7. [Recommended Auth Architecture](#7-recommended-auth-architecture)
 8. [Implementation Roadmap](#8-implementation-roadmap)
+9. [Stories Feature — Implementation Notes](#9-stories-feature--implementation-notes)
+10. [Spots Feature — Implementation Notes](#10-spots-feature--implementation-notes)
 
 ---
 
@@ -24,8 +26,8 @@
 
 > ✅ The dead NextAuth system was removed in PR #147. The codebase now has a single auth system.
 
-| System | Files | Status |
-| --- | --- | --- |
+| System                 | Files                                                                          | Status                        |
+| ---------------------- | ------------------------------------------------------------------------------ | ----------------------------- |
 | **Custom cookie auth** | `src/contexts/AuthContext.tsx`, `src/services/auth.ts`, `src/lib/apiClient.ts` | Active — the only auth system |
 
 ### Token Lifecycle (current state after PR #146)
@@ -53,13 +55,13 @@ While session is active
 ### Route Protection
 
 ```
-Protected pages: /dashboard, /user/edit
-  → guarded by getServerSideProps (checks cookie presence only — no signature/expiry validation)
+Protected pages: /dashboard, /user/edit, /spots/new, /spots/:id/edit
+  → guarded by middleware.ts (checks cookie presence)
 
 Auth pages: /auth/signin, /auth/signup, /auth/forgot-password, /auth/reset-password
   → guarded by redirectIfAuthenticated utility
 
-Completely unguarded: /, /skatistas, /general, /spots, /user/[id]
+Completely unguarded: /, /skatistas, /general, /spots, /spots/[id], /user/[id]
 ```
 
 ---
@@ -469,21 +471,11 @@ const [queryClient] = useState(
 );
 ```
 
-### P-2: No Image Domain Configuration for Strapi Production URL
+### P-2: No Image Domain Configuration for Strapi Production URL — ✅ FIXED (Spots feature)
 
 **File:** `next.config.ts`
 
-There is no `images.remotePatterns` configuration. If you use `next/image` with Strapi-hosted avatars from the production Railway URL, it will fail in production.
-
-**Fix in `next.config.ts`:**
-
-```ts
-const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [{ hostname: "127.0.0.1" }, { hostname: "strapi-production-b6f4.up.railway.app" }]
-  }
-};
-```
+`remotePatterns` now includes `127.0.0.1`, `strapi-production-b6f4.up.railway.app`, and `res.cloudinary.com` (added when Spots photos served from Cloudinary caused a runtime error).
 
 ### P-3: No Loading/Error Boundaries
 
@@ -595,42 +587,164 @@ Browser
 
 ### ~~Priority 1 — Fix the Broken Auth State~~ ✅ DONE (PR #146)
 
-| Task | File(s) | Status |
-| --- | --- | --- |
-| Create `apiClient` with 401 interceptor | `src/lib/apiClient.ts` | ✅ Done |
-| Replace `axios` with `apiClient` in all services | `src/services/*.ts` | ✅ Done |
+| Task                                                          | File(s)                        | Status  |
+| ------------------------------------------------------------- | ------------------------------ | ------- |
+| Create `apiClient` with 401 interceptor                       | `src/lib/apiClient.ts`         | ✅ Done |
+| Replace `axios` with `apiClient` in all services              | `src/services/*.ts`            | ✅ Done |
 | Add `setInterval` + `visibilitychange` guard to `AuthContext` | `src/contexts/AuthContext.tsx` | ✅ Done |
-| Fix `userMe` not being awaited in `useEffect` | `src/contexts/AuthContext.tsx` | ✅ Done |
+| Fix `userMe` not being awaited in `useEffect`                 | `src/contexts/AuthContext.tsx` | ✅ Done |
 
 ### ~~Priority 2 — Security Hardening~~ ✅ DONE (PR #147)
 
-| Task | File(s) | Status |
-| --- | --- | --- |
-| Remove `NEXT_PUBLIC_` from reCAPTCHA secret key | `.env.local`, `.env.example` | ✅ Done |
-| Add `secure`, `sameSite`, `path` to `setCookie` | `AuthContext.tsx` | ✅ Done |
-| Delete dead NextAuth endpoint and types | `pages/api/auth/[...nextauth].ts`, `types/next-auth.d.ts` | ✅ Done |
-| Remove `console.log` from service files | `uploadAvatar.ts`, `linkAvatar.ts` | ✅ Done |
-| Replace host-header check with email validation | `sendConfirmationEmail.ts` | ✅ Done |
+| Task                                            | File(s)                                                   | Status  |
+| ----------------------------------------------- | --------------------------------------------------------- | ------- |
+| Remove `NEXT_PUBLIC_` from reCAPTCHA secret key | `.env.local`, `.env.example`                              | ✅ Done |
+| Add `secure`, `sameSite`, `path` to `setCookie` | `AuthContext.tsx`                                         | ✅ Done |
+| Delete dead NextAuth endpoint and types         | `pages/api/auth/[...nextauth].ts`, `types/next-auth.d.ts` | ✅ Done |
+| Remove `console.log` from service files         | `uploadAvatar.ts`, `linkAvatar.ts`                        | ✅ Done |
+| Replace host-header check with email validation | `sendConfirmationEmail.ts`                                | ✅ Done |
 
 ### Priority 3 — Architecture Improvements
 
-| Task                                                 | File(s)                           | Effort  |
-| ---------------------------------------------------- | --------------------------------- | ------- |
-| Add `middleware.ts` for centralized route protection | `src/middleware.ts` (new file)    | Medium  |
-| Create `useAuth` custom hook                         | `src/hooks/useAuth.ts` (new file) | Trivial |
-| Fix `AuthContext` default values                     | `AuthContext.tsx:31`              | Trivial |
-| Add `retry` config to `QueryClient`                  | `QueryProvider/index.tsx`         | Trivial |
-| Fix `getServerSideProps` `any` typing                | `pages/user/edit.tsx`             | Trivial |
+| Task                                                 | File(s)                   | Effort  | Status  |
+| ---------------------------------------------------- | ------------------------- | ------- | ------- |
+| Add `middleware.ts` for centralized route protection | `src/middleware.ts`       | Medium  | ✅ Done |
+| Create `useAuth` custom hook                         | `src/hooks/useAuth.ts`    | Trivial | ✅ Done |
+| Fix `AuthContext` default values                     | `AuthContext.tsx:31`      | Trivial | Open    |
+| Add `retry` config to `QueryClient`                  | `QueryProvider/index.tsx` | Trivial | Open    |
+| Fix `getServerSideProps` `any` typing                | `pages/user/edit.tsx`     | Trivial | Open    |
 
 ### Priority 4 — Quality of Life
 
-| Task                                                   | File(s)                                  | Effort  |
-| ------------------------------------------------------ | ---------------------------------------- | ------- |
-| Add `images.remotePatterns` to next.config             | `next.config.ts`                         | Trivial |
-| Add global `ErrorBoundary` component                   | `src/components/ErrorBoundary.tsx` (new) | Medium  |
-| Fix `uploadAvatar` silent error swallowing             | `src/services/uploadAvatar.ts`           | Trivial |
-| Decide and remove one auth system (NextAuth vs custom) | Multiple files                           | Medium  |
+| Task                                       | File(s)                                  | Effort  | Status  |
+| ------------------------------------------ | ---------------------------------------- | ------- | ------- |
+| Add `images.remotePatterns` to next.config | `next.config.ts`                         | Trivial | ✅ Done |
+| Add global `ErrorBoundary` component       | `src/components/ErrorBoundary.tsx` (new) | Medium  | Open    |
+| Fix `uploadAvatar` silent error swallowing | `src/services/uploadAvatar.ts`           | Trivial | Open    |
 
 ---
 
-_Initial analysis from commit `7285d6c`. Updated to reflect PR #146 (JWT token expiry fix) and PR #147 (security hardening)._
+_Initial analysis from commit `7285d6c`. Updated to reflect PR #146 (JWT token expiry fix), PR #147 (security hardening), the Stories feature (fix/stories-avatar branch), and the Spots feature (feat/spots branch)._
+
+---
+
+## 10. Spots Feature — Implementation Notes
+
+### Files changed (branch `feat/spots`)
+
+| File                                      | Change                                                                                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/types/spots.ts`                      | New — `Spot`, `SpotAttributes`, `SpotCreator`, `SpotPhoto`, `SpotsResponse`, `SpotResponse`, `CreateSpotPayload`, `UpdateSpotPayload` |
+| `src/services/getSpots.ts`                | New — `GET /api/spots` with `populate[photos]` and `populate[created_by_user]`                                                        |
+| `src/services/getSpotById.ts`             | New — `GET /api/spots/:id` with same populate params                                                                                  |
+| `src/services/createSpot.ts`              | New — `POST /api/spots`                                                                                                               |
+| `src/services/updateSpot.ts`              | New — `PUT /api/spots/:id`                                                                                                            |
+| `src/services/deleteSpot.ts`              | New — `DELETE /api/spots/:id`                                                                                                         |
+| `src/hooks/useSpots.ts`                   | New — `queryKey: ["spots"]`, `staleTime: 5 min`                                                                                       |
+| `src/hooks/useSpot.ts`                    | New — `queryKey: ["spots", id]`, `enabled: !!id`                                                                                      |
+| `src/hooks/useCreateSpot.ts`              | New — invalidates `["spots"]` on success                                                                                              |
+| `src/hooks/useUpdateSpot.ts`              | New — invalidates `["spots"]` and `["spots", id]` on success                                                                          |
+| `src/hooks/useDeleteSpot.ts`              | New — invalidates `["spots"]` on success                                                                                              |
+| `src/features/spots/SpotCard/index.tsx`   | New — card with thumbnail (`next/image`), type badge, name, address; links to `/spots/[id]`                                           |
+| `src/features/spots/SpotForm/index.tsx`   | New — shared create/edit form; photo upload via `POST /api/upload`; Name + Type validation                                            |
+| `src/features/spots/SpotDetail/index.tsx` | New — detail view; photo gallery; Google Maps embed; owner-only Edit/Delete with `AlertDialog`                                        |
+| `src/pages/spots/index.tsx`               | Replaced placeholder — uses `useSpots()`, renders `SpotCard` grid, auth-gated "Add" button                                            |
+| `src/pages/spots/[id]/index.tsx`          | Detail page (moved from `[id].tsx` to allow nested `edit` route)                                                                      |
+| `src/pages/spots/[id]/edit.tsx`           | New — edit page; owner-only guard; pre-populated `SpotForm`; calls `useUpdateSpot`                                                    |
+| `src/pages/spots/new.tsx`                 | New — create page; calls `useCreateSpot`; redirects to detail on success                                                              |
+| `src/middleware.ts`                       | Added `/spots/new` and `/spots/:id/edit` to protected routes and matcher                                                              |
+| `next.config.ts`                          | Added `res.cloudinary.com` to `remotePatterns` (Strapi can store uploads on Cloudinary)                                               |
+| `specs/spots.md`                          | All 16 acceptance criteria marked `[x]`; status set to `done`                                                                         |
+
+### Key design decisions
+
+#### `[id].tsx` moved to `[id]/index.tsx`
+
+Next.js cannot have both a file `pages/spots/[id].tsx` and a directory `pages/spots/[id]/` — the file system conflict prevents the nested `edit` route from being registered. The detail page was moved to `[id]/index.tsx` to enable `[id]/edit.tsx` as a sibling.
+
+#### `created_by_user` typed as `SpotCreator | undefined`
+
+`SpotAttributes.created_by_user` is typed as `SpotCreator | undefined` and all usages use optional chaining (`created_by_user?.data`). This handles spots created via the Strapi admin UI before the relation was enforced.
+
+#### Root cause of missing `created_by_user` — two bugs, both fixed
+
+**Bug 1 — Strapi REST sanitization strips user relations (FIXED in controller):**
+
+Strapi's REST API response sanitizer strips relations targeting `plugin::users-permissions.user` from the response, regardless of the `populate` param in the controller. This is a security default: user data is not exposed through resource endpoints unless the role explicitly allows it via Settings → Roles → enable `find` on User.
+
+The fix was to bypass the sanitizer by using `strapi.entityService` directly in `find`, `findOne`, and `create`, and calling `ctx.send()` manually. The controller only exposes `id`, `username`, and `name` fields from the related user — no sensitive data.
+
+See `skatehub-strapi/src/api/spot/controllers/spot.js`.
+
+**Bug 2 — Custom router POST route had empty config (FIXED in route):**
+
+In `skatehub-strapi/src/api/spot/routes/spot.js`, the `POST /spots` route originally had `config: {}`. An empty config (no `auth: false`) is sufficient for Strapi to run the JWT strategy and populate `ctx.state.user`. The controller's `create` method explicitly guards against a missing user with `ctx.unauthorized()` and always injects `created_by_user` from `ctx.state.user.id`.
+
+**Verified end-to-end:** After both fixes, `GET /api/spots/:id` returns `created_by_user.data` including `id`, `username`, and `name` for all requests (public and authenticated). The spot detail page displays "Criado por <name>" and shows Edit/Delete buttons for the owner.
+
+#### Owner check is client-side only
+
+The edit page renders an "access denied" message if the logged-in user is not the spot owner. This is a UX guard only — the Strapi API enforces ownership at the API level (`PUT /api/spots/:id` returns 403 for non-owners via the `is-owner` policy). The middleware only checks for the presence of a valid auth cookie, not ownership.
+
+### Recurring Strapi pattern — bypass sanitizer for user relations
+
+> **This pattern applies to every resource with a relation to `users-permissions.user`.**
+
+Rather than enabling `find` on the User resource in the Strapi admin (which exposes the user list endpoint to all authenticated users), use `strapi.entityService` directly in the controller and restrict the returned fields to a safe whitelist (`id`, `username`, `name`). Call `ctx.send(this.transformResponse(entity))` to format the response correctly without going through the sanitizer.
+
+This approach is safe, requires no Strapi admin changes, and is consistent across environments.
+
+---
+
+## 9. Stories Feature — Implementation Notes
+
+### Files changed (branch `fix/stories-avatar`)
+
+| File                                     | Change                                                                                                                 |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `src/lib/queryClient.ts`                 | New — exports singleton `QueryClient` shared by `QueryProvider` and `AuthContext`                                      |
+| `src/components/QueryProvider/index.tsx` | Consumes singleton instead of creating with `useState`                                                                 |
+| `src/contexts/AuthContext.tsx`           | `signIn` calls `queryClient.invalidateQueries(["stories"])`; `signOut` calls `queryClient.clear()`                     |
+| `src/services/getStories.ts`             | Migrated from bare `axios` to `apiClient`; nested avatar populate query; 24h filter helper (commented out — see below) |
+| `src/types/stories.ts`                   | `author.data` typed as `{ ... } \| null`; avatar `url` + `formats.thumbnail` fields added                              |
+| `src/features/stories/home/index.tsx`    | Mapping moved after loading/error guards; `.filter()` with type predicate removes null-author entries                  |
+| `src/features/stories/modal/index.tsx`   | `key={userId}` on `<Stories>`; `stories.length === 0` added to loading guard; `onAllStoriesEnd` prop                   |
+| `src/components/StoriesSwiper/index.tsx` | `currentIndex` + `handleAdvanceToNextUser`; passes `onAllStoriesEnd` to `StoriesModal`                                 |
+| `src/hooks/useStoriesByUserId.ts`        | Removed `keepPreviousData`; `staleTime: 1 minute`                                                                      |
+| `src/hooks/useStories.ts`                | `staleTime: 1 minute`; `refetchOnWindowFocus: false`                                                                   |
+
+### Key design decisions
+
+#### Singleton `QueryClient`
+
+`AuthProvider` sits **above** `QueryClientProvider` in `_app.tsx`, so it cannot use `useQueryClient()`. The `QueryClient` instance is created once in `src/lib/queryClient.ts` and imported directly by both `QueryProvider` and `AuthContext`. This is intentional.
+
+#### Cache invalidation on login
+
+`signIn` must call `queryClient.invalidateQueries({ queryKey: ["stories"] })` — **not** `removeQueries`. `removeQueries` deletes the cache entry without scheduling a refetch, so the stories query never re-runs after login unless the component remounts. `invalidateQueries` marks the entry stale and immediately triggers a background refetch for any active subscriber.
+
+#### `keepPreviousData` removed from `useStoriesByUserId`
+
+`keepPreviousData` returns stale data instantly on `userId` change, bypassing `isLoading`. `react-insta-stories` crashes when the `stories` prop changes length mid-play. Removing it ensures a true loading state on every user change.
+
+#### `key={userId}` on `<Stories>`
+
+`react-insta-stories` has no API to reset to index 0 when the `stories` prop changes. `key={userId}` forces a full React remount on every user change, resetting internal state cleanly.
+
+#### 24h filter is intentionally commented out
+
+`getStories.ts` contains a `get24hISOThreshold()` helper and the Strapi filter query, but both are commented out with a `// TODO: re-enable before production` note. This is deliberate — the filter is disabled during development so seed data (created months ago) remains visible.
+
+### Strapi backend requirement — Authenticated role permissions
+
+> **This is a recurring gotcha.** Document it here so it is not forgotten.
+
+The `Authenticated` role in Strapi must have `find` permission on `plugin::users-permissions.user`. Without it, the `populate[author]` param is silently ignored for authenticated requests — the `author` field is stripped entirely from the response, causing the `.filter(story => story.attributes.author?.data != null)` guard to exclude all stories.
+
+**Symptom:** Stories visible when logged out, invisible after login. Network tab shows 200 OK on both requests. The authenticated response is missing the `author` key entirely.
+
+**Fix (Strapi admin):**
+
+1. Settings → Users & Permissions Plugin → Roles → **Authenticated**
+2. Users-permissions → User → enable **`find`**
+3. Save

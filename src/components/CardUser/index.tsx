@@ -33,7 +33,7 @@ export function UserCard({ user }: { user: UserBasics }) {
   };
 
   return (
-    <Box bg={bgColor} borderRadius="xl" p={4} maxW="sm" w="full" textAlign="center">
+    <Box bg={bgColor} borderRadius="lg" p={4} maxW="sm" w="full" textAlign="center">
       <VStack spacing={4}>
         <Link href={`/user/${user.id}`} prefetch={true}>
           <ChakraAvatar

@@ -29,8 +29,7 @@ export function formatSmartDate(date: string | Date | number): string {
     }
 
     return format(parsedDate, "dd/MM/yyyy", { locale: ptBR });
-  } catch (error) {
-    console.error("Error formatting smart date:", error);
+  } catch {
     return "";
   }
 }

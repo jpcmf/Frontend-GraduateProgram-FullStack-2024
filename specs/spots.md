@@ -1,6 +1,6 @@
 # Feature: Spots
 
-**Status:** draft
+**Status:** done
 **Priority:** high
 **Affects:** New pages: `src/pages/spots/index.tsx`, `src/pages/spots/[id].tsx`, `src/pages/spots/new.tsx`; New feature components, services, hooks, and types
 
@@ -94,22 +94,22 @@ Key endpoints consumed:
 
 ## Acceptance Criteria
 
-- [ ] `/spots` page lists all spots publicly with name, type badge, address, and thumbnail
-- [ ] Clicking a spot card navigates to `/spots/[id]`
-- [ ] "Add Spot" button is visible only when authenticated
-- [ ] `/spots/[id]` shows full spot details: name, description, type, address, photos, creator
-- [ ] `/spots/[id]` embeds a Google Maps iframe using the `address` field
-- [ ] Edit and Delete buttons on `/spots/[id]` are visible only to the spot owner
-- [ ] Delete button calls `DELETE /api/spots/:id` and redirects to `/spots` on success
-- [ ] `/spots/new` is protected — unauthenticated users are redirected to login
-- [ ] Create form validates that Name and Type are filled before submitting
-- [ ] Photos can be uploaded on the create form; photo IDs are sent in `POST /api/spots`
-- [ ] On successful create, user is redirected to the new spot's detail page
-- [ ] `/spots/[id]/edit` is protected and only accessible to the spot owner
-- [ ] Edit form is pre-populated with current spot values
-- [ ] All service files use `apiClient` — no bare `axios`
-- [ ] No `console.log`, `console.warn`, or `console.error` in any new file
-- [ ] TypeScript — no `any` types in new files
+- [x] `/spots` page lists all spots publicly with name, type badge, address, and thumbnail
+- [x] Clicking a spot card navigates to `/spots/[id]`
+- [x] "Add Spot" button is visible only when authenticated
+- [x] `/spots/[id]` shows full spot details: name, description, type, address, photos, creator
+- [x] `/spots/[id]` embeds a Google Maps iframe using the `address` field
+- [x] Edit and Delete buttons on `/spots/[id]` are visible only to the spot owner
+- [x] Delete button calls `DELETE /api/spots/:id` and redirects to `/spots` on success
+- [x] `/spots/new` is protected — unauthenticated users are redirected to login
+- [x] Create form validates that Name and Type are filled before submitting
+- [x] Photos can be uploaded on the create form; photo IDs are sent in `POST /api/spots`
+- [x] On successful create, user is redirected to the new spot's detail page
+- [x] `/spots/[id]/edit` is protected and only accessible to the spot owner
+- [x] Edit form is pre-populated with current spot values
+- [x] All service files use `apiClient` — no bare `axios`
+- [x] No `console.log`, `console.warn`, or `console.error` in any new file
+- [x] TypeScript — no `any` types in new files
 
 ## Out of Scope
 
