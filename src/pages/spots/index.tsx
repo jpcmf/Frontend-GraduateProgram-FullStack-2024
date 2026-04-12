@@ -42,7 +42,7 @@ export default function SpotsPage() {
                 Nenhum spot encontrado. Seja o primeiro a adicionar!
               </Text>
             ) : (
-              <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
+              <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
                 {data.data.map(spot => (
                   <SpotCard key={spot.id} spot={spot} />
                 ))}
