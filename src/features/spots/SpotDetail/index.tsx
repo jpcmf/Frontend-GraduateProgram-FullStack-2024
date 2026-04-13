@@ -80,7 +80,24 @@ export function SpotDetail({ spot }: SpotDetailProps) {
 
   return (
     <>
-      <TitleSection title="Spot" />
+      <Box position="relative">
+        <TitleSection title="Spot" />
+        <Box width={"100%"}>
+          <Box position="absolute" top={0} right={0}>
+
+            {isOwner && (
+              <Flex gap={2}>
+                <Button as={NextLink} href={`/spots/${spot.id}/edit`} size="sm" colorScheme="green">
+                  Editar
+                </Button>
+                <Button size="sm" colorScheme="red" onClick={onOpen}>
+                  Excluir
+                </Button>
+              </Flex>
+            )}
+          </Box>
+        </Box>
+      </Box>
       <VStack align="stretch" spacing={6}>
         {/* Hero image */}
         <Box
@@ -145,17 +162,6 @@ export function SpotDetail({ spot }: SpotDetailProps) {
                   </Text>
                 )}
               </Flex>
-
-              {isOwner && (
-                <Flex gap={2}>
-                  <Button as={NextLink} href={`/spots/${spot.id}/edit`} size="sm" variant="outline" colorScheme="green">
-                    Editar
-                  </Button>
-                  <Button size="sm" colorScheme="red" variant="outline" onClick={onOpen}>
-                    Excluir
-                  </Button>
-                </Flex>
-              )}
             </Flex>
           </Box>
         </Box>
