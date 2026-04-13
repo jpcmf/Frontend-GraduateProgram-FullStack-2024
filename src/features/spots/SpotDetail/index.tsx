@@ -203,7 +203,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
           <Box>
             <TitleSection title="Localização" size="md" />
             {address && MAPS_KEY ? (
-              <Box borderRadius="lg" overflow="hidden" h="260px">
+              <Box bg={cardBg} borderRadius="lg" overflow="hidden" h="260px">
                 <Box
                   as="iframe"
                   width="100%"
