@@ -169,7 +169,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
 
           <HStack mt="1" mb="4">
             <Icon as={FaMapMarkerAlt} />
-            <Text as="small" color={textSecondary}>
+            <Text fontSize="sm" color={textSecondary}>
               {user?.address?.city}, {user?.address?.uf}, {user?.address?.country}
             </Text>
           </HStack>
