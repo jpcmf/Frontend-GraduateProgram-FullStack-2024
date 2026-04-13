@@ -84,7 +84,6 @@ export function SpotDetail({ spot }: SpotDetailProps) {
         <TitleSection title="Spot" />
         <Box width={"100%"}>
           <Box position="absolute" top={0} right={0}>
-
             {isOwner && (
               <Flex gap={2}>
                 <Button as={NextLink} href={`/spots/${spot.id}/edit`} size="sm" colorScheme="green">
