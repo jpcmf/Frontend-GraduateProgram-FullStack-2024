@@ -55,7 +55,9 @@ export function UserProfile({ userId }: { userId: string }) {
           <Heading size="md" py={0} pr={4} mb={4}>
             Sobre
           </Heading>
-          <Text textAlign={{ base: "center", md: "left" }}>{user?.about}</Text>
+          <Text textAlign={{ base: "center", md: "left" }} lineHeight="tall">
+            {user?.about}
+          </Text>
         </Box>
       )}
       <Flex minH="100vh">
