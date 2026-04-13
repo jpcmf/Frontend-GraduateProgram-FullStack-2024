@@ -24,7 +24,14 @@ export function Footer() {
   return (
     <Box as="footer" pt={12} pb={6}>
       <Container maxW="max-content" px={6}>
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8}>
+        <SimpleGrid
+          columns={{ base: 1, md: 2, lg: 4 }}
+          spacing={8}
+          mb={8}
+          pt={8}
+          borderTop="1px"
+          borderColor="gray.800"
+        >
           <VStack align="flex-start" spacing={3}>
             <HStack spacing={2}>
               <LogoSkateHub width={150} color="gray" />
