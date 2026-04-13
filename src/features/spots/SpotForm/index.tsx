@@ -1,22 +1,40 @@
 import { useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { RiAlertLine } from "react-icons/ri";
 
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  HStack,
-  Image,
-  Input,
-  Select,
-  Text,
-  Textarea,
-  VStack
-} from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { apiClient } from "@/lib/apiClient";
+import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/lib/const/spotValidation";
+import { Input } from "@/shared/components/Form/Input";
+import { Select } from "@/shared/components/Form/Select";
+import { Textarea } from "@/shared/components/Form/Textarea";
 import type { CreateSpotPayload, SpotType } from "@/types/spots";
+
+const spotSchema = z.object({
+  name: z
+    .string()
+    .nonempty(MSG.REQUIRED)
+    .min(RULES.NAME.MIN_LENGTH, { message: MSG.NAME_TOO_SHORT })
+    .max(RULES.NAME.MAX_LENGTH, { message: MSG.NAME_TOO_LONG }),
+  type: z.enum(["street", "skatepark", "diy", "plaza", "other"], {
+    errorMap: () => ({ message: MSG.INVALID_TYPE })
+  }),
+  address: z
+    .string()
+    .nonempty(MSG.REQUIRED)
+    .max(RULES.ADDRESS.MAX_LENGTH, { message: MSG.ADDRESS_TOO_LONG })
+    .optional(),
+  description: z
+    .string()
+    .nonempty(MSG.REQUIRED)
+    .max(RULES.DESCRIPTION.MAX_LENGTH, { message: MSG.DESCRIPTION_TOO_LONG })
+    .optional()
+});
+
+type SpotSchema = z.infer<typeof spotSchema>;
 
 interface SpotFormProps {
   initialValues?: Partial<CreateSpotPayload>;
@@ -25,27 +43,27 @@ interface SpotFormProps {
   submitLabel: string;
 }
 
-type FormErrors = Partial<Record<keyof CreateSpotPayload, string>>;
-
 export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }: SpotFormProps) {
-  const [name, setName] = useState(initialValues?.name ?? "");
-  const [description, setDescription] = useState(initialValues?.description ?? "");
-  const [type, setType] = useState<SpotType>(initialValues?.type ?? "street");
-  const [address, setAddress] = useState(initialValues?.address ?? "");
   const [photoIds, setPhotoIds] = useState<number[]>(initialValues?.photos ?? []);
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
-  const [errors, setErrors] = useState<FormErrors>({});
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  function validate(): boolean {
-    const next: FormErrors = {};
-    if (!name.trim()) next.name = "Nome é obrigatório.";
-    if (!type) next.type = "Tipo é obrigatório.";
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  }
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<SpotSchema>({
+    resolver: zodResolver(spotSchema),
+    defaultValues: {
+      name: initialValues?.name ?? "",
+      type: initialValues?.type ?? "street",
+      address: initialValues?.address ?? "",
+      description: initialValues?.description ?? ""
+    },
+    mode: "onChange"
+  });
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -71,89 +89,115 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!validate()) return;
-
+  const handleSpotSubmit: SubmitHandler<SpotSchema> = async values => {
     await onSubmit({
-      name: name.trim(),
-      description: description.trim() || undefined,
-      type,
-      address: address.trim() || undefined,
+      name: values.name,
+      description: values.description?.trim() || undefined,
+      type: values.type as SpotType,
+      address: values.address?.trim() || undefined,
       photos: photoIds.length > 0 ? photoIds : undefined
     });
-  }
+  };
 
   return (
-    <Box as="form" onSubmit={handleSubmit} w="100%">
-      <VStack spacing={5} align="stretch">
-        <FormControl isInvalid={!!errors.name} isRequired>
-          <FormLabel>Nome</FormLabel>
-          <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Praça da Sé" />
-          <FormErrorMessage>{errors.name}</FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.type} isRequired>
-          <FormLabel>Tipo</FormLabel>
-          <Select value={type} onChange={e => setType(e.target.value as SpotType)}>
+    <Flex as="form" w="100%" flexDir="column" onSubmit={handleSubmit(handleSpotSubmit)}>
+      <Stack spacing={4}>
+        {/* Name + Type */}
+        <Flex flexDir={["column", null, "row"]} gap="4">
+          <Input
+            id="name"
+            type="text"
+            label="Nome"
+            placeholder="Ex: Praça da Sé"
+            {...register("name")}
+            error={errors.name}
+          />
+          <Select label="Tipo" placeholder="Selecione o tipo" error={errors.type} {...register("type")}>
             <option value="street">Street</option>
             <option value="skatepark">Skatepark</option>
             <option value="diy">DIY</option>
             <option value="plaza">Plaza</option>
-            <option value="other">Other</option>
+            <option value="other">Outro</option>
           </Select>
-          <FormErrorMessage>{errors.type}</FormErrorMessage>
-        </FormControl>
+        </Flex>
 
-        <FormControl>
-          <FormLabel>Endereço</FormLabel>
+        {/* Address */}
+        <Flex flexDir={["column", null, "row"]} gap="4">
           <Input
-            value={address}
-            onChange={e => setAddress(e.target.value)}
+            id="address"
+            type="text"
+            label="Endereço"
             placeholder="Ex: Av. Paulista, 1578 - São Paulo"
+            {...register("address")}
+            error={errors.address}
           />
-        </FormControl>
+        </Flex>
 
-        <FormControl>
-          <FormLabel>Descrição</FormLabel>
+        {/* Description */}
+        <Flex flexDir={["column", null, "row"]} gap="4">
           <Textarea
-            value={description}
-            onChange={e => setDescription(e.target.value)}
+            id="description"
+            label="Descrição"
             placeholder="Descreva o spot..."
             rows={4}
+            {...register("description")}
+            error={errors.description}
           />
-        </FormControl>
+        </Flex>
 
-        <FormControl>
-          <FormLabel>Fotos</FormLabel>
-          <Input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFileChange} display="none" />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => fileInputRef.current?.click()}
-            isLoading={isUploading}
-            loadingText="Enviando..."
-          >
-            Adicionar fotos
-          </Button>
+        {/* Photos */}
+        <Flex flexDir="column" gap="2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          <Box>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+              isLoading={isUploading}
+              loadingText="Enviando..."
+            >
+              Adicionar fotos
+            </Button>
+          </Box>
           {uploadError && (
-            <Text color="red.400" fontSize="sm" mt={2}>
+            <Text color="red.400" fontSize="sm" display="flex" alignItems="center" gap="1">
+              <RiAlertLine size={14} />
               {uploadError}
             </Text>
           )}
           {photoPreviews.length > 0 && (
-            <HStack mt={3} spacing={2} flexWrap="wrap">
+            <HStack mt={1} spacing={2} flexWrap="wrap">
               {photoPreviews.map((src, i) => (
                 <Image key={i} src={src} alt={`preview-${i}`} boxSize="80px" objectFit="cover" borderRadius="md" />
               ))}
             </HStack>
           )}
-        </FormControl>
+        </Flex>
+      </Stack>
 
-        <Button type="submit" colorScheme="green" isLoading={isSubmitting} loadingText="Salvando...">
+      {/* Footer */}
+      <Flex flexDir={["column", null, "row"]} alignItems="end" mt={6}>
+        <Button
+          type="submit"
+          color="white"
+          bg="green.400"
+          _hover={{ bg: "green.600" }}
+          size={["sm", "md"]}
+          isLoading={isSubmitting}
+          loadingText="Salvando..."
+          w={["100%", null, "3xs"]}
+          mr="auto"
+        >
           {submitLabel}
         </Button>
-      </VStack>
-    </Box>
+      </Flex>
+    </Flex>
   );
 }
