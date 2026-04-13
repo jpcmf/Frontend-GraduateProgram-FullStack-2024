@@ -21,13 +21,13 @@ import {
   HStack,
   Icon,
   Text,
-  useColorModeValue,
   useDisclosure,
   VStack
 } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
 import { useAuth } from "@/hooks/useAuth";
+import { useColors } from "@/hooks/useColors";
 import { useDeleteSpot } from "@/hooks/useDeleteSpot";
 import type { Spot, SpotType } from "@/types/spots";
 
@@ -57,6 +57,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
   const { user } = useAuth();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { cardBg } = useColors();
   const cancelRef = useRef<HTMLButtonElement>(null);
   const { mutate: deleteSpot, isPending: isDeleting } = useDeleteSpot();
 
@@ -68,8 +69,6 @@ export function SpotDetail({ spot }: SpotDetailProps) {
   const galleryPhotos = photos?.data?.slice(1) ?? [];
 
   const creatorName = created_by_user?.data?.attributes.name || created_by_user?.data?.attributes.username;
-
-  const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
 
   function handleDelete() {
     deleteSpot(spot.id, {
@@ -109,7 +108,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
           h={{ base: "220px", md: "340px" }}
           borderRadius="lg"
           overflow="hidden"
-          bg="gray.800"
+          bg={cardBg}
         >
           {heroPhoto ? (
             <Box position="relative" h="100%" w="100%">
@@ -216,7 +215,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
                 />
               </Box>
             ) : (
-              <Box bg="gray.800" borderRadius="lg" h="260px" display="flex" alignItems="center" justifyContent="center">
+              <Box bg={cardBg} borderRadius="lg" h="260px" display="flex" alignItems="center" justifyContent="center">
                 <Text color="gray.500" fontSize="sm">
                   Endereço não disponível
                 </Text>
@@ -227,7 +226,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
           {/* Comentários — placeholder until backend is implemented */}
           <Box>
             <TitleSection title="Comentários" size="md" />
-            <Flex align="center" justify="center" bg="gray.800" borderRadius="lg" h="180px" mb={4}>
+            <Flex align="center" justify="center" bg={cardBg} borderRadius="lg" h="180px" mb={4}>
               <Text color="gray.500" fontSize="sm">
                 Nenhum comentário disponível
               </Text>
@@ -243,7 +242,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
         {/* Delete confirmation dialog */}
         <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
           <AlertDialogOverlay>
-            <AlertDialogContent bg="gray.800">
+            <AlertDialogContent bg={cardBg}>
               <AlertDialogHeader fontWeight="bold">Excluir spot</AlertDialogHeader>
               <AlertDialogBody>
                 Tem certeza que deseja excluir <strong>{name}</strong>? Esta ação não pode ser desfeita.
