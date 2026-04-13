@@ -1,7 +1,11 @@
+import { RiAlertLine } from "react-icons/ri";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
 
+import { TitleSection } from "@/components/TitleSection";
+import { Toast } from "@/components/Toast";
 import { SpotForm } from "@/features/spots/SpotForm";
 import { useAuth } from "@/hooks/useAuth";
 import { useSpot } from "@/hooks/useSpot";
@@ -12,8 +16,11 @@ export default function EditSpotPage() {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useAuth();
+  const { addToast } = Toast();
   const { data, isLoading, isError } = useSpot(id as string);
-  const { mutateAsync: updateSpot, isPending, error } = useUpdateSpot(id as string);
+  const { mutateAsync: updateSpot, isPending } = useUpdateSpot(id as string);
+
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   if (isLoading || !id) {
     return (
@@ -26,7 +33,10 @@ export default function EditSpotPage() {
   if (isError || !data?.data) {
     return (
       <Flex justify="center" align="center" minH="400px">
-        <Text color="red.400">Spot não encontrado.</Text>
+        <Text color="red.400" display="flex" alignItems="center" gap="1">
+          <RiAlertLine size={16} />
+          Spot não encontrado.
+        </Text>
       </Flex>
     );
   }
@@ -40,7 +50,10 @@ export default function EditSpotPage() {
   if (!isOwner) {
     return (
       <Flex justify="center" align="center" minH="400px">
-        <Text color="red.400">Você não tem permissão para editar este spot.</Text>
+        <Text color="red.400" display="flex" alignItems="center" gap="1">
+          <RiAlertLine size={16} />
+          Você não tem permissão para editar este spot.
+        </Text>
       </Flex>
     );
   }
@@ -56,26 +69,39 @@ export default function EditSpotPage() {
   };
 
   async function handleSubmit(payload: CreateSpotPayload) {
-    await updateSpot(payload);
-    router.push(`/spots/${spot.id}`);
+    try {
+      await updateSpot(payload);
+      addToast({
+        title: "Spot atualizado com sucesso.",
+        message: "As alterações foram salvas.",
+        type: "success"
+      });
+      router.push(`/spots/${spot.id}`);
+    } catch {
+      addToast({
+        title: "Erro ao atualizar spot.",
+        message: "Houve um erro ao salvar as alterações. Por favor, tente novamente.",
+        type: "error"
+      });
+    }
   }
 
   return (
-    <Box maxW="640px" mx="auto" px={4} py={8}>
-      <Heading size="lg" mb={8}>
-        Editar Spot
-      </Heading>
-      {error && (
-        <Text color="red.400" mb={4}>
-          Erro ao atualizar spot. Tente novamente.
-        </Text>
-      )}
-      <SpotForm
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        isSubmitting={isPending}
-        submitLabel="Salvar alterações"
-      />
-    </Box>
+    <>
+      <Head>
+        <title>Editar Spot - SkateHub</title>
+      </Head>
+      <TitleSection title="Editar Spot" />
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
+        <Flex w="100%" bg={bgColor} p="8" borderRadius={8} flexDir="column">
+          <SpotForm
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            isSubmitting={isPending}
+            submitLabel="Salvar alterações"
+          />
+        </Flex>
+      </Flex>
+    </>
   );
 }
