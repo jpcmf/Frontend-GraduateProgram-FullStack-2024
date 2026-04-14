@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 
 import mapboxgl from "mapbox-gl";
 
-// @ts-expect-error - mapbox-gl doesn't have CSS type declarations
 import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_ACCESS_TOKEN_MAP_BOX!;
