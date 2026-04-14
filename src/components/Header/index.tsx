@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { Button, Flex, Icon, IconButton, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
@@ -7,6 +8,7 @@ import { Button, Flex, Icon, IconButton, useBreakpointValue, useColorModeValue }
 import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
 import LoginModal from "@/features/login/modal/login";
+import { useColors } from "@/hooks/useColors";
 
 import { LogoSkateHub } from "../LogoSkateHub";
 import { ReusableModal } from "../ReusableModal";
@@ -15,12 +17,11 @@ import { Notification } from "./Notification";
 import { Profile } from "./Profile";
 
 export function Header() {
+  const { bgColor, borderColor } = useColors();
   const { onOpen } = useSidebarDrawer();
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const borderColor = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
 
   const isVisible = useBreakpointValue({
     base: false,
@@ -72,7 +73,9 @@ export function Header() {
         top={0}
         zIndex={20}
       >
-        <LogoSkateHub />
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+          <LogoSkateHub />
+        </Link>
         {!isVisible && (
           <IconButton
             aria-label="Open navigation"
