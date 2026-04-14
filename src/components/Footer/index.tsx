@@ -11,7 +11,7 @@ export function Footer() {
   const { footerBgButtonColor, footerTextButtonColor, footerBorderColor } = useColors();
   return (
     <Box as="footer" pt={12} pb={6}>
-      <Container maxW="max-content" px={6}>
+      <Container maxW="none" px={{ base: 0, lg: 8 }}>
         <SimpleGrid
           columns={{ base: 1, md: 2, lg: 4 }}
           spacing={8}
