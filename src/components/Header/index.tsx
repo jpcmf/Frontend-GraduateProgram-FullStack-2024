@@ -68,6 +68,9 @@ export function Header() {
         py="2"
         borderBottom="1px solid"
         borderColor={borderColor}
+        position="sticky"
+        top={0}
+        zIndex={20}
       >
         <LogoSkateHub />
         {!isVisible && (
