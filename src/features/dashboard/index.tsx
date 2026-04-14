@@ -49,7 +49,7 @@ export function Dashboard({ user }: DashboardProps) {
         </Box>
         <Box
           as={Link}
-          href="/"
+          href="/spots/new"
           p={["6", "8"]}
           bg={buttonBgColor}
           borderWidth={2}
@@ -84,8 +84,11 @@ export function Dashboard({ user }: DashboardProps) {
         >
           <Icon as={RiBookOpenLine} boxSize={8} mb={4} />
           <Heading size="md" mb={4}>
-            Criar um story
+            Em breve
           </Heading>
+          <Text fontSize="sm" color="gray.500">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nova funcionalidade chegando em breve.
+          </Text>
         </Box>
         <Box
           as={Link}
@@ -111,7 +114,7 @@ export function Dashboard({ user }: DashboardProps) {
 
       <TitleSection title="Visão geral" size="md" />
 
-      <SimpleGrid m={0} columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 4 }}>
+      <SimpleGrid m={0} columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 4 }}>
         <Box p={["6", "8"]} bg={bgColor} borderRadius={8} flex="50%">
           <VStack align="flex-start" spacing={4}>
             <Text fontSize="lg" fontWeight="bold" mb="1">
@@ -153,12 +156,6 @@ export function Dashboard({ user }: DashboardProps) {
           </Text>
           <Text color="green.400" as="a" href="#" textDecoration={"underline"}>
             Instruções para inscrição em eventos
-          </Text>
-        </Box>
-
-        <Box p={["6", "8"]} bg={bgColor} borderRadius={8} flex="50%">
-          <Text fontSize="lg" fontWeight="bold" mb="4">
-            Taxa de abertura
           </Text>
         </Box>
       </SimpleGrid>

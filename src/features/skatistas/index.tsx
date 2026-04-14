@@ -1,19 +1,9 @@
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  HStack,
-  Select,
-  SimpleGrid,
-  Spinner,
-  Text,
-  useColorModeValue
-} from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 
 import { UserCard } from "@/components/CardUser";
+import { useColors } from "@/hooks/useColors";
 import type { UserBasicsWithPagination } from "@/types/UserBasicsWithPagination.type";
 
 interface SkatistasProps {
@@ -35,7 +25,7 @@ export function Skatistas({
   onPageChange,
   onPageSizeChange
 }: SkatistasProps) {
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const { bgColor } = useColors();
   const totalPages = Math.ceil(totalUsers / pageSize);
   // const startItem = currentPage;
   // const endItem = Math.min(currentPage * pageSize, totalUsers);
@@ -79,7 +69,6 @@ export function Skatistas({
       <Flex
         bg={bgColor}
         borderRadius={8}
-        mb="8"
         p={["2", "4"]}
         alignItems="center"
         justifyContent="start"
@@ -87,12 +76,19 @@ export function Skatistas({
         gap={2}
       >
         <Flex alignItems="center">
-          <Text fontSize="sm" fontWeight="normal" display={"flex"} alignItems="center" justifyContent={"center"}>
+          <Text
+            as="div"
+            fontSize="sm"
+            fontWeight="normal"
+            display={"flex"}
+            alignItems="center"
+            justifyContent={"center"}
+          >
             {isLoading ? (
-              <Text as="span" alignItems="center">
+              <Flex alignItems="center">
                 <Spinner size="xs" mr={2} />
                 Carregando...
-              </Text>
+              </Flex>
             ) : (
               <>
                 Skatistas encontrados:{" "}

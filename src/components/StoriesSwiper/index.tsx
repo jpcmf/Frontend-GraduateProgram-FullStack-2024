@@ -90,7 +90,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
 
   return (
     <>
-      <Flex borderRadius="md" mb={6} overflow={"hidden"} maxW={1144} position="relative" h="134px">
+      <Flex borderRadius="md" mb={0} overflow={"hidden"} maxW={1144} position="relative" h="134px">
         <HStack
           w="100%"
           position="absolute"
@@ -143,7 +143,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
                       h="66px"
                       name={story.name}
                       bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
-                      src={story?.image ? story.image : "https://robohash.org/" + story?.name}
+                      src={story?.image ? story.image : undefined}
                       style={{ filter: story.isUserOffline ? `grayscale(100%)` : "none" }}
                     />
                   </Link>

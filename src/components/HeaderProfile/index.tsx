@@ -96,7 +96,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
   const avatarSrc = avatarPreview ?? user?.avatar?.formats?.thumbnail?.url;
 
   return (
-    <Box position="relative" mb="6" bg={cardBg} borderRadius="xl" overflow="hidden">
+    <Box position="relative" mb="6" bg={cardBg} borderRadius="lg" overflow="hidden">
       <Box h="48" w="full" bgGradient="linear(to-r, zinc.800, zinc.900)" overflow="hidden">
         <Image
           alt="Cover background"
@@ -169,7 +169,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
 
           <HStack mt="1" mb="4">
             <Icon as={FaMapMarkerAlt} />
-            <Text as="small" color={textSecondary}>
+            <Text fontSize="sm" color={textSecondary}>
               {user?.address?.city}, {user?.address?.uf}, {user?.address?.country}
             </Text>
           </HStack>

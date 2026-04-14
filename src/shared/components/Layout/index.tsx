@@ -15,7 +15,7 @@ export function Layout({ children }: LayoutProps) {
       <Flex direction="row" flex={1}>
         <Sidebar />
         <Flex w="100%" direction="column" mt="0" px={{ base: 6, lg: 0 }}>
-          <Flex flex={1} direction="column" mt={8} mx={8}>
+          <Flex flex={1} direction="column" mt={8} mx={{ base: 0, lg: 8 }}>
             {children}
           </Flex>
           <Footer />

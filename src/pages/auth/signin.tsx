@@ -33,6 +33,7 @@ export default function SignIn() {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
+  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
@@ -47,113 +48,72 @@ export default function SignIn() {
   });
 
   const handleSignIn: SubmitHandler<SignInFormSchema> = async values => {
-    if (recaptchaRef.current) {
-      try {
-        setIsExecutingRecaptcha(true);
-        // for v2 invisible, use executeAsync(). For v3, use execute()
-        const recaptchaValue =
-          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
-        const newValues = { ...values, recaptcha: recaptchaValue || undefined };
-
-        await signIn(newValues)
-          .then(_ => {
-            recaptchaRef.current?.reset();
-          })
-          .catch(error => {
-            recaptchaRef.current?.reset();
-
-            switch (error.response.data.error?.message) {
-              case "Your account email is not confirmed":
-                addToast({
-                  title: "Erro de autenticação.",
-                  message: "Confirme seu e-mail para acessar a plataforma.",
-                  type: "warning"
-                });
-                break;
-              case "Your account has been blocked by an administrator":
-                addToast({
-                  title: "Erro de autenticação.",
-                  message:
-                    "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
-                  type: "error"
-                });
-                break;
-              default:
-                addToast({
-                  title: "Erro de autenticação.",
-                  message: "Verifique seus dados de login e tente novamente.",
-                  type: "error"
-                });
-                break;
-            }
-          });
-      } catch (error) {
-        console.error("reCAPTCHA execution failed:", error);
-        addToast({
-          title: "Erro de verificação.",
-          message: "Falha na verificação de segurança. Tente novamente.",
-          type: "error"
-        });
-      } finally {
-        setIsExecutingRecaptcha(false);
-      }
-    } else {
+    if (!recaptchaRef.current) {
       addToast({
         title: "Erro de verificação.",
         message: "Sistema de verificação não está disponível.",
         type: "error"
       });
+      return;
+    }
+
+    if (!isRecaptchaReady) {
+      addToast({
+        title: "Aguarde.",
+        message: "Sistema de verificação ainda está carregando. Tente novamente.",
+        type: "warning"
+      });
+      return;
+    }
+
+    try {
+      setIsExecutingRecaptcha(true);
+      const recaptchaValue = await recaptchaRef.current.executeAsync();
+      const newValues = { ...values, recaptcha: recaptchaValue || undefined };
+
+      await signIn(newValues)
+        .then(_ => {
+          recaptchaRef.current?.reset();
+        })
+        .catch(error => {
+          recaptchaRef.current?.reset();
+
+          switch (error.response.data.error?.message) {
+            case "Your account email is not confirmed":
+              addToast({
+                title: "Erro de autenticação.",
+                message: "Confirme seu e-mail para acessar a plataforma.",
+                type: "warning"
+              });
+              break;
+            case "Your account has been blocked by an administrator":
+              addToast({
+                title: "Erro de autenticação.",
+                message:
+                  "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+                type: "error"
+              });
+              break;
+            default:
+              addToast({
+                title: "Erro de autenticação.",
+                message: "Verifique seus dados de login e tente novamente.",
+                type: "error"
+              });
+              break;
+          }
+        });
+    } catch {
+      recaptchaRef.current?.reset();
+      addToast({
+        title: "Erro de verificação.",
+        message: "Falha na verificação de segurança. Tente novamente.",
+        type: "error"
+      });
+    } finally {
+      setIsExecutingRecaptcha(false);
     }
   };
-  //   if (isVerified) {
-  //     const recaptchaValue = recaptchaRef.current?.getValue();
-  //     const newValues = { ...values, recaptcha: recaptchaValue || undefined };
-
-  //     await signIn(newValues)
-  //       .then(_ => { })
-  //       .catch(error => {
-  //         recaptchaRef.current?.reset();
-  //         setIsVerified(false);
-
-  //         switch (error.response.data.error?.message) {
-  //           case "Your account email is not confirmed":
-  //             addToast({
-  //               title: "Erro de autenticação.",
-  //               message: "Confirme seu e-mail para acessar a plataforma.",
-  //               type: "warning"
-  //             });
-  //             break;
-  //           case "Your account has been blocked by an administrator":
-  //             addToast({
-  //               title: "Erro de autenticação.",
-  //               message:
-  //                 "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
-  //               type: "error"
-  //             });
-  //             break;
-  //           default:
-  //             addToast({
-  //               title: "Erro de autenticação.",
-  //               message: "Verifique seus dados de login e tente novamente.",
-  //               type: "error"
-  //             });
-  //             break;
-  //         }
-  //       });
-  //   } else {
-  //     setIsVerifiedError(true);
-  //     console.log("Please verify the reCAPTCHA.");
-  //   }
-  // };
-
-  // const onVerify = (token: string | null) => {
-  //   if (!token) return;
-
-  //   if (token) {
-  //     setIsVerified(true);
-  //     setIsVerifiedError(false);
-  //   }
-  // };
 
   return (
     <>
@@ -206,6 +166,7 @@ export default function SignIn() {
                 _hover={{ bg: "green.600" }}
                 size={["sm", "md"]}
                 isLoading={isSubmitting || isExecutingRecaptcha}
+                isDisabled={!isRecaptchaReady}
                 loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
                 w={["100%", null, "3xs"]}
               >
@@ -250,8 +211,7 @@ export default function SignIn() {
         hl="pt-BR"
         badge="bottomright"
         id="recaptcha"
-        onLoad={() => console.log("reCAPTCHA loaded")}
-        onError={error => console.error("reCAPTCHA error:", error)}
+        asyncScriptOnLoad={() => setIsRecaptchaReady(true)}
       />
     </>
   );

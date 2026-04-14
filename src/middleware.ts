@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PROTECTED_ROUTES = ["/dashboard", "/user/edit"];
+const PROTECTED_ROUTES = ["/dashboard", "/user/edit", "/spots/new"];
+
+function isProtectedRoute(pathname: string): boolean {
+  if (PROTECTED_ROUTES.some(route => pathname.startsWith(route))) return true;
+  // /spots/:id/edit
+  if (/^\/spots\/[^/]+\/edit$/.test(pathname)) return true;
+  return false;
+}
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("auth.token")?.value;
-  const isProtected = PROTECTED_ROUTES.some(route => req.nextUrl.pathname.startsWith(route));
 
-  if (isProtected && !token) {
+  if (isProtectedRoute(req.nextUrl.pathname) && !token) {
     return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 
@@ -14,5 +20,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/user/edit"]
+  matcher: ["/dashboard", "/user/edit", "/spots/new", "/spots/:id/edit"]
 };

@@ -1,19 +1,21 @@
-import { useContext } from "react";
-import type { GetServerSidePropsContext } from "next";
-
-import { Box, Spinner } from "@chakra-ui/react";
-import { parseCookies } from "nookies";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
-import { AuthContext } from "@/contexts/AuthContext";
 import { Dashboard } from "@/features/dashboard";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function DashboardPage() {
-  const { user, isLoading } = useContext(AuthContext);
+  const { user, isLoading } = useAuth();
 
-  if (!user || isLoading) {
-    return <Spinner size="lg" color="green.400" />;
+  if (isLoading) {
+    return (
+      <Flex justify="center" align="center" minH="400px">
+        <Spinner size="lg" color="green.400" />
+      </Flex>
+    );
   }
+
+  if (!user) return null;
 
   return (
     <>
@@ -24,19 +26,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const { ["auth.token"]: token } = parseCookies(ctx);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false
-      }
-    };
-  }
-  return {
-    props: {}
-  };
-};

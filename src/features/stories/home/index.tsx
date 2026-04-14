@@ -1,7 +1,6 @@
-import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 
 import { StoriesSwiper } from "@/components/StoriesSwiper";
-import { TitleSection } from "@/components/TitleSection";
 import { useStories } from "@/hooks/useStories";
 
 export function StoriesHome() {
@@ -50,12 +49,5 @@ export function StoriesHome() {
     );
   }
 
-  return (
-    <>
-      <Box mb={6}>
-        <TitleSection title="Online agora" />
-      </Box>
-      <StoriesSwiper stories={stories} />
-    </>
-  );
+  return <StoriesSwiper stories={stories} />;
 }

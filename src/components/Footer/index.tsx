@@ -1,30 +1,25 @@
 import { FaHeart, FaReact } from "react-icons/fa";
 import { SiChakraui, SiNextdotjs } from "react-icons/si";
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  Icon,
-  Link,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-  VStack
-} from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading, HStack, Icon, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+
+import { useColors } from "@/hooks/useColors";
 
 import { LogoSkateHub } from "../LogoSkateHub";
 
 export function Footer() {
-  const bgButtonColor = useColorModeValue("red.500", "red.600");
-  const textButtonColor = useColorModeValue("white", "gray.100");
+  const { footerBgButtonColor, footerTextButtonColor, footerBorderColor } = useColors();
   return (
     <Box as="footer" pt={12} pb={6}>
-      <Container maxW="max-content" px={6}>
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8} mb={8}>
+      <Container maxW="none" px={{ base: 0, lg: 8 }}>
+        <SimpleGrid
+          columns={{ base: 1, md: 2, lg: 4 }}
+          spacing={8}
+          mb={8}
+          pt={8}
+          borderTop="1px"
+          borderColor={footerBorderColor}
+        >
           <VStack align="flex-start" spacing={3}>
             <HStack spacing={2}>
               <LogoSkateHub width={150} color="gray" />
@@ -81,7 +76,13 @@ export function Footer() {
               </Link>
               .
             </Text>
-            <Button leftIcon={<FaHeart />} bg={bgButtonColor} color={textButtonColor} size="sm" fontWeight="semibold">
+            <Button
+              leftIcon={<FaHeart />}
+              bg={footerBgButtonColor}
+              color={footerTextButtonColor}
+              size="sm"
+              fontWeight="semibold"
+            >
               Quero contribuir
             </Button>
           </VStack>
@@ -93,7 +94,7 @@ export function Footer() {
           align="center"
           pt={6}
           borderTop="1px"
-          borderColor="gray.700"
+          borderColor={footerBorderColor}
           gap={4}
         >
           <Text fontSize="sm" color="gray.600" display="flex" alignItems="center" gap={1}>
