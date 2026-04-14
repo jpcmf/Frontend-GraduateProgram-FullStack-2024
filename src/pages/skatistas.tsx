@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/dist/shared/lib/head";
 
 import { TitleSection } from "@/components/TitleSection";
 import { Skatistas } from "@/features/skatistas";
@@ -24,6 +25,9 @@ export default function SkatistasPage() {
 
   return (
     <>
+      <Head>
+        <title>Skatistas - SkateHub</title>
+      </Head>
       <TitleSection title="Skatistas" />
       <Skatistas
         users={paginatedUsers?.users || []}
