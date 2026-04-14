@@ -79,7 +79,6 @@ export function Skatistas({
       <Flex
         bg={bgColor}
         borderRadius={8}
-        mb="8"
         p={["2", "4"]}
         alignItems="center"
         justifyContent="start"
