@@ -19,7 +19,7 @@ export default function SkatistasPage() {
     setCurrentPage(1); // Reset to first page when changing page size
   };
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <div>Carregando...</div>;
   if (isError) return <div>Error loading users</div>;
 
   return (
