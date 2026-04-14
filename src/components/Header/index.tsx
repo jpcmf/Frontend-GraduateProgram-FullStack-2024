@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
-import Link from "next/link";
+// import Link from 'next/link';
 import { useRouter } from "next/router";
 
-import { Button, Flex, Icon, IconButton, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
+import { Button, Flex, Icon, IconButton, Link, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
@@ -17,7 +17,7 @@ import { Notification } from "./Notification";
 import { Profile } from "./Profile";
 
 export function Header() {
-  const { bgColor, borderColor } = useColors();
+  const { bgColorNoOpacity, borderColor } = useColors();
   const { onOpen } = useSidebarDrawer();
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
@@ -62,7 +62,7 @@ export function Header() {
       <Flex
         as="header"
         w="100%"
-        backgroundColor={bgColor}
+        backgroundColor={bgColorNoOpacity}
         mx="auto"
         alignItems="center"
         px="6"
@@ -73,15 +73,15 @@ export function Header() {
         top={0}
         zIndex={20}
       >
-        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+        <Link href="/" display={{ base: "none", lg: "flex" }} alignItems="center">
           <LogoSkateHub />
         </Link>
         {!isVisible && (
           <IconButton
             aria-label="Open navigation"
             icon={<Icon as={RiMenuLine} />}
-            fontSize="24"
-            variant="unstyled"
+            fontSize="28"
+            variant="ghost"
             onClick={onOpen}
             mr="2"
           ></IconButton>

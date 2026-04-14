@@ -188,7 +188,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
             <Heading size="md" py={0} pr={4} mb={4}>
               Detalhes do Spot
             </Heading>
-            <Text textAlign={{ base: "center", md: "left" }} lineHeight="tall">
+            <Text textAlign="left" lineHeight="tall">
               {description}
             </Text>
           </Box>
