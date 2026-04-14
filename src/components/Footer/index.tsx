@@ -8,7 +8,7 @@ import { useColors } from "@/hooks/useColors";
 import { LogoSkateHub } from "../LogoSkateHub";
 
 export function Footer() {
-  const { footerBgButtonColor, footerTextButtonColor } = useColors();
+  const { footerBgButtonColor, footerTextButtonColor, footerBorderColor } = useColors();
   return (
     <Box as="footer" pt={12} pb={6}>
       <Container maxW="max-content" px={6}>
@@ -18,7 +18,7 @@ export function Footer() {
           mb={8}
           pt={8}
           borderTop="1px"
-          borderColor="gray.800"
+          borderColor={footerBorderColor}
         >
           <VStack align="flex-start" spacing={3}>
             <HStack spacing={2}>
@@ -94,7 +94,7 @@ export function Footer() {
           align="center"
           pt={6}
           borderTop="1px"
-          borderColor="gray.700"
+          borderColor={footerBorderColor}
           gap={4}
         >
           <Text fontSize="sm" color="gray.600" display="flex" alignItems="center" gap={1}>

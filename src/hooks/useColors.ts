@@ -8,6 +8,7 @@ export function useColors() {
     border: useColorModeValue("gray.200", "gray.600"),
     textPrimary: useColorModeValue("gray.900", "whiteAlpha.900"),
     footerBgButtonColor: useColorModeValue("red.500", "red.600"),
-    footerTextButtonColor: useColorModeValue("white", "gray.100")
+    footerTextButtonColor: useColorModeValue("white", "gray.100"),
+    footerBorderColor: useColorModeValue("blackAlpha.100", "gray.800")
   };
 }
