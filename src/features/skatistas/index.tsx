@@ -9,11 +9,11 @@ import {
   Select,
   SimpleGrid,
   Spinner,
-  Text,
-  useColorModeValue
+  Text
 } from "@chakra-ui/react";
 
 import { UserCard } from "@/components/CardUser";
+import { useColors } from '@/hooks/useColors';
 import type { UserBasicsWithPagination } from "@/types/UserBasicsWithPagination.type";
 
 interface SkatistasProps {
@@ -35,7 +35,7 @@ export function Skatistas({
   onPageChange,
   onPageSizeChange
 }: SkatistasProps) {
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
+  const { bgColor } = useColors();
   const totalPages = Math.ceil(totalUsers / pageSize);
   // const startItem = currentPage;
   // const endItem = Math.min(currentPage * pageSize, totalUsers);
