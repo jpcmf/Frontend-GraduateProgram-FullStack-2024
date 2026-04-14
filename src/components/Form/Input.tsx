@@ -1,44 +1,45 @@
-import { FieldError } from "react-hook-form";
-import { forwardRef, ForwardRefRenderFunction } from "react";
-import {
-  Input as ChakraInput,
-  FormLabel,
-  FormControl,
-  InputProps as ChakraInputProps,
-  FormErrorMessage
-} from "@chakra-ui/react";
+// import { forwardRef, ForwardRefRenderFunction } from "react";
+// import { FieldError } from "react-hook-form";
 
-interface InputProps extends ChakraInputProps {
-  label?: string;
-  error?: FieldError;
-}
+// import {
+//   FormControl,
+//   FormErrorMessage,
+//   FormLabel,
+//   Input as ChakraInput,
+//   InputProps as ChakraInputProps
+// } from "@chakra-ui/react";
 
-const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, label, error = null, ...rest },
-  ref
-) => {
-  return (
-    <FormControl isInvalid={!!error}>
-      {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
-      <ChakraInput
-        name={name}
-        id={name}
-        focusBorderColor="blue.500"
-        bgColor="gray.900"
-        variant="filled"
-        _hover={{ bgColor: "gray.900" }}
-        size="lg"
-        ref={ref}
-        {...rest}
-      />
+// interface InputProps extends ChakraInputProps {
+//   label?: string;
+//   error?: FieldError;
+// }
 
-      {!!error && (
-        <FormErrorMessage as="small" color="red.500" ml="1" mt="2" display="block" fontSize="smaller" fontWeight="300">
-          {error?.message}
-        </FormErrorMessage>
-      )}
-    </FormControl>
-  );
-};
+// const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+//   { name, label, error = null, ...rest },
+//   ref
+// ) => {
+//   return (
+//     <FormControl isInvalid={!!error}>
+//       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+//       <ChakraInput
+//         name={name}
+//         id={name}
+//         focusBorderColor="blue.500"
+//         bgColor="gray.900"
+//         variant="filled"
+//         _hover={{ bgColor: "gray.900" }}
+//         size="lg"
+//         ref={ref}
+//         {...rest}
+//       />
 
-export const Input = forwardRef(InputBase);
+//       {!!error && (
+//         <FormErrorMessage as="small" color="red.500" ml="1" mt="2" display="block" fontSize="smaller" fontWeight="300">
+//           {error?.message}
+//         </FormErrorMessage>
+//       )}
+//     </FormControl>
+//   );
+// };
+
+// export const Input2 = forwardRef(InputBase);

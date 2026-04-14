@@ -1,9 +1,10 @@
-import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { Flex, Text } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { Flex, Text } from "@chakra-ui/react";
 
 import { Toast } from "@/components/Toast";
 
@@ -62,6 +63,7 @@ export default function Confirmation() {
           route.push("/");
         }, 3000);
       } catch (error) {
+        console.error(error);
         addToast({
           title: "Erro de processamento",
           message: "Ocorreu um erro inesperado. Tente novamente.",

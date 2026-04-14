@@ -1,9 +1,9 @@
+import { cloneElement, ReactElement } from "react";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
-import { cloneElement, ReactElement } from "react";
 
 interface ActiveLinkProps extends LinkProps {
-  children: ReactElement;
+  children: ReactElement<{ color?: string }>;
   shouldMatchExactHref?: boolean;
 }
 

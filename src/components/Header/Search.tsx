@@ -1,4 +1,5 @@
 import { RiSearchLine } from "react-icons/ri";
+
 import { Flex, Icon, Input } from "@chakra-ui/react";
 
 export function Search() {

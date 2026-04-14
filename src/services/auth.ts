@@ -1,23 +1,29 @@
-import axios from "axios";
-import { API } from "@/utils/constant";
+import { apiClient } from "@/lib/apiClient";
 
 type SignInData = {
   email: string;
   password: string;
 };
 
+type Category = {
+  id: number;
+  name: string;
+  value?: string;
+};
+
 type UpdateUserData = {
   id: string;
   name: string;
   email: string;
-  about: string;
   username: string;
+  category: Category;
+  about: string;
   website_url?: string;
   instagram_url?: string;
 };
 
 export async function signInRequest({ email, password }: SignInData) {
-  const res = await axios.post(`${API}/api/auth/local`, {
+  const res = await apiClient.post("/api/auth/local", {
     identifier: email,
     password
   });
@@ -26,7 +32,7 @@ export async function signInRequest({ email, password }: SignInData) {
 }
 
 export async function userMe(token: string) {
-  const res = await axios.get(`${API}/api/users/me?populate[avatar][fields][0]=url`, {
+  const res = await apiClient.get("/api/users/me?populate[avatar][fields][0]=url", {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
@@ -41,17 +47,20 @@ export async function userMe(token: string) {
 }
 
 export async function updateUserProfile(token: string, data: UpdateUserData) {
-  const formData = new FormData();
-  formData.append("name", data.name);
-  formData.append("email", data.email);
-  formData.append("about", data.about);
-  formData.append("website_url", data.website_url || "");
-  formData.append("instagram_url", data.instagram_url || "");
+  const payload = {
+    name: data.name,
+    email: data.email,
+    username: data.username,
+    category: data.category.id,
+    about: data.about,
+    website_url: data.website_url || "",
+    instagram_url: data.instagram_url || ""
+  };
 
-  const res = await axios.put(`${API}/api/users/${data.id}`, formData, {
+  const res = await apiClient.put(`/api/users/${data.id}`, payload, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
+      "Content-Type": "application/json"
     }
   });
 

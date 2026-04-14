@@ -80,8 +80,20 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ## :memo: Changelog
 
+### 2026
+
+- 2026-04-12 - Implements spots feature [#151](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/151) _(v0.2.5)_
+- 2026-03-01 - Implments avatar upload functionality [#139](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/139) _(v0.2.4)_
+- 2026-02-22 - Add improvements to the layout [#138](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/138) _(v0.2.3)_
+
 ### 2025
 
+- 2025-12-12 - Implements a user stories feature [#131](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/131) _(v0.2.1)_
+- 2025-11-13 - Bump Next.js version [#128](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/128) _(v0.2.0)_
+- 2025-11-03 - Add UserProfile component to display user information [#126](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/126) _(v0.1.37)_
+- 2025-11-03 - Standardize validation messages [#125](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/125) _(v0.1.36)_
+- 2025-11-01 - Add category definition [#124](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/124) _(v0.1.35)_
+- 2025-09-25 - Add ESLint packages to devDependencies for improved linting support [#121](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/121) _(v0.1.34)_
 - 2025-01-15 - Move authentication logic to user edit page [#116](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/116) _(v0.1.33)_
 
 ### 2024

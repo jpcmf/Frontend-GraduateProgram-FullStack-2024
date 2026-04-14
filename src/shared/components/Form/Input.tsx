@@ -1,15 +1,15 @@
-import { FieldError } from "react-hook-form";
 import { forwardRef, ForwardRefRenderFunction } from "react";
+import { FieldError } from "react-hook-form";
+
 import {
-  Text,
-  Input as ChakraInput,
-  FormLabel,
   FormControl,
-  InputProps as ChakraInputProps,
   FormErrorMessage,
+  FormLabel,
+  Input as ChakraInput,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon
+  InputProps as ChakraInputProps,
+  useColorModeValue
 } from "@chakra-ui/react";
 
 interface InputProps extends ChakraInputProps {
@@ -23,6 +23,10 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { name, label, error = null, isInputGroup, InputLeftAddonText, ...rest },
   ref
 ) => {
+  const bgColor = useColorModeValue("blackAlpha.100", "gray.900");
+  const bgInputGroupColor = useColorModeValue("blackAlpha.200", "blackAlpha.500");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const bgHoverColor = useColorModeValue("blackAlpha.200", "blackAlpha.300");
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
@@ -30,27 +34,28 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         <ChakraInput
           name={name}
           id={name}
-          focusBorderColor="blue.500"
-          bgColor="gray.900"
+          focusBorderColor="gray.600"
+          color={textColor}
+          bgColor={bgColor}
           variant="filled"
-          _hover={{ bgColor: "gray.900" }}
-          size={["md", "lg"]}
+          _hover={{ bgColor: bgHoverColor }}
+          size="md"
           ref={ref}
           {...rest}
         />
       ) : (
-        <InputGroup size={["md", "lg"]}>
-          <InputLeftAddon bgColor="gray.500" borderColor="gray.500" textColor="gray.900">
+        <InputGroup size="md">
+          <InputLeftAddon bgColor={bgInputGroupColor} borderColor={bgInputGroupColor} textColor={textColor}>
             {InputLeftAddonText}
           </InputLeftAddon>
           <ChakraInput
             name={name}
             id={name}
-            focusBorderColor="blue.500"
-            bgColor="gray.900"
+            focusBorderColor="gray.600"
+            bgColor={bgColor}
             variant="filled"
-            _hover={{ bgColor: "gray.900" }}
-            size={["md", "lg"]}
+            _hover={{ bgColor: bgHoverColor }}
+            size="md"
             ref={ref}
             {...rest}
           />

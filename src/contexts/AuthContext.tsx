@@ -1,6 +1,10 @@
-import Router from "next/router";
 import { createContext, useEffect, useState } from "react";
+import Router from "next/router";
+
 import { destroyCookie, parseCookies, setCookie } from "nookies";
+
+import { queryClient } from "@/lib/queryClient";
+import type { User } from "@/types/User.type";
 
 import { signInRequest, updateUserProfile, userMe } from "../services/auth";
 
@@ -10,22 +14,10 @@ type SignInData = {
   recaptcha?: string;
 };
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  about: string;
-  username: string;
-  website_url: string;
-  instagram_url: string;
-  avatar: Avatar;
-};
-
-type Avatar = {
-  url: string;
-};
-
-type UpdateUserData = Pick<User, "id" | "name" | "username" | "email" | "about" | "website_url" | "instagram_url">;
+type UpdateUserData = Pick<
+  User,
+  "id" | "name" | "email" | "username" | "category" | "about" | "website_url" | "instagram_url"
+>;
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -37,7 +29,15 @@ type AuthContextType = {
   isLoading: boolean;
 };
 
-export const AuthContext = createContext({} as AuthContextType);
+export const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  user: null,
+  token: null,
+  isLoading: true,
+  signIn: async () => {},
+  signOut: () => {},
+  updateUser: async () => {}
+});
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -53,24 +53,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (token) {
         try {
           setToken(token);
-          userMe(token)
-            .then(response => {
-              const userData = response.user || response;
-              setUser({
-                id: userData.id,
-                name: userData.name || userData.username || "User",
-                email: userData.email,
-                about: userData.about || "",
-                username: userData.username,
-                website_url: userData.website_url || "",
-                instagram_url: userData.instagram_url || "",
-                avatar: userData.avatar
-              });
-            })
-            .catch(() => {
-              signOut();
-            });
-        } catch (error) {
+          const response = await userMe(token);
+          const userData = response.user || response;
+          setUser({
+            id: userData.id,
+            name: userData.name || userData.username || "User",
+            email: userData.email,
+            username: userData.username,
+            category: userData.category,
+            about: userData.about || "",
+            website_url: userData.website_url || "",
+            instagram_url: userData.instagram_url || "",
+            avatar: userData.avatar,
+            address: userData.address || {},
+            updatedAt: userData.updatedAt,
+            blocked: userData.blocked,
+            confirmed: userData.confirmed
+          });
+        } catch {
           signOut();
         } finally {
           setIsLoading(false);
@@ -83,18 +83,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadUserData();
   }, []);
 
+  // Detect cookie removal in all cases:
+  // - setInterval: catches expiry or manual deletion while the tab is active
+  // - visibilitychange: catches expiry that happened while the tab was in background
+  useEffect(() => {
+    const checkCookie = () => {
+      const { "auth.token": cookieToken } = parseCookies();
+      if (!cookieToken && user) {
+        setUser(null);
+        setToken(null);
+        destroyCookie(undefined, "auth.token", { path: "/" });
+        Router.push("/auth/signin");
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        checkCookie();
+      }
+    };
+
+    const intervalId = setInterval(checkCookie, 5000);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [user]);
+
   async function signIn({ email, password }: SignInData) {
     const { user, jwt } = await signInRequest({ email, password });
 
     setCookie(undefined, "auth.token", jwt, {
-      maxAge: 60 * 10 // 10 minutes
-      // maxAge: 60 * 60 * 1, // 1 hour
+      // maxAge: 60 * 10 // 10 minutes
+      maxAge: 60 * 60 * 1, // 1 hour
       // maxAge: 60 * 60 * 24 * 1 // 1 day
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/"
     });
 
     setUser(user);
     setToken(jwt);
-    Router.push("/dashboard");
+    queryClient.invalidateQueries({ queryKey: ["stories"] });
+    Router.push("/");
   }
 
   async function updateUser(data: UpdateUserData) {
@@ -108,8 +141,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   function signOut() {
     setUser(null);
-    setToken("");
-    destroyCookie(undefined, "auth.token");
+    setToken(null);
+    destroyCookie(undefined, "auth.token", { path: "/" });
+    queryClient.clear();
     Router.push("/auth/signin");
   }
 
