@@ -1,26 +1,14 @@
 import { FaHeart, FaReact } from "react-icons/fa";
 import { SiChakraui, SiNextdotjs } from "react-icons/si";
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  Icon,
-  Link,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-  VStack
-} from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading, HStack, Icon, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+
+import { useColors } from "@/hooks/useColors";
 
 import { LogoSkateHub } from "../LogoSkateHub";
 
 export function Footer() {
-  const bgButtonColor = useColorModeValue("red.500", "red.600");
-  const textButtonColor = useColorModeValue("white", "gray.100");
+  const { footerBgButtonColor, footerTextButtonColor } = useColors();
   return (
     <Box as="footer" pt={12} pb={6}>
       <Container maxW="max-content" px={6}>
@@ -88,7 +76,13 @@ export function Footer() {
               </Link>
               .
             </Text>
-            <Button leftIcon={<FaHeart />} bg={bgButtonColor} color={textButtonColor} size="sm" fontWeight="semibold">
+            <Button
+              leftIcon={<FaHeart />}
+              bg={footerBgButtonColor}
+              color={footerTextButtonColor}
+              size="sm"
+              fontWeight="semibold"
+            >
               Quero contribuir
             </Button>
           </VStack>
