@@ -2,25 +2,25 @@ import { RiAlertLine } from "react-icons/ri";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Flex, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { SpotForm } from "@/features/spots/SpotForm";
 import { useAuth } from "@/hooks/useAuth";
+import { useColors } from "@/hooks/useColors";
 import { useSpot } from "@/hooks/useSpot";
 import { useUpdateSpot } from "@/hooks/useUpdateSpot";
 import type { CreateSpotPayload } from "@/types/spots";
 
 export default function EditSpotPage() {
   const router = useRouter();
+  const { bgColor } = useColors();
   const { id } = router.query;
   const { user } = useAuth();
   const { addToast } = Toast();
   const { data, isLoading, isError } = useSpot(id as string);
   const { mutateAsync: updateSpot, isPending } = useUpdateSpot(id as string);
-
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   if (isLoading || !id) {
     return (
