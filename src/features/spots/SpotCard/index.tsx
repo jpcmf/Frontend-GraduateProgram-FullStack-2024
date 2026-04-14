@@ -1,8 +1,9 @@
 import NextImage from "next/image";
 import NextLink from "next/link";
 
-import { Badge, Box, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Badge, Box, Text, VStack } from "@chakra-ui/react";
 
+import { useColors } from '@/hooks/useColors';
 import type { Spot, SpotType } from "@/types/spots";
 
 const TYPE_LABELS: Record<SpotType, string> = {
@@ -26,9 +27,9 @@ interface SpotCardProps {
 }
 
 export function SpotCard({ spot }: SpotCardProps) {
+  const { bgColor } = useColors();
   const { name, type, address, photos } = spot.attributes;
   const thumbnail = photos?.data?.[0]?.attributes?.url ?? null;
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   return (
     <Box
