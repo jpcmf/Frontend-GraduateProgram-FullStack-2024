@@ -2,17 +2,17 @@ import { useContext } from "react";
 import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
 
-import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
+import { useColors } from "@/hooks/useColors";
 
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 
 export function SidebarNav() {
   const { isAuthenticated } = useContext(AuthContext);
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const borderColor = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
+  const { bgColor, borderColor } = useColors();
   return (
     <Box bg={bgColor} p="6" borderRadius={0} h="full" borderRight="1px solid" borderColor={borderColor}>
       <Stack spacing="12" align="flex-start">
