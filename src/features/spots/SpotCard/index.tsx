@@ -14,7 +14,7 @@ const TYPE_LABELS: Record<SpotType, string> = {
 };
 
 const TYPE_COLORS: Record<SpotType, string> = {
-  street: "blue",
+  street: "green",
   skatepark: "green",
   diy: "orange",
   plaza: "purple",
@@ -60,7 +60,7 @@ export function SpotCard({ spot }: SpotCardProps) {
       </Box>
 
       <VStack align="start" spacing={1} p={4}>
-        <Badge colorScheme={TYPE_COLORS[type]} fontSize="xs" textTransform="capitalize">
+        <Badge bg={TYPE_COLORS[type] + ".400"} fontSize="xs" color="white" px={2} py={0} borderRadius="full">
           {TYPE_LABELS[type]}
         </Badge>
         <Text fontWeight="semibold" fontSize="md" noOfLines={1}>
