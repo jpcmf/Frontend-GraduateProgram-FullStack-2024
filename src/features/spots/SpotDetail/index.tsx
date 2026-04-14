@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Head from "next/dist/shared/lib/head";
 import NextImage from "next/image";
@@ -25,11 +25,13 @@ import {
   VStack
 } from "@chakra-ui/react";
 
+import { MapBox } from "@/components/Map/MapBox";
 import { TitleSection } from "@/components/TitleSection";
 import { useAuth } from "@/hooks/useAuth";
 import { useColors } from "@/hooks/useColors";
 import { useDeleteSpot } from "@/hooks/useDeleteSpot";
 import type { Spot, SpotType } from "@/types/spots";
+import { fetchCoordinates } from "@/utils/mapbox";
 
 const TYPE_LABELS: Record<SpotType, string> = {
   street: "Street",
@@ -47,13 +49,19 @@ const TYPE_COLORS: Record<SpotType, string> = {
   other: "gray"
 };
 
-const MAPS_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+const MAPS_KEY = "AIzaSyBnPuN8kBzJnU1ZTXn2QKdYUwrbCEUjkuo";
 
 interface SpotDetailProps {
   spot: Spot;
 }
 
+type Position = {
+  longitude: number;
+  latitude: number;
+};
+
 export function SpotDetail({ spot }: SpotDetailProps) {
+  const [position, setPosition] = useState<Position | null>(null);
   const { user } = useAuth();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,6 +85,14 @@ export function SpotDetail({ spot }: SpotDetailProps) {
       }
     });
   }
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetchCoordinates(address as string);
+      const [longitude, latitude] = response;
+      setPosition({ longitude, latitude });
+    })();
+  }, [address]);
 
   return (
     <>
@@ -203,16 +219,8 @@ export function SpotDetail({ spot }: SpotDetailProps) {
           <Box>
             <TitleSection title="Localização" size="md" />
             {address && MAPS_KEY ? (
-              <Box bg={cardBg} borderRadius="lg" overflow="hidden" h="260px">
-                <Box
-                  as="iframe"
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  style={{ border: 0 }}
-                  src={`https://www.google.com/maps/embed/v1/place?key=${MAPS_KEY}&q=${encodeURIComponent(address)}`}
-                  allowFullScreen
-                />
+              <Box bg={cardBg} borderRadius="lg" overflow="hidden" h="500px">
+                <MapBox posix={[position?.longitude ?? 0, position?.latitude ?? 0]} zoom={16} />
               </Box>
             ) : (
               <Box bg={cardBg} borderRadius="lg" h="260px" display="flex" alignItems="center" justifyContent="center">
