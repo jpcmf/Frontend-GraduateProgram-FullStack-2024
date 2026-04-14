@@ -49,8 +49,6 @@ const TYPE_COLORS: Record<SpotType, string> = {
   other: "gray"
 };
 
-const MAPS_KEY = "AIzaSyBnPuN8kBzJnU1ZTXn2QKdYUwrbCEUjkuo";
-
 interface SpotDetailProps {
   spot: Spot;
 }
@@ -218,7 +216,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
           {/* Localização */}
           <Box>
             <TitleSection title="Localização" size="md" />
-            {address && MAPS_KEY ? (
+            {address ? (
               <Box bg={cardBg} borderRadius="lg" overflow="hidden" h="500px">
                 <MapBox posix={[position?.longitude ?? 0, position?.latitude ?? 0]} zoom={16} />
               </Box>
