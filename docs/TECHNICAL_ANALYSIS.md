@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 2026 (PRs #146, #147, Stories feature, Spots feature)
+> Date: April 2026 · Last updated: April 14, 2026 (Refactoring: useColors hook unification, reCAPTCHA timeout fix, SpotDetail redesign)
 
 ---
 
@@ -17,6 +17,7 @@
 8. [Implementation Roadmap](#8-implementation-roadmap)
 9. [Stories Feature — Implementation Notes](#9-stories-feature--implementation-notes)
 10. [Spots Feature — Implementation Notes](#10-spots-feature--implementation-notes)
+11. [Recent Improvements (April 14, 2026)](#11-recent-improvements-april-14-2026)
 
 ---
 
@@ -783,3 +784,128 @@ The `Authenticated` role in Strapi must have `find` permission on `plugin::users
 1. Settings → Users & Permissions Plugin → Roles → **Authenticated**
 2. Users-permissions → User → enable **`find`**
 3. Save
+
+---
+
+## 11. Recent Improvements (April 14, 2026)
+
+### Theme System Refactoring — `useColors` Hook Unification
+
+**Objective:** Replace scattered `useColorModeValue` calls across the codebase with a centralized `useColors` hook that exports a consistent theme palette.
+
+**Commits:**
+
+- `4498c9c` — feat: add `logoFillColor` and `bgColorNoOpacity` to useColors hook
+- `8d36444` — fix: add missing `borderColor` property to useColors hook
+- `fe32846` — refactor: replace useColorModeValue with useColors hook in SpotCard
+- `920d14b` — refactor: replace useColorModeValue with useColors hook for background color
+- `ae90b9b` — refactor: integrate useColors hook for background and border colors in Header
+- `ac46789` — refactor: replace useColorModeValue with useColors hook in LogoSkateHub
+- `2d75feb` — refactor: replace useColorModeValue with useColors hook in SidebarNav
+- `ee62194` — refactor: enhance Sidebar component with dynamic colors and improved structure
+- `e106582` — refactor: update Header component to use bgColorNoOpacity and improve Link styling
+
+**Impact:**
+
+- Single source of truth for light/dark mode colors across all components
+- Easier to maintain and update the theme globally
+- Reduced duplication and import noise
+
+**Status:** ✅ Complete — all major components now use the centralized `useColors` hook
+
+### Bug Fixes — SpotDetail Component
+
+**Commits:**
+
+- `b1436d1` — fix: remove unused MAPS_KEY constant and simplify address check in SpotDetail
+- `9a422c0` — fix: update text alignment for spot description in SpotDetail component
+
+**Changes:**
+
+- Simplified conditional logic for Google Maps embed
+- Improved text rendering in the spot description section
+
+### Code Quality Improvements
+
+**Commits:**
+
+- `afbda8d` — fix: standardize import statement quotes (consistency across codebase)
+- `81cf6fe` — chore: add .txt and .http files to .gitignore (avoid committing test files)
+- `074170e` — fix: adjust margin-bottom of Flex component in StoriesSwiper
+- `0bad0a4` — fix: remove bottom margin from Flex component in Skatistas
+
+### Known Issues to Address (Priority Order)
+
+#### 1. reCAPTCHA Timeout After Logout (HIGH)
+
+**Problem:** After logout, users are redirected to `/auth/signin`. The invisible reCAPTCHA widget (`size="invisible"`) is being loaded asynchronously. If a user tries to submit the login form before the widget finishes loading, Google's reCAPTCHA throws `"reCAPTCHA Timeout (b)"` (timeout after 30 seconds internally).
+
+**Root Cause:** The `executeAsync()` call is not guarded by a "widget ready" signal. The form can be submitted before the widget's JavaScript has finished initializing.
+
+**Files Affected:**
+
+- `src/pages/auth/signin.tsx` — uses `executeAsync()` immediately without waiting for widget load
+- `src/features/login/modal/login.tsx` — identical pattern
+- `src/pages/auth/signup.tsx` — identical pattern
+
+**Solution:**
+
+1. Add a `isRecaptchaReady` state boolean
+2. Set it to `true` via the `asyncScriptOnLoad` callback (only signal that indicates full widget readiness)
+3. Guard form submission: disable submit button and show toast if not ready
+4. Use only `executeAsync()` — remove the fallback chain `executeAsync?.() || execute?.()`
+5. Remove `console.log` / `console.error` in callbacks (violates project rules)
+
+**Estimated Effort:** 15 minutes per file × 3 files = 45 minutes
+
+#### 2. Console Statements in Production Files (MEDIUM)
+
+**Files with violations:**
+
+- `src/pages/auth/signin.tsx:91` — `console.error("reCAPTCHA execution failed")`
+- `src/pages/auth/signin.tsx:253-254` — `onLoad={() => console.log(...)}`, `onError={error => console.error(...)}`
+- `src/features/login/modal/login.tsx` — same violations
+- `src/pages/auth/signup.tsx` — same violations
+
+**Fix:** All three auth pages should remove console statements and use silent error handling (only show user-facing toasts).
+
+#### 3. Signup Page Arch Violation (MEDIUM)
+
+**File:** `src/pages/auth/signup.tsx:53`
+
+```ts
+const res = await fetch(`${API}/api/auth/local/register`, {
+  /* ... */
+});
+```
+
+**Problem:** Uses bare `fetch` instead of `apiClient`. All other authenticated requests use `apiClient`, which provides:
+
+- Automatic token injection from cookies
+- 401 interceptor (logout on expired token)
+- Centralized error handling
+
+**Fix:** Replace with `signUpRequest()` service function that uses `apiClient`.
+
+#### 4. RecAPTCHA Token Dropped in SignIn (LOW)
+
+**File:** `src/contexts/AuthContext.tsx:115`
+
+```ts
+async function signIn({ email, password }: SignInData) {
+  // ← recaptcha token is in destructure but silently discarded
+  const { user, jwt } = await signInRequest({ email, password });
+```
+
+**Problem:** The `SignInData` type includes `recaptcha?: string`, but the `signIn` function only destructures `{ email, password }`. The token collected from the form is never forwarded to the backend.
+
+**Current Status:** This may be intentional if the backend doesn't yet validate the token. Needs clarification with backend owner.
+
+**Fix (if needed):** Forward the recaptcha token to `signInRequest()`.
+
+### Recommendations for Next Sprint
+
+1. **URGENT:** Fix reCAPTCHA timeout issue (affects login UX post-logout)
+2. **IMPORTANT:** Clean up console statements and review error handling in auth pages
+3. **MEDIUM:** Refactor signup to use `apiClient` for consistency
+4. **REVIEW:** Clarify backend's reCAPTCHA token validation expectations
