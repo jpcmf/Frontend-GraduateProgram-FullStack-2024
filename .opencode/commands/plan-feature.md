@@ -4,9 +4,9 @@ description: Plan implementation tasks from a frontend spec file
 
 Read the spec file at `specs/$ARGUMENTS.md`.
 
-Read `AGENT.md` for architecture conventions and the list of relevant files to load.
+Read `AGENTS.md` for architecture conventions and the list of relevant files to load.
 
-Read the files listed under "File & Directory References" in `AGENT.md` that are relevant to this feature.
+Read the files listed under "File & Directory References" in `AGENTS.md` that are relevant to this feature.
 
 Produce a numbered task checklist covering every step needed to implement the spec. For each task include:
 

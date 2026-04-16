@@ -8,9 +8,9 @@ Verify the spec Status is `ready` or `in-progress`. If it is `draft`, stop and a
 
 Update the spec Status to `in-progress`.
 
-Read `AGENT.md` for architecture conventions before writing any code.
+Read `AGENTS.md` for architecture conventions before writing any code.
 
-Implement every item in the spec following the conventions in `AGENT.md`:
+Implement every item in the spec following the conventions in `AGENTS.md`:
 
 - No `console.log`, `console.warn`, or `console.error` in any file
 - All API calls use `apiClient` from `src/lib/apiClient.ts` — never bare `axios`

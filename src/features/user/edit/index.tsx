@@ -127,8 +127,7 @@ export function UserEdit() {
         flex="1"
         borderRadius={8}
         bg={bgColor}
-        p={["6", "8"]}
-        mb={8}
+        p={["4", "8"]}
       >
         <Flex mb="8" direction="column">
           <VStack spacing="4">

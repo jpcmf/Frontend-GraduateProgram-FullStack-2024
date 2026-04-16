@@ -28,9 +28,10 @@ export function Profile({ showProfileData = true }: ProfileProps) {
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, signOut } = useAuth();
   const bgColor = useColorModeValue("white", "gray.900");
-  const borderColor = useColorModeValue("white", "gray.700");
+  const borderColor = useColorModeValue("blackAlpha.200", "gray.700");
   const menuItemBgHoverColor = useColorModeValue("gray.100", "white");
   const menuItemTextColor = useColorModeValue("gray.600", "gray.500");
+  const dividerBorderColor = useColorModeValue("blackAlpha.200", "gray.700");
 
   return (
     <Flex align="center">
@@ -66,9 +67,19 @@ export function Profile({ showProfileData = true }: ProfileProps) {
               onClick={() => router.push("/user/edit")}
               px={4}
             >
-              Editar
+              Editar perfil
             </MenuItem>
-            <MenuDivider borderColor="gray.700" />
+            <MenuDivider borderColor={dividerBorderColor} />
+            <MenuItem
+              color={menuItemTextColor}
+              bg={bgColor}
+              _hover={{ color: menuItemBgHoverColor }}
+              onClick={() => router.push("/dashboard")}
+              px={4}
+            >
+              Aréa do skatista
+            </MenuItem>
+            <MenuDivider borderColor={dividerBorderColor} />
             <MenuItem
               icon={colorMode === "light" ? <TbMoon size={16} /> : <TbSun size={16} />}
               onClick={toggleColorMode}
@@ -79,7 +90,7 @@ export function Profile({ showProfileData = true }: ProfileProps) {
             >
               {colorMode === "light" ? "Ativar modo escuro" : "Ativar modo claro"}
             </MenuItem>
-            <MenuDivider borderColor="gray.700" />
+            <MenuDivider borderColor={dividerBorderColor} />
             <MenuItem
               icon={<RiLogoutCircleLine size={16} />}
               onClick={signOut}
