@@ -33,7 +33,7 @@ export function Dashboard({ user }: DashboardProps) {
           href="/"
           p={["4", "6"]}
           bg={buttonBgColor}
-          border="1px"
+          border="4px"
           borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
@@ -56,7 +56,7 @@ export function Dashboard({ user }: DashboardProps) {
           href="/spots/new"
           p={["4", "6"]}
           bg={buttonBgColor}
-          border="1px"
+          border="4px"
           borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
@@ -79,7 +79,7 @@ export function Dashboard({ user }: DashboardProps) {
           href="/"
           p={["4", "6"]}
           bg={buttonBgColor}
-          border="1px"
+          border="4px"
           borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
@@ -102,7 +102,7 @@ export function Dashboard({ user }: DashboardProps) {
           href="/user/edit"
           p={["4", "6"]}
           bg={buttonBgColor}
-          border="1px"
+          border="4px"
           borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
