@@ -24,10 +24,10 @@ import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { CATEGORIES, getCategoryByValue } from "@/lib/const/categories";
 import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const/validation";
+import { signUpRequest } from "@/services/signUpRequest";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { redirectIfAuthenticated } from "@/utils/auth";
-import { API } from "@/utils/constant";
 
 const signUpSchema = z
   .object({
@@ -87,6 +87,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
+  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
@@ -102,68 +103,76 @@ export default function SignUp() {
   });
 
   const handleSignUp: SubmitHandler<SignUpSchema> = async values => {
-    if (recaptchaRef.current) {
-      try {
-        setIsExecutingRecaptcha(true);
-        // for v2 invisible, use executeAsync(). For v3, use execute()
-        const recaptchaValue =
-          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
+    if (!recaptchaRef.current) {
+      addToast({
+        title: "Erro de verificação.",
+        message: "Sistema de verificação não está disponível.",
+        type: "error"
+      });
+      return;
+    }
 
-        const selectedCategory2 = getCategoryByValue(values.category);
+    if (!isRecaptchaReady) {
+      addToast({
+        title: "Aguarde.",
+        message: "Sistema de verificação ainda está carregando. Tente novamente.",
+        type: "warning"
+      });
+      return;
+    }
 
-        const newValues = {
-          ...values,
-          category: selectedCategory2?.id,
-          recaptcha: recaptchaValue || undefined
-        };
+    try {
+      setIsExecutingRecaptcha(true);
+      const recaptchaValue = await recaptchaRef.current.executeAsync();
 
-        const response = await fetch(`${API}/api/auth/local/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(newValues)
+      const selectedCategory2 = getCategoryByValue(values.category);
+
+      const newValues = {
+        name: values.name,
+        email: values.email,
+        username: values.username,
+        category: selectedCategory2?.id,
+        city: values.city,
+        uf: values.uf,
+        country: values.country,
+        password: values.password,
+        recaptcha: recaptchaValue || undefined
+      };
+
+      await signUpRequest(newValues);
+
+      addToast({
+        title: "Cadastro efetuado com sucesso.",
+        message:
+          "Você receberá um e-mail para confirmar o seu endereço de e-mail. Por favor, verifique sua caixa de entrada.",
+        type: "success"
+      });
+
+      recaptchaRef.current?.reset();
+      reset();
+
+      setTimeout(() => {
+        route.push("/");
+      }, 3000);
+    } catch (error: any) {
+      recaptchaRef.current?.reset();
+
+      if (error.response?.status === 400) {
+        addToast({
+          title: "Usuário já cadastrado.",
+          message:
+            "Este usuário já está registrado em nosso sistema. Por favor, faça login ou recupere sua senha, se necessário.",
+          type: "error"
         });
-
-        const data = await response.json();
-
-        if (data.error) {
-          recaptchaRef.current?.reset();
-          reset();
-          setIsExecutingRecaptcha(false);
-          throw data.error;
-        } else {
-          addToast({
-            title: "Cadastro efetuado com sucesso.",
-            message:
-              "Você receberá um e-mail para confirmar o seu endereço de e-mail. Por favor, verifique sua caixa de entrada.",
-            type: "success"
-          });
-
-          setTimeout(() => {
-            route.push("/");
-          }, 3000);
-        }
-      } catch (error: any) {
-        if (error.status === 400) {
-          addToast({
-            title: "Usuário já cadastrado.",
-            message:
-              "Este usuário já está registrado em nosso sistema. Por favor, faça login ou recupere sua senha, se necessário.",
-            type: "error"
-          });
-        } else {
-          addToast({
-            title: "Erro ao processar solicitação.",
-            message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
-            type: "error"
-          });
-        }
-
-        recaptchaRef.current?.reset();
-        reset();
-        setIsExecutingRecaptcha(false);
+      } else {
+        addToast({
+          title: "Erro ao processar solicitação.",
+          message: "Houve um erro ao tentar criar sua conta. Por favor, verifique seus dados e tente novamente.",
+          type: "error"
+        });
       }
+    } finally {
+      setIsExecutingRecaptcha(false);
     }
   };
 
@@ -173,12 +182,12 @@ export default function SignUp() {
         <title>Cadastrar - SkateHub</title>
       </Head>
       <TitleSection title="Criar uma conta" />
-      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
           as="form"
           w="100%"
           bg={bgColor}
-          p="8"
+          p={{ base: 4, md: 8 }}
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleSignUp)}
@@ -300,8 +309,7 @@ export default function SignUp() {
                 hl="pt-BR"
                 badge="bottomright"
                 id="recaptcha"
-                onLoad={() => console.log("reCAPTCHA loaded")}
-                onError={error => console.error("reCAPTCHA error:", error)}
+                asyncScriptOnLoad={() => setIsRecaptchaReady(true)}
               />
             </Flex>
           </Stack>
@@ -314,6 +322,7 @@ export default function SignUp() {
               _hover={{ bg: "green.600" }}
               size={["sm", "md"]}
               isLoading={isSubmitting || isExecutingRecaptcha}
+              isDisabled={!isRecaptchaReady}
               loadingText={isExecutingRecaptcha ? "Cadastrando..." : "Finalizando..."}
               w={["100%", null, "3xs"]}
               mr="auto"

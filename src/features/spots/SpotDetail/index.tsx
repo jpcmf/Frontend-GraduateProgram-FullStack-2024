@@ -184,7 +184,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
 
         {/* Spot details card */}
         {description && (
-          <Box bg={cardBg} borderRadius="lg" p={8} mb={6}>
+          <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
             <Heading size="md" py={0} pr={4} mb={4}>
               Detalhes do Spot
             </Heading>

@@ -4,9 +4,9 @@ description: Create a new spec file for a frontend feature
 
 Read the existing spec files in `specs/` to understand the format.
 
-Read `AGENT.md` for the spec file format and architecture conventions.
+Read `AGENTS.md` for the spec file format and architecture conventions.
 
-Create a new spec file at `specs/$ARGUMENTS.md` using the standard spec format defined in `AGENT.md`.
+Create a new spec file at `specs/$ARGUMENTS.md` using the standard spec format defined in `AGENTS.md`.
 
 Populate the spec based on what you know about the project from `docs/TECHNICAL_ANALYSIS.md` and the corresponding backend spec in the Strapi repo at `specs/$ARGUMENTS.md`.
 

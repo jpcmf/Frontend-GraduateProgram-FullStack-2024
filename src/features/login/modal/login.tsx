@@ -35,6 +35,7 @@ export default function LoginModal() {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
+  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
 
   const bgColor = useColorModeValue("white", "gray.800");
   const bgColorPrimaryButton = useColorModeValue("green.300", "green.400");
@@ -54,62 +55,70 @@ export default function LoginModal() {
   });
 
   const handleSignIn: SubmitHandler<SignInFormSchema> = async values => {
-    if (recaptchaRef.current) {
-      try {
-        setIsExecutingRecaptcha(true);
-        // for v2 invisible, use executeAsync(). For v3, use execute()
-        const recaptchaValue =
-          (await recaptchaRef.current.executeAsync?.()) || (await recaptchaRef.current.execute?.());
-        const newValues = { ...values, recaptcha: recaptchaValue || undefined };
-
-        await signIn(newValues)
-          .then(_ => {
-            recaptchaRef.current?.reset();
-          })
-          .catch(error => {
-            recaptchaRef.current?.reset();
-
-            switch (error.response.data.error?.message) {
-              case "Your account email is not confirmed":
-                addToast({
-                  title: "Erro de autenticação.",
-                  message: "Confirme seu e-mail para acessar a plataforma.",
-                  type: "warning"
-                });
-                break;
-              case "Your account has been blocked by an administrator":
-                addToast({
-                  title: "Erro de autenticação.",
-                  message:
-                    "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
-                  type: "error"
-                });
-                break;
-              default:
-                addToast({
-                  title: "Erro de autenticação.",
-                  message: "Verifique seus dados de login e tente novamente.",
-                  type: "error"
-                });
-                break;
-            }
-          });
-      } catch (error) {
-        console.error("reCAPTCHA execution failed:", error);
-        addToast({
-          title: "Erro de verificação.",
-          message: "Falha na verificação de segurança. Tente novamente.",
-          type: "error"
-        });
-      } finally {
-        setIsExecutingRecaptcha(false);
-      }
-    } else {
+    if (!recaptchaRef.current) {
       addToast({
         title: "Erro de verificação.",
         message: "Sistema de verificação não está disponível.",
         type: "error"
       });
+      return;
+    }
+
+    if (!isRecaptchaReady) {
+      addToast({
+        title: "Aguarde.",
+        message: "Sistema de verificação ainda está carregando. Tente novamente.",
+        type: "warning"
+      });
+      return;
+    }
+
+    try {
+      setIsExecutingRecaptcha(true);
+      const recaptchaValue = await recaptchaRef.current.executeAsync();
+      const newValues = { ...values, recaptcha: recaptchaValue || undefined };
+
+      await signIn(newValues)
+        .then(_ => {
+          recaptchaRef.current?.reset();
+        })
+        .catch(error => {
+          recaptchaRef.current?.reset();
+
+          switch (error.response.data.error?.message) {
+            case "Your account email is not confirmed":
+              addToast({
+                title: "Erro de autenticação.",
+                message: "Confirme seu e-mail para acessar a plataforma.",
+                type: "warning"
+              });
+              break;
+            case "Your account has been blocked by an administrator":
+              addToast({
+                title: "Erro de autenticação.",
+                message:
+                  "Sua conta está temporariamente bloqueada. Se você acabou de se cadastrar, por favor, aguarde enquanto suas informações estão sendo revisadas por nossa equipe.",
+                type: "error"
+              });
+              break;
+            default:
+              addToast({
+                title: "Erro de autenticação.",
+                message: "Verifique seus dados de login e tente novamente.",
+                type: "error"
+              });
+              break;
+          }
+        });
+    } catch {
+      recaptchaRef.current?.reset();
+      addToast({
+        title: "Erro de verificação.",
+        message: "Falha na verificação de segurança. Tente novamente.",
+        type: "error"
+      });
+    } finally {
+      setIsExecutingRecaptcha(false);
     }
   };
 
@@ -133,13 +142,19 @@ export default function LoginModal() {
         <Stack spacing="4" py={["4", "8"]} px={["4", "12"]}>
           <Flex flexDir="column" flexGrow="1" alignItems="center" justifyContent="center">
             <Flex flexDir="column" w="100%" alignItems="center" mb="10">
-              <Flex hideFrom="md" marginBottom="10">
+              <Flex hideFrom="md" marginBottom="10" marginTop={6}>
                 <LogoSkateHub />
               </Flex>
-              <Text fontWeight="bold" fontSize="3xl" align="center" color={titleTextColor}>
+              <Text fontWeight="bold" fontSize={{ base: "xl", md: "3xl" }} align="center" color={titleTextColor}>
                 Junte-se à comunidade! Faça parte da evolução do esporte.
               </Text>
-              <Text mt="4" fontSize="lg" fontWeight="medium" align="center" color={subTitleTextColor}>
+              <Text
+                mt="4"
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="medium"
+                align="center"
+                color={subTitleTextColor}
+              >
                 Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
               </Text>
             </Flex>
@@ -186,8 +201,7 @@ export default function LoginModal() {
                       hl="pt-BR"
                       badge="bottomright"
                       id="recaptcha"
-                      onLoad={() => console.log("reCAPTCHA loaded")}
-                      onError={error => console.error("reCAPTCHA error:", error)}
+                      asyncScriptOnLoad={() => setIsRecaptchaReady(true)}
                     />
                   </Flex>
                 </Stack>
@@ -200,6 +214,7 @@ export default function LoginModal() {
                   fontWeight="bold"
                   size={["sm", "md"]}
                   isLoading={isSubmitting || isExecutingRecaptcha}
+                  isDisabled={!isRecaptchaReady}
                   loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
                 >
                   Entrar
@@ -232,7 +247,7 @@ export default function LoginModal() {
               </Button>
             </Flex>
           </Flex>
-          <Flex position="absolute" bottom="2" right="3" hideBelow="sm">
+          <Flex position="absolute" bottom="2" right="3">
             <Text as="small" fontSize="x-small" color="gray.700" align="center">
               versão {packageJson.version}
             </Text>

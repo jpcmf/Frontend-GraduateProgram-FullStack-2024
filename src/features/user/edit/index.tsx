@@ -121,15 +121,7 @@ export function UserEdit() {
       <TitleSection title="Editar" />
 
       {user && <ProfileHeader user={user} variant="edit" />}
-      <Box
-        as="form"
-        onSubmit={handleSubmit(handleEditUser)}
-        flex="1"
-        borderRadius={8}
-        bg={bgColor}
-        p={["6", "8"]}
-        mb={8}
-      >
+      <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]}>
         <Flex mb="8" direction="column">
           <VStack spacing="4">
             <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
