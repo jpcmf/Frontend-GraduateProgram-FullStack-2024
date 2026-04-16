@@ -148,7 +148,13 @@ export default function LoginModal() {
               <Text fontWeight="bold" fontSize={{ base: "xl", md: "3xl" }} align="center" color={titleTextColor}>
                 Junte-se à comunidade! Faça parte da evolução do esporte.
               </Text>
-              <Text mt="4" fontSize={{ base: "md", md: "lg" }} fontWeight="medium" align="center" color={subTitleTextColor}>
+              <Text
+                mt="4"
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="medium"
+                align="center"
+                color={subTitleTextColor}
+              >
                 Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
               </Text>
             </Flex>
