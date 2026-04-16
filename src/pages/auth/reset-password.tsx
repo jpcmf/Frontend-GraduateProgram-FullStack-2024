@@ -106,7 +106,7 @@ export default function ResetPassword() {
           w="100%"
           maxWidth={480}
           bg="gray.800"
-          p="8"
+          p={{ base: 4, md: 8 }}
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(onSubmit)}

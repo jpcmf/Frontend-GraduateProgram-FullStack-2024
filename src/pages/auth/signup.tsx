@@ -182,7 +182,7 @@ export default function SignUp() {
         <title>Cadastrar - SkateHub</title>
       </Head>
       <TitleSection title="Criar uma conta" />
-      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
           as="form"
           w="100%"
