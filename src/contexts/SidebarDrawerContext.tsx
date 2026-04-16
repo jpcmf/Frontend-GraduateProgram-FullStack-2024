@@ -1,5 +1,7 @@
+"use client";
+
 import { createContext, ReactNode, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 import { useDisclosure, UseDisclosureReturn } from "@chakra-ui/react";
 
@@ -13,12 +15,12 @@ const SidebarDrawerContext = createContext({} as SidebarDrawerContextData);
 
 export function SidebarDrawerProvider({ children }: SidebarDrawerProviderProps) {
   const disclosure = useDisclosure();
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     disclosure.onClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.asPath]);
+  }, [pathname]);
 
   return <SidebarDrawerContext.Provider value={disclosure}>{children}</SidebarDrawerContext.Provider>;
 }
