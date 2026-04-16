@@ -187,7 +187,7 @@ export default function SignUp() {
           as="form"
           w="100%"
           bg={bgColor}
-          p="8"
+          p={{ base: 4, md: 8 }}
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleSignUp)}
