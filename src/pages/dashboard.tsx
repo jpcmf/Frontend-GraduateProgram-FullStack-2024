@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
@@ -19,7 +21,10 @@ export default function DashboardPage() {
 
   return (
     <>
-      <TitleSection title="Painel do criador" />
+      <Head>
+        <title>Área do Skatista - SkateHub</title>
+      </Head>
+      <TitleSection title="Área do Skatista" />
       <Box flex="1" borderRadius={8} mb={8}>
         <Dashboard user={user} />
       </Box>

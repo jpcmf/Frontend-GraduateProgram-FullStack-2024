@@ -103,13 +103,13 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
           w="full"
           h="full"
           objectFit="cover"
-          opacity="0.4"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAraVEKLoGCYtR7Kib5PJkEDfuwJ2U6BekW_vycS6UpuykghmJlhh8840iG644X6aIuy7ec3xtQp1a2sxxv9eZFQB_8mn_CyncjTTz_C7YNnkIhJtnyBJCDk2I_9Isukql9I80BuLZ2kxiy70ms3-f_vc6F5Yh5p26Fart9N68RU12eGWrt0KbPq56PY-Cv5YeYO83Mu0XR4vvQHsnfC7cp3w9PtYUtGrM8QV6VXbxVcKpFBs-ITj9EUg9voifLTRHT0vZ53Xx4K0k"
+          opacity=".5"
+          src="https://placehold.net/default.svg"
         />
       </Box>
 
       <Flex
-        p="6"
+        p={{ base: 4, md: 8 }}
         direction={{ base: "column", md: "row" }}
         align={{ base: "center", md: "flex-end" }}
         mt={{ base: "-16", md: "-20" }}
@@ -167,25 +167,27 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
             )}
           </HStack>
 
-          <HStack mt="1" mb="4">
+          <HStack mt="1" mb={{ base: 0, md: 9 }} justify={{ base: "center", md: "flex-start" }}>
             <Icon as={FaMapMarkerAlt} />
             <Text fontSize="sm" color={textSecondary}>
               {user?.address?.city}, {user?.address?.uf}, {user?.address?.country}
             </Text>
           </HStack>
-          {variant === "profile" && authUser?.id === user?.id && (
-            <Text fontSize="sm" color={textSecondary} mb={{ base: "2", md: "0" }}>
+          {variant === "edit" && authUser?.id === user?.id && (
+            <Text
+              position={"absolute"}
+              top={4}
+              left={4}
+              fontSize="sm"
+              color={textSecondary}
+              mb={{ base: "2", md: "0" }}
+            >
               Personalize como os outros veem você na plataforma.
             </Text>
           )}
         </Box>
 
-        <Box
-          display="flex"
-          flexDirection={{ base: "row", md: "column" }}
-          alignItems={{ base: "center", md: "end" }}
-          gap={4}
-        >
+        <Box display="flex" flexDirection="column" alignItems={{ base: "center", md: "end" }} gap={4}>
           {variant === "profile" && (
             <>
               <HStack spacing={4}>

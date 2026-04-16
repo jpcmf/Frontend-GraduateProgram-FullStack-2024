@@ -90,12 +90,12 @@ export default function ForgotPassword() {
         <title>Esqueci minha senha - SkateHub</title>
       </Head>
       <TitleSection title="Recuperar senha" />
-      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
+      <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
           as="form"
           w="100%"
           bg={bgColor}
-          p="8"
+          p={{ base: 4, md: 8 }}
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleForgotPassword)}

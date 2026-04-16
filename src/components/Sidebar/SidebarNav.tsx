@@ -109,7 +109,7 @@ export function SidebarNav() {
                 color: "green.400"
               }}
             >
-              Painel do criador
+              Área do skatista
             </NavLink>
             <NavLink
               icon={RiContactsLine}

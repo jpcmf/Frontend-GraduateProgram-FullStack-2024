@@ -1,7 +1,7 @@
 import {
   RiAccountBoxLine,
-  RiBookOpenLine,
   RiCircleFill,
+  RiListCheck2,
   RiMapPin2Line,
   RiThumbDownLine,
   RiThumbUpLine,
@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Box, Heading, HStack, Icon, SimpleGrid, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
+import { useColors } from "@/hooks/useColors";
 import type { User } from "@/types/User.type";
 import { formatSmartDate } from "@/utils/date";
 
@@ -21,101 +22,103 @@ type DashboardProps = {
 };
 
 export function Dashboard({ user }: DashboardProps) {
-  const borderColor = useColorModeValue("green.200", "green.800");
+  const { textSecondary } = useColors();
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const buttonBgColor = useColorModeValue("green.200", "green.800");
-  const hoverBgColor = useColorModeValue("green.200", "green.400");
+  const buttonBgColor = useColorModeValue("teal.100", "teal.500");
+  const headingBgColor = useColorModeValue("white", "gray.800");
   return (
     <>
       <SimpleGrid mb={6} columns={{ base: 1, md: 4 }} spacing={{ base: 5, lg: 4 }}>
         <Box
           as={Link}
           href="/"
-          p={["6", "8"]}
+          p={["4", "6"]}
           bg={buttonBgColor}
-          borderWidth={2}
-          borderColor={borderColor}
-          borderRadius={8}
+          borderRadius="lg"
           alignItems="center"
           justifyContent="center"
+          textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ textDecoration: "none", bg: hoverBgColor }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
         >
           <Icon as={RiVideoAddLine} boxSize={8} mb={4} />
-          <Heading size="md" mb={4}>
-            Criar um story
+          <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
+            Criar Story
           </Heading>
+          <Text fontSize="small" color={textSecondary}>
+            Compartilhe momentos e sessões do seu dia no skate.
+          </Text>
         </Box>
         <Box
           as={Link}
           href="/spots/new"
-          p={["6", "8"]}
+          p={["4", "6"]}
           bg={buttonBgColor}
-          borderWidth={2}
-          borderColor={borderColor}
-          borderRadius={8}
+          borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ textDecoration: "none", bg: hoverBgColor }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
         >
           <Icon as={RiMapPin2Line} boxSize={8} mb={4} />
-          <Heading size="md" mb={4}>
-            Criar um spot
+          <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
+            Criar Spot
           </Heading>
+          <Text fontSize="small" color={textSecondary}>
+            Adicione e compartilhe picos para andar de skate.
+          </Text>
         </Box>
         <Box
           as={Link}
           href="/"
-          p={["6", "8"]}
+          p={["4", "6"]}
           bg={buttonBgColor}
-          borderWidth={2}
-          borderColor={borderColor}
-          borderRadius={8}
+          borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ textDecoration: "none", bg: hoverBgColor }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
         >
-          <Icon as={RiBookOpenLine} boxSize={8} mb={4} />
-          <Heading size="md" mb={4}>
-            Em breve
+          <Icon as={RiListCheck2} boxSize={8} mb={4} />
+          <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
+            Criar Lista
           </Heading>
-          <Text fontSize="sm" color="gray.500">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nova funcionalidade chegando em breve.
+          <Text fontSize="small" color={textSecondary}>
+            Organize e compartilhe coleções do universo do skate.
           </Text>
         </Box>
         <Box
           as={Link}
           href="/user/edit"
-          p={["6", "8"]}
+          p={["4", "6"]}
           bg={buttonBgColor}
-          borderWidth={2}
-          borderColor={borderColor}
-          borderRadius={8}
+          borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ textDecoration: "none", bg: hoverBgColor }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
         >
           <Icon as={RiAccountBoxLine} boxSize={8} mb={4} />
-          <Heading size="md" mb={4}>
-            Editar meu perfil
+          <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
+            Editar Perfil
           </Heading>
+          <Text fontSize="small" color={textSecondary}>
+            Atualize suas informações e destaque sua trajetória.
+          </Text>
         </Box>
       </SimpleGrid>
 
       <TitleSection title="Visão geral" size="md" />
 
-      <SimpleGrid m={0} columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 4 }}>
-        <Box p={["6", "8"]} bg={bgColor} borderRadius={8} flex="50%">
+      <SimpleGrid mb={6} columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 4 }}>
+        <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="50%">
           <VStack align="flex-start" spacing={4}>
             <Text fontSize="lg" fontWeight="bold" mb="1">
               Status do cadastro do atleta
@@ -150,13 +153,21 @@ export function Dashboard({ user }: DashboardProps) {
           </VStack>
         </Box>
 
-        <Box p={["6", "8"]} bg={bgColor} borderRadius={8} flex="50%">
+        <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="50%">
           <Text fontSize="lg" fontWeight="bold" mb="4">
             Documentações
           </Text>
           <Text color="green.400" as="a" href="#" textDecoration={"underline"}>
             Instruções para inscrição em eventos
           </Text>
+        </Box>
+      </SimpleGrid>
+
+      <TitleSection title="Atividades recentes" size="md" />
+
+      <SimpleGrid m={0} columns={{ base: 1 }} spacing={{ base: 5, lg: 4 }}>
+        <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="50%">
+          Hello
         </Box>
       </SimpleGrid>
     </>
