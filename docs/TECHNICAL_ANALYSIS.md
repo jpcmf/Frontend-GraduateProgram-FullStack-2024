@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 14, 2026 (Refactoring: useColors hook unification, reCAPTCHA timeout fix, SpotDetail redesign)
+> Date: April 2026 · Last updated: April 16, 2026 (reCAPTCHA timeout fix completed, SpotDetail redesign completed)
 
 ---
 
@@ -836,56 +836,51 @@ The `Authenticated` role in Strapi must have `find` permission on `plugin::users
 
 ### Known Issues to Address (Priority Order)
 
-#### 1. reCAPTCHA Timeout After Logout (HIGH)
+#### 1. reCAPTCHA Timeout After Logout ✅ FIXED (April 16, 2026)
 
-**Problem:** After logout, users are redirected to `/auth/signin`. The invisible reCAPTCHA widget (`size="invisible"`) is being loaded asynchronously. If a user tries to submit the login form before the widget finishes loading, Google's reCAPTCHA throws `"reCAPTCHA Timeout (b)"` (timeout after 30 seconds internally).
+**Status:** Complete — fixed in commit `8fd8396`
 
-**Root Cause:** The `executeAsync()` call is not guarded by a "widget ready" signal. The form can be submitted before the widget's JavaScript has finished initializing.
+**Problem (previously):** After logout, users were redirected to `/auth/signin`. The invisible reCAPTCHA widget (`size="invisible"`) was being loaded asynchronously. If a user tried to submit the login form before the widget finished loading, Google's reCAPTCHA threw `"reCAPTCHA Timeout (b)"` (timeout after 30 seconds internally).
 
-**Files Affected:**
+**Root Cause:** The `executeAsync()` call was not guarded by a "widget ready" signal. The form could be submitted before the widget's JavaScript had finished initializing.
 
-- `src/pages/auth/signin.tsx` — uses `executeAsync()` immediately without waiting for widget load
-- `src/features/login/modal/login.tsx` — identical pattern
-- `src/pages/auth/signup.tsx` — identical pattern
+**Solution Implemented:**
 
-**Solution:**
-
-1. Add a `isRecaptchaReady` state boolean
+1. Added `isRecaptchaReady` state boolean to all three auth pages
 2. Set it to `true` via the `asyncScriptOnLoad` callback (only signal that indicates full widget readiness)
-3. Guard form submission: disable submit button and show toast if not ready
-4. Use only `executeAsync()` — remove the fallback chain `executeAsync?.() || execute?.()`
-5. Remove `console.log` / `console.error` in callbacks (violates project rules)
+3. Guard form submission: disabled submit button and show toast if not ready
+4. Removed all `console.log` / `console.error` in callbacks (violated project rules)
+5. Replaced `fetch` with `apiClient` in signup page via new `signUpRequest()` service
 
-**Estimated Effort:** 15 minutes per file × 3 files = 45 minutes
+**Files Fixed:**
 
-#### 2. Console Statements in Production Files (MEDIUM)
+- `src/pages/auth/signin.tsx` — already had guards; verified working
+- `src/features/login/modal/login.tsx` — fixed with readiness guard
+- `src/pages/auth/signup.tsx` — fixed with readiness guard + `apiClient` migration
+- `src/services/signUpRequest.ts` — new service file
 
-**Files with violations:**
+**Changes:**
 
-- `src/pages/auth/signin.tsx:91` — `console.error("reCAPTCHA execution failed")`
-- `src/pages/auth/signin.tsx:253-254` — `onLoad={() => console.log(...)}`, `onError={error => console.error(...)}`
-- `src/features/login/modal/login.tsx` — same violations
-- `src/pages/auth/signup.tsx` — same violations
+- Submit buttons now disabled until reCAPTCHA widget is fully loaded
+- No race condition: form cannot be submitted before widget ready
+- All console statements removed
+- Improved error messaging (show toast if widget takes too long or unavailable)
 
-**Fix:** All three auth pages should remove console statements and use silent error handling (only show user-facing toasts).
+#### 2. Console Statements in Production Files ✅ FIXED (April 16, 2026)
 
-#### 3. Signup Page Arch Violation (MEDIUM)
+**Status:** Complete — fixed in commit `8fd8396`
 
-**File:** `src/pages/auth/signup.tsx:53`
+All console statements have been removed from auth pages as part of the reCAPTCHA timeout fix.
 
-```ts
-const res = await fetch(`${API}/api/auth/local/register`, {
-  /* ... */
-});
-```
+#### 3. Signup Page Arch Violation ✅ FIXED (April 16, 2026)
 
-**Problem:** Uses bare `fetch` instead of `apiClient`. All other authenticated requests use `apiClient`, which provides:
+**Status:** Complete — fixed in commit `8fd8396`
 
-- Automatic token injection from cookies
-- 401 interceptor (logout on expired token)
-- Centralized error handling
+**Changes:**
 
-**Fix:** Replace with `signUpRequest()` service function that uses `apiClient`.
+- Created new `src/services/signUpRequest.ts` service
+- Migrated `src/pages/auth/signup.tsx` from bare `fetch` to `apiClient`
+- Now benefits from automatic token injection, 401 interceptor, and centralized error handling
 
 #### 4. RecAPTCHA Token Dropped in SignIn (LOW)
 
@@ -905,7 +900,7 @@ async function signIn({ email, password }: SignInData) {
 
 ### Recommendations for Next Sprint
 
-1. **URGENT:** Fix reCAPTCHA timeout issue (affects login UX post-logout)
-2. **IMPORTANT:** Clean up console statements and review error handling in auth pages
-3. **MEDIUM:** Refactor signup to use `apiClient` for consistency
-4. **REVIEW:** Clarify backend's reCAPTCHA token validation expectations
+1. ✅ **FIXED:** reCAPTCHA timeout issue (affects login UX post-logout) — commit `8fd8396`
+2. ✅ **FIXED:** Console statements cleaned up from auth pages — commit `8fd8396`
+3. ✅ **FIXED:** Signup refactored to use `apiClient` for consistency — commit `8fd8396`
+4. **REVIEW:** Clarify backend's reCAPTCHA token validation expectations (see item 4 below)

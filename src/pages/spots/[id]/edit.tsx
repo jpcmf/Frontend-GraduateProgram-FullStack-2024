@@ -93,7 +93,7 @@ export default function EditSpotPage() {
       </Head>
       <TitleSection title="Editar Spot" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
-        <Flex w="100%" bg={bgColor} p="8" borderRadius={8} flexDir="column">
+        <Flex w="100%" bg={bgColor} p={{ base: "4", md: "8" }} borderRadius={8} flexDir="column">
           <SpotForm
             initialValues={initialValues}
             onSubmit={handleSubmit}

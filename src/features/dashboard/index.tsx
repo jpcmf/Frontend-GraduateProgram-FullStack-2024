@@ -22,9 +22,8 @@ type DashboardProps = {
 };
 
 export function Dashboard({ user }: DashboardProps) {
-  const { textSecondary } = useColors();
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const buttonBgColor = useColorModeValue("teal.100", "teal.500");
+  const { textSecondary, borderColor, bgColor } = useColors();
+  const buttonBgColor = useColorModeValue("transparent", "transparent");
   const headingBgColor = useColorModeValue("white", "gray.800");
   return (
     <>
@@ -34,13 +33,15 @@ export function Dashboard({ user }: DashboardProps) {
           href="/"
           p={["4", "6"]}
           bg={buttonBgColor}
+          border="1px"
+          borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
         >
           <Icon as={RiVideoAddLine} boxSize={8} mb={4} />
           <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
@@ -55,13 +56,15 @@ export function Dashboard({ user }: DashboardProps) {
           href="/spots/new"
           p={["4", "6"]}
           bg={buttonBgColor}
+          border="1px"
+          borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
         >
           <Icon as={RiMapPin2Line} boxSize={8} mb={4} />
           <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
@@ -76,13 +79,15 @@ export function Dashboard({ user }: DashboardProps) {
           href="/"
           p={["4", "6"]}
           bg={buttonBgColor}
+          border="1px"
+          borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
         >
           <Icon as={RiListCheck2} boxSize={8} mb={4} />
           <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
@@ -97,13 +102,15 @@ export function Dashboard({ user }: DashboardProps) {
           href="/user/edit"
           p={["4", "6"]}
           bg={buttonBgColor}
+          border="1px"
+          borderColor={borderColor}
           borderRadius="lg"
           alignItems="center"
           justifyContent="center"
           textAlign="center"
           display="flex"
           flexDirection="column"
-          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
+          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
         >
           <Icon as={RiAccountBoxLine} boxSize={8} mb={4} />
           <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
