@@ -1,14 +1,10 @@
-import { Metadata } from "next";
+"use client";
 
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
 import { Dashboard } from "@/features/dashboard";
 import { useAuth } from "@/hooks/useAuth";
-
-export const metadata: Metadata = {
-  title: "Área do Skatista - SkateHub"
-};
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();

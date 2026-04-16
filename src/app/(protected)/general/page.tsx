@@ -1,12 +1,8 @@
-import { Metadata } from "next";
+"use client";
 
 import { Box, Flex, Grid, useColorModeValue } from "@chakra-ui/react";
 
 import { TitleSection } from "@/components/TitleSection";
-
-export const metadata: Metadata = {
-  title: "Cadastro Atleta - SkateHub"
-};
 
 export default function AthleteRegistrationPage() {
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
