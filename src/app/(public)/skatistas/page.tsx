@@ -1,5 +1,6 @@
+"use client";
+
 import { useState } from "react";
-import Head from "next/dist/shared/lib/head";
 
 import { TitleSection } from "@/components/TitleSection";
 import { Skatistas } from "@/features/skatistas";
@@ -17,7 +18,7 @@ export default function SkatistasPage() {
 
   const handlePageSizeChange = (newPageSize: number) => {
     setPageSize(newPageSize);
-    setCurrentPage(1); // Reset to first page when changing page size
+    setCurrentPage(1);
   };
 
   if (isPending) return <div>Carregando...</div>;
@@ -25,9 +26,6 @@ export default function SkatistasPage() {
 
   return (
     <>
-      <Head>
-        <title>Skatistas - SkateHub</title>
-      </Head>
       <TitleSection title="Skatistas" />
       <Skatistas
         users={paginatedUsers?.users || []}

@@ -1,14 +1,22 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { use } from "react";
 
 import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 
 import { SpotDetail } from "@/features/spots/SpotDetail";
 import { useSpot } from "@/hooks/useSpot";
 
-export default function SpotDetailPage() {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data, isLoading, isError } = useSpot(id as string);
+type SpotDetailPageProps = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export default function SpotDetailPage(props: SpotDetailPageProps) {
+  const params = use(props.params);
+  const { id } = params;
+  const { data, isLoading, isError } = useSpot(id);
 
   if (isLoading || !id) {
     return (

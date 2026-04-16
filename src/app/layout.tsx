@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" style={{ height: "100%", margin: 0, padding: 0 }}>
+    <html lang="en">
       <head>
         <meta name="google-site-verification" content="N5AS_Y5dpIzozQKynw_S6M24hl_0hqHhpsA-SrQuZ-g" />
         <style
@@ -26,16 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               margin: 0;
               padding: 0;
             }
-            #__next {
-              display: flex;
-              flex-direction: column;
-              height: 100dvh;
-            }
           `
           }}
         />
       </head>
-      <body style={{ height: "100%", margin: 0, padding: 0 }}>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

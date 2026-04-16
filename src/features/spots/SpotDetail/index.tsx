@@ -1,9 +1,10 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import Head from "next/dist/shared/lib/head";
 import NextImage from "next/image";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import {
   AlertDialog,
@@ -94,9 +95,6 @@ export function SpotDetail({ spot }: SpotDetailProps) {
 
   return (
     <>
-      <Head>
-        <title>{name} - SkateHub</title>
-      </Head>
       <Box position="relative">
         <TitleSection title="Spot" />
         <Box width={"100%"}>

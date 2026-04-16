@@ -14,7 +14,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <>
       <Header />
-      <Flex direction="row" flex={1}>
+      <Flex direction="row" flex={1} border="10px solid blue">
         <Sidebar />
         <Flex w="100%" direction="column" mt="0" px={{ base: 6, lg: 0 }}>
           <Flex flex={1} direction="column" mt={8} mx={{ base: 0, lg: 8 }}>

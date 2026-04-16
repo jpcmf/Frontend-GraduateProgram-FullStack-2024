@@ -1,7 +1,8 @@
+"use client";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RiAlertLine } from "react-icons/ri";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import { Box, Button, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +12,6 @@ import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { VALIDATION_MESSAGES } from "@/lib/const/validation";
 import { Input } from "@/shared/components/Form/Input";
-import { redirectIfAuthenticated } from "@/utils/auth";
 import { API } from "@/utils/constant";
 
 const forgotPasswordFormSchema = z.object({
@@ -21,7 +21,7 @@ const forgotPasswordFormSchema = z.object({
 type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;
 
 export default function ForgotPassword() {
-  const route = useRouter();
+  const router = useRouter();
   const { addToast } = Toast();
 
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
@@ -65,13 +65,12 @@ export default function ForgotPassword() {
         });
 
         setTimeout(() => {
-          route.push("/auth/signin");
+          router.push("/auth/signin");
         }, 5000);
 
         return data;
       } else {
         const text = await response.text();
-        console.warn("Non-JSON response:", text);
         return { error: "Non-JSON response", details: text };
       }
     } catch (error) {
@@ -86,9 +85,6 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <Head>
-        <title>Esqueci minha senha - SkateHub</title>
-      </Head>
       <TitleSection title="Recuperar senha" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
@@ -139,7 +135,3 @@ export default function ForgotPassword() {
     </>
   );
 }
-
-export const getServerSideProps = async (ctx: any) => {
-  return redirectIfAuthenticated(ctx);
-};

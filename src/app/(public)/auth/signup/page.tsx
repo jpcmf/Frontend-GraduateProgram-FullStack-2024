@@ -1,10 +1,11 @@
+"use client";
+
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import {
   Box,
@@ -27,7 +28,6 @@ import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/con
 import { signUpRequest } from "@/services/signUpRequest";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
-import { redirectIfAuthenticated } from "@/utils/auth";
 
 const signUpSchema = z
   .object({
@@ -81,7 +81,7 @@ const signUpSchema = z
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
 export default function SignUp() {
-  const route = useRouter();
+  const router = useRouter();
   const { addToast } = Toast();
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -152,7 +152,7 @@ export default function SignUp() {
       reset();
 
       setTimeout(() => {
-        route.push("/");
+        router.push("/");
       }, 3000);
     } catch (error: any) {
       recaptchaRef.current?.reset();
@@ -178,9 +178,6 @@ export default function SignUp() {
 
   return (
     <>
-      <Head>
-        <title>Cadastrar - SkateHub</title>
-      </Head>
       <TitleSection title="Criar uma conta" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
@@ -341,7 +338,3 @@ export default function SignUp() {
     </>
   );
 }
-
-export const getServerSideProps = async (ctx: any) => {
-  return redirectIfAuthenticated(ctx);
-};

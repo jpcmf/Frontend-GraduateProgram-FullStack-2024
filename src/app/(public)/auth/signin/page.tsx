@@ -1,10 +1,11 @@
-import { useContext, useRef, useState } from "react";
+"use client";
+
+import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import {
   Box,
@@ -21,14 +22,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
-import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
+import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/shared/components/Form/Input";
-import { redirectIfAuthenticated } from "@/utils/auth";
 
 export default function SignIn() {
   const router = useRouter();
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
   const { addToast } = Toast();
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -117,9 +117,6 @@ export default function SignIn() {
 
   return (
     <>
-      <Head>
-        <title>Login - SkateHub</title>
-      </Head>
       <TitleSection title="Faça seu login" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" mb={8} width="100%">
         <Flex
@@ -216,7 +213,3 @@ export default function SignIn() {
     </>
   );
 }
-
-export const getServerSideProps = async (ctx: any) => {
-  return redirectIfAuthenticated(ctx);
-};
