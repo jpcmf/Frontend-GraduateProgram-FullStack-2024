@@ -142,13 +142,13 @@ export default function LoginModal() {
         <Stack spacing="4" py={["4", "8"]} px={["4", "12"]}>
           <Flex flexDir="column" flexGrow="1" alignItems="center" justifyContent="center">
             <Flex flexDir="column" w="100%" alignItems="center" mb="10">
-              <Flex hideFrom="md" marginBottom="10">
+              <Flex hideFrom="md" marginBottom="10" marginTop={6}>
                 <LogoSkateHub />
               </Flex>
-              <Text fontWeight="bold" fontSize="3xl" align="center" color={titleTextColor}>
+              <Text fontWeight="bold" fontSize={{ base: "xl", md: "3xl" }} align="center" color={titleTextColor}>
                 Junte-se à comunidade! Faça parte da evolução do esporte.
               </Text>
-              <Text mt="4" fontSize="lg" fontWeight="medium" align="center" color={subTitleTextColor}>
+              <Text mt="4" fontSize={{ base: "md", md: "lg" }} fontWeight="medium" align="center" color={subTitleTextColor}>
                 Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
               </Text>
             </Flex>
@@ -241,7 +241,7 @@ export default function LoginModal() {
               </Button>
             </Flex>
           </Flex>
-          <Flex position="absolute" bottom="2" right="3" hideBelow="sm">
+          <Flex position="absolute" bottom="2" right="3">
             <Text as="small" fontSize="x-small" color="gray.700" align="center">
               versão {packageJson.version}
             </Text>
