@@ -174,18 +174,20 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
             </Text>
           </HStack>
           {variant === "edit" && authUser?.id === user?.id && (
-            <Text position={"absolute"} top={4} left={4} fontSize="sm" color={textSecondary} mb={{ base: "2", md: "0" }}>
+            <Text
+              position={"absolute"}
+              top={4}
+              left={4}
+              fontSize="sm"
+              color={textSecondary}
+              mb={{ base: "2", md: "0" }}
+            >
               Personalize como os outros veem você na plataforma.
             </Text>
           )}
         </Box>
 
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems={{ base: "center", md: "end" }}
-          gap={4}
-        >
+        <Box display="flex" flexDirection="column" alignItems={{ base: "center", md: "end" }} gap={4}>
           {variant === "profile" && (
             <>
               <HStack spacing={4}>
