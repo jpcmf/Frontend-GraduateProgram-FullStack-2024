@@ -497,12 +497,32 @@ At any point during migration, if blockers arise:
 
 ---
 
-## Implementation Notes
+## Implementation Notes & Dev Workflow
+
+### Before Starting
 
 - Create feature branch: `git checkout -b feat/app-router-migration`
-- Commit after each phase for easy rollback
+- Start dev server: `pnpm dev` (leave running during all phases)
+
+### During Each Phase
+
+- **DO NOT run `npm run build`** (too slow, 2-5 minutes)
+- **Use `pnpm dev` for instant validation** (<30 seconds)
+- Check browser at http://localhost:3000 for visual verification
+- Watch console for errors/warnings in dev server
+- TypeScript errors appear immediately when files are saved
+
+### After Each Phase
+
+1. Manual testing in browser (click routes, interact with components)
+2. Run quick validation: `bash scripts/validate-dev.sh`
+3. Run `npm run build` (final check before commit)
+4. Run `pnpm format` at the end of each phase
+5. Commit with clear message
+
+### Notes
+
 - Keep `src/pages/` and `src/app/` both present until Phase 4
-- Test locally with `npm run dev` frequently
-- Run `npm run build` after each phase
-- TypeScript strict mode already enabled—no changes needed
+- TypeScript strict mode already enabled—catches errors automatically
 - Path aliases (`@/*`) work automatically in App Router
+- Both routers coexist safely until cleanup phase
