@@ -1,6 +1,8 @@
+"use client";
+
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { TbMoon, TbSun } from "react-icons/tb";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import {
   Avatar,

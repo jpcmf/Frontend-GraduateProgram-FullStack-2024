@@ -1,8 +1,10 @@
+"use client";
+
 import { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   Button,
@@ -30,6 +32,7 @@ import packageJson from "../../../../package.json";
 
 export default function LoginModal() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { signIn } = useContext(AuthContext);
   const { addToast } = Toast();
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -81,6 +84,11 @@ export default function LoginModal() {
       await signIn(newValues)
         .then(_ => {
           recaptchaRef.current?.reset();
+          // Close the modal by removing the modal query param
+          const params = new URLSearchParams(searchParams?.toString() || "");
+          params.delete("modal");
+          const newSearch = params.toString();
+          router.push(newSearch ? `?${newSearch}` : "/");
         })
         .catch(error => {
           recaptchaRef.current?.reset();

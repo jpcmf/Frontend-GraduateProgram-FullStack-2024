@@ -1,6 +1,8 @@
+"use client";
+
 import { ElementType } from "react";
 import Link, { LinkProps as NextLinkProps } from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 import { Icon, Link as ChakraLink, LinkProps as ChakraLinkProps, Text } from "@chakra-ui/react";
 
@@ -11,8 +13,8 @@ interface NavLinkProps extends ChakraLinkProps {
 }
 
 export function NavLink({ icon, children, href, ...rest }: NavLinkProps & NextLinkProps) {
-  const router = useRouter();
-  const isActive = router.asPath === href;
+  const pathname = usePathname();
+  const isActive = pathname === href;
 
   return (
     <ChakraLink

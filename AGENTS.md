@@ -31,8 +31,10 @@ This project uses **Spec-Driven Development**. Every feature must follow this pr
 
 ## Architecture Conventions
 
-- Pages live in `src/pages/` (Next.js file-system routing)
-- Route protection is handled centrally in `src/middleware.ts` — do not add `getServerSideProps` guards in individual pages unless strictly necessary
+- Pages live in `src/app/` (App Router file-system routing)
+- Route protection is handled in `src/app/(protected)/layout.tsx` with `useAuth()` hook — do not add auth checks in individual pages
+- Public routes in `src/app/(public)/` — no auth required
+- Protected routes in `src/app/(protected)/` — requires authentication
 - Feature UI lives in `src/features/<feature-name>/` — one folder per feature with `index.tsx` as the entry point
 - Shared reusable components live in `src/components/`
 - All API calls go through `src/lib/apiClient.ts` (Axios instance with base URL + 401 interceptor) — never use bare `axios`
@@ -40,6 +42,121 @@ This project uses **Spec-Driven Development**. Every feature must follow this pr
 - TanStack Query hooks live in `src/hooks/use<Entity>.ts` — one hook per resource
 - Types for API responses live in `src/types/<feature>.ts`
 - Auth state is accessed via the `useAuth` hook (`src/hooks/useAuth.ts`) — never import `AuthContext` directly
+
+## Testing Standards
+
+### Test Coverage Requirements
+
+Every feature must include tests at the appropriate levels:
+
+- **Unit Tests** — All hooks, services, and utilities
+- **Component Tests** — Critical pages and complex components
+- **Integration Tests** — API calls, auth flows, state management
+- **E2E Tests** — Complete user journeys (added when Playwright infrastructure is ready)
+
+### Testing Tools & Setup
+
+**Current Status:** Infrastructure setup planned post-release (see `specs/AUTOMATED_TESTING_PLAN.md`)
+
+**When tests are available:**
+
+- Unit tests run via `pnpm test`
+- Coverage reports via `pnpm test:coverage`
+- E2E tests run via `pnpm e2e`
+
+### Test File Location & Naming
+
+```
+src/__tests__/
+├── hooks/
+│   └── useAuth.test.ts              (matches src/hooks/useAuth.ts)
+├── services/
+│   └── createSpot.test.ts           (matches src/services/createSpot.ts)
+├── features/
+│   └── SpotForm.test.tsx            (matches feature component)
+├── pages/
+│   └── auth/signin.test.tsx         (matches page)
+├── utils/
+│   └── date.test.ts                 (matches utility)
+└── integration/
+    └── auth-flow.test.ts            (cross-feature scenario)
+
+e2e/
+├── auth.spec.ts                     (authentication journeys)
+├── spots.spec.ts                    (spot features)
+└── user.spec.ts                     (user profile features)
+```
+
+### Writing Tests
+
+**Test Conventions:**
+
+- Use Vitest for unit/component tests
+- Use React Testing Library for component testing (user-centric)
+- Use MSW (Mock Service Worker) for API mocking
+- Use Playwright for E2E testing
+- Mock external services (maps, reCAPTCHA, etc.)
+- Test user interactions, not implementation details
+- Aim for >80% coverage of critical paths
+
+**Example Unit Test:**
+
+```typescript
+import { describe, it, expect } from "vitest";
+import { isValidEmail } from "@/utils/validate";
+
+describe("isValidEmail", () => {
+  it("should return true for valid email", () => {
+    expect(isValidEmail("test@example.com")).toBe(true);
+  });
+
+  it("should return false for invalid email", () => {
+    expect(isValidEmail("invalid")).toBe(false);
+  });
+});
+```
+
+**Example Component Test:**
+
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+import SignInForm from '@/features/auth/SignInForm';
+
+describe('SignInForm', () => {
+  it('should render form with email and password fields', () => {
+    render(<SignInForm />);
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+  });
+});
+```
+
+### When Adding New Features
+
+1. **Before Implementation** — Read or create spec in `specs/`
+2. **During Implementation** — Write tests alongside code (TDD encouraged)
+3. **After Implementation** — Ensure >80% test coverage for new code
+4. **Before PR** — Run `pnpm test` and `pnpm test:coverage` locally
+5. **CI/CD Validation** — GitHub Actions runs all tests on PR
+
+### Debugging Tests
+
+```bash
+# Run tests in watch mode (rerun on file changes)
+pnpm test:watch
+
+# Run specific test file
+pnpm test src/__tests__/hooks/useAuth.test.ts
+
+# Debug with UI dashboard
+pnpm test:ui
+
+# Generate coverage report
+pnpm test:coverage
+
+# Debug E2E tests
+pnpm e2e:debug
+```
 
 ## Playwright / Browser Verification
 

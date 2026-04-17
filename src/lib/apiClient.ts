@@ -1,5 +1,3 @@
-import Router from "next/router";
-
 import axios from "axios";
 import { destroyCookie, parseCookies } from "nookies";
 
@@ -24,7 +22,8 @@ apiClient.interceptors.response.use(
   error => {
     if (error.response?.status === 401 && typeof window !== "undefined") {
       destroyCookie(undefined, "auth.token");
-      Router.replace("/auth/signin");
+      // TODO: Handle redirect in Phase 2 with protected layout
+      // Router.replace("/auth/signin");
     }
     return Promise.reject(error);
   }
