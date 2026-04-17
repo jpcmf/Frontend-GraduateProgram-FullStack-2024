@@ -92,7 +92,10 @@ export default function Confirmation() {
       backgroundBlendMode="overlay"
       backgroundPosition="center 80%"
       backgroundImage="../alexander-londono-unsplash-2.jpeg"
-      px={["4", "0"]}
+      position="absolute"
+      top={0}
+      left={0}
+      zIndex={10}
     >
       {hasEmail ? (
         <>
