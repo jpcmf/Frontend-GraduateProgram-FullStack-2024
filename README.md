@@ -82,6 +82,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2026
 
+- 2026-04-12 - Add App Router migration plan and implements migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
 - 2026-04-12 - Implements spots feature [#151](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/151) _(v0.2.5)_
 - 2026-03-01 - Implments avatar upload functionality [#139](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/139) _(v0.2.4)_
 - 2026-02-22 - Add improvements to the layout [#138](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/138) _(v0.2.3)_
