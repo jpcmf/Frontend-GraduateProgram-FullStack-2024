@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Avatar as ChakraAvatar, Box, Flex, HStack, Link, useColorModeValue, VStack } from "@chakra-ui/react";
@@ -21,6 +21,7 @@ interface StoriesSwiperProps {
 
 export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const bgColor = useColorModeValue("white", "gray.900");
   const textOfflineUser = useColorModeValue("gray.100", "gray.600");
@@ -43,29 +44,35 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   }, [stories]);
 
   const handleViewStory = (story: (typeof stories)[number]) => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    params.set("modal", "stories");
-    params.set("userId", story.storyAuthorId.toString());
-    router.push(`?${params.toString()}`);
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams?.toString() || "");
+      params.set("modal", "stories");
+      params.set("userId", story.storyAuthorId.toString());
+      router.push(`?${params.toString()}`);
+    });
   };
 
   const currentIndex = uniqueStories.findIndex(s => s.storyAuthorId.toString() === currentUserId);
 
   const handleCloseModal = () => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    params.delete("modal");
-    params.delete("userId");
-    const newSearch = params.toString();
-    router.push(newSearch ? `?${newSearch}` : "/");
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams?.toString() || "");
+      params.delete("modal");
+      params.delete("userId");
+      const newSearch = params.toString();
+      router.push(newSearch ? `?${newSearch}` : "/");
+    });
   };
 
   const handleAdvanceToNextUser = () => {
     const nextStory = uniqueStories[currentIndex + 1];
     if (nextStory) {
-      const params = new URLSearchParams(searchParams?.toString() || "");
-      params.set("modal", "stories");
-      params.set("userId", nextStory.storyAuthorId.toString());
-      router.push(`?${params.toString()}`);
+      startTransition(() => {
+        const params = new URLSearchParams(searchParams?.toString() || "");
+        params.set("modal", "stories");
+        params.set("userId", nextStory.storyAuthorId.toString());
+        router.push(`?${params.toString()}`);
+      });
     } else {
       handleCloseModal();
     }
