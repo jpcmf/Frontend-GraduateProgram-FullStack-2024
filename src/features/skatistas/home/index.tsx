@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Flex, Spinner } from "@chakra-ui/react";
 
 import { Skatistas } from "@/features/skatistas";
 import { useUsers } from "@/hooks/useUsers";
@@ -20,11 +20,12 @@ export function SkatistasHome() {
     setCurrentPage(1); // Reset to first page when changing page size
   };
 
-  if (isPending) return (
-    <Flex justify="center" align="center" minH="300px">
-      <Spinner size="lg" color="green.400" />
-    </Flex>
-  );
+  if (isPending)
+    return (
+      <Flex justify="center" align="center" minH="300px">
+        <Spinner size="lg" color="green.400" />
+      </Flex>
+    );
 
   if (isError) return <div>Error loading users</div>;
 
