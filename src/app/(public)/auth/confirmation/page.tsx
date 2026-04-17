@@ -20,7 +20,12 @@ export default function Confirmation() {
     const handleConfirmation = async () => {
       if (hasInitiatedRef.current) return;
 
-      const userEmail = searchParams?.get("email");
+      let userEmail = searchParams?.get("email");
+
+      // Decode the email in case it contains URL-encoded characters (like %2B for +)
+      if (userEmail) {
+        userEmail = decodeURIComponent(userEmail);
+      }
 
       if (!userEmail) {
         setHasEmail(false);
