@@ -1,7 +1,9 @@
+"use client";
+
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
 // import Link from 'next/link';
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button, Flex, Icon, IconButton, Link, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 
@@ -21,6 +23,7 @@ export function Header() {
   const { onOpen } = useSidebarDrawer();
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
 
   const isVisible = useBreakpointValue({
@@ -28,29 +31,14 @@ export function Header() {
     lg: true
   });
 
-  const isLoginModalOpen = router.query.modal === "login";
+  const isLoginModalOpen = (searchParams?.get("modal") || "") === "login";
 
   const handleClose = () => {
-    const { modal: _modal, ...restQuery } = router.query;
-    router.push(
-      {
-        pathname: router.pathname,
-        query: restQuery
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.push("/");
   };
 
   const handleLoginClick = () => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: { ...router.query, modal: "login" }
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.push("/?modal=login");
   };
 
   const handleSignupClick = () => {

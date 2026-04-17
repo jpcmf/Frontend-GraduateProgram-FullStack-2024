@@ -1,3 +1,5 @@
+"use client";
+
 import { Flex } from "@chakra-ui/react";
 
 import { Footer } from "@/components/Footer";
@@ -10,9 +12,9 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <>
+    <Flex direction="column" minH="100dvh">
       <Header />
-      <Flex direction="row" flex={1}>
+      <Flex flex={1}>
         <Sidebar />
         <Flex w="100%" direction="column" mt="0" px={{ base: 6, lg: 0 }}>
           <Flex flex={1} direction="column" mt={8} mx={{ base: 0, lg: 8 }}>
@@ -21,6 +23,6 @@ export function Layout({ children }: LayoutProps) {
           <Footer />
         </Flex>
       </Flex>
-    </>
+    </Flex>
   );
 }

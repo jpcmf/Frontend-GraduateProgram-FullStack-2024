@@ -1,9 +1,10 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import Head from "next/dist/shared/lib/head";
 import NextImage from "next/image";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import {
   AlertDialog,
@@ -63,7 +64,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
   const { user } = useAuth();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { cardBg } = useColors();
+  const { cardBg, textMuted, bgColorNoOpacity } = useColors();
   const cancelRef = useRef<HTMLButtonElement>(null);
   const { mutate: deleteSpot, isPending: isDeleting } = useDeleteSpot();
 
@@ -94,9 +95,6 @@ export function SpotDetail({ spot }: SpotDetailProps) {
 
   return (
     <>
-      <Head>
-        <title>{name} - SkateHub</title>
-      </Head>
       <Box position="relative">
         <TitleSection title="Spot" />
         <Box width={"100%"}>
@@ -248,10 +246,15 @@ export function SpotDetail({ spot }: SpotDetailProps) {
         {/* Delete confirmation dialog */}
         <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
           <AlertDialogOverlay>
-            <AlertDialogContent bg={cardBg}>
+            <AlertDialogContent bg={bgColorNoOpacity} borderRadius="lg" shadow="lg">
               <AlertDialogHeader fontWeight="bold">Excluir spot</AlertDialogHeader>
               <AlertDialogBody>
-                Tem certeza que deseja excluir <strong>{name}</strong>? Esta ação não pode ser desfeita.
+                <Flex gap={2} w="full" align="start" mb={4} px={{ base: 2, md: 6 }}>
+                  <Text fontSize="sm" color={textMuted}>
+                    Tem certeza que deseja excluir <strong>{name}</strong>? <br />
+                    Esta ação não pode ser desfeita.
+                  </Text>
+                </Flex>
               </AlertDialogBody>
               <AlertDialogFooter>
                 <Button ref={cancelRef} onClick={onClose} variant="ghost">

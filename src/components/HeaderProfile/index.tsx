@@ -1,7 +1,9 @@
+"use client";
+
 import { useContext, useRef, useState } from "react";
 import { FaGlobe, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
 import { TbEdit, TbEye, TbPhoto } from "react-icons/tb";
-import router from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   Avatar,
@@ -32,6 +34,8 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { isAuthenticated, user: authUser } = useContext(AuthContext);
   const { handleUploadAvatar, isUploading } = useAvatarUpload();
   const { addToast } = Toast();
@@ -46,14 +50,9 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
     if (isAuthenticated) {
       router.push("/user/edit");
     } else {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: { ...router.query, modal: "login" }
-        },
-        undefined,
-        { shallow: true }
-      );
+      const params = new URLSearchParams(searchParams?.toString() || "");
+      params.set("modal", "login");
+      router.push(`?${params.toString()}`);
     }
   };
   const handleViewProfileClick = () => {

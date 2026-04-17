@@ -1,5 +1,6 @@
+"use client";
+
 import { createContext, useEffect, useState } from "react";
-import Router from "next/router";
 
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
@@ -93,7 +94,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
         setToken(null);
         destroyCookie(undefined, "auth.token", { path: "/" });
-        Router.push("/auth/signin");
+        // TODO: Handle redirect in Phase 2 with protected layout
+        // Router.push("/auth/signin");
       }
     };
 
@@ -127,7 +129,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(user);
     setToken(jwt);
     queryClient.invalidateQueries({ queryKey: ["stories"] });
-    Router.push("/");
+    // TODO: Handle redirect in Phase 2 with protected layout
+    // Router.push("/");
   }
 
   async function updateUser(data: UpdateUserData) {
@@ -144,7 +147,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken(null);
     destroyCookie(undefined, "auth.token", { path: "/" });
     queryClient.clear();
-    Router.push("/auth/signin");
+    // TODO: Handle redirect in Phase 2 with protected layout
+    // Router.push("/auth/signin");
   }
 
   return (

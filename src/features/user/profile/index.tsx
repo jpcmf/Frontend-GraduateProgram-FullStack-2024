@@ -1,14 +1,13 @@
-import { Box, Flex, Grid, Heading, Image, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Image, Spinner, Text } from "@chakra-ui/react";
 
 import { ProfileHeader } from "@/components/HeaderProfile";
 import { TitleSection } from "@/components/TitleSection";
+import { useColors } from "@/hooks/useColors";
 import { useUser } from "@/hooks/useUser";
 
 export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
-
-  const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
-  const mutedColor = useColorModeValue("gray.600", "gray.400");
+  const { cardBg, textMuted } = useColors();
 
   const tricks = [
     {
@@ -35,7 +34,11 @@ export function UserProfile({ userId }: { userId: string }) {
   ];
 
   if (isLoading) {
-    return <Spinner size="lg" color="green.400" />;
+    return (
+      <Flex justify="center" align="center" minH="300px">
+        <Spinner size="lg" color="green.400" />
+      </Flex>
+    );
   }
 
   if (error) {
@@ -152,7 +155,7 @@ export function UserProfile({ userId }: { userId: string }) {
                     <Image src={trick.image} alt={trick.title} w="full" h="160px" objectFit="cover" />
                     <Box p={4}>
                       <Text fontWeight="semibold">{trick.title}</Text>
-                      <Text fontSize="sm" color={mutedColor} mt={1}>
+                      <Text fontSize="sm" color={textMuted} mt={1}>
                         {trick.date}
                       </Text>
                     </Box>

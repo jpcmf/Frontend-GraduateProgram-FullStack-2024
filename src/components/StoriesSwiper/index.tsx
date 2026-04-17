@@ -1,5 +1,7 @@
-import { useMemo } from "react";
-import { useRouter } from "next/router";
+"use client";
+
+import { useMemo, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Avatar as ChakraAvatar, Box, Flex, HStack, Link, useColorModeValue, VStack } from "@chakra-ui/react";
 
@@ -19,14 +21,16 @@ interface StoriesSwiperProps {
 
 export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
   const bgColor = useColorModeValue("white", "gray.900");
   const textOfflineUser = useColorModeValue("gray.100", "gray.600");
   const textOnlineUser = useColorModeValue("gray.600", "gray.100");
   const textHoverUser = useColorModeValue("gray.100", "gray.600");
   const bgUserAvatar = useColorModeValue("gray.300", "gray.100");
 
-  const isStoryModalOpen = router.query.modal === "stories";
-  const currentUserId = router.query.userId as string;
+  const isStoryModalOpen = searchParams?.get("modal") === "stories";
+  const currentUserId = searchParams?.get("userId") as string;
 
   const uniqueStories = useMemo(() => {
     const seen = new Set<number>();
@@ -40,49 +44,35 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   }, [stories]);
 
   const handleViewStory = (story: (typeof stories)[number]) => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          modal: "stories",
-          userId: story.storyAuthorId.toString()
-        }
-      },
-      undefined,
-      { shallow: true }
-    );
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams?.toString() || "");
+      params.set("modal", "stories");
+      params.set("userId", story.storyAuthorId.toString());
+      router.push(`?${params.toString()}`);
+    });
   };
 
   const currentIndex = uniqueStories.findIndex(s => s.storyAuthorId.toString() === currentUserId);
 
   const handleCloseModal = () => {
-    const { modal: _modal, userId: _userId, ...restQuery } = router.query;
-    router.push(
-      {
-        pathname: router.pathname,
-        query: restQuery
-      },
-      undefined,
-      { shallow: true }
-    );
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams?.toString() || "");
+      params.delete("modal");
+      params.delete("userId");
+      const newSearch = params.toString();
+      router.push(newSearch ? `?${newSearch}` : "/");
+    });
   };
 
   const handleAdvanceToNextUser = () => {
     const nextStory = uniqueStories[currentIndex + 1];
     if (nextStory) {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: {
-            ...router.query,
-            modal: "stories",
-            userId: nextStory.storyAuthorId.toString()
-          }
-        },
-        undefined,
-        { shallow: true }
-      );
+      startTransition(() => {
+        const params = new URLSearchParams(searchParams?.toString() || "");
+        params.set("modal", "stories");
+        params.set("userId", nextStory.storyAuthorId.toString());
+        router.push(`?${params.toString()}`);
+      });
     } else {
       handleCloseModal();
     }
