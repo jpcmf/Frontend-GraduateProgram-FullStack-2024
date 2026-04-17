@@ -39,7 +39,7 @@ export function UserProfile({ userId }: { userId: string }) {
       <Flex justify="center" align="center" minH="300px">
         <Spinner size="lg" color="green.400" />
       </Flex>
-    )
+    );
   }
 
   if (error) {
