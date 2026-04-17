@@ -35,7 +35,11 @@ export function UserProfile({ userId }: { userId: string }) {
   ];
 
   if (isLoading) {
-    return <Spinner size="lg" color="green.400" />;
+    return (
+      <Flex justify="center" align="center" minH="300px">
+        <Spinner size="lg" color="green.400" />
+      </Flex>
+    )
   }
 
   if (error) {
