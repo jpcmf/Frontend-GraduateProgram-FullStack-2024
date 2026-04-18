@@ -20,11 +20,19 @@ export default function Confirmation() {
     const handleConfirmation = async () => {
       if (hasInitiatedRef.current) return;
 
-      let userEmail = searchParams?.get("email");
-
-      // Decode the email in case it contains URL-encoded characters (like %2B for +)
-      if (userEmail) {
-        userEmail = decodeURIComponent(userEmail);
+      // Parse the email directly from the raw search string to avoid
+      // URLSearchParams interpreting '+' as a space (RFC 3986 vs HTML form encoding).
+      // useSearchParams().get() silently converts '+' → ' ', which breaks emails
+      // like user+tag@example.com. Instead we extract and decodeURIComponent manually.
+      let userEmail: string | null = null;
+      if (typeof window !== "undefined") {
+        const match = window.location.search.match(/[?&]email=([^&]*)/);
+        userEmail = match ? decodeURIComponent(match[1]) : null;
+      } else {
+        // SSR fallback: useSearchParams value (+ already decoded to space here,
+        // but this path is only reached during server-render before hydration)
+        const raw = searchParams?.get("email");
+        userEmail = raw ? decodeURIComponent(raw) : null;
       }
 
       if (!userEmail) {
