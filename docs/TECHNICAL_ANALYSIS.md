@@ -315,6 +315,22 @@ The page reads `router.query.email` and used it directly to call the email notif
 
 **Fix applied:** `sendConfirmationEmail.ts` now validates `userEmail` via regex before processing. Invalid or missing values return a `400` immediately.
 
+### [LOW] S-5b: `/auth/confirmation` Breaks for Emails Containing `+` — ✅ FIXED
+
+**Files:** `src/app/(public)/auth/confirmation/page.tsx`, Strapi `src/extensions/users-permissions/strapi-server.js`
+
+The Strapi `emailConfirmation` controller built the redirect URL by concatenating `user.email` without encoding it:
+
+```
+settings.email_confirmation_redirection + "?email=" + user.email
+```
+
+A `+` in the email address (e.g. `user+tag@example.com`) was treated as a space by `URLSearchParams` / `useSearchParams().get()` on the frontend, causing the regex validation in `/api/sendConfirmationEmail` to reject the request with a 400.
+
+**Fix applied (Strapi):** `encodeURIComponent(user.email)` now encodes the email before appending it to the redirect URL, so `+` becomes `%2B`.
+
+**Fix applied (Frontend):** `confirmation/page.tsx` now extracts the `email` parameter directly from `window.location.search` using a regex + `decodeURIComponent`, bypassing `useSearchParams().get()` which silently converts `+` to a space regardless of encoding.
+
 ### [LOW] S-6: `console.log` with API Response Data in Production — ✅ FIXED (PR #146)
 
 **Files:** `src/services/uploadAvatar.ts`, `src/services/linkAvatar.ts`
