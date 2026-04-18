@@ -108,7 +108,15 @@ export default function Confirmation() {
       {hasEmail ? (
         <>
           <Image src="../loader.svg" alt="Loading" width={100} height={100} />
-          <Text as="h1" fontSize="3xl" fontWeight="bold" letterSpacing="normal" align="center" display="flex">
+          <Text
+            as="h1"
+            fontSize="3xl"
+            fontWeight="bold"
+            letterSpacing="normal"
+            align="center"
+            display="flex"
+            color="white"
+          >
             Seu e-mail está sendo confirmado...
           </Text>
           <Text fontWeight="normal" align="center" color="gray.300" mt="2">
