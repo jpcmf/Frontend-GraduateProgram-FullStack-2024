@@ -157,7 +157,9 @@ export default function SignUp() {
     } catch (error: any) {
       recaptchaRef.current?.reset();
 
-      if (error.response?.status === 400) {
+      const errorMessage = error.response?.data?.error?.message ?? "";
+
+      if (error.response?.status === 400 && errorMessage.toLowerCase().includes("already")) {
         addToast({
           title: "Usuário já cadastrado.",
           message:
