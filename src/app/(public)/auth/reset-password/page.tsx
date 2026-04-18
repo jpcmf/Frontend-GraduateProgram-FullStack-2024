@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Toast } from "@/components/Toast";
+import { useColors } from "@/hooks/useColors";
 import { Input } from "@/shared/components/Form/Input";
 import { API } from "@/utils/constant";
 
@@ -33,6 +34,7 @@ export default function ResetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { addToast } = Toast();
+  const { bgColorNoOpacity, border } = useColors();
 
   const {
     handleSubmit,
@@ -97,12 +99,16 @@ export default function ResetPassword() {
       backgroundPosition="center bottom"
       backgroundImage="../alexander-londono-unsplash.jpeg"
       px={["4", "0"]}
+      position="absolute"
+      top={0}
+      left={0}
+      zIndex={10}
     >
       <Flex
         as="form"
         w="100%"
         maxWidth={480}
-        bg="gray.800"
+        bg={bgColorNoOpacity}
         p={{ base: 4, md: 8 }}
         borderRadius={8}
         flexDir="column"
@@ -117,7 +123,7 @@ export default function ResetPassword() {
               Resetar senha
             </Text>
           </Flex>
-          <Divider borderColor="gray.900" />
+          <Divider borderColor={border} />
 
           <Flex flexDir="column">
             <Input
