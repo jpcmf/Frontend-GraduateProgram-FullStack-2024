@@ -1,6 +1,6 @@
 # Feature: Observability Layer
 
-**Status:** ready
+**Status:** done
 **Priority:** high
 **Affects:** `src/instrumentation.ts`, `src/lib/observability/`, `src/app/layout.tsx`, `src/app/providers.tsx`, `src/lib/apiClient.ts`, `src/contexts/AuthContext.tsx`, `next.config.ts`
 
@@ -54,18 +54,18 @@ No new API endpoints. All data flows outward to third-party services:
 
 ## Acceptance Criteria
 
-- [ ] `obs.captureError()` sends an error visible in Sentry dashboard with TypeScript stack trace
-- [ ] `obs.trackEvent()` sends an event visible in PostHog dashboard
-- [ ] `obs.identify()` called after sign-in — errors in Sentry and events in PostHog are linked to the user
-- [ ] `obs.reset()` called after sign-out — subsequent events are anonymous
-- [ ] All non-401 Axios errors forwarded to `obs.captureError()` automatically from `apiClient.ts`
-- [ ] `<SpeedInsights />` present in layout — CWV data visible in Vercel dashboard
-- [ ] `<Analytics />` present in layout — page views visible in Vercel dashboard
-- [ ] `@vercel/otel` initialized in `instrumentation.ts` — server fetch spans visible in Vercel trace viewer
-- [ ] `NEXT_PUBLIC_OBSERVABILITY_ENABLED=false` disables Sentry and PostHog silently (noop adapter)
-- [ ] No vendor imports (`posthog-js`, `@sentry/nextjs`) outside `src/lib/observability/` except Sentry config files
-- [ ] No `any` types in new files
-- [ ] `pnpm build` passes with no TypeScript errors
+- [x] `obs.captureError()` sends an error visible in Sentry dashboard with TypeScript stack trace
+- [x] `obs.trackEvent()` sends an event visible in PostHog dashboard
+- [x] `obs.identify()` called after sign-in — errors in Sentry and events in PostHog are linked to the user
+- [x] `obs.reset()` called after sign-out — subsequent events are anonymous
+- [x] All non-401 Axios errors forwarded to `obs.captureError()` automatically from `apiClient.ts`
+- [x] `<SpeedInsights />` present in layout — CWV data visible in Vercel dashboard
+- [x] `<Analytics />` present in layout — page views visible in Vercel dashboard
+- [x] `@vercel/otel` initialized in `instrumentation.ts` — server fetch spans visible in Vercel trace viewer
+- [x] `NEXT_PUBLIC_OBSERVABILITY_ENABLED=false` disables Sentry and PostHog silently (noop adapter)
+- [x] No vendor imports (`posthog-js`, `@sentry/nextjs`) outside `src/lib/observability/` except Sentry config files
+- [x] No `any` types in new files
+- [x] `pnpm build` passes with no TypeScript errors
 
 ## Out of Scope
 
