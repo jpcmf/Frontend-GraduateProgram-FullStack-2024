@@ -33,7 +33,7 @@ export const theme = extendTheme({
       body: {
         bg: props.colorMode === "light" ? "gray.50" : "gray.900",
         color: props.colorMode === "light" ? "gray.900" : "gray.50",
-        height: "unset",
+        height: "unset"
       }
     })
   }
