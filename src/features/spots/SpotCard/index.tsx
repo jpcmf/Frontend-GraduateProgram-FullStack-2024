@@ -16,7 +16,7 @@ const TYPE_LABELS: Record<SpotType, string> = {
 
 const TYPE_COLORS: Record<SpotType, string> = {
   street: "green",
-  skatepark: "green",
+  skatepark: "blue",
   diy: "orange",
   plaza: "purple",
   other: "gray"
