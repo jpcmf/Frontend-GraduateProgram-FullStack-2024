@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from "react";
 
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
+import { obs } from "@/lib/observability";
 import { queryClient } from "@/lib/queryClient";
 import type { User } from "@/types/User.type";
 
@@ -128,6 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(user);
     setToken(jwt);
+    obs.identify(String(user.id), { email: user.email, username: user.username });
     queryClient.invalidateQueries({ queryKey: ["stories"] });
     // TODO: Handle redirect in Phase 2 with protected layout
     // Router.push("/");
@@ -146,6 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setToken(null);
     destroyCookie(undefined, "auth.token", { path: "/" });
+    obs.reset();
     queryClient.clear();
     // TODO: Handle redirect in Phase 2 with protected layout
     // Router.push("/auth/signin");
