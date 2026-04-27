@@ -21,21 +21,30 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.1",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/api-logs": "^0.215.0",
+    "@sentry/nextjs": "^10.50.0",
     "@tanstack/react-query": "^5.90.2",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/otel": "^2.1.2",
+    "@vercel/speed-insights": "^2.0.0",
     "axios": "^1.15.0",
     "boring-avatars": "^2.0.4",
     "date-fns": "^4.1.0",
     "framer-motion": "^11.11.11",
+    "import-in-the-middle": "^2.0.6",
     "mapbox-gl": "^3.21.0",
     "next": "16.0.7",
     "nodemailer": "^6.9.16",
     "nookies": "^2.5.2",
+    "posthog-js": "^1.372.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.53.1",
     "react-icons": "^5.3.0",
     "react-insta-stories": "^2.8.0",
+    "require-in-the-middle": "^8.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -66,6 +75,12 @@
     "src/**/*.{ts,tsx,js,jsx}": [
       "eslint --fix"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "import-in-the-middle": "3.0.1",
+      "require-in-the-middle": "8.0.1"
+    }
   },
   "packageManager": "pnpm@9.15.9"
 }

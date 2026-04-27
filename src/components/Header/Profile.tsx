@@ -79,7 +79,7 @@ export function Profile({ showProfileData = true }: ProfileProps) {
               onClick={() => router.push("/dashboard")}
               px={4}
             >
-              Aréa do skatista
+              Área do skatista
             </MenuItem>
             <MenuDivider borderColor={dividerBorderColor} />
             <MenuItem

@@ -86,11 +86,15 @@ export function StoriesModal({ userId, onClose, onAllStoriesEnd }: StoriesModalP
       width={432}
       height={768}
       onAllStoriesEnd={() => {
-        if (onAllStoriesEnd) {
-          onAllStoriesEnd();
-        } else {
-          onClose();
-        }
+        // Defer to avoid calling setState on StoriesSwiper while
+        // react-insta-stories is still in its own render cycle.
+        setTimeout(() => {
+          if (onAllStoriesEnd) {
+            onAllStoriesEnd();
+          } else {
+            onClose();
+          }
+        }, 0);
       }}
       onStoryEnd={(_storyIndex: number) => {}}
     />
