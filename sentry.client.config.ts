@@ -13,10 +13,7 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   tracesSampleRate: 0.1,
-  tracePropagationTargets: [
-    "localhost",
-    /^https:\/\/strapi-production-b6f4\.up\.railway\.app/
-  ],
+  tracePropagationTargets: ["localhost", /^https:\/\/strapi-production-b6f4\.up\.railway\.app/],
   enabled: process.env.NEXT_PUBLIC_OBSERVABILITY_ENABLED === "true",
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0
