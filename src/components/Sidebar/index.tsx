@@ -47,7 +47,7 @@ export function Sidebar() {
   }
 
   return (
-    <Box as="aside" w="64" flexShrink={0}>
+    <Box as="aside" w="56" flexShrink={0}>
       <SidebarNav />
     </Box>
   );
