@@ -61,7 +61,7 @@ export function SpotCard({ spot }: SpotCardProps) {
       </Box>
 
       <VStack align="start" spacing={1} p={4}>
-        <Badge bg={TYPE_COLORS[type] + ".400"} fontSize="xs" color="white" px={2} py={0} borderRadius="full">
+        <Badge colorScheme={TYPE_COLORS[type]} px={2} py={0} borderRadius="full">
           {TYPE_LABELS[type]}
         </Badge>
         <Text fontWeight="semibold" fontSize="md" noOfLines={1}>
