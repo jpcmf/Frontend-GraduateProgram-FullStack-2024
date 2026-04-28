@@ -1,17 +1,9 @@
 "use client";
 
-import { useEffect,useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiRobot2Line } from "react-icons/ri";
 
-import {
-  Box,
-  Button,
-  Center,
-  HStack,
-  Input,
-  Spinner,
-  Text,
-  VStack} from "@chakra-ui/react";
+import { Box, Button, Center, HStack, Input, Spinner, Text, VStack } from "@chakra-ui/react";
 
 import { useAIChat } from "@/hooks/useAIChat";
 
@@ -56,24 +48,9 @@ export function Chat() {
   };
 
   return (
-    <VStack
-      h="100vh"
-      w="100%"
-      bg="white"
-      spacing={0}
-      justify="space-between"
-      p={4}
-    >
+    <VStack h="100vh" w="100%" bg="white" spacing={0} justify="space-between" p={4}>
       {/* Main content area */}
-      <Box
-        flex={1}
-        w="100%"
-        overflowY="auto"
-        borderRadius="md"
-        mb={4}
-        maxW="800px"
-        mx="auto"
-      >
+      <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
         {!isConversationStarted ? (
           /* Hero + Suggestions (before conversation) */
           <Center h="100%" flexDirection="column" gap={8}>

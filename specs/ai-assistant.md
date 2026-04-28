@@ -26,11 +26,13 @@ This feature is part of the core product experience and must provide consistent,
 ### Layout: Hero + Suggestions (Before First Message)
 
 **Hero Section** (centered, ~40% viewport height):
+
 - Icon: Green AI/robot icon
 - Title: "AI Assistant"
 - Subtitle: "Ask anything about the skateboarding world"
 
 **Suggestions Area** (below hero):
+
 - 3 full-width or grid-layout suggestion buttons
 - Clicking a suggestion auto-fills input and submits
 - Buttons:
@@ -39,6 +41,7 @@ This feature is part of the core product experience and must provide consistent,
   - "How to avoid injuries while skating?"
 
 **Input Area** (bottom):
+
 - Text input field: "Ask a question about skateboarding..."
 - Green send button (always visible)
 
@@ -49,6 +52,7 @@ This feature is part of the core product experience and must provide consistent,
 **Hero Section:** Hidden/faded
 **Suggestions:** Disappear completely
 **Chat Area:** Expands to full space
+
 - Messages scroll vertically
 - AI messages: Dark gray bubble, left-aligned, green icon
 - User messages: Green/teal bubble, right-aligned, user avatar

@@ -292,6 +292,7 @@ git commit -m "feat: add Message component for displaying chat messages"
 ## Task 5: Create Chat Component
 
 **Files:**
+
 - Create: `src/features/ai/Chat/index.tsx`
 
 **Design:** Hero section + suggestions (pre-conversation) → Chat area (post-conversation)
@@ -305,6 +306,7 @@ mkdir -p /Users/joaopaulo/www/pucrs/project/frontend/src/features/ai/Chat
 - [ ] **Step 2: Write `src/features/ai/Chat/index.tsx`**
 
 Key requirements:
+
 - Hero section: Icon, "AI Assistant" title, subtitle (visible when `messages.length === 0`)
 - Suggestions: 3 clickable buttons below hero (visible when `messages.length === 0`)
 - Chat area: Message list (visible when `messages.length > 0`)
