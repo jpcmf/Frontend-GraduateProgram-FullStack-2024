@@ -4,8 +4,7 @@
  */
 
 const GEMINI_API_KEY = process.env.GOOGLE_GENERATIVE_AI_KEY;
-const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_API_URL = process.env.GEMINI_API_URL;
 
 export interface ChatOptions {
   message: string;
@@ -46,26 +45,24 @@ export async function generateChatResponse({ message }: ChatOptions): Promise<Ch
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-goog-api-key": GEMINI_API_KEY,
+      "x-goog-api-key": GEMINI_API_KEY
     },
     body: JSON.stringify({
       contents: [
         {
           parts: [
             {
-              text: `${SYSTEM_PROMPT}\n\nUser question: ${message}`,
-            },
-          ],
-        },
-      ],
-    }),
+              text: `${SYSTEM_PROMPT}\n\nUser question: ${message}`
+            }
+          ]
+        }
+      ]
+    })
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(
-      `Gemini API error: ${response.status} - ${errorData.error?.message || "Unknown error"}`
-    );
+    throw new Error(`Gemini API error: ${response.status} - ${errorData.error?.message || "Unknown error"}`);
   }
 
   const data = (await response.json()) as GeminiResponse;
