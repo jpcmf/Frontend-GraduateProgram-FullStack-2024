@@ -4,13 +4,15 @@
 
 **Goal:** Build a public chat interface where users ask skateboarding questions and receive AI-powered responses with structured output (answer, skill level, confidence).
 
-**Architecture:** 
+**Architecture:**
+
 - Frontend: React chat UI with local state (no persistence), message list, input field, loading states
 - Backend: API route that calls an external AI provider (OpenAI/Claude/Gemini) with a skateboarding-specific system prompt, parses JSON response, validates structure
 - No authentication required for MVP
 - Responses follow strict JSON schema (answer, level, confidence)
 
-**Tech Stack:** 
+**Tech Stack:**
+
 - React (hooks: `useState`, `useTransition` for loading)
 - TanStack Query for server calls (though this is a simple POST, no cache needed)
 - TypeScript (no `any` types)
@@ -22,6 +24,7 @@
 ## File Structure
 
 ### New files to create
+
 - `src/types/ai.ts` — AI types (Message, AIResponse)
 - `src/services/sendMessage.ts` — API client for `/api/ai/chat`
 - `src/hooks/useAIChat.ts` — Chat state management hook
@@ -31,6 +34,7 @@
 - `src/app/api/ai/chat/route.ts` — Server route to call AI provider
 
 ### Modified files
+
 - None (this is a new feature with no cross-cutting changes)
 
 ---
@@ -38,6 +42,7 @@
 ## Task 1: Define AI Types
 
 **Files:**
+
 - Create: `src/types/ai.ts`
 
 - [ ] **Step 1: Write `src/types/ai.ts` with Message and AIResponse types**
@@ -79,6 +84,7 @@ git commit -m "types: add AI chat message and response types"
 ## Task 2: Create API Client Service
 
 **Files:**
+
 - Create: `src/services/sendMessage.ts`
 
 - [ ] **Step 1: Write `src/services/sendMessage.ts`**
@@ -114,6 +120,7 @@ git commit -m "feat: add sendMessage service for AI chat API"
 ## Task 3: Create useAIChat Hook
 
 **Files:**
+
 - Create: `src/hooks/useAIChat.ts`
 
 - [ ] **Step 1: Write `src/hooks/useAIChat.ts`**
@@ -198,6 +205,7 @@ git commit -m "feat: add useAIChat hook for chat state management"
 ## Task 4: Create Message Component
 
 **Files:**
+
 - Create: `src/features/ai/Message/index.tsx`
 
 - [ ] **Step 1: Create directory**
@@ -284,6 +292,7 @@ git commit -m "feat: add Message component for displaying chat messages"
 ## Task 5: Create Chat Component
 
 **Files:**
+
 - Create: `src/features/ai/Chat/index.tsx`
 
 - [ ] **Step 1: Create directory**
@@ -443,6 +452,7 @@ git commit -m "feat: add Chat component for AI conversation interface"
 ## Task 6: Create AI Public Page
 
 **Files:**
+
 - Create: `src/app/(public)/ai/page.tsx`
 
 - [ ] **Step 1: Create directory**
@@ -491,6 +501,7 @@ git commit -m "feat: add public /ai page with Chat component"
 ## Task 7: Create API Route (Backend Chat Handler)
 
 **Files:**
+
 - Create: `src/app/api/ai/chat/route.ts`
 
 - [ ] **Step 1: Create directory**
@@ -502,6 +513,7 @@ mkdir -p /Users/joaopaulo/www/pucrs/project/frontend/src/app/api/ai/chat
 - [ ] **Step 2: Get your AI provider API key**
 
 Choose ONE of:
+
 - **OpenAI** (GPT-4): Get key from https://platform.openai.com/api-keys → add to `.env.local` as `OPENAI_API_KEY`
 - **Claude** (Anthropic): Get key from https://console.anthropic.com/ → add to `.env.local` as `ANTHROPIC_API_KEY`
 - **Gemini** (Google): Get key from https://aistudio.google.com/app/apikeys → add to `.env.local` as `GOOGLE_GENERATIVE_AI_KEY`
@@ -548,10 +560,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
     const { message } = body;
 
     if (!message || typeof message !== "string" || message.trim().length === 0) {
-      return NextResponse.json(
-        { error: "Message is required and must be a non-empty string" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Message is required and must be a non-empty string" }, { status: 400 });
     }
 
     const response = await client.messages.create({
@@ -594,15 +603,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
     return NextResponse.json(parsedResponse);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 ```
 
 **Important notes:**
+
 - Uses Claude 3.5 Sonnet (better at following structured output constraints than GPT-4)
 - Validates request shape and response shape
 - Returns generic error message to client (not internal details)
@@ -636,6 +643,7 @@ curl -X POST http://localhost:3000/api/ai/chat \
 ```
 
 Expected response (example):
+
 ```json
 {
   "answer": "To perform an ollie, start by positioning your back foot on the tail of the board...",
@@ -656,6 +664,7 @@ git commit -m "feat: add /api/ai/chat endpoint with Claude AI integration"
 ## Task 8: Update .env.example
 
 **Files:**
+
 - Modify: `.env.example`
 
 - [ ] **Step 1: Add AI environment variable**
@@ -679,6 +688,7 @@ git commit -m "docs: add ANTHROPIC_API_KEY to .env.example"
 ## Task 9: Manual Testing & Verification
 
 **Files:**
+
 - None (testing only)
 
 - [ ] **Step 1: Start dev server**
@@ -698,13 +708,15 @@ Expected: Chat UI loads with empty state showing 3 suggestion buttons
 
 - [ ] **Step 3: Click a suggestion (e.g., "How to do an ollie?")**
 
-Expected: 
+Expected:
+
 - Suggestion text appears in the input field
 - Text is selected/focused
 
 - [ ] **Step 4: Click "Send" button**
 
 Expected:
+
 - Message appears in chat as a "user" message (blue bubble, right-aligned)
 - Loading state appears ("AI Assistant is thinking...")
 - After ~2 seconds, assistant response appears (gray bubble, left-aligned)
@@ -712,11 +724,13 @@ Expected:
 - [ ] **Step 5: Submit a non-skateboarding question (e.g., "What's the capital of France?")**
 
 Expected:
+
 - AI Assistant declines politely with message like: "I'm here to help with skateboarding questions. This seems outside my area. Do you have any skate-related questions?"
 
 - [ ] **Step 6: Submit an empty message**
 
 Expected:
+
 - "Send" button is disabled
 - No empty message sent
 
@@ -738,6 +752,7 @@ Expected: Build succeeds with no TypeScript errors
 ## Task 10: Final Verification Against Spec
 
 **Files:**
+
 - None (verification only)
 
 Check each acceptance criterion from the spec:
@@ -775,15 +790,15 @@ Check each acceptance criterion from the spec:
 
 ## Summary of Files Created
 
-| File | Purpose | Status |
-|---|---|---|
-| `src/types/ai.ts` | Message, AIResponse types | ✅ |
-| `src/services/sendMessage.ts` | API client for `/api/ai/chat` | ✅ |
-| `src/hooks/useAIChat.ts` | Chat state management | ✅ |
-| `src/features/ai/Message/index.tsx` | Single message component | ✅ |
-| `src/features/ai/Chat/index.tsx` | Main chat UI | ✅ |
-| `src/app/(public)/ai/page.tsx` | Public AI page route | ✅ |
-| `src/app/api/ai/chat/route.ts` | Backend AI API route | ✅ |
+| File                                | Purpose                       | Status |
+| ----------------------------------- | ----------------------------- | ------ |
+| `src/types/ai.ts`                   | Message, AIResponse types     | ✅     |
+| `src/services/sendMessage.ts`       | API client for `/api/ai/chat` | ✅     |
+| `src/hooks/useAIChat.ts`            | Chat state management         | ✅     |
+| `src/features/ai/Message/index.tsx` | Single message component      | ✅     |
+| `src/features/ai/Chat/index.tsx`    | Main chat UI                  | ✅     |
+| `src/app/(public)/ai/page.tsx`      | Public AI page route          | ✅     |
+| `src/app/api/ai/chat/route.ts`      | Backend AI API route          | ✅     |
 
 ---
 

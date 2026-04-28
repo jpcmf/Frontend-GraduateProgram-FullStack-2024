@@ -1,6 +1,7 @@
 import { useState, useTransition } from "react";
+
 import { sendMessage } from "@/services/sendMessage";
-import type { Message, AIResponse } from "@/types/ai";
+import type { Message } from "@/types/ai";
 
 export function useAIChat() {
   const [messages, setMessages] = useState<Message[]>([]);

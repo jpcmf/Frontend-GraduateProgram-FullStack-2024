@@ -18,36 +18,34 @@ This feature is part of the core product experience and must provide consistent,
 
 ### AI Assistant page (`/ai`)
 
-* Public page (no authentication required for MVP)
-* Chat interface with:
+- Public page (no authentication required for MVP)
+- Chat interface with:
+  - Message list (user + assistant)
+  - Input field (text)
+  - Submit button
 
-  * Message list (user + assistant)
-  * Input field (text)
-  * Submit button
-* Messages are displayed in chronological order
-* Assistant responses should feel instructional, clear, and supportive
+- Messages are displayed in chronological order
+- Assistant responses should feel instructional, clear, and supportive
 
 ---
 
 ### Chat behavior
 
-* User submits a question (e.g., "How to do an ollie?")
-* Loading state is shown while awaiting response
-* Assistant responds with:
-
-  * Clear explanation
-  * Step-by-step guidance when applicable
-  * Safety considerations when relevant
+- User submits a question (e.g., "How to do an ollie?")
+- Loading state is shown while awaiting response
+- Assistant responds with:
+  - Clear explanation
+  - Step-by-step guidance when applicable
+  - Safety considerations when relevant
 
 ---
 
 ### Empty state
 
-* Initial suggestions:
-
-  * "How to do an ollie?"
-  * "What board should I use for street skating?"
-  * "How to avoid injuries while skating?"
+- Initial suggestions:
+  - "How to do an ollie?"
+  - "What board should I use for street skating?"
+  - "How to avoid injuries while skating?"
 
 ---
 
@@ -85,9 +83,9 @@ This feature is part of the core product experience and must provide consistent,
 
 ### Notes
 
-* Response must always follow the defined JSON structure
-* No raw model output should be returned directly to the UI
-* The API route is responsible for parsing and validating the response
+- Response must always follow the defined JSON structure
+- No raw model output should be returned directly to the UI
+- The API route is responsible for parsing and validating the response
 
 ---
 
@@ -95,15 +93,14 @@ This feature is part of the core product experience and must provide consistent,
 
 The system prompt must enforce:
 
-* Role: experienced skateboarding instructor
-* Tone: clear, supportive, instructional
-* Audience: beginner to intermediate skaters
-* Constraints:
-
-  * Avoid unsafe advice
-  * Avoid unrelated topics
-  * Do not hallucinate unknown facts
-  * Prefer step-by-step explanations
+- Role: experienced skateboarding instructor
+- Tone: clear, supportive, instructional
+- Audience: beginner to intermediate skaters
+- Constraints:
+  - Avoid unsafe advice
+  - Avoid unrelated topics
+  - Do not hallucinate unknown facts
+  - Prefer step-by-step explanations
 
 ---
 
@@ -132,18 +129,17 @@ Return your response strictly in JSON format:
 
 ## Model Strategy
 
-* Default: external AI API (e.g., OpenAI, Claude, Gemini)
-* Model must support:
-
-  * Structured output (JSON)
-  * Strong instruction following
+- Default: external AI API (e.g., OpenAI, Claude, Gemini)
+- Model must support:
+  - Structured output (JSON)
+  - Strong instruction following
 
 ---
 
 ### Future (not in MVP)
 
-* Model selection layer (multi-provider fallback)
-* RAG (Retrieval-Augmented Generation) with skate knowledge base
+- Model selection layer (multi-provider fallback)
+- RAG (Retrieval-Augmented Generation) with skate knowledge base
 
 ---
 
@@ -175,44 +171,43 @@ type Message = {
 };
 ```
 
-* Stored locally (React state)
-* No persistence required for MVP
+- Stored locally (React state)
+- No persistence required for MVP
 
 ---
 
 ## Acceptance Criteria
 
-* [ ] `/ai` page renders a functional chat interface
-* [ ] User can submit a message and receive a response
-* [ ] Loading state is shown while waiting for response
-* [ ] Responses follow the defined JSON structure
-* [ ] Responses are parsed and rendered correctly
-* [ ] Assistant answers only skateboarding-related questions
-* [ ] Assistant tone is instructional and beginner-friendly
-* [ ] No `console.log`, `console.warn`, or `console.error` in new files
-* [ ] TypeScript — no `any` types in new files
+- [ ] `/ai` page renders a functional chat interface
+- [ ] User can submit a message and receive a response
+- [ ] Loading state is shown while waiting for response
+- [ ] Responses follow the defined JSON structure
+- [ ] Responses are parsed and rendered correctly
+- [ ] Assistant answers only skateboarding-related questions
+- [ ] Assistant tone is instructional and beginner-friendly
+- [ ] No `console.log`, `console.warn`, or `console.error` in new files
+- [ ] TypeScript — no `any` types in new files
 
 ---
 
 ## Error Handling
 
-* If API fails:
+- If API fails:
+  - Show generic error message: "Something went wrong. Please try again."
 
-  * Show generic error message: "Something went wrong. Please try again."
-* If response is invalid:
-
-  * Do not render raw output
-  * Fallback to safe error message
+- If response is invalid:
+  - Do not render raw output
+  - Fallback to safe error message
 
 ---
 
 ## Out of Scope
 
-* Authentication (chat history per user)
-* Persistent chat history
-* Voice input / speech-to-text
-* Image or video understanding
-* Trick detection via camera
-* RAG (knowledge base integration)
-* Multi-language support
-* Personalization based on user skill level
+- Authentication (chat history per user)
+- Persistent chat history
+- Voice input / speech-to-text
+- Image or video understanding
+- Trick detection via camera
+- RAG (knowledge base integration)
+- Multi-language support
+- Personalization based on user skill level

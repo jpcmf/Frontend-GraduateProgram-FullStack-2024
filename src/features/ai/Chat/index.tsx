@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { VStack, HStack, Input, Button, Box, Spinner, Text, Center } from "@chakra-ui/react";
-import { Message } from "../Message";
+import { useEffect, useRef, useState } from "react";
+
+import { Box, Button, Center, HStack, Input, Spinner, Text, VStack } from "@chakra-ui/react";
+
 import { useAIChat } from "@/hooks/useAIChat";
+
+import { Message } from "../Message";
 
 const INITIAL_SUGGESTIONS = [
   "How to do an ollie?",
@@ -41,24 +44,9 @@ export function Chat() {
   };
 
   return (
-    <VStack
-      h="100vh"
-      w="100%"
-      bg="white"
-      spacing={0}
-      justify="space-between"
-      p={4}
-    >
+    <VStack h="100vh" w="100%" bg="white" spacing={0} justify="space-between" p={4}>
       {/* Messages area */}
-      <Box
-        flex={1}
-        w="100%"
-        overflowY="auto"
-        borderRadius="md"
-        mb={4}
-        maxW="800px"
-        mx="auto"
-      >
+      <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
         {messages.length === 0 ? (
           <Center h="100%" flexDirection="column" gap={6}>
             <Text fontSize="2xl" fontWeight="bold" color="gray.700">

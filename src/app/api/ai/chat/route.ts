@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { AIResponse } from "@/types/ai";
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY
-});
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY!);
 
 const SYSTEM_PROMPT = `You are an experienced skateboarding instructor.
 
@@ -22,7 +20,9 @@ Return your response strictly in JSON format:
   "confidence": number (0 to 1)
 }`;
 
-export async function POST(request: NextRequest): Promise<NextResponse<AIResponse | { error: string }>> {
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse<AIResponse | { error: string }>> {
   try {
     const body = await request.json();
     const { message } = body;
@@ -34,28 +34,31 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
       );
     }
 
-    const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    const response = await model.generateContent({
+      contents: [
         {
           role: "user",
-          content: message
+          parts: [
+            {
+              text: `${SYSTEM_PROMPT}\n\nUser question: ${message}`
+            }
+          ]
         }
       ]
     });
 
     // Extract text from response
-    const content = response.content[0];
-    if (content.type !== "text") {
-      throw new Error("Unexpected response format from AI");
+    const textContent = response.response.text();
+    if (!textContent) {
+      throw new Error("Empty response from AI");
     }
 
     // Parse JSON response
     let parsedResponse: AIResponse;
     try {
-      parsedResponse = JSON.parse(content.text);
+      parsedResponse = JSON.parse(textContent);
     } catch {
       throw new Error("Invalid JSON response from AI");
     }
@@ -63,7 +66,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
     // Validate response structure
     if (
       typeof parsedResponse.answer !== "string" ||
-      !["beginner", "intermediate", "advanced"].includes(parsedResponse.level) ||
+      !["beginner", "intermediate", "advanced"].includes(
+        parsedResponse.level
+      ) ||
       typeof parsedResponse.confidence !== "number" ||
       parsedResponse.confidence < 0 ||
       parsedResponse.confidence > 1
@@ -73,7 +78,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
 
     return NextResponse.json(parsedResponse);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },
       { status: 500 }
