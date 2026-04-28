@@ -3,37 +3,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateChatResponse } from "@/server/lib/gemini";
 import type { AIResponse } from "@/types/ai";
 
-export async function POST(
-  request: NextRequest
-): Promise<NextResponse<AIResponse | { error: string }>> {
+export async function POST(request: NextRequest): Promise<NextResponse<AIResponse | { error: string }>> {
   try {
     const body = await request.json();
     const { message } = body;
 
-    if (
-      !message ||
-      typeof message !== "string" ||
-      message.trim().length === 0
-    ) {
-      return NextResponse.json(
-        { error: "Message is required and must be a non-empty string" },
-        { status: 400 }
-      );
+    if (!message || typeof message !== "string" || message.trim().length === 0) {
+      return NextResponse.json({ error: "Message is required and must be a non-empty string" }, { status: 400 });
     }
 
-    const { answer, confidence } = await generateChatResponse({ message });
+    const { answer } = await generateChatResponse({ message });
 
-    const response: AIResponse = {
-      answer,
-      confidence,
-    };
-
-    return NextResponse.json(response);
+    return NextResponse.json({ answer });
   } catch (error) {
     console.error("[AI Chat API] Error:", error);
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

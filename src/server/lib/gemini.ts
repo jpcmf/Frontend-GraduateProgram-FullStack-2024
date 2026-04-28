@@ -11,6 +11,75 @@ export interface ChatOptions {
   message: string;
 }
 
+interface GeminiResponse {
+  candidates: Array<{
+    content: {
+      parts: Array<{
+        text: string;
+      }>;
+    };
+  }>;
+}
+
+export interface ChatResult {
+  answer: string;
+}
+
+const SYSTEM_PROMPT = `You are an experienced skateboarding instructor and community expert.
+
+Rules:
+- Explain concepts clearly and simply
+- Use step-by-step instructions when helpful
+- Prioritize safety (helmet, environment, progression)
+- Answer only skateboarding-related questions
+- If a question is not about skateboarding, politely redirect to skateboarding topics
+- If unsure about something, say you don't know instead of guessing
+- Keep responses concise but informative (2-4 paragraphs)
+- Use encouraging and supportive tone`;
+
+export async function generateChatResponse({
+  message,
+}: ChatOptions): Promise<ChatResult> {
+  if (!GEMINI_API_KEY) {
+    throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
+  }
+
+  const response = await fetch(GEMINI_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": GEMINI_API_KEY,
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
+            {
+              text: `${SYSTEM_PROMPT}\n\nUser question: ${message}`,
+            },
+          ],
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      `Gemini API error: ${response.status} - ${errorData.error?.message || "Unknown error"}`
+    );
+  }
+
+  const data = (await response.json()) as GeminiResponse;
+
+  const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!answer) {
+    throw new Error("Invalid response structure from Gemini API");
+  }
+
+  return { answer };
+}
+
 export interface GeminiResponse {
   candidates: Array<{
     content: {
@@ -47,9 +116,7 @@ Rules:
  * Generates AI feedback for skateboarding Q&A using Google Gemini
  * Implements timeout handling and automatic retry logic
  */
-export async function generateChatResponse({
-  message,
-}: ChatOptions): Promise<ChatAnalysis> {
+export async function generateChatResponse({ message }: ChatOptions): Promise<ChatAnalysis> {
   if (!GEMINI_API_KEY) {
     throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
   }
@@ -65,9 +132,7 @@ export async function generateChatResponse({
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      console.log(
-        `[Gemini] Calling Gemini API (attempt ${attempt}/${MAX_RETRIES})...`
-      );
+      console.log(`[Gemini] Calling Gemini API (attempt ${attempt}/${MAX_RETRIES})...`);
 
       // Create abort controller with timeout
       const controller = new AbortController();
@@ -78,20 +143,20 @@ export async function generateChatResponse({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-goog-api-key": GEMINI_API_KEY,
+            "x-goog-api-key": GEMINI_API_KEY
           },
           body: JSON.stringify({
             contents: [
               {
                 parts: [
                   {
-                    text: `${systemPrompt}\n\nUser question: ${message}`,
-                  },
-                ],
-              },
-            ],
+                    text: `${systemPrompt}\n\nUser question: ${message}`
+                  }
+                ]
+              }
+            ]
           }),
-          signal: controller.signal,
+          signal: controller.signal
         });
 
         clearTimeout(timeoutId);
@@ -101,26 +166,18 @@ export async function generateChatResponse({
         if (!response.ok) {
           const error = await response.json();
           console.error("[Gemini] API error response:", error);
-          throw new Error(
-            `Gemini API error: ${response.status} - ${error.error?.message || "Unknown error"}`
-          );
+          throw new Error(`Gemini API error: ${response.status} - ${error.error?.message || "Unknown error"}`);
         }
 
         const data = (await response.json()) as GeminiResponse;
 
-        if (
-          !data.candidates ||
-          !data.candidates[0]?.content?.parts?.[0]?.text
-        ) {
+        if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
           console.error("[Gemini] Invalid response structure:", data);
           throw new Error("Invalid response structure from Gemini API");
         }
 
         const answer = data.candidates[0].content.parts[0].text;
-        console.log(
-          "[Gemini] Response generated successfully, length:",
-          answer.length
-        );
+        console.log("[Gemini] Response generated successfully, length:", answer.length);
 
         // Calculate confidence based on response quality
         let confidence = 0.85; // Default high confidence
@@ -132,48 +189,33 @@ export async function generateChatResponse({
 
         return {
           answer,
-          confidence,
+          confidence
         };
       } catch (fetchError) {
-        if (
-          fetchError instanceof Error &&
-          fetchError.name === "AbortError"
-        ) {
+        if (fetchError instanceof Error && fetchError.name === "AbortError") {
           lastError = new Error(`Gemini API request timeout (${API_TIMEOUT}ms)`);
-          console.error(
-            `[Gemini] ${lastError.message}, attempt ${attempt}/${MAX_RETRIES}`
-          );
+          console.error(`[Gemini] ${lastError.message}, attempt ${attempt}/${MAX_RETRIES}`);
         } else {
-          lastError =
-            fetchError instanceof Error
-              ? fetchError
-              : new Error(String(fetchError));
-          console.error(
-            `[Gemini] Request failed on attempt ${attempt}/${MAX_RETRIES}:`,
-            lastError.message
-          );
+          lastError = fetchError instanceof Error ? fetchError : new Error(String(fetchError));
+          console.error(`[Gemini] Request failed on attempt ${attempt}/${MAX_RETRIES}:`, lastError.message);
         }
 
         // If this is not the last attempt, wait and retry
         if (attempt < MAX_RETRIES) {
           const delayMs = INITIAL_DELAY * Math.pow(2, attempt - 1);
           console.log(`[Gemini] Retrying in ${delayMs}ms...`);
-          await new Promise((resolve) => setTimeout(resolve, delayMs));
+          await new Promise(resolve => setTimeout(resolve, delayMs));
         }
       }
     } catch (error) {
       // Outer catch for any sync errors
-      lastError =
-        error instanceof Error ? error : new Error(String(error));
-      console.error(
-        `[Gemini] Unexpected error on attempt ${attempt}/${MAX_RETRIES}:`,
-        lastError.message
-      );
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.error(`[Gemini] Unexpected error on attempt ${attempt}/${MAX_RETRIES}:`, lastError.message);
 
       if (attempt < MAX_RETRIES) {
         const delayMs = INITIAL_DELAY * Math.pow(2, attempt - 1);
         console.log(`[Gemini] Retrying in ${delayMs}ms...`);
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        await new Promise(resolve => setTimeout(resolve, delayMs));
       }
     }
   }
