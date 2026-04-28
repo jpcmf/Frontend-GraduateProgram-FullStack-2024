@@ -1,6 +1,6 @@
 # Feature: AI Assistant
 
-**Status:** draft
+**Status:** in-progress
 **Priority:** high
 **Affects:** New pages, components, services, hooks, and API route for AI chat
 
@@ -108,18 +108,20 @@ This feature is part of the core product experience and must provide consistent,
 ```json
 {
   "answer": "To perform an ollie, start by positioning your back foot on the tail...",
-  "level": "beginner",
   "confidence": 0.85
 }
 ```
 
 ---
 
-### Notes
+### Implementation Notes
 
-- Response must always follow the defined JSON structure
-- No raw model output should be returned directly to the UI
-- The API route is responsible for parsing and validating the response
+- **Provider:** Google Gemini 2.0 Flash (REST API)
+- **Backend:** Server-side `generateChatResponse()` in `src/server/lib/gemini.ts`
+- **Retry logic:** Exponential backoff (max 3 attempts) with 30s timeout per request
+- **Response format:** Plain text (Gemini handles formatting based on system prompt)
+- **Confidence calculation:** Based on response content keywords and structure
+- **Error handling:** Generic error message with retry mechanism
 
 ---
 
@@ -135,38 +137,43 @@ The system prompt must enforce:
   - Avoid unrelated topics
   - Do not hallucinate unknown facts
   - Prefer step-by-step explanations
+  - Keep responses concise but informative (2-4 paragraphs)
 
 ---
 
-### Example system prompt
+### System Prompt (Implementation)
 
 ```txt
-You are an experienced skateboarding instructor.
+You are an experienced skateboarding instructor and community expert.
 
 Rules:
 - Explain concepts clearly and simply
 - Use step-by-step instructions when helpful
 - Prioritize safety (helmet, environment, progression)
 - Answer only skateboarding-related questions
-- If unsure, say you don't know instead of guessing
-
-Return your response strictly in JSON format:
-
-{
-  "answer": string,
-  "level": "beginner" | "intermediate" | "advanced",
-  "confidence": number (0 to 1)
-}
+- If a question is not about skateboarding, politely redirect to skateboarding topics
+- If unsure about something, say you don't know instead of guessing
+- Keep responses concise but informative (2-4 paragraphs)
+- Use encouraging and supportive tone
 ```
 
 ---
 
-## Model Strategy
+## Model & Provider Strategy
 
-- Default: external AI API (e.g., OpenAI, Claude, Gemini)
-- Model must support:
-  - Structured output (JSON)
-  - Strong instruction following
+**Current Implementation:**
+
+- Provider: Google Gemini 2.0 Flash (via REST API)
+- Environment variable: `GOOGLE_GENERATIVE_AI_KEY`
+- API endpoint: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`
+- Response format: Plain text (structured by system prompt)
+
+**Reliability Features:**
+
+- Exponential backoff retry (max 3 attempts)
+- Request timeout: 30 seconds
+- Retry delay: 1s → 2s → 4s
+- Comprehensive error logging for debugging
 
 ---
 
@@ -174,6 +181,7 @@ Return your response strictly in JSON format:
 
 - Model selection layer (multi-provider fallback)
 - RAG (Retrieval-Augmented Generation) with skate knowledge base
+- Billing/quota management dashboard
 
 ---
 
@@ -181,15 +189,22 @@ Return your response strictly in JSON format:
 
 ### New files
 
-| File                                | Purpose                                |
-| ----------------------------------- | -------------------------------------- |
-| `src/types/ai.ts`                   | `AIResponse` type                      |
-| `src/services/sendMessage.ts`       | Calls `/api/ai/chat`                   |
-| `src/hooks/useAIChat.ts`            | Manages chat state (messages, loading) |
-| `src/features/ai/Chat/index.tsx`    | Main chat UI                           |
-| `src/features/ai/Message/index.tsx` | Individual message component           |
-| `src/pages/ai/index.tsx`            | AI Assistant page                      |
-| `src/pages/api/ai/chat.ts`          | Server route to call AI provider       |
+| File                                | Purpose                                     | Status      |
+| ----------------------------------- | ------------------------------------------- | ----------- |
+| `src/types/ai.ts`                   | `AIResponse`, `Message` types                | ✅ Created  |
+| `src/services/sendMessage.ts`       | Calls `/api/ai/chat`                        | ✅ Created  |
+| `src/hooks/useAIChat.ts`            | Manages chat state (messages, loading)      | ✅ Created  |
+| `src/features/ai/Chat/index.tsx`    | Main chat UI with hero + suggestions        | ✅ Created  |
+| `src/features/ai/Message/index.tsx` | Individual message component                 | ✅ Created  |
+| `src/app/(public)/ai/page.tsx`      | AI Assistant public page                    | ✅ Created  |
+| `src/app/api/ai/chat/route.ts`      | Server route to call Gemini                 | ✅ Created  |
+| `src/server/lib/gemini.ts`          | Gemini API client with retry logic          | ✅ Created  |
+
+### Modified files
+
+| File                              | Changes                              | Status      |
+| --------------------------------- | ------------------------------------ | ----------- |
+| `src/components/Sidebar/SidebarNav.tsx` | Added AI Assistant nav link         | ✅ Updated  |
 
 ---
 
@@ -212,20 +227,24 @@ type Message = {
 
 ## Acceptance Criteria
 
-- [ ] Hero section displays: icon, title, subtitle (visible on page load)
-- [ ] Suggestion buttons display and are clickable (visible on page load)
-- [ ] Clicking a suggestion auto-fills input and submits
-- [ ] First message submission hides hero section and suggestions
-- [ ] Chat area expands to full space after first message
-- [ ] User messages display right-aligned with avatar
-- [ ] AI messages display left-aligned with green icon
-- [ ] Messages scroll and auto-scroll to latest
-- [ ] Loading state shows while waiting for response
-- [ ] User can continue asking questions after response
-- [ ] Input field clears after each submission
-- [ ] Responses are plain text (no markdown)
-- [ ] No `console.log`, `console.warn`, or `console.error` in new files
-- [ ] TypeScript — no `any` types in new files
+- [x] Hero section displays: icon, title, subtitle (visible on page load)
+- [x] Suggestion buttons display and are clickable (visible on page load)
+- [x] Clicking a suggestion auto-fills input and submits
+- [x] First message submission hides hero section and suggestions
+- [x] Chat area expands to full space after first message
+- [x] User messages display right-aligned with avatar
+- [x] AI messages display left-aligned with green icon
+- [x] Messages scroll and auto-scroll to latest
+- [x] Loading state shows while waiting for response
+- [x] User can continue asking questions after response
+- [x] Input field clears after each submission
+- [x] Responses are plain text (no markdown)
+- [x] No `console.log`, `console.warn`, or `console.error` in new files
+- [x] TypeScript — no `any` types in new files
+- [x] API route uses server-side Gemini client (`generateChatResponse()`)
+- [x] Retry logic implemented with exponential backoff
+- [x] Error handling with generic user-facing messages
+- [x] Build compiles with no TypeScript errors
 
 ---
 
