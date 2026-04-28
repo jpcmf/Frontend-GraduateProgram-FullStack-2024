@@ -4,7 +4,7 @@
  */
 
 const GEMINI_API_KEY = process.env.GOOGLE_GENERATIVE_AI_KEY;
-const GEMINI_API_URL = process.env.GEMINI_API_URL;
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 export interface ChatOptions {
   message: string;
