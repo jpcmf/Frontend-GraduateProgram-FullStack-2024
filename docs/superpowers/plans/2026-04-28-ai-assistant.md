@@ -292,8 +292,9 @@ git commit -m "feat: add Message component for displaying chat messages"
 ## Task 5: Create Chat Component
 
 **Files:**
-
 - Create: `src/features/ai/Chat/index.tsx`
+
+**Design:** Hero section + suggestions (pre-conversation) → Chat area (post-conversation)
 
 - [ ] **Step 1: Create directory**
 
@@ -303,11 +304,22 @@ mkdir -p /Users/joaopaulo/www/pucrs/project/frontend/src/features/ai/Chat
 
 - [ ] **Step 2: Write `src/features/ai/Chat/index.tsx`**
 
+Key requirements:
+- Hero section: Icon, "AI Assistant" title, subtitle (visible when `messages.length === 0`)
+- Suggestions: 3 clickable buttons below hero (visible when `messages.length === 0`)
+- Chat area: Message list (visible when `messages.length > 0`)
+- When first message sent: Hero/suggestions hidden, chat expands full space
+- Input field always at bottom
+- Auto-scroll to latest message
+- Loading state: Spinner + "AI Assistant is thinking..."
+- No timestamps on messages
+
 ```typescript
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import { VStack, HStack, Input, Button, Box, Spinner, Text, Center } from "@chakra-ui/react";
+import { RiRobot2Line } from "react-icons/ri";
 import { Message } from "../Message";
 import { useAIChat } from "@/hooks/useAIChat";
 
@@ -321,6 +333,7 @@ export function Chat() {
   const { messages, isPending, submitMessage } = useAIChat();
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isConversationStarted = messages.length > 0;
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -337,6 +350,10 @@ export function Chat() {
 
   const handleSuggestionClick = (suggestion: string) => {
     setInputValue(suggestion);
+    // Trigger submit immediately
+    setTimeout(() => {
+      submitMessage(suggestion);
+    }, 0);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -355,7 +372,7 @@ export function Chat() {
       justify="space-between"
       p={4}
     >
-      {/* Messages area */}
+      {/* Main content area */}
       <Box
         flex={1}
         w="100%"
@@ -365,12 +382,34 @@ export function Chat() {
         maxW="800px"
         mx="auto"
       >
-        {messages.length === 0 ? (
-          <Center h="100%" flexDirection="column" gap={6}>
-            <Text fontSize="2xl" fontWeight="bold" color="gray.700">
-              Ask anything about skateboarding
-            </Text>
-            <VStack spacing={3} align="stretch">
+        {!isConversationStarted ? (
+          /* Hero + Suggestions (before conversation) */
+          <Center h="100%" flexDirection="column" gap={8}>
+            {/* Hero Section */}
+            <VStack spacing={4} textAlign="center">
+              <Box
+                w={16}
+                h={16}
+                borderRadius="full"
+                bg="gray.800"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <RiRobot2Line size={32} color="#48D597" />
+              </Box>
+              <VStack spacing={2}>
+                <Text fontSize="3xl" fontWeight="bold" color="gray.900">
+                  AI Assistant
+                </Text>
+                <Text fontSize="md" color="gray.600">
+                  Ask anything about the skateboarding world
+                </Text>
+              </VStack>
+            </VStack>
+
+            {/* Suggestions */}
+            <VStack spacing={3} align="stretch" w="100%" maxW="500px">
               {INITIAL_SUGGESTIONS.map((suggestion, idx) => (
                 <Button
                   key={idx}
@@ -379,7 +418,10 @@ export function Chat() {
                   textAlign="left"
                   h="auto"
                   py={3}
+                  px={4}
                   whiteSpace="normal"
+                  borderColor="gray.300"
+                  _hover={{ borderColor: "green.400", bg: "green.50" }}
                 >
                   {suggestion}
                 </Button>
@@ -387,6 +429,7 @@ export function Chat() {
             </VStack>
           </Center>
         ) : (
+          /* Chat area (after first message) */
           <VStack align="stretch" spacing={4}>
             {messages.map(msg => (
               <Message key={msg.id} message={msg} />
@@ -404,7 +447,7 @@ export function Chat() {
         )}
       </Box>
 
-      {/* Input area */}
+      {/* Input area (always at bottom) */}
       <HStack w="100%" maxW="800px" mx="auto" spacing={2}>
         <Input
           value={inputValue}
@@ -413,7 +456,7 @@ export function Chat() {
           placeholder="Ask a question about skateboarding..."
           disabled={isPending}
           borderColor="gray.300"
-          _focus={{ borderColor: "green.400", boxShadow: "0 0 0 1px rgb(48, 140, 122)" }}
+          _focus={{ borderColor: "green.400", boxShadow: "0 0 0 1px rgb(72, 213, 151)" }}
         />
         <Button
           onClick={handleSubmit}
@@ -444,7 +487,7 @@ Expected: No errors
 
 ```bash
 git add src/features/ai/Chat/index.tsx
-git commit -m "feat: add Chat component for AI conversation interface"
+git commit -m "feat: redesign Chat component with hero section, suggestions, and conversation flow"
 ```
 
 ---

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
+
 import type { AIResponse } from "@/types/ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY!);
@@ -20,18 +22,13 @@ Return your response strictly in JSON format:
   "confidence": number (0 to 1)
 }`;
 
-export async function POST(
-  request: NextRequest
-): Promise<NextResponse<AIResponse | { error: string }>> {
+export async function POST(request: NextRequest): Promise<NextResponse<AIResponse | { error: string }>> {
   try {
     const body = await request.json();
     const { message } = body;
 
     if (!message || typeof message !== "string" || message.trim().length === 0) {
-      return NextResponse.json(
-        { error: "Message is required and must be a non-empty string" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Message is required and must be a non-empty string" }, { status: 400 });
     }
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
@@ -66,9 +63,7 @@ export async function POST(
     // Validate response structure
     if (
       typeof parsedResponse.answer !== "string" ||
-      !["beginner", "intermediate", "advanced"].includes(
-        parsedResponse.level
-      ) ||
+      !["beginner", "intermediate", "advanced"].includes(parsedResponse.level) ||
       typeof parsedResponse.confidence !== "number" ||
       parsedResponse.confidence < 0 ||
       parsedResponse.confidence > 1
@@ -78,9 +73,6 @@ export async function POST(
 
     return NextResponse.json(parsedResponse);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

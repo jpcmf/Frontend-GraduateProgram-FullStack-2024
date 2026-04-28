@@ -19,33 +19,63 @@ This feature is part of the core product experience and must provide consistent,
 ### AI Assistant page (`/ai`)
 
 - Public page (no authentication required for MVP)
-- Chat interface with:
-  - Message list (user + assistant)
-  - Input field (text)
-  - Submit button
-
-- Messages are displayed in chronological order
-- Assistant responses should feel instructional, clear, and supportive
+- Chat interface with hero section, suggestions, and conversation flow
 
 ---
 
-### Chat behavior
+### Layout: Hero + Suggestions (Before First Message)
 
-- User submits a question (e.g., "How to do an ollie?")
-- Loading state is shown while awaiting response
-- Assistant responds with:
-  - Clear explanation
-  - Step-by-step guidance when applicable
-  - Safety considerations when relevant
+**Hero Section** (centered, ~40% viewport height):
+- Icon: Green AI/robot icon
+- Title: "AI Assistant"
+- Subtitle: "Ask anything about the skateboarding world"
 
----
-
-### Empty state
-
-- Initial suggestions:
+**Suggestions Area** (below hero):
+- 3 full-width or grid-layout suggestion buttons
+- Clicking a suggestion auto-fills input and submits
+- Buttons:
   - "How to do an ollie?"
   - "What board should I use for street skating?"
   - "How to avoid injuries while skating?"
+
+**Input Area** (bottom):
+- Text input field: "Ask a question about skateboarding..."
+- Green send button (always visible)
+
+---
+
+### Layout: Chat Conversation (After First Message)
+
+**Hero Section:** Hidden/faded
+**Suggestions:** Disappear completely
+**Chat Area:** Expands to full space
+- Messages scroll vertically
+- AI messages: Dark gray bubble, left-aligned, green icon
+- User messages: Green/teal bubble, right-aligned, user avatar
+- Auto-scroll to latest message
+- Loading state: Spinner + "AI Assistant is thinking..."
+
+**Input Area:** Stays at bottom, input remains enabled
+
+---
+
+### Message Display
+
+- **User messages:** Plain text, right-aligned with user avatar
+- **AI messages:** Plain text (no markdown), left-aligned with AI icon
+- Multi-line text with word wrap supported
+- No timestamps
+
+---
+
+### Chat Behavior
+
+- User submits a question (via input or suggestion click)
+- Loading state shown while awaiting response
+- Assistant responds with plain text answer
+- Messages remain in chat history
+- Input field clears after submission
+- User can continue asking questions
 
 ---
 
@@ -178,13 +208,18 @@ type Message = {
 
 ## Acceptance Criteria
 
-- [ ] `/ai` page renders a functional chat interface
-- [ ] User can submit a message and receive a response
-- [ ] Loading state is shown while waiting for response
-- [ ] Responses follow the defined JSON structure
-- [ ] Responses are parsed and rendered correctly
-- [ ] Assistant answers only skateboarding-related questions
-- [ ] Assistant tone is instructional and beginner-friendly
+- [ ] Hero section displays: icon, title, subtitle (visible on page load)
+- [ ] Suggestion buttons display and are clickable (visible on page load)
+- [ ] Clicking a suggestion auto-fills input and submits
+- [ ] First message submission hides hero section and suggestions
+- [ ] Chat area expands to full space after first message
+- [ ] User messages display right-aligned with avatar
+- [ ] AI messages display left-aligned with green icon
+- [ ] Messages scroll and auto-scroll to latest
+- [ ] Loading state shows while waiting for response
+- [ ] User can continue asking questions after response
+- [ ] Input field clears after each submission
+- [ ] Responses are plain text (no markdown)
 - [ ] No `console.log`, `console.warn`, or `console.error` in new files
 - [ ] TypeScript — no `any` types in new files
 
