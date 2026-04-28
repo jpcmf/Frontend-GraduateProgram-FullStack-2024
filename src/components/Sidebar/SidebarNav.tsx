@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine } from "react-icons/ri";
+import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine, RiRobot2Line } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
 
 import { Box, Stack } from "@chakra-ui/react";
@@ -46,6 +46,16 @@ export function SidebarNav() {
             }}
           >
             Spots
+          </NavLink>
+          <NavLink
+            icon={RiRobot2Line}
+            href="/ai"
+            _activeLink={{
+              textDecoration: "none",
+              color: "green.400"
+            }}
+          >
+            AI Assistant
           </NavLink>
           {/* <NavLink
             icon={RiEdit2Line}
