@@ -7,6 +7,20 @@ Built with TypeScript, Chakra UI, TanStack Query, and a custom cookie-based auth
 Read `docs/TECHNICAL_ANALYSIS.md` for the full architecture analysis and known issues.
 Read the backend spec files at `/Users/joaopaulo/www/pucrs/project/skatehub-strapi/specs/` for API contracts.
 
+## Git Branch Rules
+
+**NEVER commit directly to `develop` or `main`.** Always create a feature branch before starting any work.
+
+```bash
+git checkout develop
+git pull
+git checkout -b feature/<feature-name>
+```
+
+Every piece of work — features, fixes, docs, plans — goes on its own branch and is merged via PR.
+
+---
+
 ## Spec-Driven Development Workflow
 
 This project uses **Spec-Driven Development**. Every feature must follow this process:
