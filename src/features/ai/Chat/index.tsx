@@ -109,7 +109,7 @@ export function Chat() {
               <HStack justify="flex-start">
                 <Spinner size="sm" color="green.400" />
                 <Text fontSize="sm" color="gray.500">
-                  Assistente IA está pensando...
+                  Truta IA está pensando...
                 </Text>
               </HStack>
             )}
