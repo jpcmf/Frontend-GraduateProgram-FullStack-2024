@@ -189,22 +189,22 @@ Rules:
 
 ### New files
 
-| File                                | Purpose                                     | Status      |
-| ----------------------------------- | ------------------------------------------- | ----------- |
-| `src/types/ai.ts`                   | `AIResponse`, `Message` types                | ✅ Created  |
-| `src/services/sendMessage.ts`       | Calls `/api/ai/chat`                        | ✅ Created  |
-| `src/hooks/useAIChat.ts`            | Manages chat state (messages, loading)      | ✅ Created  |
-| `src/features/ai/Chat/index.tsx`    | Main chat UI with hero + suggestions        | ✅ Created  |
-| `src/features/ai/Message/index.tsx` | Individual message component                 | ✅ Created  |
-| `src/app/(public)/ai/page.tsx`      | AI Assistant public page                    | ✅ Created  |
-| `src/app/api/ai/chat/route.ts`      | Server route to call Gemini                 | ✅ Created  |
-| `src/server/lib/gemini.ts`          | Gemini API client with retry logic          | ✅ Created  |
+| File                                | Purpose                                | Status     |
+| ----------------------------------- | -------------------------------------- | ---------- |
+| `src/types/ai.ts`                   | `AIResponse`, `Message` types          | ✅ Created |
+| `src/services/sendMessage.ts`       | Calls `/api/ai/chat`                   | ✅ Created |
+| `src/hooks/useAIChat.ts`            | Manages chat state (messages, loading) | ✅ Created |
+| `src/features/ai/Chat/index.tsx`    | Main chat UI with hero + suggestions   | ✅ Created |
+| `src/features/ai/Message/index.tsx` | Individual message component           | ✅ Created |
+| `src/app/(public)/ai/page.tsx`      | AI Assistant public page               | ✅ Created |
+| `src/app/api/ai/chat/route.ts`      | Server route to call Gemini            | ✅ Created |
+| `src/server/lib/gemini.ts`          | Gemini API client with retry logic     | ✅ Created |
 
 ### Modified files
 
-| File                              | Changes                              | Status      |
-| --------------------------------- | ------------------------------------ | ----------- |
-| `src/components/Sidebar/SidebarNav.tsx` | Added AI Assistant nav link         | ✅ Updated  |
+| File                                    | Changes                     | Status     |
+| --------------------------------------- | --------------------------- | ---------- |
+| `src/components/Sidebar/SidebarNav.tsx` | Added AI Assistant nav link | ✅ Updated |
 
 ---
 
