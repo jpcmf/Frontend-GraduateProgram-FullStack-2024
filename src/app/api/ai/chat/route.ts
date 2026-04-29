@@ -1,22 +1,34 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-import { generateChatResponse } from "@/server/lib/openrouter";
-import type { AIResponse } from "@/types/ai";
+import { streamChatResponse } from "@/server/lib/openrouter";
+// To use Gemini instead, swap the import above to:
+// import { streamChatResponse } from "@/server/lib/gemini";
 
-export async function POST(request: NextRequest): Promise<NextResponse<AIResponse | { error: string }>> {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     const body = await request.json();
-    const { message } = body;
+    const { message } = body as { message: unknown };
 
     if (!message || typeof message !== "string" || message.trim().length === 0) {
-      return NextResponse.json({ error: "Message is required and must be a non-empty string" }, { status: 400 });
+      return new Response(JSON.stringify({ error: "Message is required and must be a non-empty string" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
     }
 
-    const { answer, confidence } = await generateChatResponse({ message });
+    const stream = await streamChatResponse({ message });
 
-    return NextResponse.json({ answer, confidence });
-  } catch (error) {
-    console.error("[AI Chat API] Error:", error);
-    return NextResponse.json({ error: "Deu ruim truta! Tente novamente." }, { status: 500 });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive"
+      }
+    });
+  } catch {
+    return new Response(JSON.stringify({ error: "Deu ruim truta! Tente novamente." }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
   }
 }
