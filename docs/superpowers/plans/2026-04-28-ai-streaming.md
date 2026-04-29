@@ -25,6 +25,7 @@
 ## Task 1: Add `streamChatResponse` to OpenRouter client
 
 **Files:**
+
 - Modify: `src/server/lib/openrouter.ts`
 
 - [ ] **Step 1: Read the current file**
@@ -93,6 +94,7 @@ git commit -m "feat: add streamChatResponse to OpenRouter client"
 ## Task 2: Create streaming API route
 
 **Files:**
+
 - Modify: `src/app/api/ai/chat/route.ts`
 
 The existing `POST` handler returns a full JSON response. We replace it with one that pipes the OpenRouter SSE stream back to the browser. The client will read raw SSE lines and parse the `delta.content` tokens itself.
@@ -154,6 +156,7 @@ curl -N -X POST http://localhost:3000/api/ai/chat \
 ```
 
 Expected: A stream of SSE lines like:
+
 ```
 data: {"id":"...","choices":[{"delta":{"content":"Para"},...}],...}
 data: {"id":"...","choices":[{"delta":{"content":" fazer"},...}],...}
@@ -173,6 +176,7 @@ git commit -m "feat: stream OpenRouter SSE response from /api/ai/chat"
 ## Task 3: Update `useAIChat` hook to consume the stream
 
 **Files:**
+
 - Modify: `src/hooks/useAIChat.ts`
 
 Instead of calling `sendMessage` (which waits for a full JSON response), we `fetch` the streaming endpoint directly, read the `ReadableStream`, parse each SSE `data:` line, and extract `choices[0].delta.content` — appending each token to the live assistant message.
@@ -190,19 +194,13 @@ export function useAIChat() {
 
   const submitMessage = async (userMessage: string) => {
     const userId = `user-${Date.now()}`;
-    setMessages(prev => [
-      ...prev,
-      { id: userId, role: "user", content: userMessage }
-    ]);
+    setMessages(prev => [...prev, { id: userId, role: "user", content: userMessage }]);
 
     startTransition(async () => {
       const assistantId = `assistant-${Date.now()}`;
 
       // Add an empty assistant message immediately so the bubble appears
-      setMessages(prev => [
-        ...prev,
-        { id: assistantId, role: "assistant", content: "" }
-      ]);
+      setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
 
       try {
         const response = await fetch("/api/ai/chat", {
@@ -239,11 +237,7 @@ export function useAIChat() {
 
               if (token) {
                 setMessages(prev =>
-                  prev.map(msg =>
-                    msg.id === assistantId
-                      ? { ...msg, content: msg.content + token }
-                      : msg
-                  )
+                  prev.map(msg => (msg.id === assistantId ? { ...msg, content: msg.content + token } : msg))
                 );
               }
             } catch {
@@ -253,11 +247,7 @@ export function useAIChat() {
         }
       } catch {
         setMessages(prev =>
-          prev.map(msg =>
-            msg.id === assistantId
-              ? { ...msg, content: "Deu ruim truta! Tente novamente." }
-              : msg
-          )
+          prev.map(msg => (msg.id === assistantId ? { ...msg, content: "Deu ruim truta! Tente novamente." } : msg))
         );
       }
     });
@@ -301,6 +291,7 @@ git commit -m "feat: consume SSE stream in useAIChat for token-by-token renderin
 ## Task 4: Remove unused `sendMessage` service dependency
 
 **Files:**
+
 - Read: `src/services/sendMessage.ts` — check if anything else imports it
 
 - [ ] **Step 1: Check for other usages of `sendMessage`**
@@ -373,9 +364,9 @@ In `docs/superpowers/plans/2026-04-28-ai-streaming.md`, mark all checkboxes as d
 
 ## Summary of Changes
 
-| File | Change |
-| ---- | ------ |
-| `src/server/lib/openrouter.ts` | Added `streamChatResponse` |
-| `src/app/api/ai/chat/route.ts` | Replaced JSON response with SSE stream pipe |
-| `src/hooks/useAIChat.ts` | Replaced `sendMessage` with streaming fetch + token append |
-| `src/services/sendMessage.ts` | Deleted (no longer used) |
+| File                           | Change                                                     |
+| ------------------------------ | ---------------------------------------------------------- |
+| `src/server/lib/openrouter.ts` | Added `streamChatResponse`                                 |
+| `src/app/api/ai/chat/route.ts` | Replaced JSON response with SSE stream pipe                |
+| `src/hooks/useAIChat.ts`       | Replaced `sendMessage` with streaming fetch + token append |
+| `src/services/sendMessage.ts`  | Deleted (no longer used)                                   |
