@@ -17,6 +17,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
     return NextResponse.json({ answer });
   } catch (error) {
     console.error("[AI Chat API] Error:", error);
-    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: "Deu ruim truta! Tente novamente." }, { status: 500 });
   }
 }
