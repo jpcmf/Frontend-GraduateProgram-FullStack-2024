@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 16, 2026 (reCAPTCHA timeout fix completed, SpotDetail redesign completed)
+> Date: April 2026 · Last updated: April 28, 2026 (AI Assistant feature shipped)
 
 ---
 
@@ -18,6 +18,7 @@
 9. [Stories Feature — Implementation Notes](#9-stories-feature--implementation-notes)
 10. [Spots Feature — Implementation Notes](#10-spots-feature--implementation-notes)
 11. [Recent Improvements (April 14, 2026)](#11-recent-improvements-april-14-2026)
+12. [AI Assistant Feature — Implementation Notes](#12-ai-assistant-feature--implementation-notes)
 
 ---
 
@@ -920,3 +921,60 @@ async function signIn({ email, password }: SignInData) {
 2. ✅ **FIXED:** Console statements cleaned up from auth pages — commit `8fd8396`
 3. ✅ **FIXED:** Signup refactored to use `apiClient` for consistency — commit `8fd8396`
 4. **REVIEW:** Clarify backend's reCAPTCHA token validation expectations (see item 4 below)
+
+---
+
+## 12. AI Assistant Feature — Implementation Notes
+
+> Shipped: April 28, 2026 · Branch: `feature/ai-assistant`
+
+### Overview
+
+A public chat interface at `/ai` where users ask skateboarding questions and receive AI-powered responses. No authentication required.
+
+### Architecture
+
+```
+/ai (public page)
+  └── Chat component (src/features/ai/Chat/index.tsx)
+        ├── useAIChat hook (src/hooks/useAIChat.ts)
+        │     └── sendMessage service (src/services/sendMessage.ts)
+        │           └── POST /api/ai/chat
+        │                 └── generateChatResponse (src/server/lib/gemini.ts)
+        │                       └── Google Gemini 2.0 Flash
+        └── Message component (src/features/ai/Message/index.tsx)
+```
+
+### Files Added
+
+| File | Purpose |
+| ---- | ------- |
+| `src/types/ai.ts` | `Message` and `AIResponse` types |
+| `src/services/sendMessage.ts` | API client for `/api/ai/chat` |
+| `src/hooks/useAIChat.ts` | Chat state (messages, isPending, submitMessage) |
+| `src/features/ai/Message/index.tsx` | Single message bubble component |
+| `src/features/ai/Chat/index.tsx` | Main chat UI — hero + suggestions pre-conversation, message list post-conversation |
+| `src/app/(public)/ai/page.tsx` | Public page route |
+| `src/app/api/ai/chat/route.ts` | Next.js API route — validates input, calls Gemini, returns response |
+| `src/server/lib/gemini.ts` | Gemini 2.0 Flash client abstraction |
+
+### Response Schema
+
+```typescript
+type AIResponse = {
+  answer: string;
+  confidence: number; // heuristic, not returned by the model
+};
+```
+
+### Environment Variable
+
+```
+GOOGLE_GENERATIVE_AI_KEY=your_google_ai_key_here
+```
+
+### Known Limitations / Future Work
+
+- **`level` field deferred** — `"beginner" | "intermediate" | "advanced"` was scoped out of MVP. Requires switching the Gemini prompt to structured JSON output and parsing the response. See plan doc for implementation steps.
+- **No conversation history** — each message is sent independently; the model has no memory of prior turns.
+- **No persistence** — chat resets on page reload.
