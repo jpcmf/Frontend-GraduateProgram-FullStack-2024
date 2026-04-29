@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { generateChatResponse } from "@/server/lib/gemini";
+import { generateChatResponse } from "@/server/lib/openrouter";
 import type { AIResponse } from "@/types/ai";
 
 export async function POST(request: NextRequest): Promise<NextResponse<AIResponse | { error: string }>> {
