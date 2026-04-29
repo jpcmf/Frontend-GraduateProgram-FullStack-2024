@@ -30,6 +30,7 @@
 ## Task 1: Add `streamChatResponse` to OpenRouter client
 
 **Files:**
+
 - Modify: `src/server/lib/openrouter.ts`
 
 - [ ] **Step 1: Append `streamChatResponse` to `src/server/lib/openrouter.ts`**
@@ -94,6 +95,7 @@ git commit -m "feat: add streamChatResponse to OpenRouter client"
 ## Task 2: Add `streamChatResponse` to Gemini client
 
 **Files:**
+
 - Modify: `src/server/lib/gemini.ts`
 
 Gemini's streaming endpoint is `streamGenerateContent?alt=sse`. Its SSE chunks have a different shape than OpenRouter's. We normalize them inside a `TransformStream` so the hook's parser works identically for both providers.
@@ -202,6 +204,7 @@ git commit -m "feat: add streamChatResponse to Gemini client with normalized SSE
 ## Task 3: Update API route to pipe the stream
 
 **Files:**
+
 - Modify: `src/app/api/ai/chat/route.ts`
 
 The existing `POST` handler returns a full JSON response. Replace it with one that pipes the provider SSE stream back to the browser. Change the import to switch providers.
@@ -265,6 +268,7 @@ curl -N -X POST http://localhost:3000/api/ai/chat \
 ```
 
 Expected: A stream of SSE lines like:
+
 ```
 data: {"choices":[{"delta":{"content":"Para"}}]}
 data: {"choices":[{"delta":{"content":" fazer"}}]}
@@ -284,6 +288,7 @@ git commit -m "feat: pipe provider SSE stream from /api/ai/chat"
 ## Task 4: Update `useAIChat` hook to consume the stream
 
 **Files:**
+
 - Modify: `src/hooks/useAIChat.ts`
 
 Replace the `sendMessage` call with a direct `fetch` to the streaming endpoint. Read the `ReadableStream` chunk-by-chunk, parse each `data:` SSE line, extract `choices[0].delta.content`, and append each token to the live assistant message in state.
@@ -301,19 +306,13 @@ export function useAIChat() {
 
   const submitMessage = async (userMessage: string) => {
     const userId = `user-${Date.now()}`;
-    setMessages(prev => [
-      ...prev,
-      { id: userId, role: "user", content: userMessage }
-    ]);
+    setMessages(prev => [...prev, { id: userId, role: "user", content: userMessage }]);
 
     startTransition(async () => {
       const assistantId = `assistant-${Date.now()}`;
 
       // Add empty assistant bubble immediately so it appears before tokens arrive
-      setMessages(prev => [
-        ...prev,
-        { id: assistantId, role: "assistant", content: "" }
-      ]);
+      setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
 
       try {
         const response = await fetch("/api/ai/chat", {
@@ -348,11 +347,7 @@ export function useAIChat() {
 
               if (token) {
                 setMessages(prev =>
-                  prev.map(msg =>
-                    msg.id === assistantId
-                      ? { ...msg, content: msg.content + token }
-                      : msg
-                  )
+                  prev.map(msg => (msg.id === assistantId ? { ...msg, content: msg.content + token } : msg))
                 );
               }
             } catch {
@@ -362,11 +357,7 @@ export function useAIChat() {
         }
       } catch {
         setMessages(prev =>
-          prev.map(msg =>
-            msg.id === assistantId
-              ? { ...msg, content: "Deu ruim truta! Tente novamente." }
-              : msg
-          )
+          prev.map(msg => (msg.id === assistantId ? { ...msg, content: "Deu ruim truta! Tente novamente." } : msg))
         );
       }
     });
@@ -411,6 +402,7 @@ git commit -m "feat: consume SSE stream in useAIChat for token-by-token renderin
 ## Task 5: Remove unused `sendMessage` service
 
 **Files:**
+
 - Delete: `src/services/sendMessage.ts`
 
 - [ ] **Step 1: Confirm no remaining usages**
@@ -476,10 +468,10 @@ Expected: No matches.
 
 ## Summary of Changes
 
-| File | Change |
-| ---- | ------ |
-| `src/server/lib/openrouter.ts` | Added `streamChatResponse` |
-| `src/server/lib/gemini.ts` | Added `streamChatResponse` with normalized SSE output |
-| `src/app/api/ai/chat/route.ts` | Replaced JSON response with SSE stream pipe |
-| `src/hooks/useAIChat.ts` | Replaced `sendMessage` with streaming fetch + token append |
-| `src/services/sendMessage.ts` | Deleted (no longer used) |
+| File                           | Change                                                     |
+| ------------------------------ | ---------------------------------------------------------- |
+| `src/server/lib/openrouter.ts` | Added `streamChatResponse`                                 |
+| `src/server/lib/gemini.ts`     | Added `streamChatResponse` with normalized SSE output      |
+| `src/app/api/ai/chat/route.ts` | Replaced JSON response with SSE stream pipe                |
+| `src/hooks/useAIChat.ts`       | Replaced `sendMessage` with streaming fetch + token append |
+| `src/services/sendMessage.ts`  | Deleted (no longer used)                                   |
