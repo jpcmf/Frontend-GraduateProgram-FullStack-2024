@@ -6,4 +6,5 @@ export type Message = {
 
 export type AIResponse = {
   answer: string;
+  confidence: number;
 };

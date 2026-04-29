@@ -22,6 +22,7 @@ interface GeminiResponse {
 
 export interface ChatResult {
   answer: string;
+  confidence: number;
 }
 
 const SYSTEM_PROMPT = `You are an experienced skateboarding instructor and community expert.
@@ -72,5 +73,7 @@ export async function generateChatResponse({ message }: ChatOptions): Promise<Ch
     throw new Error("Invalid response structure from Gemini API");
   }
 
-  return { answer };
+  const confidence = answer.includes("não sei") || answer.includes("não tenho certeza") ? 0.6 : 0.9;
+
+  return { answer, confidence };
 }
