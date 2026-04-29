@@ -1,6 +1,6 @@
-import ReactMarkdown from "react-markdown";
 import { RiRobot2Line } from "react-icons/ri";
 import { TbSkateboarding } from "react-icons/tb";
+import ReactMarkdown from "react-markdown";
 
 import { Avatar, Box, Code, HStack, Text, VStack } from "@chakra-ui/react";
 
