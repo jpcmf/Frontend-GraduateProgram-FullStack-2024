@@ -12,9 +12,9 @@ import { Input } from "@/shared/components/Form/Input";
 import { Message } from "../Message";
 
 const INITIAL_SUGGESTIONS = [
-  "Como dar um ollie?",
+  "Como mandar aquele ollie cabuloso?",
   "Qual shape devo usar para a modalidade street do skate?",
-  "Como evitar lesões enquanto ando de skate?"
+  "Como evitar lesões enquanto dou um rolê pesado de skate?"
 ];
 
 export function Chat() {
@@ -23,7 +23,7 @@ export function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isConversationStarted = messages.length > 0;
-  const { bgColor, cardBg, bord, textPrimary, textMuted } = useColors();
+  const { bgColor, cardBg, border, textPrimary, textMuted } = useColors();
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -59,23 +59,17 @@ export function Chat() {
     <VStack h="600px" w="100%" spacing={0} justify="space-between" p={4}>
       {/* Hero Section - always visible */}
       <VStack spacing={4} textAlign="center" py={4}>
-        <Box
-          w={16}
-          h={16}
-          borderRadius="full"
-          bg={bgColor}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        <Box w={16} h={16} borderRadius="full" bg={bgColor} display="flex" alignItems="center" justifyContent="center">
           <RiRobot2Line size={32} color="#48D597" />
         </Box>
         <VStack spacing={2}>
           <Text fontSize="3xl" fontWeight="bold" color={textPrimary}>
-            Assistente IA
+            Truta IA
           </Text>
           <Text fontSize="md" color={textMuted}>
-            E aí! Sou o assistente do SkateHub. Pronto para dropar no conhecimento? Como posso te ajudar hoje?
+            E aí truta! Sou o assistente do SkateHub.
+            <br />
+            Pronto para dropar no conhecimento? Como posso te ajudar hoje?
           </Text>
         </VStack>
       </VStack>
@@ -107,7 +101,7 @@ export function Chat() {
           </Center>
         ) : (
           /* Chat area (after first message) */
-          <VStack align="stretch" spacing={4}>
+          <VStack align="stretch" spacing={4} mt={5}>
             {messages.map(msg => (
               <Message key={msg.id} message={msg} />
             ))}
@@ -131,7 +125,7 @@ export function Chat() {
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Faça uma pergunta sobre skate..."
+          placeholder="Manda as ideias sobre o skate..."
           isDisabled={isPending}
           borderColor={border}
           _focus={{
