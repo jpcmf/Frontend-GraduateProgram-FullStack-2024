@@ -76,16 +76,7 @@ export function Chat() {
       </VStack>
 
       {/* Main content area */}
-      <Box
-        flex={1}
-        w="100%"
-        overflowY="auto"
-        borderRadius="md"
-        mb={4}
-        maxW="800px"
-        mx="auto"
-        className="scroll-container"
-      >
+      <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
         {!isConversationStarted ? (
           /* Suggestions (before conversation) */
           <Center h="100%" flexDirection="column" gap={8}>
