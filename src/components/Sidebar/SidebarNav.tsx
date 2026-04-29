@@ -55,7 +55,7 @@ export function SidebarNav() {
               color: "green.400"
             }}
           >
-            AI Assistant
+            Truta IA
           </NavLink>
           {/* <NavLink
             icon={RiEdit2Line}
