@@ -10,7 +10,7 @@ import { useUsers } from "@/hooks/useUsers";
 
 export default function SkatistasPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
 
   const { data: paginatedUsers, isPending, isFetching, isError } = useUsers(currentPage, pageSize);
 

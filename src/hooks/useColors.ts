@@ -13,6 +13,10 @@ export function useColors() {
     textPrimary: useColorModeValue("gray.900", "whiteAlpha.900"),
     footerBgButtonColor: useColorModeValue("red.500", "red.600"),
     footerTextButtonColor: useColorModeValue("white", "gray.100"),
-    footerBorderColor: useColorModeValue("blackAlpha.100", "gray.800")
+    footerBorderColor: useColorModeValue("blackAlpha.100", "gray.800"),
+    chatIAUserBg: useColorModeValue("blackAlpha.100", "gray.800"),
+    chatIAAnswerBg: useColorModeValue("blackAlpha.100", "gray.700"),
+    chatIATextUser: useColorModeValue("gray.900", "whiteAlpha.900"),
+    chatIATextAnswer: useColorModeValue("gray.900", "whiteAlpha.900")
   };
 }
