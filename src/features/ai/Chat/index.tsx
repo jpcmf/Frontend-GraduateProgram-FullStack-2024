@@ -56,11 +56,12 @@ export function Chat() {
   };
 
   return (
-    <VStack h="600px" w="100%" spacing={0} justify="space-between" p={4}>
+    <VStack h="800px" w="100%" spacing={0} justify="space-between" p={4}>
       {/* Hero Section - always visible */}
       <VStack spacing={4} textAlign="center" py={4}>
         <Box w={16} h={16} borderRadius="full" bg={bgColor} display="flex" alignItems="center" justifyContent="center">
           <RiRobot2Line size={32} color="#48D597" />
+          {/*<TbSkateboard size={32} color="#48D597" />*/}
         </Box>
         <VStack spacing={2}>
           <Text fontSize="3xl" fontWeight="bold" color={textPrimary}>

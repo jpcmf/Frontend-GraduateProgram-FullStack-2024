@@ -12,15 +12,15 @@ interface MessageProps {
 
 export function Message({ message }: MessageProps) {
   const isUser = message.role === "user";
-  const { cardBg, textPrimary } = useColors();
+  const { chatIAUserBg, chatIAAnswerBg, chatIATextUser, chatIATextAnswer } = useColors();
 
   return (
     <HStack align="flex-start" spacing={3} mb={4} justifyContent={isUser ? "flex-end" : "flex-start"} w="100%">
       {!isUser && <Avatar icon={<RiRobot2Line size="18" />} size="sm" bg="green.400" color="white" />}
 
       <VStack align={isUser ? "flex-end" : "flex-start"} spacing={1} maxW="70%">
-        <Box bg={isUser ? cardBg : "gray.100"} px={4} py={3} borderRadius="md" wordBreak="break-word">
-          <Text fontSize="sm" color={isUser ? textPrimary : "gray.900"}>
+        <Box bg={isUser ? chatIAUserBg : chatIAAnswerBg} px={4} py={3} borderRadius="md" wordBreak="break-word">
+          <Text fontSize="sm" color={isUser ? chatIATextUser : chatIATextAnswer}>
             {message.content}
           </Text>
         </Box>
