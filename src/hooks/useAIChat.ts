@@ -42,7 +42,7 @@ export function useAIChat() {
           {
             id: errorId,
             role: "assistant",
-            content: "Something went wrong. Please try again."
+            content: "Deu ruim truta! Tente novamente."
           }
         ]);
       }
