@@ -947,16 +947,16 @@ A public chat interface at `/ai` where users ask skateboarding questions and rec
 
 ### Files Added
 
-| File | Purpose |
-| ---- | ------- |
-| `src/types/ai.ts` | `Message` and `AIResponse` types |
-| `src/services/sendMessage.ts` | API client for `/api/ai/chat` |
-| `src/hooks/useAIChat.ts` | Chat state (messages, isPending, submitMessage) |
-| `src/features/ai/Message/index.tsx` | Single message bubble component |
-| `src/features/ai/Chat/index.tsx` | Main chat UI — hero + suggestions pre-conversation, message list post-conversation |
-| `src/app/(public)/ai/page.tsx` | Public page route |
-| `src/app/api/ai/chat/route.ts` | Next.js API route — validates input, calls Gemini, returns response |
-| `src/server/lib/gemini.ts` | Gemini 2.0 Flash client abstraction |
+| File                                | Purpose                                                                            |
+| ----------------------------------- | ---------------------------------------------------------------------------------- |
+| `src/types/ai.ts`                   | `Message` and `AIResponse` types                                                   |
+| `src/services/sendMessage.ts`       | API client for `/api/ai/chat`                                                      |
+| `src/hooks/useAIChat.ts`            | Chat state (messages, isPending, submitMessage)                                    |
+| `src/features/ai/Message/index.tsx` | Single message bubble component                                                    |
+| `src/features/ai/Chat/index.tsx`    | Main chat UI — hero + suggestions pre-conversation, message list post-conversation |
+| `src/app/(public)/ai/page.tsx`      | Public page route                                                                  |
+| `src/app/api/ai/chat/route.ts`      | Next.js API route — validates input, calls Gemini, returns response                |
+| `src/server/lib/gemini.ts`          | Gemini 2.0 Flash client abstraction                                                |
 
 ### Response Schema
 
