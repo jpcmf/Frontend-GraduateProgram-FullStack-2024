@@ -2,22 +2,23 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a public chat interface where users ask skateboarding questions and receive AI-powered responses with structured output (answer, skill level, confidence).
+**Goal:** Build a public chat interface where users ask skateboarding questions and receive AI-powered responses with structured output (answer, confidence).
 
 **Architecture:**
 
 - Frontend: React chat UI with local state (no persistence), message list, input field, loading states
-- Backend: API route that calls an external AI provider (OpenAI/Claude/Gemini) with a skateboarding-specific system prompt, parses JSON response, validates structure
+- Backend: API route that calls Gemini 2.0 Flash with a skateboarding-specific system prompt, returns plain text answer with heuristic confidence score
 - No authentication required for MVP
-- Responses follow strict JSON schema (answer, level, confidence)
+- Responses follow JSON schema `{ answer: string, confidence: number }`
 
 **Tech Stack:**
 
 - React (hooks: `useState`, `useTransition` for loading)
-- TanStack Query for server calls (though this is a simple POST, no cache needed)
 - TypeScript (no `any` types)
 - Chakra UI for components
-- External AI API (OpenAI GPT-4, Claude 3, or Gemini 2.0)
+- Google Gemini 2.0 Flash via `@google/generative-ai`
+
+> **Note:** `level` (`"beginner" | "intermediate" | "advanced"`) was scoped out of the MVP. See [Future Improvements](#future-improvements) below.
 
 ---
 
@@ -58,7 +59,6 @@ export type Message = {
 
 export type AIResponse = {
   answer: string;
-  level: "beginner" | "intermediate" | "advanced";
   confidence: number;
 };
 ```
@@ -512,8 +512,8 @@ mkdir -p /Users/joaopaulo/www/pucrs/project/frontend/src/app/\(public\)/ai
 import { Chat } from "@/features/ai/Chat";
 
 export const metadata = {
-  title: "AI Assistant | SkateHub",
-  description: "Ask the AI Assistant anything about skateboarding"
+  title: "Truta IA | SkateHub",
+  description: "Ask the Truta IA anything about skateboarding"
 };
 
 export default function AIPage() {
@@ -555,49 +555,27 @@ git commit -m "feat: add public /ai page with Chat component"
 mkdir -p /Users/joaopaulo/www/pucrs/project/frontend/src/app/api/ai/chat
 ```
 
-- [ ] **Step 2: Get your AI provider API key**
+- [ ] **Step 2: Get your Gemini API key**
 
-Choose ONE of:
-
-- **OpenAI** (GPT-4): Get key from https://platform.openai.com/api-keys → add to `.env.local` as `OPENAI_API_KEY`
-- **Claude** (Anthropic): Get key from https://console.anthropic.com/ → add to `.env.local` as `ANTHROPIC_API_KEY`
 - **Gemini** (Google): Get key from https://aistudio.google.com/app/apikeys → add to `.env.local` as `GOOGLE_GENERATIVE_AI_KEY`
 
-For this example, we'll use **OpenAI GPT-4 Turbo** (most reliable for structured output).
-
-- [ ] **Step 3: Install OpenAI SDK**
+- [ ] **Step 3: Install Gemini SDK**
 
 ```bash
 cd /Users/joaopaulo/www/pucrs/project/frontend
-pnpm add openai
+pnpm add @google/generative-ai
 ```
 
-- [ ] **Step 4: Write `src/app/api/ai/chat/route.ts`**
+- [ ] **Step 4: Write `src/server/lib/gemini.ts`** (Gemini client abstraction)
+
+This module handles the Gemini API call and returns `{ answer, confidence }`.
+
+- [ ] **Step 5: Write `src/app/api/ai/chat/route.ts`**
 
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { generateChatResponse } from "@/server/lib/gemini";
 import type { AIResponse } from "@/types/ai";
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-const SYSTEM_PROMPT = `You are an experienced skateboarding instructor.
-
-Rules:
-- Explain concepts clearly and simply
-- Use step-by-step instructions when helpful
-- Prioritize safety (helmet, environment, progression)
-- Answer only skateboarding-related questions
-- If unsure, say you don't know instead of guessing
-
-Return your response strictly in JSON format:
-{
-  "answer": string,
-  "level": "beginner" | "intermediate" | "advanced",
-  "confidence": number (0 to 1)
-}`;
 
 export async function POST(request: NextRequest): Promise<NextResponse<AIResponse | { error: string }>> {
   try {
@@ -608,59 +586,23 @@ export async function POST(request: NextRequest): Promise<NextResponse<AIRespons
       return NextResponse.json({ error: "Message is required and must be a non-empty string" }, { status: 400 });
     }
 
-    const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: "user",
-          content: message
-        }
-      ]
-    });
+    const { answer, confidence } = await generateChatResponse({ message });
 
-    // Extract text from response
-    const content = response.content[0];
-    if (content.type !== "text") {
-      throw new Error("Unexpected response format from AI");
-    }
-
-    // Parse JSON response
-    let parsedResponse: AIResponse;
-    try {
-      parsedResponse = JSON.parse(content.text);
-    } catch {
-      throw new Error("Invalid JSON response from AI");
-    }
-
-    // Validate response structure
-    if (
-      typeof parsedResponse.answer !== "string" ||
-      !["beginner", "intermediate", "advanced"].includes(parsedResponse.level) ||
-      typeof parsedResponse.confidence !== "number" ||
-      parsedResponse.confidence < 0 ||
-      parsedResponse.confidence > 1
-    ) {
-      throw new Error("Response does not match expected schema");
-    }
-
-    return NextResponse.json(parsedResponse);
+    return NextResponse.json({ answer, confidence });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: "Deu ruim truta! Tente novamente." }, { status: 500 });
   }
 }
 ```
 
 **Important notes:**
 
-- Uses Claude 3.5 Sonnet (better at following structured output constraints than GPT-4)
-- Validates request shape and response shape
-- Returns generic error message to client (not internal details)
+- Uses Gemini 2.0 Flash
+- Confidence is computed heuristically (not returned by the model)
+- Returns localized error message to client
 - No `console.log` statements
 
-- [ ] **Step 5: Verify TypeScript**
+- [ ] **Step 6: Verify TypeScript**
 
 ```bash
 cd /Users/joaopaulo/www/pucrs/project/frontend
@@ -669,17 +611,17 @@ pnpm tsc --noEmit src/app/api/ai/chat/route.ts
 
 Expected: No errors
 
-- [ ] **Step 6: Add `.env.local` variable**
+- [ ] **Step 7: Add `.env.local` variable**
 
 Add to `.env.local`:
 
 ```
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GOOGLE_GENERATIVE_AI_KEY=your_google_ai_key_here
 ```
 
-(Get from https://console.anthropic.com/account/keys)
+(Get from https://aistudio.google.com/app/apikeys)
 
-- [ ] **Step 7: Test the API route locally**
+- [ ] **Step 8: Test the API route locally**
 
 ```bash
 curl -X POST http://localhost:3000/api/ai/chat \
@@ -692,16 +634,15 @@ Expected response (example):
 ```json
 {
   "answer": "To perform an ollie, start by positioning your back foot on the tail of the board...",
-  "level": "beginner",
   "confidence": 0.95
 }
 ```
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
-git add src/app/api/ai/chat/route.ts
-git commit -m "feat: add /api/ai/chat endpoint with Claude AI integration"
+git add src/app/api/ai/chat/route.ts src/server/lib/gemini.ts
+git commit -m "feat: add /api/ai/chat endpoint with Gemini AI integration"
 ```
 
 ---
@@ -718,14 +659,14 @@ Append to `.env.example`:
 
 ```
 # AI Assistant
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GOOGLE_GENERATIVE_AI_KEY=your_google_ai_key_here
 ```
 
 - [ ] **Step 2: Commit**
 
 ```bash
 git add .env.example
-git commit -m "docs: add ANTHROPIC_API_KEY to .env.example"
+git commit -m "docs: add GOOGLE_GENERATIVE_AI_KEY to .env.example"
 ```
 
 ---
@@ -812,10 +753,10 @@ Check each acceptance criterion from the spec:
   - Evidence: "AI Assistant is thinking..." appears while awaiting response
 
 - [ ] ✅ Responses follow the defined JSON structure
-  - Evidence: API returns `{ answer, level, confidence }` in all cases
+  - Evidence: API returns `{ answer, confidence }` in all cases
 
 - [ ] ✅ Responses are parsed and rendered correctly
-  - Evidence: `answer` field appears in chat message, level/confidence not exposed to UI
+  - Evidence: `answer` field appears in chat message, confidence not exposed to UI
 
 - [ ] ✅ Assistant answers only skateboarding-related questions
   - Evidence: Non-skate questions declined appropriately
@@ -835,27 +776,53 @@ Check each acceptance criterion from the spec:
 
 ## Summary of Files Created
 
-| File                                | Purpose                       | Status |
-| ----------------------------------- | ----------------------------- | ------ |
-| `src/types/ai.ts`                   | Message, AIResponse types     | ✅     |
-| `src/services/sendMessage.ts`       | API client for `/api/ai/chat` | ✅     |
-| `src/hooks/useAIChat.ts`            | Chat state management         | ✅     |
-| `src/features/ai/Message/index.tsx` | Single message component      | ✅     |
-| `src/features/ai/Chat/index.tsx`    | Main chat UI                  | ✅     |
-| `src/app/(public)/ai/page.tsx`      | Public AI page route          | ✅     |
-| `src/app/api/ai/chat/route.ts`      | Backend AI API route          | ✅     |
+| File                                | Purpose                          | Status |
+| ----------------------------------- | -------------------------------- | ------ |
+| `src/types/ai.ts`                   | Message, AIResponse types        | ✅     |
+| `src/services/sendMessage.ts`       | API client for `/api/ai/chat`    | ✅     |
+| `src/hooks/useAIChat.ts`            | Chat state management            | ✅     |
+| `src/features/ai/Message/index.tsx` | Single message component         | ✅     |
+| `src/features/ai/Chat/index.tsx`    | Main chat UI                     | ✅     |
+| `src/app/(public)/ai/page.tsx`      | Public AI page route             | ✅     |
+| `src/app/api/ai/chat/route.ts`      | Backend AI API route             | ✅     |
+| `src/server/lib/gemini.ts`          | Gemini client abstraction        | ✅     |
 
 ---
 
 ## Commits Made
 
 ```
-feat: add public /api/ai/chat endpoint with Claude AI integration
+feat: add /api/ai/chat endpoint with Gemini AI integration
 feat: add Chat component for AI conversation interface
 feat: add public /ai page with Chat component
 feat: add Message component for displaying chat messages
 feat: add useAIChat hook for chat state management
 feat: add sendMessage service for AI chat API
 types: add AI chat message and response types
-docs: add ANTHROPIC_API_KEY to .env.example
+docs: add GOOGLE_GENERATIVE_AI_KEY to .env.example
 ```
+
+---
+
+## Future Improvements
+
+### Add `level` to AI responses
+
+**What:** Expose a skill level indicator (`"beginner" | "intermediate" | "advanced"`) in the AI response, so the UI can show context-appropriate hints or adapt the tone.
+
+**Why deferred:** The MVP uses plain-text responses from Gemini. Adding `level` requires switching to structured JSON output (asking the model to return `{ answer, level, confidence }` and parsing/validating the schema).
+
+**Implementation plan when ready:**
+
+1. Update `AIResponse` in `src/types/ai.ts`:
+   ```typescript
+   export type AIResponse = {
+     answer: string;
+     level: "beginner" | "intermediate" | "advanced";
+     confidence: number;
+   };
+   ```
+2. Update the Gemini system prompt in `src/server/lib/gemini.ts` to require structured JSON output
+3. Parse and validate the JSON response (guard against malformed output)
+4. Expose `level` in the API response from `src/app/api/ai/chat/route.ts`
+5. Optionally: display a level badge in `src/features/ai/Message/index.tsx`
