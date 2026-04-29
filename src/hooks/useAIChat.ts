@@ -8,19 +8,13 @@ export function useAIChat() {
 
   const submitMessage = async (userMessage: string) => {
     const userId = `user-${Date.now()}`;
-    setMessages(prev => [
-      ...prev,
-      { id: userId, role: "user", content: userMessage }
-    ]);
+    setMessages(prev => [...prev, { id: userId, role: "user", content: userMessage }]);
 
     startTransition(async () => {
       const assistantId = `assistant-${Date.now()}`;
 
       // Add empty assistant bubble immediately so it appears before tokens arrive
-      setMessages(prev => [
-        ...prev,
-        { id: assistantId, role: "assistant", content: "" }
-      ]);
+      setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
 
       try {
         const response = await fetch("/api/ai/chat", {
@@ -55,11 +49,7 @@ export function useAIChat() {
 
               if (token) {
                 setMessages(prev =>
-                  prev.map(msg =>
-                    msg.id === assistantId
-                      ? { ...msg, content: msg.content + token }
-                      : msg
-                  )
+                  prev.map(msg => (msg.id === assistantId ? { ...msg, content: msg.content + token } : msg))
                 );
               }
             } catch {
@@ -69,11 +59,7 @@ export function useAIChat() {
         }
       } catch {
         setMessages(prev =>
-          prev.map(msg =>
-            msg.id === assistantId
-              ? { ...msg, content: "Deu ruim truta! Tente novamente." }
-              : msg
-          )
+          prev.map(msg => (msg.id === assistantId ? { ...msg, content: "Deu ruim truta! Tente novamente." } : msg))
         );
       }
     });
