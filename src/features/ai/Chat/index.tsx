@@ -76,7 +76,16 @@ export function Chat() {
       </VStack>
 
       {/* Main content area */}
-      <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
+      <Box
+        flex={1}
+        w="100%"
+        overflowY="auto"
+        borderRadius="md"
+        mb={4}
+        maxW="800px"
+        mx="auto"
+        className="scroll-container"
+      >
         {!isConversationStarted ? (
           /* Suggestions (before conversation) */
           <Center h="100%" flexDirection="column" gap={8}>
@@ -103,10 +112,12 @@ export function Chat() {
         ) : (
           /* Chat area (after first message) */
           <VStack align="stretch" spacing={4} mt={5}>
-            {messages.map(msg => (
-              <Message key={msg.id} message={msg} />
-            ))}
-            {isPending && (
+            {messages
+              .filter(msg => msg.role === "user" || msg.content !== "")
+              .map(msg => (
+                <Message key={msg.id} message={msg} />
+              ))}
+            {isPending && messages[messages.length - 1]?.content === "" && (
               <HStack justify="flex-start">
                 <Spinner size="sm" color="green.400" />
                 <Text fontSize="sm" color="gray.500">
