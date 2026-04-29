@@ -84,3 +84,38 @@ export async function generateChatResponse({ message }: ChatOptions): Promise<Ch
 
   return { answer, confidence };
 }
+
+export async function streamChatResponse({ message }: ChatOptions): Promise<ReadableStream<Uint8Array>> {
+  if (!OPENROUTER_API_KEY) {
+    throw new Error("OPENROUTER_API_KEY environment variable is not set");
+  }
+
+  const response = await fetch(OPENROUTER_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+      "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+      "X-Title": "SkateHub AI"
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      stream: true,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: message }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`OpenRouter API error: ${response.status} - ${errorData.error?.message ?? "Unknown error"}`);
+  }
+
+  if (!response.body) {
+    throw new Error("No response body from OpenRouter");
+  }
+
+  return response.body;
+}

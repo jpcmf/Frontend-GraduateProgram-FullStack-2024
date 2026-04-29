@@ -5,6 +5,8 @@
 
 const GEMINI_API_KEY = process.env.GOOGLE_GENERATIVE_AI_KEY;
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_STREAM_API_URL =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse";
 
 export interface ChatOptions {
   message: string;
@@ -82,4 +84,69 @@ export async function generateChatResponse({ message }: ChatOptions): Promise<Ch
   const confidence = answer.includes("não sei") || answer.includes("não tenho certeza") ? 0.6 : 0.9;
 
   return { answer, confidence };
+}
+
+export async function streamChatResponse({ message }: ChatOptions): Promise<ReadableStream<Uint8Array>> {
+  if (!GEMINI_API_KEY) {
+    throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
+  }
+
+  const response = await fetch(GEMINI_STREAM_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": GEMINI_API_KEY
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [{ text: `${SYSTEM_PROMPT}\n\nUser question: ${message}` }]
+        }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Gemini API error: ${response.status} - ${errorData.error?.message ?? "Unknown error"}`);
+  }
+
+  if (!response.body) {
+    throw new Error("No response body from Gemini");
+  }
+
+  // Normalize Gemini SSE into OpenRouter-compatible format so the hook parser
+  // works identically regardless of provider.
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+
+  const transform = new TransformStream<Uint8Array, Uint8Array>({
+    transform(chunk, controller) {
+      const text = decoder.decode(chunk, { stream: true });
+      const lines = text.split("\n").filter(line => line.startsWith("data: "));
+
+      for (const line of lines) {
+        const raw = line.slice("data: ".length).trim();
+        if (!raw || raw === "[DONE]") continue;
+
+        try {
+          const parsed = JSON.parse(raw) as {
+            candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+          };
+          const token = parsed.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+          if (token) {
+            const normalized = `data: ${JSON.stringify({ choices: [{ delta: { content: token } }] })}\n\n`;
+            controller.enqueue(encoder.encode(normalized));
+          }
+        } catch {
+          // Malformed chunk — skip
+        }
+      }
+    },
+    flush(controller) {
+      controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+    }
+  });
+
+  return response.body.pipeThrough(transform);
 }
