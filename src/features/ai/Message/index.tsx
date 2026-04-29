@@ -1,5 +1,9 @@
+import { RiRobot2Line } from "react-icons/ri";
+import { TbSkateboarding } from "react-icons/tb";
+
 import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
 
+import { useColors } from "@/hooks/useColors";
 import type { Message } from "@/types/ai";
 
 interface MessageProps {
@@ -8,20 +12,21 @@ interface MessageProps {
 
 export function Message({ message }: MessageProps) {
   const isUser = message.role === "user";
+  const { cardBg, textPrimary } = useColors();
 
   return (
     <HStack align="flex-start" spacing={3} mb={4} justifyContent={isUser ? "flex-end" : "flex-start"} w="100%">
-      {!isUser && <Avatar size="sm" name="AI Assistant" bg="green.400" color="white" />}
+      {!isUser && <Avatar icon={<RiRobot2Line size="18" />} size="sm" bg="green.400" color="white" />}
 
       <VStack align={isUser ? "flex-end" : "flex-start"} spacing={1} maxW="70%">
-        <Box bg={isUser ? "blue.100" : "gray.100"} px={4} py={3} borderRadius="md" wordBreak="break-word">
-          <Text fontSize="sm" color={isUser ? "blue.900" : "gray.900"}>
+        <Box bg={isUser ? cardBg : "gray.100"} px={4} py={3} borderRadius="md" wordBreak="break-word">
+          <Text fontSize="sm" color={isUser ? textPrimary : "gray.900"}>
             {message.content}
           </Text>
         </Box>
       </VStack>
 
-      {isUser && <Avatar size="sm" name="You" bg="blue.400" color="white" />}
+      {isUser && <Avatar icon={<TbSkateboarding size="18" />} size="sm" bg="green.400" color="white" />}
     </HStack>
   );
 }
