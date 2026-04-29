@@ -1,6 +1,5 @@
 import { useState, useTransition } from "react";
 
-import { sendMessage } from "@/services/sendMessage";
 import type { Message } from "@/types/ai";
 
 export function useAIChat() {
@@ -8,50 +7,77 @@ export function useAIChat() {
   const [isPending, startTransition] = useTransition();
 
   const submitMessage = async (userMessage: string) => {
-    // Add user message to chat
     const userId = `user-${Date.now()}`;
     setMessages(prev => [
       ...prev,
-      {
-        id: userId,
-        role: "user",
-        content: userMessage
-      }
+      { id: userId, role: "user", content: userMessage }
     ]);
 
-    // Fetch assistant response
     startTransition(async () => {
-      try {
-        const response = await sendMessage(userMessage);
+      const assistantId = `assistant-${Date.now()}`;
 
-        // Add assistant message to chat
-        const assistantId = `assistant-${Date.now()}`;
-        setMessages(prev => [
-          ...prev,
-          {
-            id: assistantId,
-            role: "assistant",
-            content: response.answer
+      // Add empty assistant bubble immediately so it appears before tokens arrive
+      setMessages(prev => [
+        ...prev,
+        { id: assistantId, role: "assistant", content: "" }
+      ]);
+
+      try {
+        const response = await fetch("/api/ai/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMessage })
+        });
+
+        if (!response.ok || !response.body) {
+          throw new Error("Stream response error");
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n").filter(line => line.startsWith("data: "));
+
+          for (const line of lines) {
+            const raw = line.slice("data: ".length).trim();
+            if (raw === "[DONE]") break;
+
+            try {
+              const parsed = JSON.parse(raw) as {
+                choices: Array<{ delta: { content?: string } }>;
+              };
+              const token = parsed.choices?.[0]?.delta?.content ?? "";
+
+              if (token) {
+                setMessages(prev =>
+                  prev.map(msg =>
+                    msg.id === assistantId
+                      ? { ...msg, content: msg.content + token }
+                      : msg
+                  )
+                );
+              }
+            } catch {
+              // Malformed chunk — skip silently
+            }
           }
-        ]);
-      } catch (error) {
-        // Add error message to chat
-        const errorId = `error-${Date.now()}`;
-        setMessages(prev => [
-          ...prev,
-          {
-            id: errorId,
-            role: "assistant",
-            content: "Deu ruim truta! Tente novamente."
-          }
-        ]);
+        }
+      } catch {
+        setMessages(prev =>
+          prev.map(msg =>
+            msg.id === assistantId
+              ? { ...msg, content: "Deu ruim truta! Tente novamente." }
+              : msg
+          )
+        );
       }
     });
   };
 
-  return {
-    messages,
-    isPending,
-    submitMessage
-  };
+  return { messages, isPending, submitMessage };
 }
