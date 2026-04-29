@@ -776,16 +776,16 @@ Check each acceptance criterion from the spec:
 
 ## Summary of Files Created
 
-| File                                | Purpose                          | Status |
-| ----------------------------------- | -------------------------------- | ------ |
-| `src/types/ai.ts`                   | Message, AIResponse types        | ✅     |
-| `src/services/sendMessage.ts`       | API client for `/api/ai/chat`    | ✅     |
-| `src/hooks/useAIChat.ts`            | Chat state management            | ✅     |
-| `src/features/ai/Message/index.tsx` | Single message component         | ✅     |
-| `src/features/ai/Chat/index.tsx`    | Main chat UI                     | ✅     |
-| `src/app/(public)/ai/page.tsx`      | Public AI page route             | ✅     |
-| `src/app/api/ai/chat/route.ts`      | Backend AI API route             | ✅     |
-| `src/server/lib/gemini.ts`          | Gemini client abstraction        | ✅     |
+| File                                | Purpose                       | Status |
+| ----------------------------------- | ----------------------------- | ------ |
+| `src/types/ai.ts`                   | Message, AIResponse types     | ✅     |
+| `src/services/sendMessage.ts`       | API client for `/api/ai/chat` | ✅     |
+| `src/hooks/useAIChat.ts`            | Chat state management         | ✅     |
+| `src/features/ai/Message/index.tsx` | Single message component      | ✅     |
+| `src/features/ai/Chat/index.tsx`    | Main chat UI                  | ✅     |
+| `src/app/(public)/ai/page.tsx`      | Public AI page route          | ✅     |
+| `src/app/api/ai/chat/route.ts`      | Backend AI API route          | ✅     |
+| `src/server/lib/gemini.ts`          | Gemini client abstraction     | ✅     |
 
 ---
 
