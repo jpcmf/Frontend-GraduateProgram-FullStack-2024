@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { streamClient } from "@/lib/streamClient";
 import type { Message } from "@/types/ai";
 
 export function useAIChat() {
@@ -12,19 +13,13 @@ export function useAIChat() {
     setIsPending(true);
 
     const assistantId = `assistant-${Date.now()}`;
-
-    // Add empty assistant bubble immediately so it appears before tokens arrive
     setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
 
     try {
-      const response = await fetch("/api/ai/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage })
-      });
+      const response = await streamClient.post("/api/ai/chat", { body: { message: userMessage } });
 
-      if (!response.ok || !response.body) {
-        throw new Error("Stream response error");
+      if (!response.body) {
+        throw new Error("No response body");
       }
 
       const reader = response.body.getReader();
