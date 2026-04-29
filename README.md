@@ -82,7 +82,7 @@ And that's it! Your `SkateHub Frontend` should now be up and running locally on 
 
 ### 2026
 
-- 2026-04-29 - Add AI Assistant feature with types, services, hooks, components, and API route [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.1.1)_
+- 2026-04-29 - Add AI Assistant feature with types, services, hooks, components, and API route [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.2.0)_
 - 2026-04-27 - Add `tracePropagationTargets` to Sentry client config for distributed tracing to Strapi [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170) _(v1.1.1)_
 - 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel Speed Insights & Analytics) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166) _(v1.1.0)_
 - 2026-04-12 - Add App Router migration plan and implements migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
