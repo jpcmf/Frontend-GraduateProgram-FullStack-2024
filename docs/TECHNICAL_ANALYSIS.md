@@ -980,25 +980,25 @@ A chat interface at `/ai` where users ask skateboarding questions and receive AI
 
 ### Auth Gate — Three Layers
 
-| Layer | Location | Behaviour |
-|-------|----------|-----------|
-| API route | `src/app/api/ai/chat/route.ts` | Returns `401` if `auth.token` cookie absent |
-| Hook | `src/hooks/useAIChat.ts` | Short-circuits `submitMessage` if `!isAuthenticated` |
-| UI | `src/features/ai/Chat/index.tsx` | Shows "Entrar / Criar conta" prompt instead of input |
+| Layer     | Location                         | Behaviour                                            |
+| --------- | -------------------------------- | ---------------------------------------------------- |
+| API route | `src/app/api/ai/chat/route.ts`   | Returns `401` if `auth.token` cookie absent          |
+| Hook      | `src/hooks/useAIChat.ts`         | Short-circuits `submitMessage` if `!isAuthenticated` |
+| UI        | `src/features/ai/Chat/index.tsx` | Shows "Entrar / Criar conta" prompt instead of input |
 
 ### Files Added / Modified
 
-| File | Purpose |
-|------|---------|
-| `src/types/ai.ts` | `Message` type |
-| `src/hooks/useAIChat.ts` | Stream consumer — exposes `messages`, `isPending`, `isAuthenticated`, `submitMessage` |
-| `src/features/ai/Message/index.tsx` | Message bubble — `react-markdown` for assistant content |
-| `src/features/ai/Chat/index.tsx` | Chat UI — auth gate, suggestions, spinner (hides on first token) |
-| `src/app/(public)/ai/page.tsx` | Public page route |
-| `src/app/api/ai/chat/route.ts` | SSE route — cookie auth gate, stream pipe, user-friendly error response |
-| `src/server/lib/openrouter.ts` | `streamChatResponse` + `generateChatResponse` |
-| `src/server/lib/gemini.ts` | `streamChatResponse` with SSE normalization to OpenRouter shape |
-| `src/lib/streamClient.ts` | Thin `fetch` wrapper with base URL + auth token — mirrors `apiClient` pattern |
+| File                                | Purpose                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `src/types/ai.ts`                   | `Message` type                                                                        |
+| `src/hooks/useAIChat.ts`            | Stream consumer — exposes `messages`, `isPending`, `isAuthenticated`, `submitMessage` |
+| `src/features/ai/Message/index.tsx` | Message bubble — `react-markdown` for assistant content                               |
+| `src/features/ai/Chat/index.tsx`    | Chat UI — auth gate, suggestions, spinner (hides on first token)                      |
+| `src/app/(public)/ai/page.tsx`      | Public page route                                                                     |
+| `src/app/api/ai/chat/route.ts`      | SSE route — cookie auth gate, stream pipe, user-friendly error response               |
+| `src/server/lib/openrouter.ts`      | `streamChatResponse` + `generateChatResponse`                                         |
+| `src/server/lib/gemini.ts`          | `streamChatResponse` with SSE normalization to OpenRouter shape                       |
+| `src/lib/streamClient.ts`           | Thin `fetch` wrapper with base URL + auth token — mirrors `apiClient` pattern         |
 
 ### SSE Stream Format
 
