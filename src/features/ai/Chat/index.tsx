@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { RiRobot2Line } from "react-icons/ri";
 import { TbSkateboard } from "react-icons/tb";
+import NextLink from "next/link";
 
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
-import NextLink from "next/link";
 
 import { useAIChat } from "@/hooks/useAIChat";
 import { useColors } from "@/hooks/useColors";
@@ -175,7 +175,7 @@ export function Chat() {
               _hover={{ bg: "green.500" }}
               size="sm"
             >
-              Entrar
+              Login
             </Button>
             <Button
               as={NextLink}

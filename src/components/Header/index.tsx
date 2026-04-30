@@ -93,7 +93,7 @@ export function Header() {
               </Button>
 
               <Button variant="ghost" color={textSecondaryButton} size={["sm", "sm"]} onClick={handleSignupClick}>
-                Criar uma conta
+                Criar conta
               </Button>
             </Flex>
           ) : (

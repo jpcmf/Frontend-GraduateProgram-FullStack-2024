@@ -10,7 +10,7 @@ const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 // - "meta-llama/llama-3.3-70b-instruct:free"
 // - "deepseek/deepseek-r1:free"
 // - "google/gemma-3-27b-it:free"
-const MODEL = "meta-llama/llama-3.3-70b-instruct:free";
+const MODEL = "openrouter/free";
 
 export interface ChatOptions {
   message: string;

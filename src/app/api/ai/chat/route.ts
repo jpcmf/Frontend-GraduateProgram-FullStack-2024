@@ -33,10 +33,7 @@ export async function POST(request: NextRequest): Promise<Response> {
         Connection: "keep-alive"
       }
     });
-  } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("[/api/ai/chat]", err);
-    }
+  } catch {
     return new Response(JSON.stringify({ error: "Deu ruim truta! Tente novamente." }), {
       status: 500,
       headers: { "Content-Type": "application/json" }

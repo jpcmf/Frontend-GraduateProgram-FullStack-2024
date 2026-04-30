@@ -180,7 +180,7 @@ export default function SignUp() {
 
   return (
     <>
-      <TitleSection title="Criar uma conta" />
+      <TitleSection title="Criar conta" />
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
           as="form"
