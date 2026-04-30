@@ -210,7 +210,7 @@ export function SpotDetail({ spot }: SpotDetailProps) {
         )}
 
         {/* Map + Comments two-column layout */}
-        <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+        <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={6}>
           {/* Localização */}
           <Box>
             <TitleSection title="Localização" size="md" />
