@@ -251,7 +251,7 @@ export default function LoginModal() {
                 w="100%"
                 onClick={() => router.push("/auth/signup")}
               >
-                Criar uma conta
+                Criar conta
               </Button>
             </Flex>
           </Flex>

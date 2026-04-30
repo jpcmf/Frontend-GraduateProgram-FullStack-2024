@@ -1,10 +1,18 @@
 import { NextRequest } from "next/server";
 
 import { streamChatResponse } from "@/server/lib/openrouter";
-// To use Gemini instead, swap the import above to:
-// import { streamChatResponse } from "@/server/lib/gemini";
 
 export async function POST(request: NextRequest): Promise<Response> {
+  // Hard auth gate — never call the AI provider for unauthenticated requests
+  const token = request.cookies.get("auth.token")?.value;
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
   try {
     const body = await request.json();
     const { message } = body as { message: unknown };

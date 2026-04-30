@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
 // import Link from 'next/link';
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button, Flex, Icon, IconButton, Link, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 
@@ -23,6 +23,7 @@ export function Header() {
   const { onOpen } = useSidebarDrawer();
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
 
@@ -34,11 +35,11 @@ export function Header() {
   const isLoginModalOpen = (searchParams?.get("modal") || "") === "login";
 
   const handleClose = () => {
-    router.push("/");
+    router.push(pathname);
   };
 
   const handleLoginClick = () => {
-    router.push("/?modal=login");
+    router.push(`${pathname}?modal=login`);
   };
 
   const handleSignupClick = () => {
@@ -93,7 +94,7 @@ export function Header() {
               </Button>
 
               <Button variant="ghost" color={textSecondaryButton} size={["sm", "sm"]} onClick={handleSignupClick}>
-                Criar uma conta
+                Criar conta
               </Button>
             </Flex>
           ) : (
