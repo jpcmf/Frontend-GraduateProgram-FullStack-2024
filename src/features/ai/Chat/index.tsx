@@ -58,7 +58,7 @@ export function Chat() {
   };
 
   return (
-    <VStack h="800px" w="100%" spacing={0} justify="space-between">
+    <VStack h={isConversationStarted ? "800px" : "600px"} w="100%" spacing={0} justify="space-between">
       {/* Hero Section - always visible */}
       <VStack spacing={4} textAlign="center" py={4}>
         <Box w={16} h={16} borderRadius="full" bg={bgColor} display="flex" alignItems="center" justifyContent="center">
@@ -169,7 +169,7 @@ export function Chat() {
           <HStack spacing={3}>
             <Button
               as={NextLink}
-              href="/auth/signin"
+              href="/auth/signin?modal=login"
               bg="green.400"
               color="white"
               _hover={{ bg: "green.500" }}
@@ -179,7 +179,7 @@ export function Chat() {
             </Button>
             <Button
               as={NextLink}
-              href="/auth/register"
+              href="/auth/signup"
               variant="outline"
               borderColor="green.400"
               color="green.400"
