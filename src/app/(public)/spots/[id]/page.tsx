@@ -2,7 +2,7 @@
 
 import { use } from "react";
 
-import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 
 import { SpotDetail } from "@/features/spots/SpotDetail";
 import { useSpot } from "@/hooks/useSpot";
@@ -34,9 +34,5 @@ export default function SpotDetailPage(props: SpotDetailPageProps) {
     );
   }
 
-  return (
-    <Box width={"100%"}>
-      <SpotDetail spot={data.data} />
-    </Box>
-  );
+  return <SpotDetail spot={data.data} />;
 }
