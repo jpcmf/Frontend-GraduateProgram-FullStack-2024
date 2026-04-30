@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2.0-green?style=flat-square" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-green?style=flat-square" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js" />
   <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" />
@@ -142,7 +142,7 @@ git checkout develop
 cp .env.example .env.local
 ```
 
-Then fill in the values in `.env.local` — see the table below for reference.
+Open `.env.local` and fill in the values. All required variables are listed in `.env.example` with inline comments describing each one.
 
 ### Step 4 — Install dependencies
 
@@ -157,34 +157,6 @@ pnpm dev
 ```
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
-
----
-
-## 🔑 Environment Variables
-
-| Variable                            | Required | Description                                                                                      |
-| ----------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_STRAPI_URL`            | Yes      | Base URL of the Strapi backend (e.g. `http://localhost:1337`)                                    |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`    | Yes      | reCAPTCHA v2 site key (public) — from [Google reCAPTCHA](https://www.google.com/recaptcha/admin) |
-| `RECAPTCHA_SECRET_KEY`              | Yes      | reCAPTCHA v2 secret key (server-only)                                                            |
-| `NODEMAILER_TRANSPORTER_SERVICE`    | Yes      | Email service (e.g. `gmail`)                                                                     |
-| `NODEMAILER_TRANSPORTER_USER`       | Yes      | Email account username                                                                           |
-| `NODEMAILER_TRANSPORTER_PASS`       | Yes      | Email account password or app password                                                           |
-| `NODEMAILER_OPTIONS_FROM`           | Yes      | Sender address                                                                                   |
-| `NODEMAILER_OPTIONS_TO`             | Yes      | Recipient address for confirmations                                                              |
-| `NEXT_PUBLIC_ACCESS_TOKEN_MAP_BOX`  | Yes      | Mapbox public access token — from [Mapbox](https://account.mapbox.com)                           |
-| `NEXT_PUBLIC_URL_MAP_BOX`           | Yes      | Mapbox tiles base URL                                                                            |
-| `NEXT_PUBLIC_OBSERVABILITY_ENABLED` | No       | Set to `true` to enable Sentry + PostHog (default: `false`)                                      |
-| `NEXT_PUBLIC_SENTRY_DSN`            | No       | Sentry DSN — from Sentry project settings                                                        |
-| `SENTRY_ORG`                        | No       | Sentry organisation slug                                                                         |
-| `SENTRY_PROJECT`                    | No       | Sentry project slug                                                                              |
-| `SENTRY_AUTH_TOKEN`                 | No       | Sentry auth token for source-map uploads (CI only)                                               |
-| `NEXT_PUBLIC_POSTHOG_KEY`           | No       | PostHog project API key                                                                          |
-| `NEXT_PUBLIC_POSTHOG_HOST`          | No       | PostHog host (default: `https://app.posthog.com`)                                                |
-| `GOOGLE_GENERATIVE_AI_KEY`          | No       | Google Gemini API key — from [AI Studio](https://aistudio.google.com/app/apikeys)                |
-| `OPENROUTER_API_KEY`                | No       | OpenRouter API key — from [openrouter.ai/keys](https://openrouter.ai/keys)                       |
-
----
 
 ## 📋 Changelog
 
