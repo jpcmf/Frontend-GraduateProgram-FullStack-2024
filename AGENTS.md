@@ -219,6 +219,43 @@ When using Playwright tools for visual verification:
 - Form validation errors must be shown to the user — never swallowed silently
 - All mutating operations (create/update/delete) must invalidate the relevant TanStack Query cache after success
 
+## Security Rules
+
+These rules apply to every task — features, fixes, docs, and refactors.
+
+### Secrets and environment variables
+
+- **Never hardcode secrets** — no API keys, tokens, passwords, or DSNs anywhere in source code
+- **Never expose secrets in the README or any public-facing file** — variable names belong in `.env.example` with empty values and inline comments; nothing more
+- **Never commit `.env.local`** — it is gitignored for a reason; verify before every commit
+- **Never use the `NEXT_PUBLIC_` prefix for server-only values** — anything prefixed `NEXT_PUBLIC_` is inlined into the client JavaScript bundle and readable by anyone
+- **Server-only keys** (reCAPTCHA secret, Sentry auth token, AI provider keys, SMTP passwords) must have no `NEXT_PUBLIC_` prefix and must only be accessed in API routes or server components
+
+### API routes and server code
+
+- **Always authenticate API routes** — every route that touches user data must verify the `auth.token` cookie before processing the request; return `401` immediately if absent
+- **Never return raw error messages to the client** — catch blocks must return generic user-facing messages (e.g. `"Something went wrong, please try again."`); log the real error server-side only
+- **Validate all inputs server-side** — never trust data from `request.json()` without type-checking and length/format validation; return `400` for invalid payloads
+- **Never expose internal service errors** — stack traces, database errors, and provider error messages must never reach the HTTP response body
+
+### Frontend and public repository
+
+- **This repository is public** — treat every file that is committed as publicly readable
+- **Never log sensitive data** — do not log tokens, user emails, passwords, or API responses containing personal data
+- **Auth checks belong in middleware and layout guards** — never rely solely on client-side conditional rendering to protect content
+- **Cookie flags** — auth cookies must always be set with `secure: true` (production), `sameSite: "lax"`, and `path: "/"` — never omit these
+
+### Before opening a PR — security checklist
+
+- [ ] No secrets or tokens in any committed file
+- [ ] No `NEXT_PUBLIC_` prefix on server-only variables
+- [ ] All new API routes validate auth and sanitise input
+- [ ] No raw error details returned to the client
+- [ ] No `console.log` with sensitive data
+- [ ] `.env.local` is not staged (`git status` confirms)
+
+---
+
 ## File & Directory References
 
 When implementing a feature, load these files as needed:
