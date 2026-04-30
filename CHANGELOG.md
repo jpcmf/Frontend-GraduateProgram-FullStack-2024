@@ -5,34 +5,37 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-04-30
+
+- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route other than home [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176)
+
 ## [1.2.0] - 2026-04-29
 
-- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route other than home [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176) _(v1.2.0)_
-- 2026-04-29 - Add AI Assistant feature with streaming SSE, 3-layer auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.2.0)_
+- 2026-04-29 - Add AI Assistant feature with streaming SSE, 3-layer auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172)
 
 ## [1.1.1] - 2026-04-27
 
-- 2026-04-27 - Add `tracePropagationTargets` to Sentry client config for distributed tracing to Strapi [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170) _(v1.1.1)_
+- 2026-04-27 - Add `tracePropagationTargets` to Sentry client config for distributed tracing to Strapi [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170)
 
 ## [1.1.0] - 2026-04-27
 
-- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel Speed Insights & Analytics) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166) _(v1.1.0)_
+- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel Speed Insights & Analytics) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166)
 
 ## [1.0.0] - 2026-04-12
 
-- 2026-04-12 - Add App Router migration plan and implements migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
+- 2026-04-12 - Add App Router migration plan and implements migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160)
 
 ## [0.2.5] - 2026-04-12
 
-- 2026-04-12 - Implements spots feature [#151](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/151) _(v0.2.5)_
+- 2026-04-12 - Implements spots feature [#151](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/151)
 
 ## [0.2.4] - 2026-03-01
 
-- 2026-03-01 - Implements avatar upload functionality [#139](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/139) _(v0.2.4)_
+- 2026-03-01 - Implements avatar upload functionality [#139](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/139)
 
 ## [0.2.3] - 2026-02-22
 
-- 2026-02-22 - Add improvements to the layout [#138](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/138) _(v0.2.3)_
+- 2026-02-22 - Add improvements to the layout [#138](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/138)
 
 ## [0.2.1] - 2025-12-12
 
