@@ -1,12 +1,10 @@
 import { NextRequest } from "next/server";
-import { parseCookies } from "nookies";
 
 import { streamChatResponse } from "@/server/lib/openrouter";
 
 export async function POST(request: NextRequest): Promise<Response> {
   // Hard auth gate — never call the AI provider for unauthenticated requests
-  const cookies = parseCookies({ req: request } as never);
-  const token = cookies["auth.token"] ?? request.cookies.get("auth.token")?.value;
+  const token = request.cookies.get("auth.token")?.value;
 
   if (!token) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -35,7 +33,10 @@ export async function POST(request: NextRequest): Promise<Response> {
         Connection: "keep-alive"
       }
     });
-  } catch {
+  } catch (err) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error("[/api/ai/chat]", err);
+    }
     return new Response(JSON.stringify({ error: "Deu ruim truta! Tente novamente." }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
