@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { RiRobot2Line } from "react-icons/ri";
+import { TbSkateboard } from "react-icons/tb";
 
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 
@@ -23,7 +24,7 @@ export function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isConversationStarted = messages.length > 0;
-  const { bgColor, cardBg, border, textPrimary, textMuted } = useColors();
+  const { bgColor, cardBg, border, textPrimary, textMuted, chatIASuggestionBg } = useColors();
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -56,21 +57,18 @@ export function Chat() {
   };
 
   return (
-    <VStack h="800px" w="100%" spacing={0} justify="space-between" p={4}>
+    <VStack h="800px" w="100%" spacing={0} justify="space-between">
       {/* Hero Section - always visible */}
       <VStack spacing={4} textAlign="center" py={4}>
         <Box w={16} h={16} borderRadius="full" bg={bgColor} display="flex" alignItems="center" justifyContent="center">
           <RiRobot2Line size={32} color="#48D597" />
-          {/*<TbSkateboard size={32} color="#48D597" />*/}
         </Box>
         <VStack spacing={2}>
           <Text fontSize="3xl" fontWeight="bold" color={textPrimary}>
             Truta IA
           </Text>
           <Text fontSize="md" color={textMuted}>
-            E aí truta! Sou o assistente do SkateHub.
-            <br />
-            Pronto para dropar no conhecimento? Como posso te ajudar hoje?
+            E aí truta! Sou o assistente do SkateHub. Pronto para dropar no conhecimento? Como posso te ajudar hoje?
           </Text>
         </VStack>
       </VStack>
@@ -79,7 +77,7 @@ export function Chat() {
       <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
         {!isConversationStarted ? (
           /* Suggestions (before conversation) */
-          <Center h="100%" flexDirection="column" gap={8}>
+          <Center h="100%" flexDirection="column">
             <VStack spacing={3} align="stretch" w="100%" maxW="500px">
               {INITIAL_SUGGESTIONS.map((suggestion, idx) => (
                 <Button
@@ -92,9 +90,11 @@ export function Chat() {
                   py={3}
                   px={4}
                   whiteSpace="normal"
-                  borderColor={border}
+                  bg={chatIASuggestionBg}
                   _hover={{ borderColor: "green.400", bg: cardBg }}
+                  gap={4}
                 >
+                  <TbSkateboard size={18} />
                   {suggestion}
                 </Button>
               ))}
