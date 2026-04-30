@@ -2,7 +2,7 @@
 
 ## Project Context
 
-This is the **Next.js 14 frontend** for SkateHub, a social platform for the skateboarding community.
+This is the **Next.js 16 + React 19 frontend** for SkateHub, a social platform for the skateboarding community.
 Built with TypeScript, Chakra UI, TanStack Query, and a custom cookie-based auth system backed by Strapi.
 Read `docs/TECHNICAL_ANALYSIS.md` for the full architecture analysis and known issues.
 Read the backend spec files at `/Users/joaopaulo/www/pucrs/project/skatehub-strapi/specs/` for API contracts.
@@ -56,6 +56,36 @@ This project uses **Spec-Driven Development**. Every feature must follow this pr
 - TanStack Query hooks live in `src/hooks/use<Entity>.ts` — one hook per resource
 - Types for API responses live in `src/types/<feature>.ts`
 - Auth state is accessed via the `useAuth` hook (`src/hooks/useAuth.ts`) — never import `AuthContext` directly
+
+## Documentation Maintenance Rules
+
+These two steps are **required before any PR can be considered complete**:
+
+### After every feature implementation
+
+1. **Update `README.md` — Features section**
+   Add a bullet describing the new feature under the relevant category (or create a new one). Keep it concise: one line, user-facing language.
+
+2. **Update `CHANGELOG.md` — prepend a new entry**
+   Add the entry at the top of the `## [Unreleased]` section using this exact format:
+
+   ```
+   - YYYY-MM-DD - <Description of change> [#PR](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/<number>) _(vX.Y.Z)_
+   ```
+
+   When a version is released, move all `[Unreleased]` entries under a new versioned heading:
+
+   ```markdown
+   ## [X.Y.Z] - YYYY-MM-DD
+   ```
+
+### Rules
+
+- Never skip documentation updates — they are part of the definition of done
+- Feature descriptions in `README.md` must be user-facing (what it does), not technical (how it works)
+- Changelog entries must match the PR title and version in `package.json`
+
+---
 
 ## Testing Standards
 

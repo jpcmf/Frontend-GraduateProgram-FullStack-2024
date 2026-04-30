@@ -2,149 +2,203 @@
     <img alt="SkateHub" title="SkateHub" src=".github/skatehub.svg" />
 </h1>
 
-![screenshot](.github/screenshot.png)
-
 <p align="center">
-  <a href="#gear-build-setup">Build setup</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#memo-changelog">Changelog</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#rocket-nextjs-documentation">Next.js documentation</a>
+  A social platform built for the skateboarding community.
 </p>
 
-## SkateHub Frontend
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.2.0-green?style=flat-square" />
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js" />
+  <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+  <img alt="pnpm" src="https://img.shields.io/badge/pnpm-required-F69220?style=flat-square&logo=pnpm&logoColor=white" />
+  <a href="https://skatehub.vercel.app">
+    <img alt="Deploy" src="https://img.shields.io/badge/Vercel-Live-000000?style=flat-square&logo=vercel" />
+  </a>
+</p>
 
-The project requires [Next.js](https://nextjs.org), [Node.js](https://nodejs.org) and [Backend-GraduateProgram-FullStack-2023](https://github.com/jpcmf/Backend-GraduateProgram-FullStack-2023) to run locally.
-
-## :gear: Build setup
-
-Welcome! Here's a quick guide to getting started with `SkateHub Frontend`. Let's dive in:
-
-### 👣 Step 1: Clone the repository
-
-First things first, let's clone the repository onto your local machine. If you're not sure how to do this, no worries! Here's a simple command you can run in your terminal:
-
-```bash
-# clone the repository
-
-git clone https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024.git
-```
-
-### 👣 Step 2: Navigate to the project directory
-
-Once the repository is cloned, navigate into the project directory using the cd command in your terminal:
-
-```bash
-# navigate to the project directory
-
-cd Frontend-GraduateProgram-FullStack-2024
-```
-
-### 👣 Step 3: Switch to the develop branch
-
-Our development work usually happens in the develop branch. Make sure you're on the right branch by executing the following command:
-
-```bash
-# switch to the develop branch
-
-git checkout develop
-```
-
-### 👣 Step 4: Configure environment variables
-
-Before running the project, you'll need to configure the environment variables. This typically involves setting up database credentials and other configurations. Locate the `.env.example` file in the project root directory, and create a new file named `.env` with your configurations. You may need to consult the project documentation for the required variables.
-
-```bash
-# configure environment variables
-
-cp .env.example .env.local
-```
-
-### 👣 Step 5: Install dependencies
-
-Now that you're in the project directory and on the correct branch, it's time to install all the dependencies. Simply run:
-
-```bash
-# install dependencies
-npm install
-```
-
-### 👣 Step 6: Run the project
-
-You're almost there! To start the application in development mode, just type the following command:
-
-```bash
-# run at localhost:3000
-npm run dev
-```
-
-And that's it! Your `SkateHub Frontend` should now be up and running locally on your [machine](http://localhost:3000).
-
-## :memo: Changelog
-
-### 2026
-
-- 2026-04-29 - Add AI Assistant feature with types, services, hooks, components, and API route [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.2.0)_
-- 2026-04-27 - Add `tracePropagationTargets` to Sentry client config for distributed tracing to Strapi [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170) _(v1.1.1)_
-- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel Speed Insights & Analytics) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166) _(v1.1.0)_
-- 2026-04-12 - Add App Router migration plan and implements migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
-- 2026-04-12 - Implements spots feature [#151](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/151) _(v0.2.5)_
-- 2026-03-01 - Implments avatar upload functionality [#139](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/139) _(v0.2.4)_
-- 2026-02-22 - Add improvements to the layout [#138](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/138) _(v0.2.3)_
-
-### 2025
-
-- 2025-12-12 - Implements a user stories feature [#131](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/131) _(v0.2.1)_
-- 2025-11-13 - Bump Next.js version [#128](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/128) _(v0.2.0)_
-- 2025-11-03 - Add UserProfile component to display user information [#126](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/126) _(v0.1.37)_
-- 2025-11-03 - Standardize validation messages [#125](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/125) _(v0.1.36)_
-- 2025-11-01 - Add category definition [#124](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/124) _(v0.1.35)_
-- 2025-09-25 - Add ESLint packages to devDependencies for improved linting support [#121](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/121) _(v0.1.34)_
-- 2025-01-15 - Move authentication logic to user edit page [#116](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/116) _(v0.1.33)_
-
-### 2024
-
-- 2024-12-31 - Add `instagram_url` field to user profile and update related forms [#113](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/113) _(v0.1.32)_
-- 2024-12-29 - Add username validation to prevent email format in sign-up form [#111](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/111) _(v0.1.31)_
-- 2024-12-19 - Implement server-side redirection for authenticated users [#103](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/103) _(v0.1.30)_
-- 2024-12-12 - Update user avatar handling and modify user data structure [#99](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/99) _(v0.1.29)_
-- 2024-12-07 - Add custom `404 error` page [#91](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/91) _(v0.1.28)_
-- 2024-12-07 - Implement user profile update functionality in AuthContext [#89](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/89) _(v0.1.27)_
-- 2024-12-07 - Create `textarea` form component [#88](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/88) _(v0.1.26)_
-- 2024-11-19 - Add reCAPTCHA verification to sign-up process [#70](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/70) _(v0.1.25)_
-- 2024-11-19 - Add Lint-Staged to enhance pre-commit validations [#65](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/65) _(v0.1.24)_
-- 2024-11-19 - Create an API Route for the Sitemap [#62](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/62) _(v0.1.23)_
-- 2024-11-13 - Add reCAPTCHA verification to sign-in process [#59](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/59) _(v0.1.22)_
-- 2024-11-08 - Add Husky [#53](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/53) _(v0.1.21)_
-- 2024-11-08 - Add vercel development deployment configuration [#31](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/31) _(v0.1.20)_
-- 2024-11-06 - Add `forgot-password` button [#25](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/25) _(v0.1.19)_
-- 2024-11-06 - Upgrade libraries [#23](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/23) _(v0.1.18)_
-- 2024-11-06 - Create `reset password` page [#21](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/21) _(v0.1.17)_
-- 2024-04-28 - Update `forgot-password` page [#20](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/20) _(v0.1.16)_
-- 2024-04-28 - Redirect to the root route when attempting to access /auth [#19](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/19) _(v0.1.15)_
-- 2024-04-28 - Create `forgot-password` page [#18](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/18) _(v0.1.14)_
-- 2024-04-11 - Update `signin` page [#17](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/17) _(v0.1.13)_
-- 2024-04-08 - Create `confirmation` page [#15](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/15) _(v0.1.12)_
-- 2024-04-06 - Update `signin` page [#14](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/14) _(v0.1.11)_
-- 2024-04-03 - Create `signup` page [#12](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/12) _(v0.1.10)_
-- 2024-03-31 - Update `authentication` and `session` management [#11](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/11) _(v0.1.9)_
-- 2024-03-29 - Create the `toast` component [#10](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/10) _(v0.1.8)_
-- 2024-03-27 - Add the `favicon` [#9](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/9) _(v0.1.7)_
-- 2024-03-27 - Add the `prettier.config.js` file to the project to handle with code formatter [#8](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/8) _(v0.1.6)_
-- 2024-03-27 - Create the `signin` page [#7](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/7) _(v0.1.5)_
-- 2024-03-26 - Create the `header` component [#5](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/5) _(v0.1.4)_
-- 2024-03-26 - Create the `home` page [#4](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/4) _(v0.1.3)_
-- 2024-03-26 - Create the `sidebar` provider and components to handle with the aside menu [#3](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/3) _(v0.1.2)_
-- 2024-03-24 - Add [Chakra UI](https://chakra-ui.com/) to handle with the user interface [#2](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/2) _(v0.1.1)_
-- 2024-03-19 - Add a quick guide to getting started with the application [#1](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/1) _(v0.1.0)_
-
-## :rocket: Next.js documentation
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<p align="center">
+  <a href="https://skatehub.vercel.app">Live Demo</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#-features">Features</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#-tech-stack">Tech Stack</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#-getting-started">Getting Started</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#-changelog">Changelog</a>
+</p>
 
 ---
 
-Made with <span style="color: #6664F1;">&hearts;</span> in Brazil
+![screenshot](.github/screenshot.png)
+
+---
+
+## About
+
+SkateHub is a full-stack social platform for the skateboarding community, built as a graduate program capstone project. It allows skaters to discover and share spots, follow each other through stories, manage their profiles, and get skating advice from an AI assistant — all in one place.
+
+The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chakra UI**, consuming a **Strapi** REST API. The architecture prioritises security, observability, and maintainability with patterns like centralised auth, cookie-based sessions, vendor-swappable observability, and spec-driven development.
+
+---
+
+## ✨ Features
+
+### Authentication
+- Sign in and sign up with email and password
+- Email confirmation flow
+- Forgot password and reset password
+- Invisible reCAPTCHA v2 protection on all auth forms
+- Authenticated sessions via secure HTTP-only cookies
+- Automatic session expiry detection and sign-out
+
+### User Profiles
+- Editable profile with name, bio, and skill category
+- Avatar upload with cloud storage (Cloudinary via Strapi)
+- Instagram profile link
+- Public user profile pages
+
+### Stories
+- Post and view 24-hour ephemeral stories
+- Full-screen swiper with per-user story groups
+- Auto-advance to next user when all stories in a group end
+
+### Spots
+- Browse, create, edit, and delete skate spots
+- Photo gallery upload per spot
+- Google Maps embed with address lookup
+- Owner-only edit and delete controls
+- Public spot detail pages
+
+### AI Assistant
+- Streaming chat interface for skateboarding questions
+- Token-by-token response rendering (SSE)
+- Markdown rendering for structured answers
+- Powered by OpenRouter / Google Gemini
+- Authentication-gated — sign in to use
+
+### Observability
+- Error tracking via Sentry with distributed tracing to the Strapi backend
+- Product analytics via PostHog
+- Performance monitoring via Vercel Speed Insights and Analytics
+- Vendor-swappable observability layer — all providers can be disabled or replaced in one place
+
+### General
+- Dark and light mode
+- Responsive layout (mobile + desktop)
+- Custom 404 page
+- Sitemap API route
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | [Next.js 16](https://nextjs.org) (App Router) |
+| Language | [TypeScript 5](https://www.typescriptlang.org) |
+| UI Library | [Chakra UI 2](https://chakra-ui.com) |
+| Data Fetching | [TanStack Query 5](https://tanstack.com/query) |
+| Forms | [React Hook Form](https://react-hook-form.com) + [Zod](https://zod.dev) |
+| Auth | Custom cookie auth via [nookies](https://github.com/maticzav/nookies) + reCAPTCHA v2 |
+| HTTP Client | [Axios](https://axios-http.com) (centralised `apiClient`) |
+| Backend / CMS | [Strapi](https://strapi.io) (REST API) |
+| Maps | [Mapbox GL](https://docs.mapbox.com/mapbox-gl-js/) |
+| AI | [OpenRouter](https://openrouter.ai) / [Google Gemini](https://ai.google.dev) |
+| Observability | [Sentry](https://sentry.io), [PostHog](https://posthog.com), [Vercel Analytics](https://vercel.com/analytics) |
+| Deployment | [Vercel](https://vercel.com) |
+| Package Manager | [pnpm](https://pnpm.io) |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) ≥ 18
+- [pnpm](https://pnpm.io) (`npm install -g pnpm`)
+- The [SkateHub backend](https://github.com/jpcmf/Backend-GraduateProgram-FullStack-2023) running locally or accessible via URL
+
+### Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024.git
+cd Frontend-GraduateProgram-FullStack-2024
+```
+
+### Step 2 — Switch to the develop branch
+
+```bash
+git checkout develop
+```
+
+### Step 3 — Configure environment variables
+
+```bash
+cp .env.example .env.local
+```
+
+Then fill in the values in `.env.local` — see the table below for reference.
+
+### Step 4 — Install dependencies
+
+```bash
+pnpm install
+```
+
+### Step 5 — Run the development server
+
+```bash
+pnpm dev
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🔑 Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_STRAPI_URL` | Yes | Base URL of the Strapi backend (e.g. `http://localhost:1337`) |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Yes | reCAPTCHA v2 site key (public) — from [Google reCAPTCHA](https://www.google.com/recaptcha/admin) |
+| `RECAPTCHA_SECRET_KEY` | Yes | reCAPTCHA v2 secret key (server-only) |
+| `NODEMAILER_TRANSPORTER_SERVICE` | Yes | Email service (e.g. `gmail`) |
+| `NODEMAILER_TRANSPORTER_USER` | Yes | Email account username |
+| `NODEMAILER_TRANSPORTER_PASS` | Yes | Email account password or app password |
+| `NODEMAILER_OPTIONS_FROM` | Yes | Sender address |
+| `NODEMAILER_OPTIONS_TO` | Yes | Recipient address for confirmations |
+| `NEXT_PUBLIC_ACCESS_TOKEN_MAP_BOX` | Yes | Mapbox public access token — from [Mapbox](https://account.mapbox.com) |
+| `NEXT_PUBLIC_URL_MAP_BOX` | Yes | Mapbox tiles base URL |
+| `NEXT_PUBLIC_OBSERVABILITY_ENABLED` | No | Set to `true` to enable Sentry + PostHog (default: `false`) |
+| `NEXT_PUBLIC_SENTRY_DSN` | No | Sentry DSN — from Sentry project settings |
+| `SENTRY_ORG` | No | Sentry organisation slug |
+| `SENTRY_PROJECT` | No | Sentry project slug |
+| `SENTRY_AUTH_TOKEN` | No | Sentry auth token for source-map uploads (CI only) |
+| `NEXT_PUBLIC_POSTHOG_KEY` | No | PostHog project API key |
+| `NEXT_PUBLIC_POSTHOG_HOST` | No | PostHog host (default: `https://app.posthog.com`) |
+| `GOOGLE_GENERATIVE_AI_KEY` | No | Google Gemini API key — from [AI Studio](https://aistudio.google.com/app/apikeys) |
+| `OPENROUTER_API_KEY` | No | OpenRouter API key — from [openrouter.ai/keys](https://openrouter.ai/keys) |
+
+---
+
+## 📋 Changelog
+
+### Recent changes
+
+- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176) _(v1.2.0)_
+- 2026-04-29 - Add AI Assistant with streaming SSE, auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.2.0)_
+- 2026-04-27 - Add `tracePropagationTargets` to Sentry config for distributed tracing [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170) _(v1.1.1)_
+- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166) _(v1.1.0)_
+- 2026-04-12 - App Router migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
+
+→ [Full changelog](./CHANGELOG.md)
+
+---
+
+## License
+
+All rights reserved. © 2024–2026 [João Paulo](https://jpcmf.dev).
+
+Unauthorized use, reproduction, or distribution of this software or any portion of it is strictly prohibited without explicit written permission from the author.
+
+---
+
+<p align="center">Made with <span style="color: #6664F1;">♥</span> in Brazil</p>
