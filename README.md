@@ -42,6 +42,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 ## ✨ Features
 
 ### Authentication
+
 - Sign in and sign up with email and password
 - Email confirmation flow
 - Forgot password and reset password
@@ -50,17 +51,20 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Automatic session expiry detection and sign-out
 
 ### User Profiles
+
 - Editable profile with name, bio, and skill category
 - Avatar upload with cloud storage (Cloudinary via Strapi)
 - Instagram profile link
 - Public user profile pages
 
 ### Stories
+
 - Post and view 24-hour ephemeral stories
 - Full-screen swiper with per-user story groups
 - Auto-advance to next user when all stories in a group end
 
 ### Spots
+
 - Browse, create, edit, and delete skate spots
 - Photo gallery upload per spot
 - Google Maps embed with address lookup
@@ -68,6 +72,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Public spot detail pages
 
 ### AI Assistant
+
 - Streaming chat interface for skateboarding questions
 - Token-by-token response rendering (SSE)
 - Markdown rendering for structured answers
@@ -75,12 +80,14 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Authentication-gated — sign in to use
 
 ### Observability
+
 - Error tracking via Sentry with distributed tracing to the Strapi backend
 - Product analytics via PostHog
 - Performance monitoring via Vercel Speed Insights and Analytics
 - Vendor-swappable observability layer — all providers can be disabled or replaced in one place
 
 ### General
+
 - Dark and light mode
 - Responsive layout (mobile + desktop)
 - Custom 404 page
@@ -90,21 +97,21 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | [Next.js 16](https://nextjs.org) (App Router) |
-| Language | [TypeScript 5](https://www.typescriptlang.org) |
-| UI Library | [Chakra UI 2](https://chakra-ui.com) |
-| Data Fetching | [TanStack Query 5](https://tanstack.com/query) |
-| Forms | [React Hook Form](https://react-hook-form.com) + [Zod](https://zod.dev) |
-| Auth | Custom cookie auth via [nookies](https://github.com/maticzav/nookies) + reCAPTCHA v2 |
-| HTTP Client | [Axios](https://axios-http.com) (centralised `apiClient`) |
-| Backend / CMS | [Strapi](https://strapi.io) (REST API) |
-| Maps | [Mapbox GL](https://docs.mapbox.com/mapbox-gl-js/) |
-| AI | [OpenRouter](https://openrouter.ai) / [Google Gemini](https://ai.google.dev) |
-| Observability | [Sentry](https://sentry.io), [PostHog](https://posthog.com), [Vercel Analytics](https://vercel.com/analytics) |
-| Deployment | [Vercel](https://vercel.com) |
-| Package Manager | [pnpm](https://pnpm.io) |
+| Layer           | Technology                                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------------------- |
+| Framework       | [Next.js 16](https://nextjs.org) (App Router)                                                                 |
+| Language        | [TypeScript 5](https://www.typescriptlang.org)                                                                |
+| UI Library      | [Chakra UI 2](https://chakra-ui.com)                                                                          |
+| Data Fetching   | [TanStack Query 5](https://tanstack.com/query)                                                                |
+| Forms           | [React Hook Form](https://react-hook-form.com) + [Zod](https://zod.dev)                                       |
+| Auth            | Custom cookie auth via [nookies](https://github.com/maticzav/nookies) + reCAPTCHA v2                          |
+| HTTP Client     | [Axios](https://axios-http.com) (centralised `apiClient`)                                                     |
+| Backend / CMS   | [Strapi](https://strapi.io) (REST API)                                                                        |
+| Maps            | [Mapbox GL](https://docs.mapbox.com/mapbox-gl-js/)                                                            |
+| AI              | [OpenRouter](https://openrouter.ai) / [Google Gemini](https://ai.google.dev)                                  |
+| Observability   | [Sentry](https://sentry.io), [PostHog](https://posthog.com), [Vercel Analytics](https://vercel.com/analytics) |
+| Deployment      | [Vercel](https://vercel.com)                                                                                  |
+| Package Manager | [pnpm](https://pnpm.io)                                                                                       |
 
 ---
 
@@ -155,27 +162,27 @@ The app will be available at [http://localhost:3000](http://localhost:3000).
 
 ## 🔑 Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `NEXT_PUBLIC_STRAPI_URL` | Yes | Base URL of the Strapi backend (e.g. `http://localhost:1337`) |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Yes | reCAPTCHA v2 site key (public) — from [Google reCAPTCHA](https://www.google.com/recaptcha/admin) |
-| `RECAPTCHA_SECRET_KEY` | Yes | reCAPTCHA v2 secret key (server-only) |
-| `NODEMAILER_TRANSPORTER_SERVICE` | Yes | Email service (e.g. `gmail`) |
-| `NODEMAILER_TRANSPORTER_USER` | Yes | Email account username |
-| `NODEMAILER_TRANSPORTER_PASS` | Yes | Email account password or app password |
-| `NODEMAILER_OPTIONS_FROM` | Yes | Sender address |
-| `NODEMAILER_OPTIONS_TO` | Yes | Recipient address for confirmations |
-| `NEXT_PUBLIC_ACCESS_TOKEN_MAP_BOX` | Yes | Mapbox public access token — from [Mapbox](https://account.mapbox.com) |
-| `NEXT_PUBLIC_URL_MAP_BOX` | Yes | Mapbox tiles base URL |
-| `NEXT_PUBLIC_OBSERVABILITY_ENABLED` | No | Set to `true` to enable Sentry + PostHog (default: `false`) |
-| `NEXT_PUBLIC_SENTRY_DSN` | No | Sentry DSN — from Sentry project settings |
-| `SENTRY_ORG` | No | Sentry organisation slug |
-| `SENTRY_PROJECT` | No | Sentry project slug |
-| `SENTRY_AUTH_TOKEN` | No | Sentry auth token for source-map uploads (CI only) |
-| `NEXT_PUBLIC_POSTHOG_KEY` | No | PostHog project API key |
-| `NEXT_PUBLIC_POSTHOG_HOST` | No | PostHog host (default: `https://app.posthog.com`) |
-| `GOOGLE_GENERATIVE_AI_KEY` | No | Google Gemini API key — from [AI Studio](https://aistudio.google.com/app/apikeys) |
-| `OPENROUTER_API_KEY` | No | OpenRouter API key — from [openrouter.ai/keys](https://openrouter.ai/keys) |
+| Variable                            | Required | Description                                                                                      |
+| ----------------------------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_STRAPI_URL`            | Yes      | Base URL of the Strapi backend (e.g. `http://localhost:1337`)                                    |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`    | Yes      | reCAPTCHA v2 site key (public) — from [Google reCAPTCHA](https://www.google.com/recaptcha/admin) |
+| `RECAPTCHA_SECRET_KEY`              | Yes      | reCAPTCHA v2 secret key (server-only)                                                            |
+| `NODEMAILER_TRANSPORTER_SERVICE`    | Yes      | Email service (e.g. `gmail`)                                                                     |
+| `NODEMAILER_TRANSPORTER_USER`       | Yes      | Email account username                                                                           |
+| `NODEMAILER_TRANSPORTER_PASS`       | Yes      | Email account password or app password                                                           |
+| `NODEMAILER_OPTIONS_FROM`           | Yes      | Sender address                                                                                   |
+| `NODEMAILER_OPTIONS_TO`             | Yes      | Recipient address for confirmations                                                              |
+| `NEXT_PUBLIC_ACCESS_TOKEN_MAP_BOX`  | Yes      | Mapbox public access token — from [Mapbox](https://account.mapbox.com)                           |
+| `NEXT_PUBLIC_URL_MAP_BOX`           | Yes      | Mapbox tiles base URL                                                                            |
+| `NEXT_PUBLIC_OBSERVABILITY_ENABLED` | No       | Set to `true` to enable Sentry + PostHog (default: `false`)                                      |
+| `NEXT_PUBLIC_SENTRY_DSN`            | No       | Sentry DSN — from Sentry project settings                                                        |
+| `SENTRY_ORG`                        | No       | Sentry organisation slug                                                                         |
+| `SENTRY_PROJECT`                    | No       | Sentry project slug                                                                              |
+| `SENTRY_AUTH_TOKEN`                 | No       | Sentry auth token for source-map uploads (CI only)                                               |
+| `NEXT_PUBLIC_POSTHOG_KEY`           | No       | PostHog project API key                                                                          |
+| `NEXT_PUBLIC_POSTHOG_HOST`          | No       | PostHog host (default: `https://app.posthog.com`)                                                |
+| `GOOGLE_GENERATIVE_AI_KEY`          | No       | Google Gemini API key — from [AI Studio](https://aistudio.google.com/app/apikeys)                |
+| `OPENROUTER_API_KEY`                | No       | OpenRouter API key — from [openrouter.ai/keys](https://openrouter.ai/keys)                       |
 
 ---
 
