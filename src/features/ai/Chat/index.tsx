@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { RiRobot2Line } from "react-icons/ri";
 import { TbSkateboard } from "react-icons/tb";
+import NextLink from "next/link";
 
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 
@@ -19,7 +20,7 @@ const INITIAL_SUGGESTIONS = [
 ];
 
 export function Chat() {
-  const { messages, isPending, submitMessage } = useAIChat();
+  const { messages, isPending, isAuthenticated, submitMessage } = useAIChat();
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -91,7 +92,8 @@ export function Chat() {
                   px={4}
                   whiteSpace="normal"
                   bg={chatIASuggestionBg}
-                  _hover={{ borderColor: "green.400", bg: cardBg }}
+                  isDisabled={!isAuthenticated}
+                  _hover={isAuthenticated ? { borderColor: "green.400", bg: cardBg } : {}}
                   gap={4}
                 >
                   <TbSkateboard size={18} />
@@ -121,33 +123,74 @@ export function Chat() {
         )}
       </Box>
 
-      {/* Input area */}
-      <HStack w="100%" maxW="800px" mx="auto" spacing={2}>
-        <Input
-          ref={inputRef}
-          value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Manda as ideias sobre o skate..."
-          isDisabled={isPending}
+      {/* Input area — auth gate */}
+      {isAuthenticated ? (
+        <HStack w="100%" maxW="800px" mx="auto" spacing={2}>
+          <Input
+            ref={inputRef}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Manda as ideias sobre o skate..."
+            isDisabled={isPending}
+            borderColor={border}
+            _focus={{
+              borderColor: "green.400"
+            }}
+          />
+          <Button
+            onClick={handleSubmit}
+            isLoading={isPending}
+            loadingText="Enviando"
+            disabled={!inputValue.trim() || isPending}
+            bg="green.400"
+            color="white"
+            _hover={{ bg: "green.500" }}
+            _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
+          >
+            Enviar
+          </Button>
+        </HStack>
+      ) : (
+        <VStack
+          w="100%"
+          maxW="800px"
+          mx="auto"
+          spacing={3}
+          py={4}
+          px={4}
+          borderRadius="md"
+          borderWidth={1}
           borderColor={border}
-          _focus={{
-            borderColor: "green.400"
-          }}
-        />
-        <Button
-          onClick={handleSubmit}
-          isLoading={isPending}
-          loadingText="Enviando"
-          disabled={!inputValue.trim() || isPending}
-          bg="green.400"
-          color="white"
-          _hover={{ bg: "green.500" }}
-          _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
         >
-          Enviar
-        </Button>
-      </HStack>
+          <Text fontSize="sm" color={textMuted} textAlign="center">
+            Para conversar com a Truta IA, faça seu login ou crie uma conta gratuitamente.
+          </Text>
+          <HStack spacing={3}>
+            <Button
+              as={NextLink}
+              href="/auth/signin"
+              bg="green.400"
+              color="white"
+              _hover={{ bg: "green.500" }}
+              size="sm"
+            >
+              Login
+            </Button>
+            <Button
+              as={NextLink}
+              href="/auth/register"
+              variant="outline"
+              borderColor="green.400"
+              color="green.400"
+              _hover={{ bg: cardBg }}
+              size="sm"
+            >
+              Criar conta
+            </Button>
+          </HStack>
+        </VStack>
+      )}
     </VStack>
   );
 }

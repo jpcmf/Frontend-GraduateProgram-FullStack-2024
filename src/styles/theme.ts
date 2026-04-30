@@ -34,6 +34,17 @@ export const theme = extendTheme({
         bg: props.colorMode === "light" ? "gray.50" : "gray.900",
         color: props.colorMode === "light" ? "gray.900" : "gray.50",
         height: "unset"
+      },
+      ".scroll-container": {
+        height: "500px",
+        overflow: "auto",
+        background: [
+          "linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top",
+          "radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) center top"
+        ].join(", "),
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 40px, 100% 14px",
+        backgroundAttachment: "local, scroll"
       }
     })
   }

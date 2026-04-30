@@ -1,13 +1,17 @@
 import { useState } from "react";
 
+import { useAuth } from "@/hooks/useAuth";
 import { streamClient } from "@/lib/streamClient";
 import type { Message } from "@/types/ai";
 
 export function useAIChat() {
+  const { isAuthenticated } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isPending, setIsPending] = useState(false);
 
   const submitMessage = async (userMessage: string) => {
+    if (!isAuthenticated) return;
+
     const userId = `user-${Date.now()}`;
     setMessages(prev => [...prev, { id: userId, role: "user", content: userMessage }]);
     setIsPending(true);
@@ -61,5 +65,5 @@ export function useAIChat() {
     }
   };
 
-  return { messages, isPending, submitMessage };
+  return { messages, isPending, isAuthenticated, submitMessage };
 }
