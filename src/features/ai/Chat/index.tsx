@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { RiRobot2Line } from "react-icons/ri";
+import { TbSkateboard } from "react-icons/tb";
 
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 
@@ -10,7 +11,6 @@ import { useColors } from "@/hooks/useColors";
 import { Input } from "@/shared/components/Form/Input";
 
 import { Message } from "../Message";
-import { TbSkateboard } from "react-icons/tb";
 
 const INITIAL_SUGGESTIONS = [
   "Como mandar aquele ollie cabuloso?",
