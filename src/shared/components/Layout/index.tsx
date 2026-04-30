@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -11,6 +11,7 @@ type LayoutProps = {
 };
 
 export function Layout({ children }: LayoutProps) {
+  const { colorMode } = useColorMode();
   return (
     <>
       <svg
@@ -18,7 +19,7 @@ export function Layout({ children }: LayoutProps) {
         height="100%"
         xmlns="http://www.w3.org/2000/svg"
         style={{
-          background: "linear-gradient(to bottom, #323238, #262829)",
+          background: `linear-gradient(to bottom, ${colorMode === "light" ? "#fff" : "#323238"}, #262829)`,
           position: "absolute",
           top: 0,
           left: 0,

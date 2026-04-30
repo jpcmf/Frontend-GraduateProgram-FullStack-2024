@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 28, 2026 (AI Assistant feature shipped)
+> Date: April 2026 · Last updated: April 30, 2026 (AI streaming + auth gate; login modal redirect fix)
 
 ---
 
@@ -459,9 +459,7 @@ export const AuthContext = createContext<AuthContextType>({
 
 > ✅ **FIXED** — The default context value in `AuthContext.tsx` was updated to use explicit no-ops. (Spots feature branch)
 
-### B-7: `destroyCookie` Missing `path` — Logout Does Not Clear Cookie — ✅ FIXED (feat/spots)
-
-**File:** `src/contexts/AuthContext.tsx`
+### B-7: `destroyCookie` Missing `path` — Logout Does Not Clear Cookie — ✅ FIXED (feat/spots)**File:** `src/contexts/AuthContext.tsx`
 
 `destroyCookie` was called without the `{ path: "/" }` option in two places:
 
@@ -488,6 +486,38 @@ destroyCookie(undefined, "auth.token", { path: "/" });
 ```
 
 Both calls now match the `path: "/"` set during `signIn()` via `setCookie`.
+
+### B-8: Login Modal Redirects to `/` When Opened from Any Other Route — ✅ FIXED (April 30, 2026)
+
+**File:** `src/components/Header/index.tsx`
+
+**Symptom:** Clicking the Login button on any page other than `/` (e.g. `/ai`) immediately navigated the user to `/` before the modal appeared.
+
+**Root Cause:** `handleLoginClick` hard-coded the destination as `/?modal=login`:
+
+```ts
+const handleLoginClick = () => {
+  router.push("/?modal=login"); // ← always navigates to /
+};
+```
+
+`router.push("/?modal=login")` is a full navigation to `/` with a query param — not just a query param update. The browser changes the route before the modal renders. Closing the modal also always sent the user to `/` via `router.push("/")`, regardless of where they came from.
+
+**Fix applied:**
+
+```ts
+const pathname = usePathname();
+
+const handleLoginClick = () => {
+  router.push(`${pathname}?modal=login`); // stay on current route
+};
+
+const handleClose = () => {
+  router.push(pathname); // strip ?modal=login, stay on current page
+};
+```
+
+`usePathname()` (App Router) returns the current route without query params. Appending `?modal=login` to it opens the modal without changing the page, and closing it strips the param without navigating away.
 
 ---
 
@@ -926,55 +956,70 @@ async function signIn({ email, password }: SignInData) {
 
 ## 12. AI Assistant Feature — Implementation Notes
 
-> Shipped: April 28, 2026 · Branch: `feature/ai-assistant`
+> Initial ship: April 28, 2026 · Branch: `feature/ai-assistant`
+> SSE rewrite + auth gate: April 30, 2026 · Branch: `feature/ai-auth-gate` · PR #176
 
 ### Overview
 
-A public chat interface at `/ai` where users ask skateboarding questions and receive AI-powered responses. No authentication required.
+A chat interface at `/ai` where users ask skateboarding questions and receive AI-powered responses streamed token-by-token. Requires authentication — unauthenticated users see a sign-in prompt.
 
 ### Architecture
 
 ```
-/ai (public page)
+/ai (public route, auth-gated UI)
   └── Chat component (src/features/ai/Chat/index.tsx)
         ├── useAIChat hook (src/hooks/useAIChat.ts)
-        │     └── sendMessage service (src/services/sendMessage.ts)
-        │           └── POST /api/ai/chat
-        │                 └── generateChatResponse (src/server/lib/gemini.ts)
-        │                       └── Google Gemini 2.0 Flash
+        │     └── streamClient (src/lib/streamClient.ts)
+        │           └── POST /api/ai/chat  (SSE)
+        │                 ├── auth gate: request.cookies.get("auth.token")
+        │                 └── streamChatResponse (src/server/lib/openrouter.ts or gemini.ts)
+        │                       └── OpenRouter / Gemini — streamed SSE
         └── Message component (src/features/ai/Message/index.tsx)
+              └── react-markdown (renders assistant messages as Markdown)
 ```
 
-### Files Added
+### Auth Gate — Three Layers
 
-| File                                | Purpose                                                                            |
-| ----------------------------------- | ---------------------------------------------------------------------------------- |
-| `src/types/ai.ts`                   | `Message` and `AIResponse` types                                                   |
-| `src/services/sendMessage.ts`       | API client for `/api/ai/chat`                                                      |
-| `src/hooks/useAIChat.ts`            | Chat state (messages, isPending, submitMessage)                                    |
-| `src/features/ai/Message/index.tsx` | Single message bubble component                                                    |
-| `src/features/ai/Chat/index.tsx`    | Main chat UI — hero + suggestions pre-conversation, message list post-conversation |
-| `src/app/(public)/ai/page.tsx`      | Public page route                                                                  |
-| `src/app/api/ai/chat/route.ts`      | Next.js API route — validates input, calls Gemini, returns response                |
-| `src/server/lib/gemini.ts`          | Gemini 2.0 Flash client abstraction                                                |
+| Layer     | Location                         | Behaviour                                            |
+| --------- | -------------------------------- | ---------------------------------------------------- |
+| API route | `src/app/api/ai/chat/route.ts`   | Returns `401` if `auth.token` cookie absent          |
+| Hook      | `src/hooks/useAIChat.ts`         | Short-circuits `submitMessage` if `!isAuthenticated` |
+| UI        | `src/features/ai/Chat/index.tsx` | Shows "Entrar / Criar conta" prompt instead of input |
 
-### Response Schema
+### Files Added / Modified
 
-```typescript
-type AIResponse = {
-  answer: string;
-  confidence: number; // heuristic, not returned by the model
-};
+| File                                | Purpose                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `src/types/ai.ts`                   | `Message` type                                                                        |
+| `src/hooks/useAIChat.ts`            | Stream consumer — exposes `messages`, `isPending`, `isAuthenticated`, `submitMessage` |
+| `src/features/ai/Message/index.tsx` | Message bubble — `react-markdown` for assistant content                               |
+| `src/features/ai/Chat/index.tsx`    | Chat UI — auth gate, suggestions, spinner (hides on first token)                      |
+| `src/app/(public)/ai/page.tsx`      | Public page route                                                                     |
+| `src/app/api/ai/chat/route.ts`      | SSE route — cookie auth gate, stream pipe, user-friendly error response               |
+| `src/server/lib/openrouter.ts`      | `streamChatResponse` + `generateChatResponse`                                         |
+| `src/server/lib/gemini.ts`          | `streamChatResponse` with SSE normalization to OpenRouter shape                       |
+| `src/lib/streamClient.ts`           | Thin `fetch` wrapper with base URL + auth token — mirrors `apiClient` pattern         |
+
+### SSE Stream Format
+
+Both OpenRouter and Gemini are normalized to the same shape so the hook parser is provider-agnostic:
+
+```
+data: {"choices":[{"delta":{"content":"token"}}]}
+data: [DONE]
 ```
 
-### Environment Variable
+### Environment Variables
 
 ```
+OPENROUTER_API_KEY=your_openrouter_key_here   # replace with valid key from openrouter.ai/keys
 GOOGLE_GENERATIVE_AI_KEY=your_google_ai_key_here
 ```
 
+> **Note:** The OpenRouter key in `.env.local` was returning `401 - User not found` as of April 30, 2026. A new key must be generated before the feature works end-to-end.
+
 ### Known Limitations / Future Work
 
-- **`level` field deferred** — `"beginner" | "intermediate" | "advanced"` was scoped out of MVP. Requires switching the Gemini prompt to structured JSON output and parsing the response. See plan doc for implementation steps.
 - **No conversation history** — each message is sent independently; the model has no memory of prior turns.
 - **No persistence** — chat resets on page reload.
+- **`level` field deferred** — `"beginner" | "intermediate" | "advanced"` scoped out of MVP.
