@@ -164,7 +164,7 @@ export function Chat() {
           borderColor={border}
         >
           <Text fontSize="sm" color={textMuted} textAlign="center">
-            Para conversar com a Truta IA, entra na tua conta ou cria uma conta gratuitamente.
+            Para conversar com a Truta IA, faça seu login ou crie uma conta gratuitamente.
           </Text>
           <HStack spacing={3}>
             <Button
