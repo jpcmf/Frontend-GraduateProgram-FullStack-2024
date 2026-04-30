@@ -2,7 +2,7 @@
 
 ## Project Context
 
-This is the **Next.js 14 frontend** for SkateHub, a social platform for the skateboarding community.
+This is the **Next.js 16 + React 19 frontend** for SkateHub, a social platform for the skateboarding community.
 Built with TypeScript, Chakra UI, TanStack Query, and a custom cookie-based auth system backed by Strapi.
 Read `docs/TECHNICAL_ANALYSIS.md` for the full architecture analysis and known issues.
 Read the backend spec files at `/Users/joaopaulo/www/pucrs/project/skatehub-strapi/specs/` for API contracts.
@@ -56,6 +56,36 @@ This project uses **Spec-Driven Development**. Every feature must follow this pr
 - TanStack Query hooks live in `src/hooks/use<Entity>.ts` — one hook per resource
 - Types for API responses live in `src/types/<feature>.ts`
 - Auth state is accessed via the `useAuth` hook (`src/hooks/useAuth.ts`) — never import `AuthContext` directly
+
+## Documentation Maintenance Rules
+
+These two steps are **required before any PR can be considered complete**:
+
+### After every feature implementation
+
+1. **Update `README.md` — Features section**
+   Add a bullet describing the new feature under the relevant category (or create a new one). Keep it concise: one line, user-facing language.
+
+2. **Update `CHANGELOG.md` — prepend a new entry**
+   Add the entry at the top of the `## [Unreleased]` section using this exact format:
+
+   ```
+   - YYYY-MM-DD - <Description of change> [#PR](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/<number>) _(vX.Y.Z)_
+   ```
+
+   When a version is released, move all `[Unreleased]` entries under a new versioned heading:
+
+   ```markdown
+   ## [X.Y.Z] - YYYY-MM-DD
+   ```
+
+### Rules
+
+- Never skip documentation updates — they are part of the definition of done
+- Feature descriptions in `README.md` must be user-facing (what it does), not technical (how it works)
+- Changelog entries must match the PR title and version in `package.json`
+
+---
 
 ## Testing Standards
 
@@ -188,6 +218,43 @@ When using Playwright tools for visual verification:
 - All images from Strapi must go through the `next/image` component or be listed in `next.config.ts` `remotePatterns`
 - Form validation errors must be shown to the user — never swallowed silently
 - All mutating operations (create/update/delete) must invalidate the relevant TanStack Query cache after success
+
+## Security Rules
+
+These rules apply to every task — features, fixes, docs, and refactors.
+
+### Secrets and environment variables
+
+- **Never hardcode secrets** — no API keys, tokens, passwords, or DSNs anywhere in source code
+- **Never expose secrets in the README or any public-facing file** — variable names belong in `.env.example` with empty values and inline comments; nothing more
+- **Never commit `.env.local`** — it is gitignored for a reason; verify before every commit
+- **Never use the `NEXT_PUBLIC_` prefix for server-only values** — anything prefixed `NEXT_PUBLIC_` is inlined into the client JavaScript bundle and readable by anyone
+- **Server-only keys** (reCAPTCHA secret, Sentry auth token, AI provider keys, SMTP passwords) must have no `NEXT_PUBLIC_` prefix and must only be accessed in API routes or server components
+
+### API routes and server code
+
+- **Always authenticate API routes** — every route that touches user data must verify the `auth.token` cookie before processing the request; return `401` immediately if absent
+- **Never return raw error messages to the client** — catch blocks must return generic user-facing messages (e.g. `"Something went wrong, please try again."`); log the real error server-side only
+- **Validate all inputs server-side** — never trust data from `request.json()` without type-checking and length/format validation; return `400` for invalid payloads
+- **Never expose internal service errors** — stack traces, database errors, and provider error messages must never reach the HTTP response body
+
+### Frontend and public repository
+
+- **This repository is public** — treat every file that is committed as publicly readable
+- **Never log sensitive data** — do not log tokens, user emails, passwords, or API responses containing personal data
+- **Auth checks belong in middleware and layout guards** — never rely solely on client-side conditional rendering to protect content
+- **Cookie flags** — auth cookies must always be set with `secure: true` (production), `sameSite: "lax"`, and `path: "/"` — never omit these
+
+### Before opening a PR — security checklist
+
+- [ ] No secrets or tokens in any committed file
+- [ ] No `NEXT_PUBLIC_` prefix on server-only variables
+- [ ] All new API routes validate auth and sanitise input
+- [ ] No raw error details returned to the client
+- [ ] No `console.log` with sensitive data
+- [ ] `.env.local` is not staged (`git status` confirms)
+
+---
 
 ## File & Directory References
 
