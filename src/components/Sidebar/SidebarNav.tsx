@@ -15,7 +15,7 @@ export function SidebarNav() {
   const { bgColor, borderColor } = useColors();
   return (
     <Box bg={bgColor} p="6" borderRadius={0} h="full" borderRight="1px solid" borderColor={borderColor}>
-      <Stack spacing="12" align="flex-start">
+      <Stack spacing="12" align="flex-start" position="sticky" top="97px">
         <NavSection title="Principal">
           <NavLink
             icon={RiDashboardLine}
