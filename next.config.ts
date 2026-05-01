@@ -33,12 +33,6 @@ export default withSentryConfig(nextConfig, {
   // Suppress the Sentry CLI output during builds
   silent: !process.env.CI,
 
-  // Automatically tree-shake Sentry debug logging in production (Turbopack-compatible)
-  // disableLogger is deprecated; use webpack.treeshake instead for webpack builds
-  unstable_sentryWebpackPluginOptions: {
-    debug: false
-  },
-
   // Upload source maps to Sentry so stack traces are readable
   widenClientFileUpload: true
 });
