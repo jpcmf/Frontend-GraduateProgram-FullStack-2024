@@ -1,11 +1,11 @@
 /**
  * Detects if the browser supports AI text improvement for on-device text enhancement.
- * 
+ *
  * Priority order (Chrome 148+):
  * 1. Rewriter API (dedicated for rewriting) — Chrome 137-148 origin trial
  * 2. Writer API (fallback for rewriting) — Chrome 137-148 origin trial, currently available
  *
- * API reference: 
+ * API reference:
  * - https://developer.chrome.com/docs/ai/rewriter-api
  * - https://developer.chrome.com/docs/ai/writer-api
  */
@@ -16,7 +16,7 @@ export function isAIWriterSupported(): boolean {
   }
 
   // Debug info
-   
+
   console.log("[isAIWriterSupported] Browser UA:", (globalThis as any).navigator?.userAgent);
 
   // Check for Rewriter API (primary, dedicated for rewriting)
@@ -33,12 +33,11 @@ export function isAIWriterSupported(): boolean {
     typeof (globalThis as any).Writer.availability === "function"
   );
 
-   
   console.log("[isAIWriterSupported] hasRewriter:", hasRewriter, "hasWriter:", hasWriter);
 
   // Support either API
   const isSupported = hasRewriter || hasWriter;
-   
+
   console.log("[isAIWriterSupported] Final result:", isSupported);
 
   return isSupported;

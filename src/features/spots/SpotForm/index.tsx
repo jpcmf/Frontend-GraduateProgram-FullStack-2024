@@ -151,7 +151,7 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
         </Flex>
 
         {/* Improve Text Button */}
-        <Box mt={1}>
+        <Box mt={1} position="relative">
           <ImproveTextButton
             text={watch("description")}
             onImprove={improvedText => {
