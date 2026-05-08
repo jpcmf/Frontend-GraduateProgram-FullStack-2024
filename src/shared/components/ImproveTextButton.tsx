@@ -7,9 +7,9 @@ import { isAIWriterSupported } from "@/utils/ai/isSupported";
 
 export interface ImproveTextButtonProps {
   /**
-   * The current text to improve. Button is hidden if empty.
+   * The current text to improve. Button is hidden if empty or undefined.
    */
-  text: string;
+  text?: string;
 
   /**
    * Callback fired when text is successfully improved.
@@ -40,6 +40,7 @@ export function ImproveTextButton({ text, onImprove, className }: ImproveTextBut
   const isEmpty = !text || text.trim().length === 0;
 
   const handleClick = useCallback(async () => {
+    if (!text) return;
     const improvedText = await improveText(text);
     if (improvedText) {
       onImprove(improvedText);

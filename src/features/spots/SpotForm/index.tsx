@@ -1,15 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RiAlertLine } from "react-icons/ri";
-
-import { Box, Button, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { apiClient } from "@/lib/apiClient";
 import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/lib/const/spotValidation";
+import { apiClient } from "@/lib/apiClient";
 import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
@@ -151,7 +151,7 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
         </Flex>
 
         {/* Improve Text Button */}
-        <Box>
+        <Box mt={1}>
           <ImproveTextButton
             text={watch("description")}
             onImprove={(improvedText) => {
