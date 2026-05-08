@@ -176,11 +176,12 @@ The "Improve text" button uses Chrome's on-device **Rewriter API** (in Origin Tr
 
 ### Recent changes
 
-- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176) _(v1.2.1)_
-- 2026-04-29 - Add AI Assistant with streaming SSE, auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.2.0)_
-- 2026-04-27 - Add `tracePropagationTargets` to Sentry config for distributed tracing [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170) _(v1.1.1)_
-- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166) _(v1.1.0)_
-- 2026-04-12 - App Router migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
+- 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#184](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/184)
+- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176)
+- 2026-04-29 - Add AI Assistant with streaming SSE, auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172)
+- 2026-04-27 - Add `tracePropagationTargets` to Sentry config for distributed tracing [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170)
+- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166)
+- 2026-04-12 - App Router migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160)
 
 → [Full changelog](./CHANGELOG.md)
 
