@@ -68,7 +68,6 @@ export function useAIWriter(options?: UseAIWriterOptions): UseAIWriterResult {
       setError(null);
 
       try {
-         
         const globalScope = globalThis as any;
         let improvedText: string | null = null;
 
