@@ -3,9 +3,9 @@
 All notable changes to SkateHub Frontend are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [1.3.0] - 2026-05-08
 
-- 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#TODO](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/TODO) _(pending)_
+- 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#184](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/184)
 
 ## [1.2.1] - 2026-04-30
 
