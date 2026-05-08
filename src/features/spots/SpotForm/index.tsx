@@ -152,9 +152,15 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
 
         {/* Improve Text Button */}
         <Box mt={1}>
+          {/* DEBUG: Show what value is being passed */}
+          {typeof window !== "undefined" && (
+            <Text fontSize="xs" color="gray.500" mb={1}>
+              DEBUG: description="{watch("description")}" | length={watch("description")?.length ?? 0}
+            </Text>
+          )}
           <ImproveTextButton
             text={watch("description")}
-            onImprove={improvedText => {
+            onImprove={(improvedText) => {
               setValue("description", improvedText);
             }}
           />

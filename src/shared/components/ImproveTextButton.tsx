@@ -39,6 +39,26 @@ export function ImproveTextButton({ text, onImprove, className }: ImproveTextBut
   const isSupported = isAIWriterSupported();
   const isEmpty = !text || text.trim().length === 0;
 
+  // Temporary debug logging - REMOVE BEFORE COMMIT
+  if (typeof window !== "undefined") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const hasAPI = typeof (window as any).ai?.rewriter?.rewrite === "function";
+    if (text && text.length > 0) {
+      // Only log when there's text to reduce noise
+      // eslint-disable-next-line no-console
+      console.log(
+        "[ImproveTextButton] Debug - hasAPI:",
+        hasAPI,
+        "isSupported:",
+        isSupported,
+        "isEmpty:",
+        isEmpty,
+        "text length:",
+        text.length
+      );
+    }
+  }
+
   const handleClick = useCallback(async () => {
     if (!text) return;
     const improvedText = await improveText(text);
