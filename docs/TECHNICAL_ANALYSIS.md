@@ -1,7 +1,7 @@
 # Technical Analysis — SkateHub Frontend
 
 > Stack: Next.js 16 (Pages Router) · React 19 · TypeScript · Chakra UI 2 · Strapi (auth + API)
-> Date: April 2026 · Last updated: April 30, 2026 (AI streaming + auth gate; login modal redirect fix)
+> Date: April 2026 · Last updated: May 8, 2026 (AI UX Writing Assistant; dynamic context support)
 
 ---
 
@@ -19,6 +19,7 @@
 10. [Spots Feature — Implementation Notes](#10-spots-feature--implementation-notes)
 11. [Recent Improvements (April 14, 2026)](#11-recent-improvements-april-14-2026)
 12. [AI Assistant Feature — Implementation Notes](#12-ai-assistant-feature--implementation-notes)
+13. [AI UX Writing Assistant — Implementation Notes](#13-ai-ux-writing-assistant--implementation-notes)
 
 ---
 
@@ -1023,3 +1024,120 @@ GOOGLE_GENERATIVE_AI_KEY=your_google_ai_key_here
 - **No conversation history** — each message is sent independently; the model has no memory of prior turns.
 - **No persistence** — chat resets on page reload.
 - **`level` field deferred** — `"beginner" | "intermediate" | "advanced"` scoped out of MVP.
+
+---
+
+## 13. AI UX Writing Assistant — Implementation Notes
+
+> Initial ship: May 8, 2026 · Branch: `feature/ai-ux-writing` · PR [#TBD](pending-pr)
+
+### Overview
+
+An "Improve text" button that appears in forms (spot descriptions, user bios) and uses Chrome's on-device AI Rewriter/Writer APIs to enhance clarity and structure. Client-only, no backend calls, graceful fallback on unsupported browsers.
+
+### Architecture
+
+```
+SpotForm / ProfileForm (any form with textarea)
+  └── ImproveTextButton component (src/shared/components/ImproveTextButton.tsx)
+        └── useAIWriter hook (src/hooks/useAIWriter.ts)
+              ├── isAIWriterSupported() (src/utils/ai/isSupported.ts)
+              ├── Rewriter API (primary, Chrome 137-148 origin trial)
+              └── Writer API (fallback, same origin trial period)
+```
+
+### Browser Support
+
+- **Chrome 137–148+** (during Origin Trial period)
+- **Edge 137–148+** (during Origin Trial period)
+- **Graceful fallback**: Button hidden if neither API available
+
+### Hardware Requirements
+
+- **Storage**: 22 GB free disk space
+- **Memory**: GPU 4GB+ VRAM OR CPU 16GB+ RAM + 4+ cores
+- **Network**: One-time model download; subsequent use offline-capable
+
+### API Strategy (Dual-Stack)
+
+| Priority | API      | Availability               | Status                       |
+| -------- | -------- | -------------------------- | ---------------------------- |
+| 1        | Rewriter | Chrome 137+ (origin trial) | Not yet available Chrome 148 |
+| 2        | Writer   | Chrome 137+ (origin trial) | ✅ Available Chrome 148      |
+
+The hook tries Rewriter first (dedicated rewriting), falls back to Writer if unavailable.
+
+### Files Added
+
+| File                                          | Purpose                                     |
+| --------------------------------------------- | ------------------------------------------- |
+| `src/hooks/useAIWriter.ts`                    | Hook with dual API support + context config |
+| `src/utils/ai/isSupported.ts`                 | Browser API detection (Rewriter + Writer)   |
+| `src/shared/components/ImproveTextButton.tsx` | Reusable button component                   |
+| `specs/ai-ux-writing.md`                      | Feature spec + usage patterns               |
+
+### Files Modified
+
+| File                                    | Change                              |
+| --------------------------------------- | ----------------------------------- |
+| `src/features/spots/SpotForm/index.tsx` | Added ImproveTextButton integration |
+| `README.md`                             | Added testing instructions          |
+| `CHANGELOG.md`                          | Added feature entry                 |
+
+### Configuration via `UseAIWriterOptions`
+
+The hook and button component support custom context for different use cases:
+
+```typescript
+interface UseAIWriterOptions {
+  sharedContext?: string; // e.g. "You are improving a user profile bio."
+  tone?: "more-casual" | "neutral" | "more-formal";
+  improveContext?: string; // e.g. "Make it more engaging and concise."
+}
+```
+
+**Usage examples:**
+
+```tsx
+// Spot descriptions (default)
+<ImproveTextButton text={text} onImprove={setText} />
+
+// User profiles with custom context
+<ImproveTextButton
+  text={bio}
+  onImprove={setBio}
+  aiOptions={{
+    sharedContext: "You are improving a user profile bio.",
+    improveContext: "Make it more engaging and concise."
+  }}
+/>
+```
+
+### Language Support
+
+Currently Portuguese (pt-BR) only. Prompts are in Portuguese to ensure AI output is in Portuguese.
+
+### Production Deployment
+
+1. **Register for Origin Trial**: https://developer.chrome.com/origintrials?hl=en#/view_trial/444167513249415169
+2. **Add origin trial token** to `public/index.html`:
+   ```html
+   <meta http-equiv="origin-trial" content="YOUR_TOKEN_HERE" />
+   ```
+3. **Accept Google's AI Use Policy**: https://policies.google.com/terms/generative-ai/use-policy
+
+### Development Testing
+
+Enable Chrome flags (no origin trial token needed):
+
+1. `chrome://flags/#optimization-guide-on-device-model` → Enabled
+2. `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input` → Enabled
+3. `chrome://flags/#writer-api-for-gemini-nano` → Enabled
+4. Restart Chrome
+
+### Known Limitations / Future Work
+
+- **No undo/redo** — user manually reverts if needed
+- **Single language** — Portuguese only (pt-BR)
+- **No multi-language** — would require language detection + separate prompts
+- **Tone not exposed in MVP UI** — available programmatically via `aiOptions.tone`

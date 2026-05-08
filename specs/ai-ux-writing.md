@@ -1,6 +1,6 @@
 # Feature: AI UX — Writing Assistant
 
-**Status:** draft
+**Status:** done
 **Priority:** medium
 **Affects:** Existing forms (SpotForm, User Profile/Bio), new client-side utilities
 
@@ -59,7 +59,41 @@ The AI UX Writing Assistant improves user-generated text directly in the UI usin
 
 ---
 
-## Writing Rules (Critical)
+## Browser Support & Requirements
+
+### Supported Browsers
+
+- Chrome 137–148 (in Origin Trial period)
+- Edge 137–148 (in Origin Trial period)
+
+### Hardware Requirements
+
+- **OS**: Windows 10/11, macOS 13+, Linux, or ChromeOS (Chromebook Plus)
+- **Storage**: 22 GB free disk space minimum
+- **Memory**:
+  - GPU: 4GB+ VRAM, OR
+  - CPU: 16GB+ RAM + 4+ cores
+- **Network**: Unlimited data connection (for model download only; subsequent use offline-capable)
+
+### Requirements for Production Deployment
+
+1. **Origin Trial Token**: The Rewriter API requires registering for the [Origin Trial](https://developer.chrome.com/origintrials?hl=en#/view_trial/444167513249415169)
+   - Must add token to `public/index.html` as meta tag or to response headers
+   - Shared with Writer API under same trial
+2. **User Agreement**: Must confirm [Google's Generative AI Use Policy](https://policies.google.com/terms/generative-ai/use-policy)
+
+### For Development/Testing
+
+To test on localhost:
+
+1. Enable Chrome flags:
+   - `chrome://flags/#optimization-guide-on-device-model` → Enabled
+   - `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input` → Enabled
+   - `chrome://flags/#writer-api-for-gemini-nano` → Enabled
+2. Restart Chrome
+3. Feature will work without origin trial token
+
+---
 
 The AI must:
 
@@ -109,11 +143,11 @@ The AI should prioritize making the description more useful for other skaters by
 
 ### New files
 
-| File                                    | Purpose                                     |
-| --------------------------------------- | ------------------------------------------- |
-| `src/hooks/useAIWriter.ts`              | Hook to handle on-device AI rewriting       |
-| `src/utils/ai/isSupported.ts`           | Detect browser support                      |
-| `src/features/ai/ImproveTextButton.tsx` | Button component for triggering improvement |
+| File                                          | Purpose                                              |
+| --------------------------------------------- | ---------------------------------------------------- |
+| `src/hooks/useAIWriter.ts`                    | Hook to handle on-device AI rewriting                |
+| `src/utils/ai/isSupported.ts`                 | Detect browser support                               |
+| `src/shared/components/ImproveTextButton.tsx` | Reusable button component for triggering improvement |
 
 ---
 
@@ -126,17 +160,75 @@ The AI should prioritize making the description more useful for other skaters by
 
 ---
 
+## Usage Patterns
+
+### Default usage (Spot descriptions)
+
+```tsx
+import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
+
+export function MyForm() {
+  const { watch, setValue } = useForm();
+
+  return (
+    <>
+      <textarea {...register("description")} />
+      <ImproveTextButton
+        text={watch("description")}
+        onImprove={improvedText => setValue("description", improvedText)}
+      />
+    </>
+  );
+}
+```
+
+### Custom context (User profiles, different contexts)
+
+```tsx
+import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
+
+export function ProfileForm() {
+  const { watch, setValue } = useForm();
+
+  return (
+    <>
+      <textarea {...register("bio")} />
+      <ImproveTextButton
+        text={watch("bio")}
+        onImprove={improvedText => setValue("bio", improvedText)}
+        aiOptions={{
+          sharedContext: "You are improving a user profile bio.",
+          improveContext: "Make it more engaging and concise. Keep it in Portuguese."
+        }}
+      />
+    </>
+  );
+}
+```
+
+The `useAIWriter` hook accepts optional `UseAIWriterOptions`:
+
+```tsx
+export interface UseAIWriterOptions {
+  sharedContext?: string; // Context for the AI about the content type
+  tone?: "more-casual" | "neutral" | "more-formal"; // Tone of the rewrite
+  improveContext?: string; // Specific instructions for improvement
+}
+```
+
+---
+
 ## Acceptance Criteria
 
-- [ ] "Improve text" button appears when textarea has content
-- [ ] Clicking the button replaces text with improved version
-- [ ] Text is clearer, more structured, and more useful
-- [ ] No hallucinated or invented information is introduced
-- [ ] No API calls are made (client-only execution)
-- [ ] Feature works only on supported browsers
-- [ ] Graceful fallback when unsupported
-- [ ] No `console.log`, `console.warn`, or `console.error` in new files
-- [ ] TypeScript — no `any` types
+- [x] "Improve text" button appears when textarea has content
+- [x] Clicking the button replaces text with improved version
+- [x] Text is clearer, more structured, and more useful
+- [x] No hallucinated or invented information is introduced
+- [x] No API calls are made (client-only execution)
+- [x] Feature works only on supported browsers
+- [x] Graceful fallback when unsupported
+- [x] No `console.log`, `console.warn`, or `console.error` in new files
+- [x] TypeScript — no `any` types
 
 ---
 
@@ -153,5 +245,5 @@ The AI should prioritize making the description more useful for other skaters by
 - Backend-based text generation
 - Saving multiple versions of text
 - Undo/redo history
-- Tone selection (formal, casual, etc.)
-- Multi-language rewriting
+- ~~Tone selection (formal, casual, etc.)~~ _(Available as advanced option via `aiOptions.tone`)_
+- Multi-language rewriting (currently Portuguese only)

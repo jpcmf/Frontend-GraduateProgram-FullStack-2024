@@ -78,6 +78,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Markdown rendering for structured answers
 - Powered by OpenRouter / Google Gemini
 - Authentication-gated — sign in to use
+- On-device text improvement for spot descriptions using AI Rewriter API
 
 ### Observability
 
@@ -158,15 +159,29 @@ pnpm dev
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
 
+### Testing the AI Text Improvement Feature
+
+The "Improve text" button uses Chrome's on-device **Rewriter API** (in Origin Trial). To test locally:
+
+1. Enable Chrome feature flags:
+   - `chrome://flags/#optimization-guide-on-device-model` → **Enabled**
+   - `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input` → **Enabled**
+   - `chrome://flags/#writer-api-for-gemini-nano` → **Enabled**
+2. Restart Chrome
+3. Navigate to create/edit a spot and test the "Improve text" button
+
+**For production deployment**: Register for the [Origin Trial](https://developer.chrome.com/origintrials?hl=en#/view_trial/444167513249415169) and add the trial token to `public/index.html` or response headers.
+
 ## 📋 Changelog
 
 ### Recent changes
 
-- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176) _(v1.2.1)_
-- 2026-04-29 - Add AI Assistant with streaming SSE, auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172) _(v1.2.0)_
-- 2026-04-27 - Add `tracePropagationTargets` to Sentry config for distributed tracing [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170) _(v1.1.1)_
-- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166) _(v1.1.0)_
-- 2026-04-12 - App Router migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160) _(v1.0.0)_
+- 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#184](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/184)
+- 2026-04-30 - Fix login modal redirecting to "/" when opened from any route [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176)
+- 2026-04-29 - Add AI Assistant with streaming SSE, auth gate, and Markdown rendering [#172](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/172)
+- 2026-04-27 - Add `tracePropagationTargets` to Sentry config for distributed tracing [#170](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/170)
+- 2026-04-27 - Add vendor-swappable observability layer (Sentry, PostHog, Vercel) [#166](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/166)
+- 2026-04-12 - App Router migration [#160](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/160)
 
 → [Full changelog](./CHANGELOG.md)
 
