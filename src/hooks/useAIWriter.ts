@@ -37,20 +37,39 @@ export function useAIWriter(): UseAIWriterResult {
     setIsLoading(true);
     setError(null);
 
-    try {
-      // Call the browser Rewriter API
+      try {
+        // Call the browser Rewriter API - try different possible APIs
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const win = window as any;
+        let rewriteFunc = null;
 
-      const rewriter = (window as any).ai.rewriter;
-      const improvedText = await rewriter.rewrite(text);
+        // Try different possible API locations
+        if (typeof win.ai?.rewriter?.rewrite === "function") {
+          rewriteFunc = win.ai.rewriter.rewrite;
+        } else if (typeof win.ai?.rewriter?.rewriteText === "function") {
+          rewriteFunc = win.ai.rewriter.rewriteText;
+        } else if (typeof win.ai?.textRewriter?.rewrite === "function") {
+          rewriteFunc = win.ai.textRewriter.rewrite;
+        } else if (typeof win.aiTextRewriter?.rewrite === "function") {
+          rewriteFunc = win.aiTextRewriter.rewrite;
+        }
 
-      setIsLoading(false);
-      return improvedText || null;
-    } catch (_err) {
-      // Don't expose raw error messages to users
-      setError("Failed to improve text. Please try again.");
-      setIsLoading(false);
-      return null;
-    }
+        if (!rewriteFunc) {
+          setError("Rewriter API not found");
+          setIsLoading(false);
+          return null;
+        }
+
+        const improvedText = await rewriteFunc(text);
+
+        setIsLoading(false);
+        return improvedText || null;
+      } catch (_err) {
+        // Don't expose raw error messages to users
+        setError("Failed to improve text. Please try again.");
+        setIsLoading(false);
+        return null;
+      }
   }, []);
 
   return {
