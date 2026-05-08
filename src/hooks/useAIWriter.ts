@@ -15,6 +15,8 @@ export interface UseAIWriterResult extends UseAIWriterState {
  * Hook to handle on-device text improvement using the browser's Rewriter API.
  * Returns the improved text or null if an error occurs.
  *
+ * API reference: https://developer.chrome.com/docs/ai/rewriter-api
+ *
  * @returns Object with isLoading flag, error message, and improveText function
  */
 export function useAIWriter(): UseAIWriterResult {
@@ -37,39 +39,46 @@ export function useAIWriter(): UseAIWriterResult {
     setIsLoading(true);
     setError(null);
 
-      try {
-        // Call the browser Rewriter API - try different possible APIs
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const win = window as any;
-        let rewriteFunc = null;
+    try {
+      // Access the global Rewriter API
+       
+      const RewriterAPI = (globalThis as any).Rewriter;
 
-        // Try different possible API locations
-        if (typeof win.ai?.rewriter?.rewrite === "function") {
-          rewriteFunc = win.ai.rewriter.rewrite;
-        } else if (typeof win.ai?.rewriter?.rewriteText === "function") {
-          rewriteFunc = win.ai.rewriter.rewriteText;
-        } else if (typeof win.ai?.textRewriter?.rewrite === "function") {
-          rewriteFunc = win.ai.textRewriter.rewrite;
-        } else if (typeof win.aiTextRewriter?.rewrite === "function") {
-          rewriteFunc = win.aiTextRewriter.rewrite;
-        }
-
-        if (!rewriteFunc) {
-          setError("Rewriter API not found");
-          setIsLoading(false);
-          return null;
-        }
-
-        const improvedText = await rewriteFunc(text);
-
-        setIsLoading(false);
-        return improvedText || null;
-      } catch (_err) {
-        // Don't expose raw error messages to users
-        setError("Failed to improve text. Please try again.");
+      if (!RewriterAPI) {
+        setError("Rewriter API not available");
         setIsLoading(false);
         return null;
       }
+
+      // Check availability before creating rewriter
+      const availability = await RewriterAPI.availability();
+      if (availability === "unavailable") {
+        setError("Rewriter API is unavailable in this browser");
+        setIsLoading(false);
+        return null;
+      }
+
+      // Create rewriter instance with default options
+      const rewriter = await RewriterAPI.create({
+        sharedContext: "This is a spot description for a skateboarding spot guide.",
+        tone: "neutral",
+        format: "plain-text",
+        length: "same"
+      });
+
+      // Call rewrite to improve the text
+      const improvedText = await rewriter.rewrite(text);
+
+      setIsLoading(false);
+      return improvedText || null;
+    } catch (err) {
+      // Don't expose raw error messages to users
+      setError("Failed to improve text. Please try again.");
+       
+      console.error("[useAIWriter] Error:", err);
+      setIsLoading(false);
+      return null;
+    }
   }, []);
 
   return {

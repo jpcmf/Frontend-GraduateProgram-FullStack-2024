@@ -1,38 +1,30 @@
 /**
  * Detects if the browser supports the Rewriter API for on-device text improvement.
- * The Rewriter API is available in Chrome 132+ and Edge 132+.
+ * The Rewriter API is available in Chrome 137-148 (Origin Trial) and Edge 137-148.
+ *
+ * API reference: https://developer.chrome.com/docs/ai/rewriter-api
  */
 export function isAIWriterSupported(): boolean {
   // Check if we're in a browser environment (SSR safety)
-  if (typeof window === "undefined") {
+  if (typeof globalThis === "undefined") {
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const win = window as any;
+  // The Rewriter API is a global (accessible via globalThis or window)
+  // Check if Rewriter global exists and has required methods
+  const hasRewriter = !!(
+    (globalThis as any).Rewriter &&
+    typeof (globalThis as any).Rewriter.create === "function" &&
+    typeof (globalThis as any).Rewriter.availability === "function"
+  );
 
-  // Check for the Rewriter API in different possible locations
-  const hasRewriter =
-    typeof win.ai?.rewriter?.rewrite === "function" ||
-    typeof win.ai?.rewriter?.rewriteText === "function" ||
-    typeof win.ai?.textRewriter?.rewrite === "function" ||
-    typeof win.aiTextRewriter?.rewrite === "function";
-
-  // DEBUG: Log for troubleshooting
-  if (hasRewriter) {
-    // eslint-disable-next-line no-console
-    console.log("[isAIWriterSupported] Rewriter API detected");
-  } else {
-    // eslint-disable-next-line no-console
-    console.log("[isAIWriterSupported] Rewriter API NOT found. window.ai:", win.ai);
+  // DEBUG: Log what we find
+  if (typeof globalThis !== "undefined") {
+     
+    console.log("[isAIWriterSupported] Rewriter:", (globalThis as any).Rewriter);
+     
+    console.log("[isAIWriterSupported] hasRewriter:", hasRewriter);
   }
 
   return hasRewriter;
-}
-
-
-  // Check if the Rewriter API exists on the window object
-
-  const win = window as any;
-  return typeof win.ai?.rewriter?.rewrite === "function";
 }
