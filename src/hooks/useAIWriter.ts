@@ -32,12 +32,6 @@ export interface UseAIWriterResult extends UseAIWriterState {
  *
  * @returns Object with isLoading flag, error message, and improveText function
  */
-export interface UseAIWriterOptions {
-  sharedContext?: string;
-  tone?: "more-casual" | "neutral" | "more-formal";
-  improveContext?: string;
-}
-
 export function useAIWriter(options?: UseAIWriterOptions): UseAIWriterResult {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
