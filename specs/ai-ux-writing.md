@@ -59,7 +59,38 @@ The AI UX Writing Assistant improves user-generated text directly in the UI usin
 
 ---
 
-## Writing Rules (Critical)
+## Browser Support & Requirements
+
+### Supported Browsers
+- Chrome 137–148 (in Origin Trial period)
+- Edge 137–148 (in Origin Trial period)
+
+### Hardware Requirements
+- **OS**: Windows 10/11, macOS 13+, Linux, or ChromeOS (Chromebook Plus)
+- **Storage**: 22 GB free disk space minimum
+- **Memory**: 
+  - GPU: 4GB+ VRAM, OR
+  - CPU: 16GB+ RAM + 4+ cores
+- **Network**: Unlimited data connection (for model download only; subsequent use offline-capable)
+
+### Requirements for Production Deployment
+1. **Origin Trial Token**: The Rewriter API requires registering for the [Origin Trial](https://developer.chrome.com/origintrials?hl=en#/view_trial/444167513249415169)
+   - Must add token to `public/index.html` as meta tag or to response headers
+   - Shared with Writer API under same trial
+2. **User Agreement**: Must confirm [Google's Generative AI Use Policy](https://policies.google.com/terms/generative-ai/use-policy)
+
+### For Development/Testing
+To test on localhost:
+1. Enable Chrome flags:
+   - `chrome://flags/#optimization-guide-on-device-model` → Enabled
+   - `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input` → Enabled
+   - `chrome://flags/#writer-api-for-gemini-nano` → Enabled
+2. Restart Chrome
+3. Feature will work without origin trial token
+
+---
+
+
 
 The AI must:
 

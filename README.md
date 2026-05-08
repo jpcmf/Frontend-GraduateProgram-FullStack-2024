@@ -159,6 +159,19 @@ pnpm dev
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
 
+### Testing the AI Text Improvement Feature
+
+The "Improve text" button uses Chrome's on-device **Rewriter API** (in Origin Trial). To test locally:
+
+1. Enable Chrome feature flags:
+   - `chrome://flags/#optimization-guide-on-device-model` → **Enabled**
+   - `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input` → **Enabled**
+   - `chrome://flags/#writer-api-for-gemini-nano` → **Enabled**
+2. Restart Chrome
+3. Navigate to create/edit a spot and test the "Improve text" button
+
+**For production deployment**: Register for the [Origin Trial](https://developer.chrome.com/origintrials?hl=en#/view_trial/444167513249415169) and add the trial token to `public/index.html` or response headers.
+
 ## 📋 Changelog
 
 ### Recent changes
