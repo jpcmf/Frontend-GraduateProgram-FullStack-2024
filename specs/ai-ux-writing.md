@@ -147,7 +147,7 @@ The AI should prioritize making the description more useful for other skaters by
 | --------------------------------------- | ------------------------------------------- |
 | `src/hooks/useAIWriter.ts`              | Hook to handle on-device AI rewriting       |
 | `src/utils/ai/isSupported.ts`           | Detect browser support                      |
-| `src/features/ai/ImproveTextButton.tsx` | Button component for triggering improvement |
+| `src/shared/components/ImproveTextButton.tsx` | Reusable button component for triggering improvement |
 
 ---
 
@@ -157,6 +157,64 @@ The AI should prioritize making the description more useful for other skaters by
 | --------------------------------------- | ---------------------------------------- |
 | `src/features/spots/SpotForm/index.tsx` | Add "Improve text" button to description |
 | (future) profile form                   | Add support for bio improvement          |
+
+---
+
+## Usage Patterns
+
+### Default usage (Spot descriptions)
+
+```tsx
+import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
+
+export function MyForm() {
+  const { watch, setValue } = useForm();
+
+  return (
+    <>
+      <textarea {...register("description")} />
+      <ImproveTextButton
+        text={watch("description")}
+        onImprove={(improvedText) => setValue("description", improvedText)}
+      />
+    </>
+  );
+}
+```
+
+### Custom context (User profiles, different contexts)
+
+```tsx
+import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
+
+export function ProfileForm() {
+  const { watch, setValue } = useForm();
+
+  return (
+    <>
+      <textarea {...register("bio")} />
+      <ImproveTextButton
+        text={watch("bio")}
+        onImprove={(improvedText) => setValue("bio", improvedText)}
+        aiOptions={{
+          sharedContext: "You are improving a user profile bio.",
+          improveContext: "Make it more engaging and concise. Keep it in Portuguese."
+        }}
+      />
+    </>
+  );
+}
+```
+
+The `useAIWriter` hook accepts optional `UseAIWriterOptions`:
+
+```tsx
+export interface UseAIWriterOptions {
+  sharedContext?: string;        // Context for the AI about the content type
+  tone?: "more-casual" | "neutral" | "more-formal";  // Tone of the rewrite
+  improveContext?: string;       // Specific instructions for improvement
+}
+```
 
 ---
 
@@ -187,5 +245,5 @@ The AI should prioritize making the description more useful for other skaters by
 - Backend-based text generation
 - Saving multiple versions of text
 - Undo/redo history
-- Tone selection (formal, casual, etc.)
-- Multi-language rewriting
+- ~~Tone selection (formal, casual, etc.)~~ *(Available as advanced option via `aiOptions.tone`)*
+- Multi-language rewriting (currently Portuguese only)
