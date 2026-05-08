@@ -57,12 +57,7 @@ export interface ImproveTextButtonProps {
  *   }}
  * />
  */
-export function ImproveTextButton({
-  text,
-  onImprove,
-  className,
-  aiOptions
-}: ImproveTextButtonProps) {
+export function ImproveTextButton({ text, onImprove, className, aiOptions }: ImproveTextButtonProps) {
   const { isLoading, improveText } = useAIWriter();
   const isSupported = isAIWriterSupported();
   const isEmpty = !text || text.trim().length === 0;

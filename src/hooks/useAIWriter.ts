@@ -68,7 +68,7 @@ export function useAIWriter(options?: UseAIWriterOptions): UseAIWriterResult {
       setError(null);
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         const globalScope = globalThis as any;
         let improvedText: string | null = null;
 
@@ -90,11 +90,7 @@ export function useAIWriter(options?: UseAIWriterOptions): UseAIWriterResult {
         }
 
         // Fallback to Writer API if Rewriter didn't work
-        if (
-          !improvedText &&
-          globalScope.Writer &&
-          typeof globalScope.Writer.create === "function"
-        ) {
+        if (!improvedText && globalScope.Writer && typeof globalScope.Writer.create === "function") {
           const availability = await globalScope.Writer.availability();
           if (availability !== "unavailable") {
             const writer = await globalScope.Writer.create({
