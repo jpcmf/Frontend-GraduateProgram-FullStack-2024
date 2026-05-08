@@ -10,6 +10,25 @@ export function isAIWriterSupported(): boolean {
     return false;
   }
 
+  // DEBUG: Log browser info and all AI-related globals
+   
+  console.log("[isAIWriterSupported] Browser UA:", (globalThis as any).navigator?.userAgent);
+   
+  console.log("[isAIWriterSupported] globalThis.Rewriter:", (globalThis as any).Rewriter);
+   
+  console.log("[isAIWriterSupported] window.ai:", (globalThis as any).ai);
+   
+  console.log("[isAIWriterSupported] All AI globals:", {
+    ai: (globalThis as any).ai,
+    aiTextRewriter: (globalThis as any).aiTextRewriter,
+    Rewriter: (globalThis as any).Rewriter,
+    Writer: (globalThis as any).Writer,
+    Translator: (globalThis as any).Translator,
+    LanguageDetector: (globalThis as any).LanguageDetector,
+    Summarizer: (globalThis as any).Summarizer,
+    Prompt: (globalThis as any).Prompt
+  });
+
   // The Rewriter API is a global (accessible via globalThis or window)
   // Check if Rewriter global exists and has required methods
   const hasRewriter = !!(
@@ -18,13 +37,8 @@ export function isAIWriterSupported(): boolean {
     typeof (globalThis as any).Rewriter.availability === "function"
   );
 
-  // DEBUG: Log what we find
-  if (typeof globalThis !== "undefined") {
-     
-    console.log("[isAIWriterSupported] Rewriter:", (globalThis as any).Rewriter);
-     
-    console.log("[isAIWriterSupported] hasRewriter:", hasRewriter);
-  }
+   
+  console.log("[isAIWriterSupported] hasRewriter:", hasRewriter);
 
   return hasRewriter;
 }
