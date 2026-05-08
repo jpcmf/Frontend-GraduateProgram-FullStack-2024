@@ -5,6 +5,7 @@
 **Goal:** Implement an "Improve text" button for the SpotForm description field using the browser's native Rewriter API for on-device AI text improvement.
 
 **Architecture:** Three new utilities/components work together:
+
 1. **isSupported.ts** — Detects browser support for Rewriter API
 2. **useAIWriter.ts** — Hook managing text rewriting state (loading, error handling)
 3. **ImproveTextButton.tsx** — UI button that triggers rewriting
@@ -19,6 +20,7 @@ No backend calls, no console logs, fully type-safe TypeScript.
 ## Task 1: Create browser support detection utility
 
 **Files:**
+
 - Create: `src/utils/ai/isSupported.ts`
 
 This utility detects if the browser supports the Rewriter API. It's a simple, reusable check that's tested independently.
@@ -72,6 +74,7 @@ git commit -m "feat: add AI writer browser support detection utility"
 ## Task 2: Create the useAIWriter hook
 
 **Files:**
+
 - Create: `src/hooks/useAIWriter.ts`
 
 The hook manages the rewriting state (loading, error, success). It calls the Rewriter API and updates the text field value. It includes error handling to prevent silent failures.
@@ -103,45 +106,42 @@ export function useAIWriter(): UseAIWriterResult {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const improveText = useCallback(
-    async (text: string): Promise<string | null> => {
-      // Check if API is supported
-      if (!isAIWriterSupported()) {
-        setError("Text improvement is not supported in this browser");
-        return null;
-      }
+  const improveText = useCallback(async (text: string): Promise<string | null> => {
+    // Check if API is supported
+    if (!isAIWriterSupported()) {
+      setError("Text improvement is not supported in this browser");
+      return null;
+    }
 
-      // Validate input
-      if (!text || text.trim().length === 0) {
-        setError("Cannot improve empty text");
-        return null;
-      }
+    // Validate input
+    if (!text || text.trim().length === 0) {
+      setError("Cannot improve empty text");
+      return null;
+    }
 
-      setIsLoading(true);
-      setError(null);
+    setIsLoading(true);
+    setError(null);
 
-      try {
-        // Call the browser Rewriter API
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const rewriter = (window as any).ai.rewriter;
-        const improvedText = await rewriter.rewrite(text);
+    try {
+      // Call the browser Rewriter API
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rewriter = (window as any).ai.rewriter;
+      const improvedText = await rewriter.rewrite(text);
 
-        setIsLoading(false);
-        return improvedText || null;
-      } catch (err) {
-        // Don't expose raw error messages to users
-        setError("Failed to improve text. Please try again.");
-        setIsLoading(false);
-        return null;
-      }
-    },
-    []
-  );
+      setIsLoading(false);
+      return improvedText || null;
+    } catch (err) {
+      // Don't expose raw error messages to users
+      setError("Failed to improve text. Please try again.");
+      setIsLoading(false);
+      return null;
+    }
+  }, []);
 
   return {
     isLoading,
     error,
-    improveText,
+    improveText
   };
 }
 ```
@@ -167,19 +167,21 @@ git commit -m "feat: add useAIWriter hook for on-device text improvement"
 ## Task 3: Create the ImproveTextButton component
 
 **Files:**
-- Create: `src/features/ai/ImproveTextButton.tsx`
+- Create: `src/shared/components/ImproveTextButton.tsx`
 
-The button component that triggers the rewriting. It's hidden when the browser doesn't support the feature and when the text field is empty. During rewriting, it shows loading state.
+The button component that triggers the rewriting. It's hidden when the browser doesn't support the feature and when the text field is empty. During rewriting, it shows loading state. This is a reusable component used across multiple features.
 
-- [ ] **Step 1: Create the ai feature directory**
+- [ ] **Step 1: Verify the shared/components directory exists**
 
 ```bash
-mkdir -p /Users/joaopaulo/www/pucrs/project/frontend/src/features/ai
+ls -la /Users/joaopaulo/www/pucrs/project/frontend/src/shared/components/
 ```
+
+Expected: Directory exists with other reusable components.
 
 - [ ] **Step 2: Write the ImproveTextButton component**
 
-Create `src/features/ai/ImproveTextButton.tsx`:
+Create `src/shared/components/ImproveTextButton.tsx`:
 
 ```typescript
 import { Button, Tooltip } from "@chakra-ui/react";
@@ -257,7 +259,7 @@ export function ImproveTextButton({
 - [ ] **Step 3: Verify the file was created correctly**
 
 ```bash
-cat /Users/joaopaulo/www/pucrs/project/frontend/src/features/ai/ImproveTextButton.tsx
+cat /Users/joaopaulo/www/pucrs/project/frontend/src/shared/components/ImproveTextButton.tsx
 ```
 
 Expected: File contains the button component with proper TypeScript types, conditional rendering, and Chakra UI integration.
@@ -266,8 +268,8 @@ Expected: File contains the button component with proper TypeScript types, condi
 
 ```bash
 cd /Users/joaopaulo/www/pucrs/project/frontend
-git add src/features/ai/ImproveTextButton.tsx
-git commit -m "feat: add ImproveTextButton component for AI text improvement"
+git add src/shared/components/ImproveTextButton.tsx
+git commit -m "feat: add ImproveTextButton reusable component for AI text improvement"
 ```
 
 ---
@@ -275,6 +277,7 @@ git commit -m "feat: add ImproveTextButton component for AI text improvement"
 ## Task 4: Integrate button into SpotForm
 
 **Files:**
+
 - Modify: `src/features/spots/SpotForm/index.tsx`
 
 Add the ImproveTextButton below the description textarea. The button should update the form field value when clicked.
@@ -290,6 +293,7 @@ Expected: See the form structure, how `description` field is managed via React H
 - [ ] **Step 2: Identify the description textarea location**
 
 Look for:
+
 - The `description` field definition in the form
 - The textarea input element
 - The surrounding container structure
@@ -301,7 +305,7 @@ Take note of the exact location where the button should be added (typically righ
 At the top of `src/features/spots/SpotForm/index.tsx`, add:
 
 ```typescript
-import { ImproveTextButton } from "@/features/ai/ImproveTextButton";
+import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
 ```
 
 - [ ] **Step 4: Add the button component below the description textarea**
@@ -328,6 +332,7 @@ Find the description textarea element and add the ImproveTextButton component ri
 ```
 
 Note: You'll need to:
+
 - Import `Box` from Chakra UI if not already imported
 - Use `watch()` from React Hook Form to get current description value
 - Use `setValue()` from React Hook Form to update the description
@@ -353,6 +358,7 @@ git commit -m "feat: integrate AI improve text button into SpotForm"
 ## Task 5: Update README.md — Features section
 
 **Files:**
+
 - Modify: `README.md`
 
 Add a feature description for the AI Writing Assistant under an appropriate category.
@@ -396,6 +402,7 @@ git commit -m "docs: add AI Writing Assistant feature to README"
 ## Task 6: Update CHANGELOG.md
 
 **Files:**
+
 - Modify: `CHANGELOG.md`
 
 Add an entry at the top of the `[Unreleased]` section following the format: `- YYYY-MM-DD - <Description> [#PR](...) _(version)_`
@@ -439,6 +446,7 @@ git commit -m "docs: add AI Writing Assistant to changelog"
 ## Task 7: Mark spec acceptance criteria as complete
 
 **Files:**
+
 - Modify: `specs/ai-ux-writing.md`
 
 Update the spec file to mark all acceptance criteria as completed.
