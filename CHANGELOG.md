@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#TODO](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/TODO) _(pending)_
+
 ## [1.2.1] - 2026-04-30
 
 - 2026-04-30 - Fix login modal redirecting to "/" when opened from any route other than home [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176)
