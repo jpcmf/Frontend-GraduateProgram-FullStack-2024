@@ -37,20 +37,20 @@ export function useAIWriter(): UseAIWriterResult {
     setIsLoading(true);
     setError(null);
 
-      try {
-        // Call the browser Rewriter API
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const rewriter = (window as any).ai.rewriter;
-        const improvedText = await rewriter.rewrite(text);
+    try {
+      // Call the browser Rewriter API
 
-        setIsLoading(false);
-        return improvedText || null;
-      } catch (_err) {
-        // Don't expose raw error messages to users
-        setError("Failed to improve text. Please try again.");
-        setIsLoading(false);
-        return null;
-      }
+      const rewriter = (window as any).ai.rewriter;
+      const improvedText = await rewriter.rewrite(text);
+
+      setIsLoading(false);
+      return improvedText || null;
+    } catch (_err) {
+      // Don't expose raw error messages to users
+      setError("Failed to improve text. Please try again.");
+      setIsLoading(false);
+      return null;
+    }
   }, []);
 
   return {

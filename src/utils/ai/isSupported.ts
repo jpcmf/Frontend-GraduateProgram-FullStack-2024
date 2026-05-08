@@ -9,7 +9,7 @@ export function isAIWriterSupported(): boolean {
   }
 
   // Check if the Rewriter API exists on the window object
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const win = window as any;
   return typeof win.ai?.rewriter?.rewrite === "function";
 }
