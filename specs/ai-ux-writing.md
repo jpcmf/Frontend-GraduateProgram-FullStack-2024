@@ -1,6 +1,6 @@
 # Feature: AI UX — Writing Assistant
 
-**Status:** draft
+**Status:** done
 **Priority:** medium
 **Affects:** Existing forms (SpotForm, User Profile/Bio), new client-side utilities
 
@@ -128,15 +128,15 @@ The AI should prioritize making the description more useful for other skaters by
 
 ## Acceptance Criteria
 
-- [ ] "Improve text" button appears when textarea has content
-- [ ] Clicking the button replaces text with improved version
-- [ ] Text is clearer, more structured, and more useful
-- [ ] No hallucinated or invented information is introduced
-- [ ] No API calls are made (client-only execution)
-- [ ] Feature works only on supported browsers
-- [ ] Graceful fallback when unsupported
-- [ ] No `console.log`, `console.warn`, or `console.error` in new files
-- [ ] TypeScript — no `any` types
+- [x] "Improve text" button appears when textarea has content
+- [x] Clicking the button replaces text with improved version
+- [x] Text is clearer, more structured, and more useful
+- [x] No hallucinated or invented information is introduced
+- [x] No API calls are made (client-only execution)
+- [x] Feature works only on supported browsers
+- [x] Graceful fallback when unsupported
+- [x] No `console.log`, `console.warn`, or `console.error` in new files
+- [x] TypeScript — no `any` types
 
 ---
 
