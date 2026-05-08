@@ -15,10 +15,6 @@ export function isAIWriterSupported(): boolean {
     return false;
   }
 
-  // Debug info
-
-  console.log("[isAIWriterSupported] Browser UA:", (globalThis as any).navigator?.userAgent);
-
   // Check for Rewriter API (primary, dedicated for rewriting)
   const hasRewriter = !!(
     (globalThis as any).Rewriter &&
@@ -33,12 +29,6 @@ export function isAIWriterSupported(): boolean {
     typeof (globalThis as any).Writer.availability === "function"
   );
 
-  console.log("[isAIWriterSupported] hasRewriter:", hasRewriter, "hasWriter:", hasWriter);
-
   // Support either API
-  const isSupported = hasRewriter || hasWriter;
-
-  console.log("[isAIWriterSupported] Final result:", isSupported);
-
-  return isSupported;
+  return hasRewriter || hasWriter;
 }
