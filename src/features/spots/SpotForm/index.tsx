@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import { apiClient } from "@/lib/apiClient";
 import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/lib/const/spotValidation";
+import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { Textarea } from "@/shared/components/Form/Textarea";
@@ -55,6 +56,8 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
   const {
     handleSubmit,
     register,
+    watch,
+    setValue,
     formState: { errors }
   } = useForm<SpotSchema>({
     resolver: zodResolver(spotSchema),
@@ -146,6 +149,16 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
             error={errors.description}
           />
         </Flex>
+
+        {/* Improve Text Button */}
+        <Box>
+          <ImproveTextButton
+            text={watch("description")}
+            onImprove={(improvedText) => {
+              setValue("description", improvedText);
+            }}
+          />
+        </Box>
 
         {/* Photos */}
         <Flex flexDir="column" gap="2">
