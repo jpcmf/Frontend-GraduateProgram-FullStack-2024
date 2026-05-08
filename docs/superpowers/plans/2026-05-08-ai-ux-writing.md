@@ -167,6 +167,7 @@ git commit -m "feat: add useAIWriter hook for on-device text improvement"
 ## Task 3: Create the ImproveTextButton component
 
 **Files:**
+
 - Create: `src/shared/components/ImproveTextButton.tsx`
 
 The button component that triggers the rewriting. It's hidden when the browser doesn't support the feature and when the text field is empty. During rewriting, it shows loading state. This is a reusable component used across multiple features.
