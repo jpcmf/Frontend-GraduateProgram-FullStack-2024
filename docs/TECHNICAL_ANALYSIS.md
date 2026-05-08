@@ -1060,29 +1060,29 @@ SpotForm / ProfileForm (any form with textarea)
 
 ### API Strategy (Dual-Stack)
 
-| Priority | API      | Availability                  | Status                    |
-| -------- | -------- | ----------------------------- | ------------------------- |
-| 1        | Rewriter | Chrome 137+ (origin trial)    | Not yet available Chrome 148 |
-| 2        | Writer   | Chrome 137+ (origin trial)    | ✅ Available Chrome 148   |
+| Priority | API      | Availability               | Status                       |
+| -------- | -------- | -------------------------- | ---------------------------- |
+| 1        | Rewriter | Chrome 137+ (origin trial) | Not yet available Chrome 148 |
+| 2        | Writer   | Chrome 137+ (origin trial) | ✅ Available Chrome 148      |
 
 The hook tries Rewriter first (dedicated rewriting), falls back to Writer if unavailable.
 
 ### Files Added
 
-| File                                           | Purpose                                      |
-| ---------------------------------------------- | -------------------------------------------- |
-| `src/hooks/useAIWriter.ts`                     | Hook with dual API support + context config |
-| `src/utils/ai/isSupported.ts`                  | Browser API detection (Rewriter + Writer)   |
-| `src/shared/components/ImproveTextButton.tsx`  | Reusable button component                    |
-| `specs/ai-ux-writing.md`                       | Feature spec + usage patterns                |
+| File                                          | Purpose                                     |
+| --------------------------------------------- | ------------------------------------------- |
+| `src/hooks/useAIWriter.ts`                    | Hook with dual API support + context config |
+| `src/utils/ai/isSupported.ts`                 | Browser API detection (Rewriter + Writer)   |
+| `src/shared/components/ImproveTextButton.tsx` | Reusable button component                   |
+| `specs/ai-ux-writing.md`                      | Feature spec + usage patterns               |
 
 ### Files Modified
 
-| File                              | Change                                 |
-| --------------------------------- | -------------------------------------- |
-| `src/features/spots/SpotForm/index.tsx` | Added ImproveTextButton integration  |
-| `README.md`                       | Added testing instructions             |
-| `CHANGELOG.md`                    | Added feature entry                    |
+| File                                    | Change                              |
+| --------------------------------------- | ----------------------------------- |
+| `src/features/spots/SpotForm/index.tsx` | Added ImproveTextButton integration |
+| `README.md`                             | Added testing instructions          |
+| `CHANGELOG.md`                          | Added feature entry                 |
 
 ### Configuration via `UseAIWriterOptions`
 
@@ -1090,9 +1090,9 @@ The hook and button component support custom context for different use cases:
 
 ```typescript
 interface UseAIWriterOptions {
-  sharedContext?: string;        // e.g. "You are improving a user profile bio."
+  sharedContext?: string; // e.g. "You are improving a user profile bio."
   tone?: "more-casual" | "neutral" | "more-formal";
-  improveContext?: string;       // e.g. "Make it more engaging and concise."
+  improveContext?: string; // e.g. "Make it more engaging and concise."
 }
 ```
 
@@ -1122,7 +1122,7 @@ Currently Portuguese (pt-BR) only. Prompts are in Portuguese to ensure AI output
 1. **Register for Origin Trial**: https://developer.chrome.com/origintrials?hl=en#/view_trial/444167513249415169
 2. **Add origin trial token** to `public/index.html`:
    ```html
-   <meta http-equiv="origin-trial" content="YOUR_TOKEN_HERE">
+   <meta http-equiv="origin-trial" content="YOUR_TOKEN_HERE" />
    ```
 3. **Accept Google's AI Use Policy**: https://policies.google.com/terms/generative-ai/use-policy
 

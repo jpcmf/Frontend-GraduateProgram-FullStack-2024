@@ -143,10 +143,10 @@ The AI should prioritize making the description more useful for other skaters by
 
 ### New files
 
-| File                                    | Purpose                                     |
-| --------------------------------------- | ------------------------------------------- |
-| `src/hooks/useAIWriter.ts`              | Hook to handle on-device AI rewriting       |
-| `src/utils/ai/isSupported.ts`           | Detect browser support                      |
+| File                                          | Purpose                                              |
+| --------------------------------------------- | ---------------------------------------------------- |
+| `src/hooks/useAIWriter.ts`                    | Hook to handle on-device AI rewriting                |
+| `src/utils/ai/isSupported.ts`                 | Detect browser support                               |
 | `src/shared/components/ImproveTextButton.tsx` | Reusable button component for triggering improvement |
 
 ---
@@ -175,7 +175,7 @@ export function MyForm() {
       <textarea {...register("description")} />
       <ImproveTextButton
         text={watch("description")}
-        onImprove={(improvedText) => setValue("description", improvedText)}
+        onImprove={improvedText => setValue("description", improvedText)}
       />
     </>
   );
@@ -195,7 +195,7 @@ export function ProfileForm() {
       <textarea {...register("bio")} />
       <ImproveTextButton
         text={watch("bio")}
-        onImprove={(improvedText) => setValue("bio", improvedText)}
+        onImprove={improvedText => setValue("bio", improvedText)}
         aiOptions={{
           sharedContext: "You are improving a user profile bio.",
           improveContext: "Make it more engaging and concise. Keep it in Portuguese."
@@ -210,9 +210,9 @@ The `useAIWriter` hook accepts optional `UseAIWriterOptions`:
 
 ```tsx
 export interface UseAIWriterOptions {
-  sharedContext?: string;        // Context for the AI about the content type
-  tone?: "more-casual" | "neutral" | "more-formal";  // Tone of the rewrite
-  improveContext?: string;       // Specific instructions for improvement
+  sharedContext?: string; // Context for the AI about the content type
+  tone?: "more-casual" | "neutral" | "more-formal"; // Tone of the rewrite
+  improveContext?: string; // Specific instructions for improvement
 }
 ```
 
@@ -245,5 +245,5 @@ export interface UseAIWriterOptions {
 - Backend-based text generation
 - Saving multiple versions of text
 - Undo/redo history
-- ~~Tone selection (formal, casual, etc.)~~ *(Available as advanced option via `aiOptions.tone`)*
+- ~~Tone selection (formal, casual, etc.)~~ _(Available as advanced option via `aiOptions.tone`)_
 - Multi-language rewriting (currently Portuguese only)
