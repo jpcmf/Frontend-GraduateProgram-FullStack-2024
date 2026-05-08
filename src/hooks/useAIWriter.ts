@@ -51,7 +51,7 @@ export function useAIWriter(): UseAIWriterResult {
       if (globalScope.Rewriter && typeof globalScope.Rewriter.create === "function") {
          
         console.log("[useAIWriter] Using Rewriter API");
-        
+
         const availability = await globalScope.Rewriter.availability();
         if (availability !== "unavailable") {
           const rewriter = await globalScope.Rewriter.create({
@@ -68,16 +68,18 @@ export function useAIWriter(): UseAIWriterResult {
       if (!improvedText && globalScope.Writer && typeof globalScope.Writer.create === "function") {
          
         console.log("[useAIWriter] Using Writer API (fallback)");
-        
+
         const availability = await globalScope.Writer.availability();
         if (availability !== "unavailable") {
           const writer = await globalScope.Writer.create({
-            sharedContext: "You are improving a skateboarding spot description to make it clearer and more useful for other skaters.",
+            sharedContext:
+              "You are improving a skateboarding spot description to make it clearer and more useful for other skaters.",
             tone: "casual"
           });
           // Use Writer to generate an improved version of the text
           improvedText = await writer.write(text, {
-            context: "Improve this spot description by clarifying the terrain, obstacles, and space. Keep it concise and useful."
+            context:
+              "Improve this spot description by clarifying the terrain, obstacles, and space. Keep it concise and useful."
           });
         }
       }
@@ -94,88 +96,6 @@ export function useAIWriter(): UseAIWriterResult {
       // Don't expose raw error messages to users
       setError("Failed to improve text. Please try again.");
        
-      console.error("[useAIWriter] Error:", err);
-      setIsLoading(false);
-      return null;
-    }
-  }, []);
-
-  return {
-    isLoading,
-    error,
-    improveText
-  };
-}
-
-
-export interface UseAIWriterResult extends UseAIWriterState {
-  improveText: (text: string) => Promise<string | null>;
-}
-
-/**
- * Hook to handle on-device text improvement using the browser's Rewriter API.
- * Returns the improved text or null if an error occurs.
- *
- * API reference: https://developer.chrome.com/docs/ai/rewriter-api
- *
- * @returns Object with isLoading flag, error message, and improveText function
- */
-export function useAIWriter(): UseAIWriterResult {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const improveText = useCallback(async (text: string): Promise<string | null> => {
-    // Check if API is supported
-    if (!isAIWriterSupported()) {
-      setError("Text improvement is not supported in this browser");
-      return null;
-    }
-
-    // Validate input
-    if (!text || text.trim().length === 0) {
-      setError("Cannot improve empty text");
-      return null;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Access the global Rewriter API
-
-      const RewriterAPI = (globalThis as any).Rewriter;
-
-      if (!RewriterAPI) {
-        setError("Rewriter API not available");
-        setIsLoading(false);
-        return null;
-      }
-
-      // Check availability before creating rewriter
-      const availability = await RewriterAPI.availability();
-      if (availability === "unavailable") {
-        setError("Rewriter API is unavailable in this browser");
-        setIsLoading(false);
-        return null;
-      }
-
-      // Create rewriter instance with default options
-      const rewriter = await RewriterAPI.create({
-        sharedContext: "This is a spot description for a skateboarding spot guide.",
-        tone: "neutral",
-        format: "plain-text",
-        length: "same"
-      });
-
-      // Call rewrite to improve the text
-      const improvedText = await rewriter.rewrite(text);
-
-      setIsLoading(false);
-      return improvedText || null;
-    } catch (err) {
-      // Don't expose raw error messages to users
-      setError("Failed to improve text. Please try again.");
-
       console.error("[useAIWriter] Error:", err);
       setIsLoading(false);
       return null;
