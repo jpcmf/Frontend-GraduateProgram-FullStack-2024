@@ -8,8 +8,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { RiAlertLine } from "react-icons/ri";
 import { z } from "zod";
 
-import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/lib/const/spotValidation";
 import { apiClient } from "@/lib/apiClient";
+import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/lib/const/spotValidation";
 import { ImproveTextButton } from "@/shared/components/ImproveTextButton";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
@@ -154,7 +154,7 @@ export function SpotForm({ initialValues, onSubmit, isSubmitting, submitLabel }:
         <Box mt={1}>
           <ImproveTextButton
             text={watch("description")}
-            onImprove={(improvedText) => {
+            onImprove={improvedText => {
               setValue("description", improvedText);
             }}
           />
