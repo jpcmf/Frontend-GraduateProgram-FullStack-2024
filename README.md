@@ -78,6 +78,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Markdown rendering for structured answers
 - Powered by OpenRouter / Google Gemini
 - Authentication-gated — sign in to use
+- On-device text improvement for spot descriptions using AI Rewriter API
 
 ### Observability
 
