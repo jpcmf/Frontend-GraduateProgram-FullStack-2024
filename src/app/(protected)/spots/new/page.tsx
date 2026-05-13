@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import type { CreateSpotPayload } from "@/features/spots";
+import { createSpot } from "@/features/spots";
 import { SpotForm } from "@/features/spots/SpotForm";
-import { createSpot } from "@/services/createSpot";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
-import type { CreateSpotPayload } from "@/types/spots";
 
 export default function NewSpotPage() {
   const router = useRouter();

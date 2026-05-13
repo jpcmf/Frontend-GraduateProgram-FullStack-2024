@@ -1,5 +1,5 @@
+import type { SpotsResponse } from "@/features/spots";
 import { apiClient } from "@/shared/api/apiClient";
-import type { SpotsResponse } from "@/types/spots";
 
 const POPULATE =
   "?populate[photos]=true" +

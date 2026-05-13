@@ -4,7 +4,8 @@ import NextLink from "next/link";
 import { Badge, Box, Text, VStack } from "@chakra-ui/react";
 
 import { useColors } from "@/shared/hooks/useColors";
-import type { Spot, SpotType } from "@/types/spots";
+
+import type { Spot, SpotType } from "../types/spots";
 
 const TYPE_LABELS: Record<SpotType, string> = {
   street: "Street",

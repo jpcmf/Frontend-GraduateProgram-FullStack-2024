@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type { SpotResponse, UpdateSpotPayload } from "@/features/spots";
-import { updateSpot } from "@/features/spots";
+import { updateSpot } from "../services/updateSpot";
+import type { SpotResponse, UpdateSpotPayload } from "../types/spots";
 
 export function useUpdateSpot(id: string | number) {
   const queryClient = useQueryClient();

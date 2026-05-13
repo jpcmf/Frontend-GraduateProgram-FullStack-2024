@@ -4,8 +4,8 @@ import NextLink from "next/link";
 
 import { Box, Button, Flex, Grid, Spinner, Text } from "@chakra-ui/react";
 
+import { useSpots } from "@/features/spots";
 import { SpotCard } from "@/features/spots/SpotCard";
-import { useSpots } from "@/hooks/useSpots";
 import { useAuth } from "@/shared/hooks/useAuth";
 import { TitleSection } from "@/shared/ui/TitleSection";
 

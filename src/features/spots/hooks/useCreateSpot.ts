@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type { CreateSpotPayload, SpotResponse } from "@/features/spots";
-import { createSpot } from "@/features/spots";
+import { createSpot } from "../services/createSpot";
+import type { CreateSpotPayload, SpotResponse } from "../types/spots";
 
 export function useCreateSpot() {
   const queryClient = useQueryClient();

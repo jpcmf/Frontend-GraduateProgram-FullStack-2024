@@ -6,12 +6,11 @@ import { useRouter } from "next/navigation";
 import { Box, Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import type { UpdateSpotPayload } from "@/features/spots";
+import { getSpotById , updateSpot } from "@/features/spots";
 import { SpotForm } from "@/features/spots/SpotForm";
-import { getSpotById } from "@/services/getSpotById";
-import { updateSpot } from "@/services/updateSpot";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
-import type { UpdateSpotPayload } from "@/types/spots";
 
 interface EditSpotPageProps {
   params: Promise<{ id: string }>;
