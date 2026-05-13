@@ -12,8 +12,7 @@ import {
 
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
 import { useColors } from "@/hooks/useColors";
-
-import { LogoSkateHub } from "../LogoSkateHub";
+import { LogoSkateHub } from '@/shared/ui/LogoSkateHub';
 
 import { SidebarNav } from "./SidebarNav";
 

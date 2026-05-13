@@ -58,7 +58,7 @@ export function Chat() {
   };
 
   return (
-    <VStack h={isConversationStarted ? "800px" : "600px"} w="100%" spacing={0} justify="space-between">
+    <VStack h={isConversationStarted ? "100%" : "100%"} w="100%" spacing={0} justify="space-between">
       {/* Hero Section - always visible */}
       <VStack spacing={4} textAlign="center" py={4}>
         <Box w={16} h={16} borderRadius="full" bg={bgColor} display="flex" alignItems="center" justifyContent="center">

@@ -24,9 +24,8 @@ import {
 import { AuthContext } from "@/contexts/AuthContext";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
+import { Toast } from '@/shared/ui/Toast';
 import type { UserBasics } from "@/types/usersBasics.type";
-
-import { Toast } from "../Toast";
 
 interface ProfileHeaderProps {
   user: UserBasics;

@@ -4,8 +4,7 @@ import { SiChakraui, SiNextdotjs } from "react-icons/si";
 import { Box, Button, Container, Flex, Heading, HStack, Icon, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 
 import { useColors } from "@/hooks/useColors";
-
-import { LogoSkateHub } from "../LogoSkateHub";
+import { LogoSkateHub } from '@/shared/ui/LogoSkateHub';
 
 export function Footer() {
   const { footerBgButtonColor, footerTextButtonColor, footerBorderColor } = useColors();

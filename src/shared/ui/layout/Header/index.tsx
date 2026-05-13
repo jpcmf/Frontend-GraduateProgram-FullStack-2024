@@ -11,9 +11,8 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
 import LoginModal from "@/features/login/modal/login";
 import { useColors } from "@/hooks/useColors";
-
-import { LogoSkateHub } from "../LogoSkateHub";
-import { ReusableModal } from "../ReusableModal";
+import { LogoSkateHub } from '@/shared/ui/LogoSkateHub';
+import { ReusableModal } from '@/shared/ui/ReusableModal';
 
 import { Notification } from "./Notification";
 import { Profile } from "./Profile";
