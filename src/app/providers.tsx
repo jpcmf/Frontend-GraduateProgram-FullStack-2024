@@ -9,7 +9,7 @@ import QueryProvider from "@/components/QueryProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SidebarDrawerProvider } from "@/contexts/SidebarDrawerContext";
 import { Layout } from "@/shared/components/Layout";
-import { theme } from "@/styles/theme";
+import { theme } from "@/shared/lib/theme";
 
 if (
   typeof window !== "undefined" &&
