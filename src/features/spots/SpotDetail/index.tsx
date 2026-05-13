@@ -31,8 +31,8 @@ import { TitleSection } from "@/components/TitleSection";
 import { useAuth } from "@/hooks/useAuth";
 import { useColors } from "@/hooks/useColors";
 import { useDeleteSpot } from "@/hooks/useDeleteSpot";
+import { fetchCoordinates } from "@/shared/lib/mapbox";
 import type { Spot, SpotType } from "@/types/spots";
-import { fetchCoordinates } from "@/utils/mapbox";
 
 const TYPE_LABELS: Record<SpotType, string> = {
   street: "Street",

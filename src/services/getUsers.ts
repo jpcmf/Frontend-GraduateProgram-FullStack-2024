@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { API } from "@/utils/constant";
+import { API } from "@/shared/config/constants";
 
 export async function getUsers() {
   const res = await axios.get(`${API}/api/users?populate=avatar,address`);

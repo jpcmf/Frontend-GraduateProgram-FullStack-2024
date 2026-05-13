@@ -23,8 +23,8 @@ import {
 
 import { AuthContext } from "@/contexts/AuthContext";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
 import type { UserBasics } from "@/types/usersBasics.type";
-import { openInstagram, openWebsite } from "@/utils/socialMedia";
 
 import { Toast } from "../Toast";
 

@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/apiClient";
+import { apiClient } from "@/shared/api/apiClient";
 import type { SpotResponse, UpdateSpotPayload } from "@/types/spots";
 
 export async function updateSpot(id: string | number, payload: UpdateSpotPayload): Promise<SpotResponse> {

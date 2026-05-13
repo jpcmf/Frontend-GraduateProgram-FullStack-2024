@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/apiClient";
+import { apiClient } from "@/shared/api/apiClient";
 import type { SpotsResponse } from "@/types/spots";
 
 const POPULATE =

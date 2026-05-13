@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/apiClient";
+import { apiClient } from "@/shared/api/apiClient";
 
 export async function linkAvatar(userId: number | string, fileId: number | string, token: string) {
   const res = await apiClient.put(

@@ -12,11 +12,11 @@ import { ProfileHeader } from "@/components/HeaderProfile";
 import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
-import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const";
-import { CATEGORIES } from "@/lib/const/categories";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { Textarea } from "@/shared/components/Form/Textarea";
+import { CATEGORIES } from "@/shared/config/categories";
+import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
 
 // type RegisterForm = {
 //   name: string;

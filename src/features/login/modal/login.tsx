@@ -26,7 +26,7 @@ import { Toast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
 import { Input } from "@/shared/components/Form/Input";
-import { redirectIfAuthenticated } from "@/utils/auth";
+import { redirectIfAuthenticated } from "@/shared/lib/authUtils";
 
 import packageJson from "../../../../package.json";
 

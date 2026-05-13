@@ -23,11 +23,11 @@ import { z } from "zod";
 
 import { TitleSection } from "@/components/TitleSection";
 import { Toast } from "@/components/Toast";
-import { CATEGORIES, getCategoryByValue } from "@/lib/const/categories";
-import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const/validation";
 import { signUpRequest } from "@/services/signUpRequest";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
+import { CATEGORIES, getCategoryByValue } from "@/shared/config/categories";
+import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
 
 const signUpSchema = z
   .object({

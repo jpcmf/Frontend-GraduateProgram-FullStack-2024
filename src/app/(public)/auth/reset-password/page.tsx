@@ -12,7 +12,7 @@ import { z } from "zod";
 import { Toast } from "@/components/Toast";
 import { useColors } from "@/hooks/useColors";
 import { Input } from "@/shared/components/Form/Input";
-import { API } from "@/utils/constant";
+import { API } from "@/shared/config/constants";
 
 const resetPasswordFormSchema = z
   .object({

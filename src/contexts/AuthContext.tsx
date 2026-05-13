@@ -4,8 +4,8 @@ import { createContext, useEffect, useState } from "react";
 
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
-import { obs } from "@/lib/observability";
-import { queryClient } from "@/lib/queryClient";
+import { obs } from "@/shared/lib/observability";
+import { queryClient } from "@/shared/lib/queryClient";
 import type { User } from "@/types/User.type";
 
 import { signInRequest, updateUserProfile, userMe } from "../services/auth";

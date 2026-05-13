@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/apiClient";
+import { apiClient } from "@/shared/api/apiClient";
 import type { CreateSpotPayload, SpotResponse } from "@/types/spots";
 
 export async function createSpot(payload: CreateSpotPayload): Promise<SpotResponse> {

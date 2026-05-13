@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { VALIDATION_MESSAGES } from "@/lib/const/validation";
+import { VALIDATION_MESSAGES } from "@/shared/config/validation";
 
 export const signInFormSchema = z.object({
   email: z

@@ -8,8 +8,8 @@ import { Box, Button, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { apiClient } from "@/lib/apiClient";
-import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/lib/const/spotValidation";
+import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/features/spots/constants";
+import { apiClient } from "@/shared/api/apiClient";
 import { Input } from "@/shared/components/Form/Input";
 import { Select } from "@/shared/components/Form/Select";
 import { Textarea } from "@/shared/components/Form/Textarea";

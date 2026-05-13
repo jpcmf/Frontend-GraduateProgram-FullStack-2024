@@ -12,10 +12,10 @@
 
 ## Decisions Made Before This Plan
 
-| Question | Answer |
-|---|---|
-| `ai-writer` feature scope | `ImproveTextButton` + `useAIWriter` + `isSupported` stay inside `features/spots/` (spots-only for now) |
-| `Header`, `Sidebar`, `Footer` | Move to `shared/ui/` — layout chrome, no domain logic |
+| Question                      | Answer                                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `ai-writer` feature scope     | `ImproveTextButton` + `useAIWriter` + `isSupported` stay inside `features/spots/` (spots-only for now) |
+| `Header`, `Sidebar`, `Footer` | Move to `shared/ui/` — layout chrome, no domain logic                                                  |
 
 ---
 
@@ -186,22 +186,23 @@ src/
 
 ## Phase Overview
 
-| Phase | Scope | Risk |
-|---|---|---|
-| 1 | Move `shared/` — api, lib, config, server, hooks, theme dedup | Low |
-| 2 | Merge `src/components/` → `shared/ui/` | Low |
-| 3 | Co-locate hooks into features | Medium |
-| 4 | Co-locate services into features | Medium |
-| 5 | Co-locate types into features | Medium |
-| 6 | Reorganize features internal structure + add index.ts barrels | Low |
-| 7 | Update all imports across the codebase | Medium |
-| 8 | Clean up empty directories | Low |
+| Phase | Scope                                                         | Risk   |
+| ----- | ------------------------------------------------------------- | ------ |
+| 1     | Move `shared/` — api, lib, config, server, hooks, theme dedup | Low    |
+| 2     | Merge `src/components/` → `shared/ui/`                        | Low    |
+| 3     | Co-locate hooks into features                                 | Medium |
+| 4     | Co-locate services into features                              | Medium |
+| 5     | Co-locate types into features                                 | Medium |
+| 6     | Reorganize features internal structure + add index.ts barrels | Low    |
+| 7     | Update all imports across the codebase                        | Medium |
+| 8     | Clean up empty directories                                    | Low    |
 
 ---
 
 ## Task 1: Resolve Theme Duplication
 
 **Files:**
+
 - Read: `src/lib/theme.ts`, `src/styles/theme.ts`, `src/styles/modal.ts`
 - Create: `src/shared/lib/theme.ts`
 - Create: `src/shared/lib/modal.ts`
@@ -227,6 +228,7 @@ Copy the content of `src/styles/modal.ts` verbatim.
 - [ ] **Step 4: Update all imports pointing to the old paths**
 
 Search and replace:
+
 - `from "@/lib/theme"` → `from "@/shared/lib/theme"`
 - `from "@/styles/theme"` → `from "@/shared/lib/theme"`
 - `from "@/styles/modal"` → `from "@/shared/lib/modal"`
@@ -256,6 +258,7 @@ git add -A && git commit -m "refactor: consolidate theme files into shared/lib/t
 ## Task 2: Move Shared Infrastructure (api, lib, config, server)
 
 **Files:**
+
 - Move: `src/lib/apiClient.ts` → `src/shared/api/apiClient.ts`
 - Move: `src/lib/streamClient.ts` → `src/shared/api/streamClient.ts`
 - Move: `src/lib/fonts.ts` → `src/shared/lib/fonts.ts`
@@ -320,23 +323,23 @@ mv src/utils/socialMedia.ts src/shared/lib/socialMedia.ts
 
 Run a global search-replace for each old path:
 
-| Old | New |
-|---|---|
-| `@/lib/apiClient` | `@/shared/api/apiClient` |
-| `@/lib/streamClient` | `@/shared/api/streamClient` |
-| `@/lib/fonts` | `@/shared/lib/fonts` |
-| `@/lib/queryClient` | `@/shared/lib/queryClient` |
-| `@/lib/observability` | `@/shared/lib/observability` |
-| `@/server/lib/gemini` | `@/shared/server/lib/gemini` |
-| `@/server/lib/openrouter` | `@/shared/server/lib/openrouter` |
-| `@/lib/const` | `@/shared/config/constants` |
-| `@/utils/constant` | `@/shared/config/constants` |
+| Old                          | New                                              |
+| ---------------------------- | ------------------------------------------------ |
+| `@/lib/apiClient`            | `@/shared/api/apiClient`                         |
+| `@/lib/streamClient`         | `@/shared/api/streamClient`                      |
+| `@/lib/fonts`                | `@/shared/lib/fonts`                             |
+| `@/lib/queryClient`          | `@/shared/lib/queryClient`                       |
+| `@/lib/observability`        | `@/shared/lib/observability`                     |
+| `@/server/lib/gemini`        | `@/shared/server/lib/gemini`                     |
+| `@/server/lib/openrouter`    | `@/shared/server/lib/openrouter`                 |
+| `@/lib/const`                | `@/shared/config/constants`                      |
+| `@/utils/constant`           | `@/shared/config/constants`                      |
 | `@/lib/const/spotValidation` | `@/features/spots/constants` (handled in Task 5) |
-| `@/lib/const/validation` | `@/shared/config/validation` |
-| `@/utils/auth` | `@/shared/lib/authUtils` |
-| `@/utils/date` | `@/shared/lib/date` |
-| `@/utils/mapbox` | `@/shared/lib/mapbox` |
-| `@/utils/socialMedia` | `@/shared/lib/socialMedia` |
+| `@/lib/const/validation`     | `@/shared/config/validation`                     |
+| `@/utils/auth`               | `@/shared/lib/authUtils`                         |
+| `@/utils/date`               | `@/shared/lib/date`                              |
+| `@/utils/mapbox`             | `@/shared/lib/mapbox`                            |
+| `@/utils/socialMedia`        | `@/shared/lib/socialMedia`                       |
 
 - [ ] **Step 9: Verify build**
 
@@ -357,6 +360,7 @@ git add -A && git commit -m "refactor: move shared infrastructure to shared/api,
 ## Task 3: Merge Components into `shared/ui/`
 
 **Files:**
+
 - Source: `src/components/` (all subdirs) + `src/shared/components/Form/` + `src/shared/components/Layout/`
 - Destination: `src/shared/ui/`
 - Resolve duplicate: `src/components/Form/Input.tsx` vs `src/shared/components/Form/Input.tsx`
@@ -424,28 +428,28 @@ cp src/components/Sidebar/SidebarNav.tsx src/shared/ui/Sidebar/SidebarNav.tsx
 
 - [ ] **Step 8: Update all imports**
 
-| Old | New |
-|---|---|
-| `@/components/ActiveLink` | `@/shared/ui/ActiveLink` |
-| `@/components/CardUser` | `@/shared/ui/CardUser` |
-| `@/components/ErrorBoundary` | `@/shared/ui/ErrorBoundary` |
-| `@/components/Footer` | `@/shared/ui/Footer` |
-| `@/components/Header` | `@/shared/ui/Header` |
-| `@/components/HeaderProfile` | `@/shared/ui/HeaderProfile` |
-| `@/components/LogoSkateHub` | `@/shared/ui/LogoSkateHub` |
-| `@/components/Map/MapBox` | `@/shared/ui/MapBox` |
-| `@/components/Pagination` | `@/shared/ui/Pagination` |
-| `@/components/QueryProvider` | `@/app/QueryProvider` (or inline) |
-| `@/components/ReusableModal` | `@/shared/ui/ReusableModal` |
-| `@/components/Sidebar` | `@/shared/ui/Sidebar` |
-| `@/components/StoriesSwiper` | `@/features/stories/components/StoriesSwiper` (move in Task 6) |
-| `@/components/TitleSection` | `@/shared/ui/TitleSection` |
-| `@/components/Toast` | `@/shared/ui/Toast` |
-| `@/components/Form/Input` | `@/shared/ui/form/Input` |
-| `@/shared/components/Form/Input` | `@/shared/ui/form/Input` |
-| `@/shared/components/Form/Select` | `@/shared/ui/form/Select` |
-| `@/shared/components/Form/Textarea` | `@/shared/ui/form/Textarea` |
-| `@/shared/components/Layout` | `@/shared/ui/layout` |
+| Old                                 | New                                                            |
+| ----------------------------------- | -------------------------------------------------------------- |
+| `@/components/ActiveLink`           | `@/shared/ui/ActiveLink`                                       |
+| `@/components/CardUser`             | `@/shared/ui/CardUser`                                         |
+| `@/components/ErrorBoundary`        | `@/shared/ui/ErrorBoundary`                                    |
+| `@/components/Footer`               | `@/shared/ui/Footer`                                           |
+| `@/components/Header`               | `@/shared/ui/Header`                                           |
+| `@/components/HeaderProfile`        | `@/shared/ui/HeaderProfile`                                    |
+| `@/components/LogoSkateHub`         | `@/shared/ui/LogoSkateHub`                                     |
+| `@/components/Map/MapBox`           | `@/shared/ui/MapBox`                                           |
+| `@/components/Pagination`           | `@/shared/ui/Pagination`                                       |
+| `@/components/QueryProvider`        | `@/app/QueryProvider` (or inline)                              |
+| `@/components/ReusableModal`        | `@/shared/ui/ReusableModal`                                    |
+| `@/components/Sidebar`              | `@/shared/ui/Sidebar`                                          |
+| `@/components/StoriesSwiper`        | `@/features/stories/components/StoriesSwiper` (move in Task 6) |
+| `@/components/TitleSection`         | `@/shared/ui/TitleSection`                                     |
+| `@/components/Toast`                | `@/shared/ui/Toast`                                            |
+| `@/components/Form/Input`           | `@/shared/ui/form/Input`                                       |
+| `@/shared/components/Form/Input`    | `@/shared/ui/form/Input`                                       |
+| `@/shared/components/Form/Select`   | `@/shared/ui/form/Select`                                      |
+| `@/shared/components/Form/Textarea` | `@/shared/ui/form/Textarea`                                    |
+| `@/shared/components/Layout`        | `@/shared/ui/layout`                                           |
 
 > Note: `StoriesSwiper` is in `src/components/` but is domain-specific (stories). It will be moved to `features/stories/components/` in Task 6.
 
@@ -466,6 +470,7 @@ git add -A && git commit -m "refactor: merge components into shared/ui"
 ## Task 4: Move Shared Hooks
 
 **Files:**
+
 - Move: `src/hooks/useColors.ts` → `src/shared/hooks/useColors.ts`
 - Move: `src/hooks/usePagination.ts` → `src/shared/hooks/usePagination.ts`
 
@@ -481,9 +486,9 @@ mv src/hooks/usePagination.ts src/shared/hooks/usePagination.ts
 
 - [ ] **Step 2: Update imports**
 
-| Old | New |
-|---|---|
-| `@/hooks/useColors` | `@/shared/hooks/useColors` |
+| Old                     | New                            |
+| ----------------------- | ------------------------------ |
+| `@/hooks/useColors`     | `@/shared/hooks/useColors`     |
 | `@/hooks/usePagination` | `@/shared/hooks/usePagination` |
 
 - [ ] **Step 3: Verify build**
@@ -503,6 +508,7 @@ git add -A && git commit -m "refactor: move shared hooks (useColors, usePaginati
 ## Task 5: Co-locate Spots Feature (hooks, services, types, utils, constants)
 
 **Files:**
+
 - Create: `src/features/spots/hooks/` (6 hooks)
 - Create: `src/features/spots/services/` (5 services)
 - Create: `src/features/spots/utils/isSupported.ts`
@@ -574,22 +580,22 @@ Adjust paths after Task 6 flattens the subdirectories if needed.
 
 - [ ] **Step 9: Update all imports**
 
-| Old | New |
-|---|---|
-| `@/hooks/useAIWriter` | `@/features/spots/hooks/useAIWriter` |
-| `@/hooks/useCreateSpot` | `@/features/spots/hooks/useCreateSpot` |
-| `@/hooks/useDeleteSpot` | `@/features/spots/hooks/useDeleteSpot` |
-| `@/hooks/useSpot` | `@/features/spots/hooks/useSpot` |
-| `@/hooks/useSpots` | `@/features/spots/hooks/useSpots` |
-| `@/hooks/useUpdateSpot` | `@/features/spots/hooks/useUpdateSpot` |
-| `@/services/createSpot` | `@/features/spots/services/createSpot` |
-| `@/services/deleteSpot` | `@/features/spots/services/deleteSpot` |
-| `@/services/getSpotById` | `@/features/spots/services/getSpotById` |
-| `@/services/getSpots` | `@/features/spots/services/getSpots` |
-| `@/services/updateSpot` | `@/features/spots/services/updateSpot` |
-| `@/types/spots` | `@/features/spots/types` |
-| `@/utils/ai/isSupported` | `@/features/spots/utils/isSupported` |
-| `@/lib/const/spotValidation` | `@/features/spots/constants` |
+| Old                                     | New                                             |
+| --------------------------------------- | ----------------------------------------------- |
+| `@/hooks/useAIWriter`                   | `@/features/spots/hooks/useAIWriter`            |
+| `@/hooks/useCreateSpot`                 | `@/features/spots/hooks/useCreateSpot`          |
+| `@/hooks/useDeleteSpot`                 | `@/features/spots/hooks/useDeleteSpot`          |
+| `@/hooks/useSpot`                       | `@/features/spots/hooks/useSpot`                |
+| `@/hooks/useSpots`                      | `@/features/spots/hooks/useSpots`               |
+| `@/hooks/useUpdateSpot`                 | `@/features/spots/hooks/useUpdateSpot`          |
+| `@/services/createSpot`                 | `@/features/spots/services/createSpot`          |
+| `@/services/deleteSpot`                 | `@/features/spots/services/deleteSpot`          |
+| `@/services/getSpotById`                | `@/features/spots/services/getSpotById`         |
+| `@/services/getSpots`                   | `@/features/spots/services/getSpots`            |
+| `@/services/updateSpot`                 | `@/features/spots/services/updateSpot`          |
+| `@/types/spots`                         | `@/features/spots/types`                        |
+| `@/utils/ai/isSupported`                | `@/features/spots/utils/isSupported`            |
+| `@/lib/const/spotValidation`            | `@/features/spots/constants`                    |
 | `@/shared/components/ImproveTextButton` | `@/features/spots/components/ImproveTextButton` |
 
 - [ ] **Step 10: Verify build**
@@ -609,6 +615,7 @@ git add -A && git commit -m "refactor: co-locate spots hooks, services, types, u
 ## Task 6: Co-locate Auth Feature
 
 **Files:**
+
 - Move: `src/hooks/useAuth.ts` → `src/features/auth/hooks/useAuth.ts`
 - Move: `src/services/auth.ts` → `src/features/auth/services/auth.ts`
 - Move: `src/features/login/modal/login.tsx` → `src/features/auth/components/LoginModal.tsx`
@@ -648,13 +655,13 @@ Adjust named exports to match actual exports in each file.
 
 - [ ] **Step 4: Update all imports**
 
-| Old | New |
-|---|---|
-| `@/hooks/useAuth` | `@/features/auth/hooks/useAuth` |
-| `@/services/auth` | `@/features/auth/services/auth` |
-| `@/contexts/AuthContext` | `@/features/auth/context/AuthContext` |
-| `@/contexts/SidebarDrawerContext` | `@/app/SidebarDrawerContext` |
-| `@/features/user/signInFormSchema` | `@/features/auth/schemas` |
+| Old                                | New                                   |
+| ---------------------------------- | ------------------------------------- |
+| `@/hooks/useAuth`                  | `@/features/auth/hooks/useAuth`       |
+| `@/services/auth`                  | `@/features/auth/services/auth`       |
+| `@/contexts/AuthContext`           | `@/features/auth/context/AuthContext` |
+| `@/contexts/SidebarDrawerContext`  | `@/app/SidebarDrawerContext`          |
+| `@/features/user/signInFormSchema` | `@/features/auth/schemas`             |
 
 - [ ] **Step 5: Verify build**
 
@@ -673,6 +680,7 @@ git add -A && git commit -m "refactor: co-locate auth feature (hooks, services, 
 ## Task 7: Co-locate User Feature
 
 **Files:**
+
 - Move: `src/hooks/useAvatarUpload.ts` → `src/features/user/hooks/useAvatarUpload.ts`
 - Move: `src/hooks/useUser.ts` → `src/features/user/hooks/useUser.ts`
 - Move: `src/hooks/useUsers.ts` → `src/features/user/hooks/useUsers.ts`
@@ -713,6 +721,7 @@ mv src/services/uploadAvatar.ts src/features/user/services/uploadAvatar.ts
 - [ ] **Step 4: Merge type files**
 
 Create `src/features/user/types.ts` by concatenating and de-duplicating the content of:
+
 - `src/types/User.type.ts`
 - `src/types/UserBasicsWithPagination.type.ts`
 - `src/types/usersBasics.type.ts`
@@ -730,20 +739,20 @@ export { default as UserProfile } from "./profile/index";
 
 - [ ] **Step 6: Update all imports**
 
-| Old | New |
-|---|---|
-| `@/hooks/useAvatarUpload` | `@/features/user/hooks/useAvatarUpload` |
-| `@/hooks/useUser` | `@/features/user/hooks/useUser` |
-| `@/hooks/useUsers` | `@/features/user/hooks/useUsers` |
-| `@/services/getUser` | `@/features/user/services/getUser` |
-| `@/services/getUsers` | `@/features/user/services/getUsers` |
-| `@/services/getUsersCount` | `@/features/user/services/getUsersCount` |
-| `@/services/linkAvatar` | `@/features/user/services/linkAvatar` |
-| `@/services/signUpRequest` | `@/features/user/services/signUpRequest` |
-| `@/services/uploadAvatar` | `@/features/user/services/uploadAvatar` |
-| `@/types/User.type` | `@/features/user/types` |
-| `@/types/UserBasicsWithPagination.type` | `@/features/user/types` |
-| `@/types/usersBasics.type` | `@/features/user/types` |
+| Old                                     | New                                      |
+| --------------------------------------- | ---------------------------------------- |
+| `@/hooks/useAvatarUpload`               | `@/features/user/hooks/useAvatarUpload`  |
+| `@/hooks/useUser`                       | `@/features/user/hooks/useUser`          |
+| `@/hooks/useUsers`                      | `@/features/user/hooks/useUsers`         |
+| `@/services/getUser`                    | `@/features/user/services/getUser`       |
+| `@/services/getUsers`                   | `@/features/user/services/getUsers`      |
+| `@/services/getUsersCount`              | `@/features/user/services/getUsersCount` |
+| `@/services/linkAvatar`                 | `@/features/user/services/linkAvatar`    |
+| `@/services/signUpRequest`              | `@/features/user/services/signUpRequest` |
+| `@/services/uploadAvatar`               | `@/features/user/services/uploadAvatar`  |
+| `@/types/User.type`                     | `@/features/user/types`                  |
+| `@/types/UserBasicsWithPagination.type` | `@/features/user/types`                  |
+| `@/types/usersBasics.type`              | `@/features/user/types`                  |
 
 - [ ] **Step 7: Verify build**
 
@@ -762,6 +771,7 @@ git add -A && git commit -m "refactor: co-locate user feature (hooks, services, 
 ## Task 8: Co-locate Stories Feature
 
 **Files:**
+
 - Move: `src/hooks/useStories.ts` → `src/features/stories/hooks/useStories.ts`
 - Move: `src/hooks/useStoriesByUserId.ts` → `src/features/stories/hooks/useStoriesByUserId.ts`
 - Move: `src/services/getStories.ts` → `src/features/stories/services/getStories.ts`
@@ -796,12 +806,12 @@ export { default as StoriesModal } from "./modal/index";
 
 - [ ] **Step 4: Update all imports**
 
-| Old | New |
-|---|---|
-| `@/hooks/useStories` | `@/features/stories/hooks/useStories` |
+| Old                          | New                                           |
+| ---------------------------- | --------------------------------------------- |
+| `@/hooks/useStories`         | `@/features/stories/hooks/useStories`         |
 | `@/hooks/useStoriesByUserId` | `@/features/stories/hooks/useStoriesByUserId` |
-| `@/services/getStories` | `@/features/stories/services/getStories` |
-| `@/types/stories` | `@/features/stories/types` |
+| `@/services/getStories`      | `@/features/stories/services/getStories`      |
+| `@/types/stories`            | `@/features/stories/types`                    |
 | `@/components/StoriesSwiper` | `@/features/stories/components/StoriesSwiper` |
 
 - [ ] **Step 5: Verify build**
@@ -821,6 +831,7 @@ git add -A && git commit -m "refactor: co-locate stories feature (hooks, service
 ## Task 9: Co-locate AI Feature
 
 **Files:**
+
 - Move: `src/hooks/useAIChat.ts` → `src/features/ai/hooks/useAIChat.ts`
 - Move: `src/types/ai.ts` → `src/features/ai/types.ts`
 - Create: `src/features/ai/index.ts`
@@ -848,10 +859,10 @@ export { default as Message } from "./Message/index";
 
 - [ ] **Step 4: Update imports**
 
-| Old | New |
-|---|---|
+| Old                 | New                             |
+| ------------------- | ------------------------------- |
 | `@/hooks/useAIChat` | `@/features/ai/hooks/useAIChat` |
-| `@/types/ai` | `@/features/ai/types` |
+| `@/types/ai`        | `@/features/ai/types`           |
 
 - [ ] **Step 5: Verify build**
 
@@ -930,6 +941,7 @@ git add -A && git commit -m "refactor: remove empty directories after VSA migrat
 ## Task 11: Update Documentation
 
 **Files:**
+
 - Modify: `docs/TECHNICAL_ANALYSIS.md` — add Section 14 on VSA architecture decision
 - Modify: `AGENTS.md` — update architecture conventions to reflect new paths
 
@@ -959,19 +971,19 @@ with far less ceremony: 3 layers instead of 7, no mandatory taxonomy, no linter 
 
 ### New Structure
 
-| Old Path | New Path |
-|---|---|
-| `src/components/` | `src/shared/ui/` |
-| `src/hooks/use<Domain>*` | `src/features/<domain>/hooks/` |
-| `src/services/<verb><Entity>` | `src/features/<domain>/services/` |
-| `src/types/<domain>.ts` | `src/features/<domain>/types.ts` |
-| `src/lib/apiClient` | `src/shared/api/apiClient` |
-| `src/lib/queryClient` | `src/shared/lib/queryClient` |
-| `src/lib/observability/` | `src/shared/lib/observability/` |
-| `src/utils/` | `src/shared/lib/` |
-| `src/server/lib/` | `src/shared/server/lib/` |
-| `src/contexts/AuthContext` | `src/features/auth/context/AuthContext` |
-| `src/styles/` | `src/shared/lib/` |
+| Old Path                      | New Path                                |
+| ----------------------------- | --------------------------------------- |
+| `src/components/`             | `src/shared/ui/`                        |
+| `src/hooks/use<Domain>*`      | `src/features/<domain>/hooks/`          |
+| `src/services/<verb><Entity>` | `src/features/<domain>/services/`       |
+| `src/types/<domain>.ts`       | `src/features/<domain>/types.ts`        |
+| `src/lib/apiClient`           | `src/shared/api/apiClient`              |
+| `src/lib/queryClient`         | `src/shared/lib/queryClient`            |
+| `src/lib/observability/`      | `src/shared/lib/observability/`         |
+| `src/utils/`                  | `src/shared/lib/`                       |
+| `src/server/lib/`             | `src/shared/server/lib/`                |
+| `src/contexts/AuthContext`    | `src/features/auth/context/AuthContext` |
+| `src/styles/`                 | `src/shared/lib/`                       |
 ```
 
 - [ ] **Step 2: Update `AGENTS.md` architecture conventions section**

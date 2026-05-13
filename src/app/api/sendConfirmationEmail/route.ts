@@ -6,7 +6,7 @@ import {
   NODEMAILER_TRANSPORTER_PASS,
   NODEMAILER_TRANSPORTER_SERVICE,
   NODEMAILER_TRANSPORTER_USER
-} from "@/utils/constant";
+} from "@/shared/config/constants";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

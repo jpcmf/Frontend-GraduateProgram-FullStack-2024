@@ -8,7 +8,7 @@ import type { ObservabilityAdapter } from "./types";
  * Central observability singleton.
  *
  * This is the only import call sites should ever use:
- *   import { obs } from "@/lib/observability"
+ *   import { obs } from "@/shared/lib/observability"
  *
  * Current providers (when NEXT_PUBLIC_OBSERVABILITY_ENABLED=true):
  *   - SentryAdapter  → captureError, captureMessage, identify, reset

@@ -14,8 +14,8 @@ import { Box, Heading, HStack, Icon, SimpleGrid, Text, useColorModeValue, VStack
 
 import { TitleSection } from "@/components/TitleSection";
 import { useColors } from "@/hooks/useColors";
+import { formatSmartDate } from "@/shared/lib/date";
 import type { User } from "@/types/User.type";
-import { formatSmartDate } from "@/utils/date";
 
 type DashboardProps = {
   user: User;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
+import { API } from "@/shared/config/constants";
 import type { UserBasics } from "@/types/usersBasics.type";
-import { API } from "@/utils/constant";
 
 export async function getUser(id: string): Promise<UserBasics> {
   try {

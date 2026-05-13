@@ -1,7 +1,7 @@
 import axios from "axios";
 import { destroyCookie, parseCookies } from "nookies";
 
-import { obs } from "@/lib/observability";
+import { obs } from "@/shared/lib/observability";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_STRAPI_URL
