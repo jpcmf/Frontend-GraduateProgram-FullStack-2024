@@ -9,9 +9,9 @@ import { Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { Toast } from "@/components/Toast";
+import { Toast } from '@/shared/ui/Toast';
 import { useColors } from "@/hooks/useColors";
-import { Input } from "@/shared/components/Form/Input";
+import { Input } from '@/shared/ui/form/Input';
 import { API } from "@/shared/config/constants";
 
 const resetPasswordFormSchema = z

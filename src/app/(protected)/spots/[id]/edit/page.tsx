@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { Box, Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { TitleSection } from "@/components/TitleSection";
-import { Toast } from "@/components/Toast";
+import { TitleSection } from '@/shared/ui/TitleSection';
+import { Toast } from '@/shared/ui/Toast';
 import { SpotForm } from "@/features/spots/SpotForm";
 import { getSpotById } from "@/services/getSpotById";
 import { updateSpot } from "@/services/updateSpot";

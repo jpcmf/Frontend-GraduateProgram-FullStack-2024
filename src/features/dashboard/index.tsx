@@ -12,7 +12,7 @@ import Link from "next/link";
 
 import { Box, Heading, HStack, Icon, SimpleGrid, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 
-import { TitleSection } from "@/components/TitleSection";
+import { TitleSection } from '@/shared/ui/TitleSection';
 import { useColors } from "@/hooks/useColors";
 import { formatSmartDate } from "@/shared/lib/date";
 import type { User } from "@/types/User.type";

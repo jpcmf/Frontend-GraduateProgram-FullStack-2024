@@ -21,11 +21,11 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { LogoSkateHub } from "@/components/LogoSkateHub";
-import { Toast } from "@/components/Toast";
+import { LogoSkateHub } from '@/shared/ui/LogoSkateHub';
+import { Toast } from '@/shared/ui/Toast';
 import { AuthContext } from "@/contexts/AuthContext";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
-import { Input } from "@/shared/components/Form/Input";
+import { Input } from '@/shared/ui/form/Input';
 import { redirectIfAuthenticated } from "@/shared/lib/authUtils";
 
 import packageJson from "../../../../package.json";

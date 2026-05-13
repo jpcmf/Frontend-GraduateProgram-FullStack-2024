@@ -2,7 +2,7 @@
 
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 
-import { TitleSection } from "@/components/TitleSection";
+import { TitleSection } from '@/shared/ui/TitleSection';
 import { Dashboard } from "@/features/dashboard";
 import { useAuth } from "@/hooks/useAuth";
 

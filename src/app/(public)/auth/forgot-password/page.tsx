@@ -8,9 +8,9 @@ import { Box, Button, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/re
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { TitleSection } from "@/components/TitleSection";
-import { Toast } from "@/components/Toast";
-import { Input } from "@/shared/components/Form/Input";
+import { TitleSection } from '@/shared/ui/TitleSection';
+import { Toast } from '@/shared/ui/Toast';
+import { Input } from '@/shared/ui/form/Input';
 import { API } from "@/shared/config/constants";
 import { VALIDATION_MESSAGES } from "@/shared/config/validation";
 
