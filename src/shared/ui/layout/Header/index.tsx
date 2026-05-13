@@ -10,9 +10,9 @@ import { Button, Flex, Icon, IconButton, Link, useBreakpointValue, useColorModeV
 import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
 import LoginModal from "@/features/login/modal/login";
-import { useColors } from "@/hooks/useColors";
-import { LogoSkateHub } from '@/shared/ui/LogoSkateHub';
-import { ReusableModal } from '@/shared/ui/ReusableModal';
+import { useColors } from "@/shared/hooks/useColors";
+import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
+import { ReusableModal } from "@/shared/ui/ReusableModal";
 
 import { Notification } from "./Notification";
 import { Profile } from "./Profile";

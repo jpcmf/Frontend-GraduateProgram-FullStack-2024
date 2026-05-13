@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Avatar as ChakraAvatar, Box, Flex, HStack, Link, useColorModeValue, VStack } from "@chakra-ui/react";
 
 import { StoriesModal } from "@/features/stories/modal";
-import { ReusableModal } from '@/shared/ui/ReusableModal';
+import { ReusableModal } from "@/shared/ui/ReusableModal";
 
 interface StoriesSwiperProps {
   stories: Array<{

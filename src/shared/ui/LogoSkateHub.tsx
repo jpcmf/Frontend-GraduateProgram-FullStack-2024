@@ -1,4 +1,4 @@
-import { useColors } from "@/hooks/useColors";
+import { useColors } from "@/shared/hooks/useColors";
 
 interface LogoSkateHubProps {
   showLogoData?: boolean;

@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
-import { useColors } from "@/hooks/useColors";
-import { LogoSkateHub } from '@/shared/ui/LogoSkateHub';
+import { useColors } from "@/shared/hooks/useColors";
+import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
 
 import { SidebarNav } from "./SidebarNav";
 

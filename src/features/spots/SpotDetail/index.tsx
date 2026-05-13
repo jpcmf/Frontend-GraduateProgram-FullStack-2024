@@ -26,9 +26,9 @@ import {
   VStack
 } from "@chakra-ui/react";
 
-import { useAuth } from "@/hooks/useAuth";
-import { useColors } from "@/hooks/useColors";
 import { useDeleteSpot } from "@/hooks/useDeleteSpot";
+import { useAuth } from "@/shared/hooks/useAuth";
+import { useColors } from "@/shared/hooks/useColors";
 import { fetchCoordinates } from "@/shared/lib/mapbox";
 import { MapBox } from "@/shared/ui/Map";
 import { TitleSection } from "@/shared/ui/TitleSection";

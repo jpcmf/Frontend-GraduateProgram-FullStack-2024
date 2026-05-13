@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 
 import { Avatar, Box, Code, HStack, Text, VStack } from "@chakra-ui/react";
 
-import { useColors } from "@/hooks/useColors";
+import { useColors } from "@/shared/hooks/useColors";
 import type { Message } from "@/types/ai";
 
 interface MessageProps {

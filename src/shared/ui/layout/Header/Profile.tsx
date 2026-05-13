@@ -19,7 +19,7 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 interface ProfileProps {
   showProfileData: boolean | undefined;

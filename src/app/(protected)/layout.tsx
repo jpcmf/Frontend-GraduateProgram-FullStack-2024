@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { Flex, Spinner } from "@chakra-ui/react";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

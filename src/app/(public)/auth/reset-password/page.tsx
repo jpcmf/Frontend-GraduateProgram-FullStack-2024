@@ -9,8 +9,8 @@ import { Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useColors } from "@/hooks/useColors";
 import { API } from "@/shared/config/constants";
+import { useColors } from "@/shared/hooks/useColors";
 import { Input } from "@/shared/ui/form/Input";
 import { Toast } from "@/shared/ui/Toast";
 

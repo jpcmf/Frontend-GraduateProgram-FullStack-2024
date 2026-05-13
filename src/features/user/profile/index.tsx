@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, Heading, Image, Spinner, Text } from "@chakra-ui/react";
 
-import { useColors } from "@/hooks/useColors";
 import { useUser } from "@/hooks/useUser";
+import { useColors } from "@/shared/hooks/useColors";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
 import { TitleSection } from "@/shared/ui/TitleSection";
 

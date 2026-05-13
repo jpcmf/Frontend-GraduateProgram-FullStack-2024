@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { useAuth } from "@/hooks/useAuth";
 import { streamClient } from "@/shared/api/streamClient";
+import { useAuth } from "@/shared/hooks/useAuth";
 import type { Message } from "@/types/ai";
 
 export function useAIChat() {

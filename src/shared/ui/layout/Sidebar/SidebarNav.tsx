@@ -5,7 +5,7 @@ import { TbUsers } from "react-icons/tb";
 import { Box, Stack } from "@chakra-ui/react";
 
 import { AuthContext } from "@/contexts/AuthContext";
-import { useColors } from "@/hooks/useColors";
+import { useColors } from "@/shared/hooks/useColors";
 
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";

@@ -8,7 +8,7 @@ import NextLink from "next/link";
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 
 import { useAIChat } from "@/hooks/useAIChat";
-import { useColors } from "@/hooks/useColors";
+import { useColors } from "@/shared/hooks/useColors";
 import { Input } from "@/shared/ui/form/Input";
 
 import { Message } from "../Message";
@@ -104,7 +104,7 @@ export function Chat() {
           </Center>
         ) : (
           /* Chat area (after first message) */
-          <VStack align="stretch" spacing={4} mt={5}>
+          <VStack align="stretch" spacing={4} mt={5} height={0}>
             {messages
               .filter(msg => msg.role === "user" || msg.content !== "")
               .map(msg => (
