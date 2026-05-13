@@ -9,7 +9,7 @@ import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/r
 
 import { useAIChat } from "@/hooks/useAIChat";
 import { useColors } from "@/hooks/useColors";
-import { Input } from '@/shared/ui/form/Input';
+import { Input } from "@/shared/ui/form/Input";
 
 import { Message } from "../Message";
 

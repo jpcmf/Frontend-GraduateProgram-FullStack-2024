@@ -10,10 +10,10 @@ import { z } from "zod";
 
 import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "@/features/spots/constants";
 import { apiClient } from "@/shared/api/apiClient";
-import { Input } from '@/shared/ui/form/Input';
-import { Select } from '@/shared/ui/form/Select';
-import { Textarea } from '@/shared/ui/form/Textarea';
-import { ImproveTextButton } from '@/shared/ui/ImproveTextButton';
+import { Input } from "@/shared/ui/form/Input";
+import { Select } from "@/shared/ui/form/Select";
+import { Textarea } from "@/shared/ui/form/Textarea";
+import { ImproveTextButton } from "@/shared/ui/ImproveTextButton";
 import type { CreateSpotPayload, SpotType } from "@/types/spots";
 
 const spotSchema = z.object({

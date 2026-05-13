@@ -2,8 +2,8 @@ import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
 import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 
-import { UserCard } from '@/shared/ui/CardUser';
 import { useColors } from "@/hooks/useColors";
+import { UserCard } from "@/shared/ui/CardUser";
 import type { UserBasicsWithPagination } from "@/types/UserBasicsWithPagination.type";
 
 interface SkatistasProps {

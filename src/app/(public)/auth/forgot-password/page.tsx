@@ -8,11 +8,11 @@ import { Box, Button, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/re
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { TitleSection } from '@/shared/ui/TitleSection';
-import { Toast } from '@/shared/ui/Toast';
-import { Input } from '@/shared/ui/form/Input';
 import { API } from "@/shared/config/constants";
 import { VALIDATION_MESSAGES } from "@/shared/config/validation";
+import { Input } from "@/shared/ui/form/Input";
+import { TitleSection } from "@/shared/ui/TitleSection";
+import { Toast } from "@/shared/ui/Toast";
 
 const forgotPasswordFormSchema = z.object({
   email: z.string().email(VALIDATION_MESSAGES.INVALID_EMAIL)

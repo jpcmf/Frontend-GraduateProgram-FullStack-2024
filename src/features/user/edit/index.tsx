@@ -8,15 +8,15 @@ import { Box, Button, Flex, HStack, SimpleGrid, useColorModeValue, VStack } from
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { ProfileHeader } from '@/shared/ui/HeaderProfile';
-import { TitleSection } from '@/shared/ui/TitleSection';
-import { Toast } from '@/shared/ui/Toast';
 import { AuthContext } from "@/contexts/AuthContext";
-import { Input } from '@/shared/ui/form/Input';
-import { Select } from '@/shared/ui/form/Select';
-import { Textarea } from '@/shared/ui/form/Textarea';
 import { CATEGORIES } from "@/shared/config/categories";
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
+import { Input } from "@/shared/ui/form/Input";
+import { Select } from "@/shared/ui/form/Select";
+import { Textarea } from "@/shared/ui/form/Textarea";
+import { ProfileHeader } from "@/shared/ui/HeaderProfile";
+import { TitleSection } from "@/shared/ui/TitleSection";
+import { Toast } from "@/shared/ui/Toast";
 
 // type RegisterForm = {
 //   name: string;

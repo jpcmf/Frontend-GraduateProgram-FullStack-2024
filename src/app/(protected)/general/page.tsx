@@ -2,7 +2,7 @@
 
 import { Box, Flex, Grid, useColorModeValue } from "@chakra-ui/react";
 
-import { TitleSection } from '@/shared/ui/TitleSection';
+import { TitleSection } from "@/shared/ui/TitleSection";
 
 export default function AthleteRegistrationPage() {
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");

@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Flex, Text } from "@chakra-ui/react";
 
-import { Toast } from '@/shared/ui/Toast';
+import { Toast } from "@/shared/ui/Toast";
 
 export default function Confirmation() {
   const router = useRouter();

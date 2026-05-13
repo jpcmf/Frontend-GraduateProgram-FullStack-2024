@@ -4,12 +4,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
-import { ErrorBoundary } from '@/shared/ui/ErrorBoundary';
-import QueryProvider from '@/shared/ui/QueryProvider';
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SidebarDrawerProvider } from "@/contexts/SidebarDrawerContext";
-import { Layout } from '@/shared/ui/layout/Layout';
 import { theme } from "@/shared/lib/theme";
+import { ErrorBoundary } from "@/shared/ui/ErrorBoundary";
+import { Layout } from "@/shared/ui/layout/Layout";
+import QueryProvider from "@/shared/ui/QueryProvider";
 
 if (
   typeof window !== "undefined" &&

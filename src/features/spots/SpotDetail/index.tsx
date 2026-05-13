@@ -26,12 +26,12 @@ import {
   VStack
 } from "@chakra-ui/react";
 
-import { MapBox } from '@/shared/ui/Map';
-import { TitleSection } from '@/shared/ui/TitleSection';
 import { useAuth } from "@/hooks/useAuth";
 import { useColors } from "@/hooks/useColors";
 import { useDeleteSpot } from "@/hooks/useDeleteSpot";
 import { fetchCoordinates } from "@/shared/lib/mapbox";
+import { MapBox } from "@/shared/ui/Map";
+import { TitleSection } from "@/shared/ui/TitleSection";
 import type { Spot, SpotType } from "@/types/spots";
 
 const TYPE_LABELS: Record<SpotType, string> = {

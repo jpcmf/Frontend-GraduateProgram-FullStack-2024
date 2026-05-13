@@ -20,11 +20,11 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { TitleSection } from '@/shared/ui/TitleSection';
-import { Toast } from '@/shared/ui/Toast';
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
 import { useAuth } from "@/hooks/useAuth";
-import { Input } from '@/shared/ui/form/Input';
+import { Input } from "@/shared/ui/form/Input";
+import { TitleSection } from "@/shared/ui/TitleSection";
+import { Toast } from "@/shared/ui/Toast";
 
 export default function SignIn() {
   const router = useRouter();
