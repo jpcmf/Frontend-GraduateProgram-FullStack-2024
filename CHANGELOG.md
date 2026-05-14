@@ -3,6 +3,10 @@
 All notable changes to SkateHub Frontend are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0] - 2026-05-14
+
+- 2026-05-14 - Migrate to Vertical Slice Architecture (VSA) for improved code organization and scalability [#190](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/190) _(v2.0.0)_
+
 ## [1.3.0] - 2026-05-08
 
 - 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#184](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/184)

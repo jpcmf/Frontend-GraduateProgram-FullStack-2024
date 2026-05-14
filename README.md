@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-green?style=flat-square" />
+  <img alt="Version" src="https://img.shields.io/badge/version-2.0.0-green?style=flat-square" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js" />
   <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" />
@@ -93,6 +93,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Responsive layout (mobile + desktop)
 - Custom 404 page
 - Sitemap API route
+- Vertical Slice Architecture (VSA) for organized, scalable feature structure
 
 ---
 
