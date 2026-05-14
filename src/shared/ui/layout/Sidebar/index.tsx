@@ -10,7 +10,7 @@ import {
   useBreakpointValue
 } from "@chakra-ui/react";
 
-import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
+import { useSidebarDrawer } from "@/app/SidebarDrawerContext";
 import { useColors } from "@/shared/hooks/useColors";
 import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
 

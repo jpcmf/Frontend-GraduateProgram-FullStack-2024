@@ -21,7 +21,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { signUpRequest } from "@/services/signUpRequest";
+import { signUpRequest } from "@/features/user/services/signUpRequest";
 import { CATEGORIES, getCategoryByValue } from "@/shared/config/categories";
 import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
 import { Input } from "@/shared/ui/form/Input";

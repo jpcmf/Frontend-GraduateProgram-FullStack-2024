@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 
 import { AuthContext } from "@/features/auth";
-import { linkAvatar } from "@/services/linkAvatar";
-import { uploadAvatar } from "@/services/uploadAvatar";
+import { linkAvatar } from "@/features/user/services/linkAvatar";
+import { uploadAvatar } from "@/features/user/services/uploadAvatar";
 
 export function useAvatarUpload() {
   const { token } = useContext(AuthContext);

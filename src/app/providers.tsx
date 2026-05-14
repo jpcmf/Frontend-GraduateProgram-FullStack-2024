@@ -4,7 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
-import { SidebarDrawerProvider } from "@/contexts/SidebarDrawerContext";
+import { SidebarDrawerProvider } from "@/app/SidebarDrawerContext";
 import { AuthProvider } from "@/features/auth";
 import { theme } from "@/shared/lib/theme";
 import { ErrorBoundary } from "@/shared/ui/ErrorBoundary";

@@ -23,7 +23,7 @@ import {
 
 import { AuthContext } from "@/features/auth";
 import type { UserBasics } from "@/features/user";
-import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { useAvatarUpload } from "@/features/user/hooks/useAvatarUpload";
 import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
 import { Toast } from "@/shared/ui/Toast";
 

@@ -3,16 +3,14 @@
 import { useContext } from "react";
 import { RiMenuLine } from "react-icons/ri";
 // import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Button, Flex, Icon, IconButton, Link, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 
-import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
+import { useSidebarDrawer } from "@/app/SidebarDrawerContext";
 import { AuthContext } from "@/features/auth";
-import LoginModal from "@/features/login/modal/login";
 import { useColors } from "@/shared/hooks/useColors";
 import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
-import { ReusableModal } from "@/shared/ui/ReusableModal";
 
 import { Notification } from "./Notification";
 import { Profile } from "./Profile";
@@ -23,7 +21,6 @@ export function Header() {
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
 
   const isVisible = useBreakpointValue({
@@ -31,14 +28,8 @@ export function Header() {
     lg: true
   });
 
-  const isLoginModalOpen = (searchParams?.get("modal") || "") === "login";
-
-  const handleClose = () => {
-    router.push(pathname);
-  };
-
   const handleLoginClick = () => {
-    router.push(`${pathname}?modal=login`);
+    router.push("/auth/signin");
   };
 
   const handleSignupClick = () => {
@@ -101,9 +92,6 @@ export function Header() {
           )}
         </Flex>
       </Flex>
-      <ReusableModal isOpen={isLoginModalOpen} onClose={handleClose} size="6xl">
-        <LoginModal />
-      </ReusableModal>
     </>
   );
 }

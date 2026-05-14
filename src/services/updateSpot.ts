@@ -1,7 +1,0 @@
-import type { SpotResponse, UpdateSpotPayload } from "@/features/spots";
-import { apiClient } from "@/shared/api/apiClient";
-
-export async function updateSpot(id: string | number, payload: UpdateSpotPayload): Promise<SpotResponse> {
-  const res = await apiClient.put(`/api/spots/${id}`, { data: payload });
-  return res.data;
-}
