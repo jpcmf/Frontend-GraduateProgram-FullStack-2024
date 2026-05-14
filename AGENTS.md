@@ -45,17 +45,126 @@ This project uses **Spec-Driven Development**. Every feature must follow this pr
 
 ## Architecture Conventions
 
+This project uses **Vertical Slice Architecture (VSA)** for feature organization. Features are co-located and self-contained; each feature owns its hooks, services, components, and types.
+
+### File Structure
+
+```
+src/
+├── app/                              # App Router pages & layouts
+│   ├── (public)/                     # Public routes (no auth required)
+│   ├── (protected)/                  # Protected routes (auth required)
+│   ├── layout.tsx                    # Root layout
+│   └── SidebarDrawerContext.tsx       # App-level context (shared across layout)
+├── features/
+│   ├── auth/                         # Authentication feature
+│   │   ├── components/               # Auth UI components
+│   │   ├── hooks/                    # Auth-specific hooks (e.g., useSignIn)
+│   │   ├── services/                 # Auth services (e.g., signIn.ts, signOut.ts)
+│   │   ├── types/                    # Auth types (Auth, User, Session)
+│   │   └── index.ts                  # Barrel export: export { useSignIn, types, ... }
+│   ├── spots/                        # Spots feature
+│   │   ├── components/
+│   │   ├── hooks/                    # e.g., useSpots, useSpot, useCreateSpot
+│   │   ├── services/                 # e.g., getSpots.ts, createSpot.ts, deleteSpot.ts
+│   │   ├── types/
+│   │   └── index.ts
+│   ├── user/                         # User profile & account feature
+│   │   ├── components/
+│   │   ├── hooks/                    # e.g., useProfile, useAvatarUpload
+│   │   ├── services/                 # e.g., getProfile.ts, updateProfile.ts
+│   │   ├── types/
+│   │   └── index.ts
+│   ├── stories/                      # Stories feature
+│   ├── ai/                           # AI chat feature
+│   ├── skatistas/                    # Skatistas feature
+│   └── dashboard/                    # Dashboard feature
+├── shared/
+│   ├── ui/                           # Reusable UI components (not domain-specific)
+│   │   ├── layout/                   # Header, Sidebar, Footer, etc.
+│   │   └── form/                     # Form inputs, buttons, etc.
+│   ├── hooks/                        # Hooks used across multiple features
+│   │   ├── useAuth.ts                # Auth state (used by all features)
+│   │   ├── useColors.ts              # Chakra colors (used across UI)
+│   │   └── index.ts
+│   ├── lib/
+│   │   ├── apiClient.ts              # Axios instance (base URL + 401 interceptor)
+│   │   └── storage.ts
+│   ├── types/
+│   │   └── index.ts                  # Global types (if needed)
+│   └── utils/
+│       ├── validate.ts               # Validation helpers
+│       └── format.ts
+└── ...
+```
+
+### Import Rules
+
+**Cross-feature imports are forbidden.** Use this hierarchy:
+
+1. **Within a feature** — use relative paths:
+   ```typescript
+   // ✓ Good: relative path within feature
+   import { useSpot } from "../../hooks/useSpot";
+   import type { Spot } from "../../types/spots";
+   import { getSpot } from "../../services/getSpot";
+   ```
+
+2. **From another feature** — import from barrel export only:
+   ```typescript
+   // ✓ Good: barrel export from feature
+   import { useSpot, type Spot } from "@/features/spots";
+   
+   // ✗ Bad: direct import from feature internals
+   import useSpot from "@/features/spots/hooks/useSpot";
+   ```
+
+3. **From shared layer** — import directly (shared layer is meant for reuse):
+   ```typescript
+   // ✓ Good: shared imports
+   import { useAuth } from "@/shared/hooks/useAuth";
+   import { Button } from "@/shared/ui/form/Button";
+   import { apiClient } from "@/shared/lib/apiClient";
+   ```
+
+4. **Never import from `src/contexts/`, `src/services/`, `src/hooks/`, `src/types/`** — these old paths no longer exist; use feature or shared imports instead.
+
+### Feature Barrel Exports
+
+Every feature must export its public API via `src/features/<feature>/index.ts`:
+
+```typescript
+// src/features/spots/index.ts
+export { useSpots, useSpot, useCreateSpot } from "./hooks";
+export type { Spot, CreateSpotInput } from "./types";
+export { getSpots, createSpot } from "./services";
+export { SpotForm, SpotCard } from "./components";
+```
+
+This makes the feature's API discoverable and prevents internal details from leaking.
+
+### Shared Layer Usage
+
+- **Shared components**: `@/shared/ui/` — Header, Sidebar, footer, buttons, form inputs (not domain-specific)
+- **Shared hooks**: `@/shared/hooks/` — `useAuth`, `useColors` (used by 2+ features)
+- **Shared services**: `@/shared/lib/` — `apiClient.ts`, storage utilities (used by multiple features)
+
+If code is needed by only one feature, keep it in that feature. If 2+ features need it, move it to `@/shared/`.
+
+### Routing & Auth
+
 - Pages live in `src/app/` (App Router file-system routing)
 - Route protection is handled in `src/app/(protected)/layout.tsx` with `useAuth()` hook — do not add auth checks in individual pages
 - Public routes in `src/app/(public)/` — no auth required
 - Protected routes in `src/app/(protected)/` — requires authentication
-- Feature UI lives in `src/features/<feature-name>/` — one folder per feature with `index.tsx` as the entry point
-- Shared reusable components live in `src/components/`
-- All API calls go through `src/lib/apiClient.ts` (Axios instance with base URL + 401 interceptor) — never use bare `axios`
-- Service functions live in `src/services/<verb><Entity>.ts` (e.g. `getSpots.ts`, `createSpot.ts`)
-- TanStack Query hooks live in `src/hooks/use<Entity>.ts` — one hook per resource
-- Types for API responses live in `src/types/<feature>.ts`
-- Auth state is accessed via the `useAuth` hook (`src/hooks/useAuth.ts`) — never import `AuthContext` directly
+- Auth state is accessed via the `useAuth` hook (`@/shared/hooks/useAuth.ts`) — never import `AuthContext` directly
+
+### API Communication
+
+- All API calls go through `@/shared/lib/apiClient.ts` (Axios instance with base URL + 401 interceptor) — never use bare `axios`
+- Service functions are co-located in feature `services/` folder
+- TanStack Query hooks are co-located in feature `hooks/` folder
+- Types for API responses are co-located in feature `types/` folder
 
 ## Documentation Maintenance Rules
 
