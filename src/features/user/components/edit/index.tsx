@@ -8,7 +8,7 @@ import { Box, Button, Flex, HStack, SimpleGrid, useColorModeValue, VStack } from
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { AuthContext } from "@/contexts/AuthContext";
+import { AuthContext } from "@/features/auth";
 import { CATEGORIES } from "@/shared/config/categories";
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
 import { Input } from "@/shared/ui/form/Input";

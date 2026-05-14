@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import { AuthContext } from "@/contexts/AuthContext";
+import { AuthContext } from "@/features/auth";
 import { linkAvatar } from "@/services/linkAvatar";
 import { uploadAvatar } from "@/services/uploadAvatar";
 

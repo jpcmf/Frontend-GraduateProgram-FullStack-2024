@@ -15,9 +15,9 @@ import {
   VStack
 } from "@chakra-ui/react";
 
-import { AuthContext } from "@/contexts/AuthContext";
+import { AuthContext } from "@/features/auth";
+import type { UserBasics } from "@/features/user";
 import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
-import type { UserBasics } from "@/types/usersBasics.type";
 
 export function UserCard({ user }: { user: UserBasics }) {
   const { isAuthenticated } = useContext(AuthContext);

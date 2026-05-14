@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Flex, Spinner } from "@chakra-ui/react";
 
 import { Skatistas } from "@/features/skatistas";
-import { useUsers } from "@/hooks/useUsers";
+import { useUsers } from "@/features/user";
 import { TitleSection } from "@/shared/ui/TitleSection";
 
 export default function SkatistasPage() {

@@ -1,6 +1,6 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 
-import { useStories } from "@/hooks/useStories";
+import { useStories } from "@/features/stories";
 import { StoriesSwiper } from "@/shared/ui/StoriesSwiper";
 
 export function StoriesHome() {

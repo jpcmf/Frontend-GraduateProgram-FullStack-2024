@@ -16,6 +16,6 @@ export { updateSpot } from "./services/updateSpot";
 export type * from "./types/spots";
 
 // Components
-export { SpotCard } from "./SpotCard";
-export { SpotDetail } from "./SpotDetail";
-export { SpotForm } from "./SpotForm";
+export { SpotCard } from "./components/SpotCard";
+export { SpotDetail } from "./components/SpotDetail";
+export { SpotForm } from "./components/SpotForm";

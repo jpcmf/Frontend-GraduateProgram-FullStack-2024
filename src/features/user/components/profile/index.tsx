@@ -1,9 +1,10 @@
 import { Box, Flex, Grid, Heading, Image, Spinner, Text } from "@chakra-ui/react";
 
-import { useUser } from "@/hooks/useUser";
 import { useColors } from "@/shared/hooks/useColors";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
 import { TitleSection } from "@/shared/ui/TitleSection";
+
+import { useUser } from "../../hooks/useUser";
 
 export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);

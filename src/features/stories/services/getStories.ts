@@ -1,5 +1,6 @@
 import { apiClient } from "@/shared/api/apiClient";
-import type { StoriesResponse } from "@/types/stories";
+
+import type { StoriesResponse } from "../types/stories";
 
 // TODO: re-enable 24h filter before going to production
 // function get24hISOThreshold(): string {

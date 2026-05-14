@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getStoriesByUserId } from "@/services/getStories";
-import type { StoriesResponse } from "@/types/stories";
+import { getStoriesByUserId } from "../services/getStories";
+import type { StoriesResponse } from "../types/stories";
 
 export function useStoriesByUserId(userId: string) {
   return useQuery<StoriesResponse, Error>({

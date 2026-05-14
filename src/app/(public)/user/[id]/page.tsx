@@ -2,7 +2,7 @@
 
 import { use } from "react";
 
-import { UserProfile } from "@/features/user/profile";
+import { UserProfile } from "@/features/user";
 
 type UserProfilePageProps = {
   params: Promise<{

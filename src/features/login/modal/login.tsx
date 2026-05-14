@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { AuthContext } from "@/contexts/AuthContext";
+import { AuthContext } from "@/features/auth";
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
 import { redirectIfAuthenticated } from "@/shared/lib/authUtils";
 import { Input } from "@/shared/ui/form/Input";

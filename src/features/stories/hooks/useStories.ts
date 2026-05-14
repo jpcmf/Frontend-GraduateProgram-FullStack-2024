@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getStories } from "@/services/getStories";
-import type { StoriesResponse } from "@/types/stories";
+import { getStories } from "../services/getStories";
+import type { StoriesResponse } from "../types/stories";
 
 export function useStories() {
   return useQuery<StoriesResponse, Error>({

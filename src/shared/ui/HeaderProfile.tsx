@@ -21,11 +21,11 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
-import { AuthContext } from "@/contexts/AuthContext";
+import { AuthContext } from "@/features/auth";
+import type { UserBasics } from "@/features/user";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
 import { Toast } from "@/shared/ui/Toast";
-import type { UserBasics } from "@/types/usersBasics.type";
 
 interface ProfileHeaderProps {
   user: UserBasics;

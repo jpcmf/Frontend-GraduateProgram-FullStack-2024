@@ -7,8 +7,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button, Flex, Icon, IconButton, Link, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 
-import { AuthContext } from "@/contexts/AuthContext";
 import { useSidebarDrawer } from "@/contexts/SidebarDrawerContext";
+import { AuthContext } from "@/features/auth";
 import LoginModal from "@/features/login/modal/login";
 import { useColors } from "@/shared/hooks/useColors";
 import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";

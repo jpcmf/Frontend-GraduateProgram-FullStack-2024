@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getCustomUsersWithPagination } from "@/services/getUsers";
-import { getUsersCount } from "@/services/getUsersCount";
-
+import { getCustomUsersWithPagination } from "../services/getUsers";
+import { getUsersCount } from "../services/getUsersCount";
 import { UserBasicsWithPagination } from "../types/UserBasicsWithPagination.type";
 
 const fetchUsers = async (
