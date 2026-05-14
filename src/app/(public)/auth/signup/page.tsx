@@ -24,8 +24,8 @@ import { z } from "zod";
 import { signUpRequest } from "@/features/user/services/signUpRequest";
 import { CATEGORIES, getCategoryByValue } from "@/shared/config/categories";
 import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
-import { Input } from "@/shared/ui/Form/Input";
-import { Select } from "@/shared/ui/Form/Select";
+import { Input } from "@/shared/ui/form/Input";
+import { Select } from "@/shared/ui/form/Select";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
 

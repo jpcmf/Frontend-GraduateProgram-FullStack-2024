@@ -11,7 +11,7 @@ import { z } from "zod";
 
 import { API } from "@/shared/config/constants";
 import { useColors } from "@/shared/hooks/useColors";
-import { Input } from "@/shared/ui/Form/Input";
+import { Input } from "@/shared/ui/form/Input";
 import { Toast } from "@/shared/ui/Toast";
 
 const resetPasswordFormSchema = z

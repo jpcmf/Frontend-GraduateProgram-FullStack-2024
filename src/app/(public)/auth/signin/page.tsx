@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
 import { useAuth } from "@/shared/hooks/useAuth";
-import { Input } from "@/shared/ui/Form/Input";
+import { Input } from "@/shared/ui/form/Input";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
 

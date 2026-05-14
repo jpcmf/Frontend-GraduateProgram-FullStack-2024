@@ -8,7 +8,7 @@ import NextLink from "next/link";
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 
 import { useColors } from "@/shared/hooks/useColors";
-import { Input } from "@/shared/ui/Form/Input";
+import { Input } from "@/shared/ui/form/Input";
 
 import { useAIChat } from "../../hooks/useAIChat";
 import { Message } from "../Message";

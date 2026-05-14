@@ -9,9 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { apiClient } from "@/shared/api/apiClient";
-import { Input } from "@/shared/ui/Form/Input";
-import { Select } from "@/shared/ui/Form/Select";
-import { Textarea } from "@/shared/ui/Form/Textarea";
+import { Input } from "@/shared/ui/form/Input";
+import { Select } from "@/shared/ui/form/Select";
+import { Textarea } from "@/shared/ui/form/Textarea";
 import { ImproveTextButton } from "@/shared/ui/ImproveTextButton";
 
 import { SPOT_VALIDATION_MESSAGES as MSG, SPOT_VALIDATION_RULES as RULES } from "../../constants";

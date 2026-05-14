@@ -4,7 +4,7 @@
 export { ActiveLink } from "./ActiveLink";
 export { UserCard } from "./CardUser";
 export { ErrorBoundary } from "./ErrorBoundary";
-export * from "./Form";
+export * from "./form";
 export { ProfileHeader } from "./HeaderProfile";
 export { ImproveTextButton } from "./ImproveTextButton";
 // Layout components
