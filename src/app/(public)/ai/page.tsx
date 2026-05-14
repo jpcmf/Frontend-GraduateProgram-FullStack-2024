@@ -1,4 +1,4 @@
-import { Chat } from "@/features/ai/Chat";
+import { Chat } from "@/features/ai";
 
 export const metadata = {
   title: "AI Assistant | SkateHub",

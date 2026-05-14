@@ -7,10 +7,10 @@ import NextLink from "next/link";
 
 import { Box, Button, Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 
-import { useAIChat } from "@/hooks/useAIChat";
 import { useColors } from "@/shared/hooks/useColors";
 import { Input } from "@/shared/ui/form/Input";
 
+import { useAIChat } from "../../hooks/useAIChat";
 import { Message } from "../Message";
 
 const INITIAL_SUGGESTIONS = [

@@ -3,7 +3,7 @@ import { RiLightbulbFlashLine } from "react-icons/ri";
 
 import { Button, Tooltip } from "@chakra-ui/react";
 
-import { useAIWriter, type UseAIWriterOptions } from "@/hooks/useAIWriter";
+import { useAIWriter, type UseAIWriterOptions } from "@/features/ai";
 import { isAIWriterSupported } from "@/utils/ai/isSupported";
 
 export interface ImproveTextButtonProps {

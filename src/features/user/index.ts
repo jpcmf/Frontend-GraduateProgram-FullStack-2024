@@ -1,10 +1,10 @@
 // Hooks
 export { useUser } from "./hooks/useUser";
-export { fetchUsers,useUsers } from "./hooks/useUsers";
+export { fetchUsers, useUsers } from "./hooks/useUsers";
 
 // Services
 export { getUser } from "./services/getUser";
-export { getCustomUsersWithPagination,getUsers, getUsers2 } from "./services/getUsers";
+export { getCustomUsersWithPagination, getUsers, getUsers2 } from "./services/getUsers";
 export { getUsersCount } from "./services/getUsersCount";
 
 // Types

@@ -1,8 +1,10 @@
+"use client";
 import { useState } from "react";
 
 import { streamClient } from "@/shared/api/streamClient";
 import { useAuth } from "@/shared/hooks/useAuth";
-import type { Message } from "@/types/ai";
+
+import type { Message } from "../types/ai";
 
 export function useAIChat() {
   const { isAuthenticated } = useAuth();

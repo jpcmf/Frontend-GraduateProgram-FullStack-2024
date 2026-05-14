@@ -7,7 +7,7 @@ import { Box, Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { UpdateSpotPayload } from "@/features/spots";
-import { getSpotById, SpotForm,updateSpot  } from "@/features/spots";
+import { getSpotById, SpotForm, updateSpot } from "@/features/spots";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
 
