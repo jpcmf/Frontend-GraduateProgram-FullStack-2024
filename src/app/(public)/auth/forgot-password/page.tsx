@@ -10,7 +10,7 @@ import { z } from "zod";
 
 import { API } from "@/shared/config/constants";
 import { VALIDATION_MESSAGES } from "@/shared/config/validation";
-import { Input } from "@/shared/ui/form/Input";
+import { Input } from "@/shared/ui/Form/Input";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
 

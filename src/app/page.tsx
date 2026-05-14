@@ -2,7 +2,7 @@
 
 import { Box } from "@chakra-ui/react";
 
-import { SkatistasHome } from "@/features/skatistas/home";
+import { SkatistasHome } from "@/features/skatistas/Home";
 import { StoriesHome } from "@/features/stories";
 
 export default function HomePage() {

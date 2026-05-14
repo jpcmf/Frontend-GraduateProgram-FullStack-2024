@@ -8,7 +8,7 @@ import { SidebarDrawerProvider } from "@/app/SidebarDrawerContext";
 import { AuthProvider } from "@/features/auth";
 import { theme } from "@/shared/lib/theme";
 import { ErrorBoundary } from "@/shared/ui/ErrorBoundary";
-import { Layout } from "@/shared/ui/layout/Layout";
+import { Layout } from "@/shared/ui/Layout/LayoutWrapper";
 import QueryProvider from "@/shared/ui/QueryProvider";
 
 if (

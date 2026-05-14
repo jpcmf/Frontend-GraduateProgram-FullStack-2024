@@ -2,9 +2,9 @@
 
 import { Flex, useColorMode } from "@chakra-ui/react";
 
-import { Footer } from "@/shared/ui/layout/Footer";
-import { Header } from "@/shared/ui/layout/Header";
-import { Sidebar } from "@/shared/ui/layout/Sidebar";
+import { Footer } from "@/shared/ui/Layout/Footer";
+import { Header } from "@/shared/ui/Layout/Header";
+import { Sidebar } from "@/shared/ui/Layout/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
