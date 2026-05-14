@@ -103,6 +103,7 @@ src/
 **Cross-feature imports are forbidden.** Use this hierarchy:
 
 1. **Within a feature** — use relative paths:
+
    ```typescript
    // ✓ Good: relative path within feature
    import { useSpot } from "../../hooks/useSpot";
@@ -111,15 +112,17 @@ src/
    ```
 
 2. **From another feature** — import from barrel export only:
+
    ```typescript
    // ✓ Good: barrel export from feature
    import { useSpot, type Spot } from "@/features/spots";
-   
+
    // ✗ Bad: direct import from feature internals
    import useSpot from "@/features/spots/hooks/useSpot";
    ```
 
 3. **From shared layer** — import directly (shared layer is meant for reuse):
+
    ```typescript
    // ✓ Good: shared imports
    import { useAuth } from "@/shared/hooks/useAuth";
