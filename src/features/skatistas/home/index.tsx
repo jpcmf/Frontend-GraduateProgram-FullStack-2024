@@ -2,8 +2,9 @@ import { useState } from "react";
 
 import { Flex, Spinner } from "@chakra-ui/react";
 
-import { Skatistas } from "@/features/skatistas";
 import { useUsers } from "@/features/user";
+
+import { Skatistas } from "../index";
 
 export function SkatistasHome() {
   const [currentPage, setCurrentPage] = useState(1);

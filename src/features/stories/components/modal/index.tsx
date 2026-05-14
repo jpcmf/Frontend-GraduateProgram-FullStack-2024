@@ -2,7 +2,7 @@ import Stories from "react-insta-stories";
 
 import { Box, Center, Spinner, Text } from "@chakra-ui/react";
 
-import { useStoriesByUserId } from "@/features/stories";
+import { useStoriesByUserId } from "../../hooks/useStoriesByUserId";
 
 interface StoryItem {
   id?: number;
