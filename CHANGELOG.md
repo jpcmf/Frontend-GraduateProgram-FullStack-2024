@@ -5,7 +5,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2.0.0] - 2026-05-14
 
-- 2026-05-14 - Migrate to Vertical Slice Architecture (VSA) for improved code organization and scalability [#190](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/190) _(v2.0.0)_
+- 2026-05-14 - Migrate to Vertical Slice Architecture (VSA) for improved code organization and scalability [#186](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/186)
 
 ## [1.3.0] - 2026-05-08
 
