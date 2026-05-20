@@ -1,5 +1,5 @@
 // Components
-export { StoriesHome } from "./components/home";
+export { StoriesHome } from "./components/Home";
 export { StoriesModal } from "./components/modal";
 // Hooks
 export { useStories } from "./hooks/useStories";
