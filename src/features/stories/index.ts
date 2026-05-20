@@ -1,6 +1,6 @@
 // Components
 export { StoriesHome } from "./components/Home";
-export { StoriesModal } from "./components/modal";
+export { StoriesModal } from "./components/Modal";
 // Hooks
 export { useStories } from "./hooks/useStories";
 export { useStoriesByUserId } from "./hooks/useStoriesByUserId";
