@@ -3,6 +3,13 @@
 All notable changes to SkateHub Frontend are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0] - 2026-05-14
+
+- 2026-05-14 - Migrate to Vertical Slice Architecture (VSA) for improved code organization and scalability [#186](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/186)
+- 2026-05-14 - Fix circular imports in stories and skatistas features causing Turbopack build failures on Vercel
+- 2026-05-14 - Fix case-sensitivity errors in import paths and directory names (Form/, layout/) for Linux/Vercel compatibility
+- 2026-05-14 - Fix skatistas/Home directory casing mismatch causing module not found on Vercel
+
 ## [1.3.0] - 2026-05-08
 
 - 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#184](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/184)

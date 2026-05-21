@@ -12,10 +12,10 @@ import Link from "next/link";
 
 import { Box, Heading, HStack, Icon, SimpleGrid, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 
-import { TitleSection } from "@/components/TitleSection";
-import { useColors } from "@/hooks/useColors";
-import type { User } from "@/types/User.type";
-import { formatSmartDate } from "@/utils/date";
+import type { User } from "@/features/user";
+import { useColors } from "@/shared/hooks/useColors";
+import { formatSmartDate } from "@/shared/lib/date";
+import { TitleSection } from "@/shared/ui/TitleSection";
 
 type DashboardProps = {
   user: User;

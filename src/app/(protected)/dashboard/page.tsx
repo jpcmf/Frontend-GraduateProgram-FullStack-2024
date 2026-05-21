@@ -2,9 +2,9 @@
 
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 
-import { TitleSection } from "@/components/TitleSection";
 import { Dashboard } from "@/features/dashboard";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/shared/hooks/useAuth";
+import { TitleSection } from "@/shared/ui/TitleSection";
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();

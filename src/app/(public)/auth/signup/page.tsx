@@ -21,13 +21,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { TitleSection } from "@/components/TitleSection";
-import { Toast } from "@/components/Toast";
-import { CATEGORIES, getCategoryByValue } from "@/lib/const/categories";
-import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/lib/const/validation";
-import { signUpRequest } from "@/services/signUpRequest";
-import { Input } from "@/shared/components/Form/Input";
-import { Select } from "@/shared/components/Form/Select";
+import { signUpRequest } from "@/features/user/services/signUpRequest";
+import { CATEGORIES, getCategoryByValue } from "@/shared/config/categories";
+import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
+import { Input } from "@/shared/ui/form/Input";
+import { Select } from "@/shared/ui/form/Select";
+import { TitleSection } from "@/shared/ui/TitleSection";
+import { Toast } from "@/shared/ui/Toast";
 
 const signUpSchema = z
   .object({

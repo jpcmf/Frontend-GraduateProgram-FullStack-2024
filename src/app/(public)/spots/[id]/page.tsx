@@ -4,8 +4,7 @@ import { use } from "react";
 
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 
-import { SpotDetail } from "@/features/spots/SpotDetail";
-import { useSpot } from "@/hooks/useSpot";
+import { SpotDetail, useSpot } from "@/features/spots";
 
 type SpotDetailPageProps = {
   params: Promise<{

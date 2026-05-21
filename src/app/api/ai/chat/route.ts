@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { streamChatResponse } from "@/server/lib/openrouter";
+import { streamChatResponse } from "@/shared/server/lib/openrouter";
 
 export async function POST(request: NextRequest): Promise<Response> {
   // Hard auth gate — never call the AI provider for unauthenticated requests
