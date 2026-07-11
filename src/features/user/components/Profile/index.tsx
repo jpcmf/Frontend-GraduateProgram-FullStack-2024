@@ -1,4 +1,6 @@
-import { Box, Flex, Grid, Heading, Image, Spinner, Text } from "@chakra-ui/react";
+import NextLink from "next/link";
+
+import { Badge, Box, Flex, Grid, Heading, Image, Spinner, Text } from "@chakra-ui/react";
 
 import { useColors } from "@/shared/hooks/useColors";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
@@ -6,9 +8,23 @@ import { TitleSection } from "@/shared/ui/TitleSection";
 
 import { useUser } from "../../hooks/useUser";
 
+const TYPE_LABELS: Record<string, string> = {
+  wish: "Desejo",
+  like: "Curti",
+  want: "Quero",
+  recommend: "Recomendo",
+};
+
+const TYPE_COLORS: Record<string, string> = {
+  wish: "purple",
+  like: "green",
+  want: "orange",
+  recommend: "blue",
+};
+
 export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
-  const { cardBg, textMuted } = useColors();
+  const { cardBg, textMuted, borderColor } = useColors();
 
   const tricks = [
     {
@@ -62,6 +78,21 @@ export function UserProfile({ userId }: { userId: string }) {
           <Text textAlign="left" lineHeight="tall">
             {user?.about}
           </Text>
+        </Box>
+      )}
+      {user.user_lists && user.user_lists.length > 0 && (
+        <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
+          <Heading size="md" mb={4}>Listas</Heading>
+          <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
+            {user.user_lists.map((list) => (
+              <Box as={NextLink} href={`/lists/${list.id}`} key={list.id} bg={cardBg} borderRadius="lg" border="1px solid" borderColor={borderColor} p={4} _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}>
+                <Badge colorScheme={TYPE_COLORS[list.type] || "gray"} px={2} borderRadius="full">
+                  {TYPE_LABELS[list.type] || list.type}
+                </Badge>
+                <Text fontWeight="semibold" mt={2}>{list.title}</Text>
+              </Box>
+            ))}
+          </Grid>
         </Box>
       )}
       <Flex minH="100vh">

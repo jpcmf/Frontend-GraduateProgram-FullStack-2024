@@ -24,6 +24,7 @@ export type UserBasics = {
     uf?: string;
     city?: string;
   };
+  user_lists?: Array<{ id: number; title: string; type: string }>;
   blocked?: boolean;
   createdAt?: string;
   updatedAt?: string;

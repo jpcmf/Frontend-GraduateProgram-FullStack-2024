@@ -57,6 +57,15 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Instagram profile link
 - Public user profile pages
 
+### Lists
+
+- Browse, create, edit, and delete typed collections (wish, like, want, recommend)
+- Public list discovery page with type filter pills
+- Item management with optional image upload and external links
+- Owner-only edit and delete controls
+- Dashboard management for user's own lists
+- Lists section on user profile pages (read-only)
+
 ### Stories
 
 - Post and view 24-hour ephemeral stories

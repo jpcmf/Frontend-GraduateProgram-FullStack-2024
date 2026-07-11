@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine, RiRobot2Line } from "react-icons/ri";
+import { RiContactsLine, RiDashboardLine, RiListCheck2, RiPencilRulerFill, RiPinDistanceLine, RiRobot2Line } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
 
 import { Box, Stack } from "@chakra-ui/react";
@@ -56,6 +56,16 @@ export function SidebarNav() {
             }}
           >
             Truta IA
+          </NavLink>
+          <NavLink
+            icon={RiListCheck2}
+            href="/lists"
+            _activeLink={{
+              textDecoration: "none",
+              color: "green.400"
+            }}
+          >
+            Listas
           </NavLink>
           {/* <NavLink
             icon={RiEdit2Line}

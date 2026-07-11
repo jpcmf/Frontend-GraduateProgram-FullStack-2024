@@ -30,6 +30,7 @@ export type User = {
   instagram_url: string;
   avatar: Avatar;
   address: Address;
+  user_lists?: Array<{ id: number; title: string; type: string }>;
   updatedAt?: string;
   blocked: boolean;
   confirmed: boolean;

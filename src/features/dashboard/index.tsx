@@ -76,7 +76,7 @@ export function Dashboard({ user }: DashboardProps) {
         </Box>
         <Box
           as={Link}
-          href="/"
+          href="/dashboard/lists"
           p={["4", "6"]}
           bg={buttonBgColor}
           border="4px"

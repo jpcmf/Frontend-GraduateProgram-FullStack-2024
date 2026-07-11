@@ -3,6 +3,11 @@
 All notable changes to SkateHub Frontend are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
+- 2026-07-10 - Add lists feature: public discovery with type filters, detail view, dashboard CRUD, item management with image upload, and profile integration
+- 2026-07-10 - Fix ownership validation: restrict list edit page to the list owner, preventing unauthorized item edits and deletions
+
 ## [2.0.0] - 2026-05-14
 
 - 2026-05-14 - Migrate to Vertical Slice Architecture (VSA) for improved code organization and scalability [#186](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/186)
