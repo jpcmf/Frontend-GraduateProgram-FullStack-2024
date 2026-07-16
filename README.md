@@ -186,6 +186,7 @@ The "Improve text" button uses Chrome's on-device **Rewriter API** (in Origin Tr
 
 ### Recent changes
 
+- 2026-07-15 - Move lists routes from `/dashboard/lists` to `/lists`, add `/lists/new` page, remove legacy modal [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
 - 2026-05-14 - Migrate to Vertical Slice Architecture (VSA) for improved code organization and scalability [#186](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/186)
 - 2026-05-08 - Add AI Writing Assistant for on-device text improvement in spot descriptions [#184](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/184)
 - 2026-04-30 - Fix login modal redirecting to "/" when opened from any route [#176](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/176)
