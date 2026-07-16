@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Box, Button, Flex, Heading, Spinner, Text, useDisclosure, useToast } from "@chakra-ui/react";
 
 import type { ListItem, ListType } from "@/features/lists";
-import { ListForm, ListItemForm, ListItemList, useDeleteListItem,useList, useUpdateList } from "@/features/lists";
+import { ListForm, ListItemForm, ListItemList, useDeleteListItem, useList, useUpdateList } from "@/features/lists";
 import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
 import { TitleSection } from "@/shared/ui/TitleSection";
@@ -78,7 +78,7 @@ export default function EditListPage(props: EditListPageProps) {
   const isOwner = user && ownerId ? String(user.id) === String(ownerId) : false;
 
   if (!isOwner) {
-    router.push("/dashboard/lists");
+    router.push("/lists");
     return null;
   }
   const items = list.attributes.items?.data ?? [];
@@ -88,7 +88,9 @@ export default function EditListPage(props: EditListPageProps) {
       <TitleSection title="Editar Lista" />
 
       <Box bg={cardBg} borderRadius="lg" p={6} mb={6}>
-        <Heading size="sm" mb={4}>Informações da Lista</Heading>
+        <Heading size="sm" mb={4}>
+          Informações da Lista
+        </Heading>
         <ListForm initialData={list} onSubmit={handleSaveList} isLoading={updateList.isPending} />
       </Box>
 

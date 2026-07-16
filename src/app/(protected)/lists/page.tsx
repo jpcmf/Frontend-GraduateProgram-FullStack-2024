@@ -5,12 +5,12 @@ import NextLink from "next/link";
 
 import { Box, Button, Flex, Grid, Icon, Spinner, Text, useDisclosure, useToast } from "@chakra-ui/react";
 
-import { CreateListModal, ListCard,useDeleteList, useListsByUser  } from "@/features/lists";
+import { CreateListModal, ListCard, useDeleteList, useListsByUser } from "@/features/lists";
 import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
 import { TitleSection } from "@/shared/ui/TitleSection";
 
-export default function DashboardListsPage() {
+export default function ListsPage() {
   const { user } = useAuth();
   const { textMuted } = useColors();
   const toast = useToast();
@@ -40,20 +40,20 @@ export default function DashboardListsPage() {
     <Box>
       <Flex justify="space-between" align="center" mb={6}>
         <TitleSection title="Minhas Listas" size="md" />
-        <Button colorScheme="green" size="sm" onClick={onOpen}>
-          Criar Lista
+        <Button as={NextLink} href="/lists/new" colorScheme="green" size="sm">
+          Criar Coleção
         </Button>
       </Flex>
 
       {data?.data && data.data.length > 0 ? (
         <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
-          {data.data.map((list) => (
+          {data.data.map(list => (
             <Box key={list.id} position="relative">
               <ListCard list={list} />
               <Flex position="absolute" top={2} right={2} gap={1}>
                 <Button
                   as={NextLink}
-                  href={`/dashboard/lists/${list.id}/edit`}
+                  href={`/lists/${list.id}/edit`}
                   size="xs"
                   variant="solid"
                   colorScheme="whiteAlpha"
