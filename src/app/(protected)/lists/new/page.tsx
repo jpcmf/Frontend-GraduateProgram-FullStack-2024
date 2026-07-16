@@ -5,33 +5,34 @@ import { useRouter } from "next/navigation";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type { CreateSpotPayload } from "@/features/spots";
-import { createSpot, SpotForm } from "@/features/spots";
+import type { CreateListPayload } from "@/features/lists";
+import { createList, ListForm } from "@/features/lists";
 import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
 
-export default function NewSpotPage() {
+export default function NewListPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { addToast } = Toast();
   const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   const createMutation = useMutation({
-    mutationFn: async (payload: CreateSpotPayload) => {
-      return await createSpot(payload);
+    mutationFn: async (payload: CreateListPayload) => {
+      return await createList(payload);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["spots"] });
+    onSuccess: result => {
+      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ["my-lists"] });
       addToast({
-        title: "Spot criado com sucesso!",
-        message: "Seu novo spot foi adicionado à comunidade.",
+        title: "Lista criada com sucesso!",
+        message: "Agora adicione itens à sua lista.",
         type: "success"
       });
-      router.push("/dashboard");
+      router.push(`/lists/${result.data.id}/edit`);
     },
     onError: (error: any) => {
       addToast({
-        title: "Erro ao criar spot.",
+        title: "Erro ao criar lista.",
         message: error?.response?.data?.error?.message || "Tente novamente.",
         type: "error"
       });
@@ -40,12 +41,13 @@ export default function NewSpotPage() {
 
   return (
     <>
-      <TitleSection title="Criar Spot" />
+      <TitleSection title="Criar Coleção" />
       <Box flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]} mb={8}>
-        <SpotForm
-          onSubmit={payload => createMutation.mutateAsync(payload) as any}
-          isSubmitting={createMutation.isPending}
-          submitLabel="Criar Spot"
+        <ListForm
+          onSubmit={async payload => {
+            await createMutation.mutateAsync(payload);
+          }}
+          isLoading={createMutation.isPending}
         />
       </Box>
     </>

@@ -120,7 +120,7 @@ export function UserEdit() {
 
   return (
     <>
-      <TitleSection title="Editar" />
+      <TitleSection title="Editar perfil" />
 
       {user && <ProfileHeader user={user} variant="edit" />}
       <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]}>

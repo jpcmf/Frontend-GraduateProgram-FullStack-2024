@@ -71,6 +71,15 @@ export function Profile({ showProfileData = true }: ProfileProps) {
             >
               Editar perfil
             </MenuItem>
+            <MenuItem
+              color={menuItemTextColor}
+              bg={bgColor}
+              _hover={{ color: menuItemBgHoverColor }}
+              onClick={() => router.push("/user/" + user?.id)}
+              px={4}
+            >
+              Visualizar perfil
+            </MenuItem>
             <MenuDivider borderColor={dividerBorderColor} />
             <MenuItem
               color={menuItemTextColor}
