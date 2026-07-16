@@ -58,7 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const response = await userMe(token);
           const userData = response.user || response;
           setUser({
-            id: userData.id,
+            id: String(userData.id),
             name: userData.name || userData.username || "User",
             email: userData.email,
             username: userData.username,
@@ -127,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       path: "/"
     });
 
-    setUser(user);
+    setUser({ ...user, id: String(user.id) });
     setToken(jwt);
     obs.identify(String(user.id), { email: user.email, username: user.username });
     queryClient.invalidateQueries({ queryKey: ["stories"] });

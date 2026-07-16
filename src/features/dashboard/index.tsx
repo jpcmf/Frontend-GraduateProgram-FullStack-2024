@@ -76,7 +76,7 @@ export function Dashboard({ user }: DashboardProps) {
         </Box>
         <Box
           as={Link}
-          href="/"
+          href="/lists/new"
           p={["4", "6"]}
           bg={buttonBgColor}
           border="4px"
@@ -91,7 +91,7 @@ export function Dashboard({ user }: DashboardProps) {
         >
           <Icon as={RiListCheck2} boxSize={8} mb={4} />
           <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
-            Criar Lista
+            Criar Coleção
           </Heading>
           <Text fontSize="small" color={textSecondary}>
             Organize e compartilhe coleções do universo do skate.
@@ -124,50 +124,54 @@ export function Dashboard({ user }: DashboardProps) {
 
       <TitleSection title="Visão geral" size="md" />
 
-      <SimpleGrid mb={6} columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 4 }}>
-        <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="50%">
-          <VStack align="flex-start" spacing={4}>
-            <Text fontSize="lg" fontWeight="bold" mb="1">
-              Status do cadastro do atleta
-            </Text>
-            <HStack>
+      <SimpleGrid mb={6} columns={{ base: 1, md: 1 }} spacing={{ base: 5, lg: 4 }}>
+        <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="100%">
+          <HStack spacing={4} w="100%" justify="space-between">
+            <VStack align="start" spacing={1}>
+              <Text fontSize="lg" fontWeight="bold" mb="1">
+                Status da conta
+              </Text>
+              <HStack align="center" spacing={2}>
+                <Icon as={RiCircleFill} boxSize={5} color={user.blocked ? "red.400" : "green.400"} />
+                <Text fontSize="md">{user.blocked ? "Bloqueada" : "Ativa"}</Text>
+              </HStack>
+            </VStack>
+            <VStack align="start" spacing={1}>
+              <Text fontSize="lg" fontWeight="bold" mb="1">
+                Status do cadastro do atleta
+              </Text>
               {user.confirmed ? (
-                <>
+                <HStack align="center" spacing={2}>
                   <Icon as={RiThumbUpLine} boxSize={5} color="green.400" />
                   <Text fontSize="md">Regular</Text>
-                </>
+                </HStack>
               ) : (
-                <>
+                <HStack align="center" spacing={2}>
                   <Icon as={RiThumbDownLine} boxSize={5} color="red.400" />
                   <Text fontSize="md">Irregular</Text>
-                </>
+                </HStack>
               )}
-            </HStack>
-            <Text fontSize="lg" fontWeight="bold" mb="1">
-              Status da conta
-            </Text>
-            <HStack>
-              <Icon as={RiCircleFill} boxSize={5} color={user.blocked ? "red.400" : "green.400"} />
-              <Text fontSize="md">{user.blocked ? "Bloqueada" : "Ativa"}</Text>
-            </HStack>
-            <Text fontSize="lg" fontWeight="bold" mb="1">
-              Dados de acesso da semana
-            </Text>
-            <HStack>
-              <Icon as={RiUploadFill} boxSize={5} color="green.400" />
-              <Text fontSize="md">Última atualização: {formatSmartDate(user?.updatedAt || "Indisponível")}</Text>
-            </HStack>
-          </VStack>
+            </VStack>
+            <VStack align="start" spacing={1}>
+              <Text fontSize="lg" fontWeight="bold" mb="1">
+                Dados de acesso
+              </Text>
+              <HStack align="center" spacing={2}>
+                <Icon as={RiUploadFill} boxSize={5} color="green.400" />
+                <Text fontSize="md">Última atualização: {formatSmartDate(user?.updatedAt || "Indisponível")}</Text>
+              </HStack>
+            </VStack>
+          </HStack>
         </Box>
 
-        <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="50%">
+        {/* <Box p={["6", "8"]} bg={bgColor} borderRadius="lg" flex="100%">
           <Text fontSize="lg" fontWeight="bold" mb="4">
             Documentações
           </Text>
           <Text color="green.400" as="a" href="#" textDecoration={"underline"}>
             Instruções para inscrição em eventos
           </Text>
-        </Box>
+        </Box> */}
       </SimpleGrid>
 
       <TitleSection title="Atividades recentes" size="md" />
