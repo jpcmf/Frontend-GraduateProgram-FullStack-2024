@@ -1,7 +1,10 @@
+import { RiEditLine } from "react-icons/ri";
 import NextLink from "next/link";
 
-import { Badge, Box, Flex, Grid, Heading, Image, Spinner, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Flex, Grid, GridItem, Image, Spinner, Text } from "@chakra-ui/react";
 
+import { useListsByUser } from "@/features/lists";
+import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
 import { TitleSection } from "@/shared/ui/TitleSection";
@@ -12,19 +15,23 @@ const TYPE_LABELS: Record<string, string> = {
   wish: "Desejo",
   like: "Curti",
   want: "Quero",
-  recommend: "Recomendo",
+  recommend: "Recomendo"
 };
 
 const TYPE_COLORS: Record<string, string> = {
   wish: "purple",
   like: "green",
   want: "orange",
-  recommend: "blue",
+  recommend: "blue"
 };
 
 export function UserProfile({ userId }: { userId: string }) {
+  const { user: currentUser } = useAuth();
   const { data: user, isLoading, error } = useUser(userId);
+  const { data: listsResponse } = useListsByUser(userId);
+  const userLists = listsResponse?.data || [];
   const { cardBg, textMuted, borderColor } = useColors();
+  const isOwnProfile = String(currentUser?.id) === String(userId);
 
   const tricks = [
     {
@@ -70,34 +77,87 @@ export function UserProfile({ userId }: { userId: string }) {
     <>
       <TitleSection title="Perfil" />
       <ProfileHeader user={user} variant="profile" />
-      {user.about && (
-        <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
-          <Heading size="md" py={0} pr={4} mb={4}>
-            Sobre
-          </Heading>
-          <Text textAlign="left" lineHeight="tall">
-            {user?.about}
-          </Text>
-        </Box>
-      )}
-      {user.user_lists && user.user_lists.length > 0 && (
-        <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
-          <Heading size="md" mb={4}>Listas</Heading>
-          <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
-            {user.user_lists.map((list) => (
-              <Box as={NextLink} href={`/lists/${list.id}`} key={list.id} bg={cardBg} borderRadius="lg" border="1px solid" borderColor={borderColor} p={4} _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}>
-                <Badge colorScheme={TYPE_COLORS[list.type] || "gray"} px={2} borderRadius="full">
-                  {TYPE_LABELS[list.type] || list.type}
-                </Badge>
-                <Text fontWeight="semibold" mt={2}>{list.title}</Text>
+      <Flex minH="100vh" w="full" direction="column">
+        <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={{ base: 0, md: 6 }} mb={6}>
+          <GridItem colSpan={{ base: 1, md: 3 }}>
+            {user.about && (
+              <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
+                <TitleSection title="Sobre" size="md" />
+                {/* <Heading size="md" py={0} pr={4} mb={4}>
+                Sobre
+              </Heading> */}
+                <Text textAlign="left" lineHeight="tall">
+                  {user?.about}
+                </Text>
               </Box>
-            ))}
-          </Grid>
-        </Box>
-      )}
-      <Flex minH="100vh">
+            )}
+          </GridItem>
+          <GridItem colSpan={{ base: 1, md: 2 }}>
+            <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={0}>
+              <Flex justify="space-between" align="start" mb={0}>
+                <TitleSection title="Coleções" size="md" />
+                {isOwnProfile && (
+                  <Button leftIcon={<RiEditLine />} as={NextLink} href="/lists" colorScheme="green" size="xs">
+                    Editar coleções
+                  </Button>
+                )}
+              </Flex>
+              {userLists && userLists.length > 0 ? (
+                <>
+                  <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(1, 1fr)" }} gap={4}>
+                    {userLists.map(listItem => {
+                      const list = listItem.attributes;
+                      const itemCount = list.items?.data?.length ?? 0;
+                      return (
+                        <Box
+                          as={NextLink}
+                          href={`/lists/${listItem.id}`}
+                          key={listItem.id}
+                          bg={cardBg}
+                          borderRadius="lg"
+                          border="1px solid"
+                          borderColor={borderColor}
+                          p={4}
+                          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
+                        >
+                          <Badge colorScheme={TYPE_COLORS[list.type] || "gray"} px={2} borderRadius="full">
+                            {TYPE_LABELS[list.type] || list.type}
+                          </Badge>
+                          <Text fontWeight="semibold" mt={2}>
+                            {list.title}
+                          </Text>
+                          <Text fontSize="sm" color={textMuted} mt={1}>
+                            {itemCount} {itemCount === 1 ? "item" : "itens"}
+                          </Text>
+                        </Box>
+                      );
+                    })}
+                  </Grid>
+                </>
+              ) : (
+                <Text>Nenhuma coleção encontrada.</Text>
+              )}
+            </Box>
+          </GridItem>
+        </Grid>
         <Box flex={1}>
           <Box>
+            <Box>
+              <TitleSection title="Últimas" size="md" />
+              <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
+                {tricks.map(trick => (
+                  <Box key={trick.id} bg={cardBg} borderRadius="lg" overflow="hidden">
+                    <Image src={trick.image} alt={trick.title} w="full" h="160px" objectFit="cover" />
+                    <Box p={4}>
+                      <Text fontWeight="semibold">{trick.title}</Text>
+                      <Text fontSize="sm" color={textMuted} mt={1}>
+                        {trick.date}
+                      </Text>
+                    </Box>
+                  </Box>
+                ))}
+              </Grid>
+            </Box>
             {/* <Box bg={cardBg} borderRadius="lg" p={8}>
               <Flex direction={{ base: "column", md: "row" }} align={{ base: "center", md: "start" }} gap={8}>
                 <Box position="relative" flexShrink={0}>
@@ -178,23 +238,6 @@ export function UserProfile({ userId }: { userId: string }) {
                 </VStack>
               </Flex>
             </Box> */}
-
-            <Box mt={8}>
-              <TitleSection title="Últimas" size="md" />
-              <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
-                {tricks.map(trick => (
-                  <Box key={trick.id} bg={cardBg} borderRadius="lg" overflow="hidden">
-                    <Image src={trick.image} alt={trick.title} w="full" h="160px" objectFit="cover" />
-                    <Box p={4}>
-                      <Text fontWeight="semibold">{trick.title}</Text>
-                      <Text fontSize="sm" color={textMuted} mt={1}>
-                        {trick.date}
-                      </Text>
-                    </Box>
-                  </Box>
-                ))}
-              </Grid>
-            </Box>
           </Box>
         </Box>
       </Flex>
