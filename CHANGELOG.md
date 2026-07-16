@@ -5,12 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- 2026-07-15 - Move lists routes from `/dashboard/lists` to `/lists`, add `/lists/new` page, remove legacy modal
-- 2026-07-15 - Fix `user.id` type normalization in AuthContext (Strapi returns number, store as string)
-- 2026-07-15 - Fix `isOwnProfile` comparison coerce ids to string for reliable matching
-- 2026-07-10 - Add lists feature: public discovery with type filters, detail view, dashboard CRUD, item management with image upload, and profile integration
-- 2026-07-10 - Fix ownership validation: restrict list edit page to the list owner, preventing unauthorized item edits and deletions
-- 2026-07-14 - Profile-centric lists redesign: remove global discovery page `/lists`, remove sidebar "Listas" link, enhance profile Lists section with item count and "Gerenciar" button for owners
+## [2.1.0] - 2026-07-15
+
+- 2026-07-15 - Move lists routes from `/dashboard/lists` to `/lists`, add `/lists/new` page, remove legacy modal [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
+- 2026-07-15 - Fix `user.id` type normalization in AuthContext (Strapi returns number, store as string) [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
+- 2026-07-15 - Fix `isOwnProfile` comparison coerce ids to string for reliable matching [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
+- 2026-07-10 - Add lists feature: public discovery with type filters, detail view, dashboard CRUD, item management with image upload, and profile integration [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
+- 2026-07-10 - Fix ownership validation: restrict list edit page to the list owner, preventing unauthorized item edits and deletions [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
+- 2026-07-14 - Profile-centric lists redesign: remove global discovery page `/lists`, remove sidebar "Listas" link, enhance profile Lists section with item count and "Gerenciar" button for owners [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
 
 ## [2.0.0] - 2026-05-14
 
