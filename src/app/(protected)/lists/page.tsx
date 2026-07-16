@@ -3,9 +3,9 @@
 import { RiDeleteBinLine, RiEditLine } from "react-icons/ri";
 import NextLink from "next/link";
 
-import { Box, Button, Flex, Grid, Icon, Spinner, Text, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Icon, Spinner, Text, useToast } from "@chakra-ui/react";
 
-import { CreateListModal, ListCard, useDeleteList, useListsByUser } from "@/features/lists";
+import { ListCard, useDeleteList, useListsByUser } from "@/features/lists";
 import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
 import { TitleSection } from "@/shared/ui/TitleSection";
@@ -14,7 +14,6 @@ export default function ListsPage() {
   const { user } = useAuth();
   const { textMuted } = useColors();
   const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading } = useListsByUser(user?.id);
   const deleteList = useDeleteList();
 
@@ -72,8 +71,6 @@ export default function ListsPage() {
           Você ainda não criou nenhuma lista.
         </Text>
       )}
-
-      <CreateListModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 }
