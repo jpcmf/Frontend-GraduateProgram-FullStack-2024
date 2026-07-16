@@ -1,5 +1,6 @@
 "use client";
 
+import { RiPinDistanceLine } from "react-icons/ri";
 import NextLink from "next/link";
 
 import { Box, Button, Flex, Grid, Spinner, Text } from "@chakra-ui/react";
@@ -18,8 +19,8 @@ export default function SpotsPage() {
       <Box width={"100%"}>
         <Box position="absolute" top={0} right={0}>
           {user && (
-            <Button as={NextLink} href="/spots/new" colorScheme="green" size="sm">
-              Adicionar Spot
+            <Button leftIcon={<RiPinDistanceLine />} as={NextLink} href="/spots/new" colorScheme="green" size="sm">
+              Criar Spot
             </Button>
           )}
         </Box>

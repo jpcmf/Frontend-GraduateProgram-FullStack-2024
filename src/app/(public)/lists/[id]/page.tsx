@@ -33,5 +33,5 @@ export default function ListDetailPage(props: ListDetailPageProps) {
     );
   }
 
-  return <ListDetail list={data.data} onDelete={() => router.push("/lists")} />;
+  return <ListDetail list={data.data} onDelete={() => router.back()} />;
 }

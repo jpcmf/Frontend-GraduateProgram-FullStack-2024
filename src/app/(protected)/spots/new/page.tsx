@@ -40,7 +40,7 @@ export default function NewSpotPage() {
 
   return (
     <>
-      <TitleSection title="Criar Novo Spot" />
+      <TitleSection title="Criar Spot" />
       <Box flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]} mb={8}>
         <SpotForm
           onSubmit={payload => createMutation.mutateAsync(payload) as any}
