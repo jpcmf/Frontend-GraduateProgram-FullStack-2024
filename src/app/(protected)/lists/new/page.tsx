@@ -43,7 +43,7 @@ export default function NewListPage() {
     <>
       <TitleSection title="Criar Coleção" />
       <Box flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]} mb={8}>
-        <ListForm onSubmit={payload => createMutation.mutateAsync(payload)} isLoading={createMutation.isPending} />
+        <ListForm           onSubmit={async payload => { await createMutation.mutateAsync(payload); }} isLoading={createMutation.isPending} />
       </Box>
     </>
   );
