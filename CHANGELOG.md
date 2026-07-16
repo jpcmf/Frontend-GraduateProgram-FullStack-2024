@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - 2026-07-10 - Add lists feature: public discovery with type filters, detail view, dashboard CRUD, item management with image upload, and profile integration
 - 2026-07-10 - Fix ownership validation: restrict list edit page to the list owner, preventing unauthorized item edits and deletions
+- 2026-07-14 - Profile-centric lists redesign: remove global discovery page `/lists`, remove sidebar "Listas" link, enhance profile Lists section with item count and "Gerenciar" button for owners
 
 ## [2.0.0] - 2026-05-14
 
