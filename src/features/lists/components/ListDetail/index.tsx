@@ -14,14 +14,14 @@ const TYPE_LABELS: Record<ListType, string> = {
   wish: "Desejo",
   like: "Curti",
   want: "Quero",
-  recommend: "Recomendo",
+  recommend: "Recomendo"
 };
 
 const TYPE_COLORS: Record<ListType, string> = {
   wish: "purple",
   like: "green",
   want: "orange",
-  recommend: "blue",
+  recommend: "blue"
 };
 
 interface ListDetailProps {
@@ -36,9 +36,7 @@ export function ListDetail({ list, onDelete }: ListDetailProps) {
   const { title, type, items, owner } = list.attributes;
   const itemCount = items?.data?.length ?? 0;
 
-  const isOwner = user && owner?.data?.id
-    ? String(user.id) === String(owner.data.id)
-    : false;
+  const isOwner = user && owner?.data?.id ? String(user.id) === String(owner.data.id) : false;
 
   const handleDelete = async () => {
     if (window.confirm("Tem certeza que deseja excluir esta lista?")) {
@@ -62,7 +60,12 @@ export function ListDetail({ list, onDelete }: ListDetailProps) {
             {owner?.data && (
               <Text fontSize="sm" color={textMuted}>
                 · por{" "}
-                <Box as={NextLink} href={`/skatistas/${owner.data.attributes.username}`} color="green.400" _hover={{ textDecoration: "underline" }}>
+                <Box
+                  as={NextLink}
+                  href={`/skatistas/${owner.data.attributes.username}`}
+                  color="green.400"
+                  _hover={{ textDecoration: "underline" }}
+                >
                   {owner.data.attributes.username}
                 </Box>
               </Text>
@@ -71,10 +74,24 @@ export function ListDetail({ list, onDelete }: ListDetailProps) {
         </Box>
         {isOwner && (
           <Flex gap={2}>
-            <Button as={NextLink} href={`/dashboard/lists/${list.id}/edit`} leftIcon={<Icon as={RiEditLine} />} size="sm" colorScheme="green" variant="outline">
+            <Button
+              as={NextLink}
+              href={`/lists/${list.id}/edit`}
+              leftIcon={<Icon as={RiEditLine} />}
+              size="sm"
+              colorScheme="green"
+              variant="outline"
+            >
               Editar
             </Button>
-            <Button leftIcon={<Icon as={RiDeleteBinLine} />} size="sm" colorScheme="red" variant="outline" onClick={handleDelete} isLoading={deleteList.isPending}>
+            <Button
+              leftIcon={<Icon as={RiDeleteBinLine} />}
+              size="sm"
+              colorScheme="red"
+              variant="outline"
+              onClick={handleDelete}
+              isLoading={deleteList.isPending}
+            >
               Excluir
             </Button>
           </Flex>
@@ -83,7 +100,7 @@ export function ListDetail({ list, onDelete }: ListDetailProps) {
 
       {items?.data && items.data.length > 0 ? (
         <VStack spacing={4} align="stretch">
-          {items.data.map((item) => (
+          {items.data.map(item => (
             <ListItemRow key={item.id} item={item} />
           ))}
         </VStack>
@@ -102,14 +119,7 @@ function ListItemRow({ item }: { item: ListItem }) {
   const imageUrl = image?.data?.attributes?.formats?.thumbnail?.url ?? image?.data?.attributes?.url ?? null;
 
   return (
-    <Flex
-      bg={cardBg}
-      borderRadius="lg"
-      overflow="hidden"
-      gap={4}
-      p={4}
-      align="center"
-    >
+    <Flex bg={cardBg} borderRadius="lg" overflow="hidden" gap={4} p={4} align="center">
       {imageUrl && (
         <Box position="relative" w="80px" h="80px" flexShrink={0} borderRadius="md" overflow="hidden">
           <NextImage src={imageUrl} alt={name} fill style={{ objectFit: "cover" }} sizes="80px" />
@@ -123,7 +133,16 @@ function ListItemRow({ item }: { item: ListItem }) {
           </Text>
         )}
         {external_url && (
-          <Flex as={NextLink} href={external_url} target="_blank" align="center" gap={1} mt={1} color="green.400" fontSize="sm">
+          <Flex
+            as={NextLink}
+            href={external_url}
+            target="_blank"
+            align="center"
+            gap={1}
+            mt={1}
+            color="green.400"
+            fontSize="sm"
+          >
             <Icon as={RiExternalLinkLine} />
             <Text textDecoration="underline">Ver original</Text>
           </Flex>

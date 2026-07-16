@@ -15,7 +15,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
 
 import { useCreateList } from "../../hooks/useCreateList";
@@ -48,7 +48,7 @@ export function CreateListModal({ isOpen, onClose }: CreateListModalProps) {
       const result = await createList.mutateAsync({ title: title.trim(), type: type as ListType });
       toast({ title: "Lista criada!", status: "success" });
       onClose();
-      router.push(`/dashboard/lists/${result.data.id}/edit`);
+      router.push(`/lists/${result.data.id}/edit`);
     } catch {
       toast({ title: "Erro ao criar lista", status: "error" });
     }
@@ -63,12 +63,12 @@ export function CreateListModal({ isOpen, onClose }: CreateListModalProps) {
         <ModalBody>
           <FormControl isInvalid={!!errors.title} mb={4}>
             <FormLabel>Título</FormLabel>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ex: Melhores marcas de shape" />
+            <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Ex: Melhores marcas de shape" />
             <FormErrorMessage>{errors.title}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.type}>
             <FormLabel>Tipo</FormLabel>
-            <Select value={type} onChange={(e) => setType(e.target.value as ListType)} placeholder="Selecione o tipo">
+            <Select value={type} onChange={e => setType(e.target.value as ListType)} placeholder="Selecione o tipo">
               <option value="wish">Desejo</option>
               <option value="like">Curti</option>
               <option value="want">Quero</option>
@@ -78,7 +78,9 @@ export function CreateListModal({ isOpen, onClose }: CreateListModalProps) {
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" mr={3} onClick={onClose}>Cancelar</Button>
+          <Button variant="ghost" mr={3} onClick={onClose}>
+            Cancelar
+          </Button>
           <Button colorScheme="green" onClick={handleSubmit} isLoading={createList.isPending}>
             Criar
           </Button>
