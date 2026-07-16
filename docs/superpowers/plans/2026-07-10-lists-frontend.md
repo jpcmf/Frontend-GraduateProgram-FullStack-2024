@@ -12,13 +12,13 @@
 
 The frontend spec was written before the backend was finalized. These corrections apply:
 
-| Spec says | Actual |
-|-----------|--------|
-| `/api/lists` | `/api/user-lists` |
-| `/api/list-items` | `/api/user-list-items` |
-| `created_by_user` relation | `owner` relation |
+| Spec says                  | Actual                                     |
+| -------------------------- | ------------------------------------------ |
+| `/api/lists`               | `/api/user-lists`                          |
+| `/api/list-items`          | `/api/user-list-items`                     |
+| `created_by_user` relation | `owner` relation                           |
 | `middleware.ts` protection | `(protected)/layout.tsx` client-side guard |
-| `User.lists` field | `User.user_lists` field |
+| `User.lists` field         | `User.user_lists` field                    |
 
 ## File Structure
 
@@ -69,6 +69,7 @@ src/app/(protected)/dashboard/lists/
 ## Task 1: Create List Types
 
 **Files:**
+
 - Create: `src/features/lists/types/lists.ts`
 
 - [ ] **Step 1: Create directory structure**
@@ -101,7 +102,12 @@ export type ListAttr = {
   type: ListType;
   createdAt: string;
   updatedAt: string;
-  owner?: { data: { id: number; attributes: { username: string; name: string; avatar?: { data: { attributes: { url: string } } | null } } } | null };
+  owner?: {
+    data: {
+      id: number;
+      attributes: { username: string; name: string; avatar?: { data: { attributes: { url: string } } | null } };
+    } | null;
+  };
   items?: { data: ListItem[] };
 };
 
@@ -139,6 +145,7 @@ export type UpdateListItemPayload = {
 ## Task 2: Create List Services
 
 **Files:**
+
 - Create: `src/features/lists/services/getLists.ts`
 - Create: `src/features/lists/services/getListById.ts`
 - Create: `src/features/lists/services/getListsByUser.ts`
@@ -192,9 +199,7 @@ import { apiClient } from "@/shared/api/apiClient";
 import type { ListsResponse } from "../types/lists";
 
 export async function getListsByUser(userId: string | number): Promise<ListsResponse> {
-  const res = await apiClient.get(
-    `/api/user-lists?filters[owner][$eq]=${userId}&populate[items]=true`
-  );
+  const res = await apiClient.get(`/api/user-lists?filters[owner][$eq]=${userId}&populate[items]=true`);
   return res.data;
 }
 ```
@@ -249,15 +254,18 @@ export type CreateListItemPayload = {
 export async function createListItem(payload: CreateListItemPayload): Promise<void> {
   if (payload.image) {
     const formData = new FormData();
-    formData.append("data", JSON.stringify({
-      name: payload.name,
-      description: payload.description,
-      external_url: payload.external_url,
-      list: payload.list,
-    }));
+    formData.append(
+      "data",
+      JSON.stringify({
+        name: payload.name,
+        description: payload.description,
+        external_url: payload.external_url,
+        list: payload.list
+      })
+    );
     formData.append("files.image", payload.image);
     await apiClient.post("/api/user-list-items", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { "Content-Type": "multipart/form-data" }
     });
   } else {
     await apiClient.post("/api/user-list-items", { data: payload });
@@ -294,6 +302,7 @@ export async function deleteListItem(id: string | number): Promise<void> {
 ## Task 3: Create List Hooks
 
 **Files:**
+
 - Create: `src/features/lists/hooks/useLists.ts`
 - Create: `src/features/lists/hooks/useList.ts`
 - Create: `src/features/lists/hooks/useListsByUser.ts`
@@ -315,7 +324,7 @@ export function useLists() {
   return useQuery<ListsResponse, Error>({
     queryKey: ["lists"],
     queryFn: getLists,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5
   });
 }
 ```
@@ -332,7 +341,7 @@ export function useList(id: string | number | undefined) {
     queryKey: ["lists", id],
     queryFn: () => getListById(id!),
     enabled: !!id,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5
   });
 }
 ```
@@ -349,7 +358,7 @@ export function useListsByUser(userId: string | number | undefined) {
     queryKey: ["my-lists", userId],
     queryFn: () => getListsByUser(userId!),
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5
   });
 }
 ```
@@ -368,7 +377,7 @@ export function useCreateList() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       queryClient.invalidateQueries({ queryKey: ["my-lists"] });
-    },
+    }
   });
 }
 ```
@@ -383,12 +392,12 @@ import type { UpdateListPayload, ListResponse } from "../types/lists";
 export function useUpdateList(id: string | number) {
   const queryClient = useQueryClient();
   return useMutation<ListResponse, Error, UpdateListPayload>({
-    mutationFn: (payload) => updateList(id, payload),
+    mutationFn: payload => updateList(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       queryClient.invalidateQueries({ queryKey: ["my-lists"] });
       queryClient.invalidateQueries({ queryKey: ["lists", id] });
-    },
+    }
   });
 }
 ```
@@ -406,7 +415,7 @@ export function useDeleteList() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       queryClient.invalidateQueries({ queryKey: ["my-lists"] });
-    },
+    }
   });
 }
 ```
@@ -424,7 +433,7 @@ export function useCreateListItem(listId: string | number) {
     mutationFn: createListItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
-    },
+    }
   });
 }
 ```
@@ -442,7 +451,7 @@ export function useUpdateListItem(listId: string | number) {
     mutationFn: ({ id, data }) => updateListItem(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
-    },
+    }
   });
 }
 ```
@@ -459,7 +468,7 @@ export function useDeleteListItem(listId: string | number) {
     mutationFn: deleteListItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
-    },
+    }
   });
 }
 ```
@@ -469,6 +478,7 @@ export function useDeleteListItem(listId: string | number) {
 ## Task 4: Create List Components
 
 **Files:**
+
 - Create: `src/features/lists/components/ListCard/index.tsx`
 - Create: `src/features/lists/components/ListDetail/index.tsx`
 - Create: `src/features/lists/components/CreateListModal/index.tsx`
@@ -1034,6 +1044,7 @@ export function ListItemList({ items, onEdit, onDelete }: ListItemListProps) {
 ## Task 5: Create Barrel Export
 
 **Files:**
+
 - Create: `src/features/lists/index.ts`
 
 - [ ] **Step 1: Write barrel export**
@@ -1075,18 +1086,28 @@ export type * from "./types/lists";
 ## Task 6: Add navigation link in SidebarNav
 
 **Files:**
+
 - Modify: `src/shared/ui/Layout/Sidebar/SidebarNav.tsx`
 
 - [ ] **Step 1: Add RiListCheck2 icon import**
 
 Add to the existing import line:
+
 ```typescript
-import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine, RiRobot2Line, RiListCheck2 } from "react-icons/ri";
+import {
+  RiContactsLine,
+  RiDashboardLine,
+  RiPencilRulerFill,
+  RiPinDistanceLine,
+  RiRobot2Line,
+  RiListCheck2
+} from "react-icons/ri";
 ```
 
 - [ ] **Step 2: Add Lists navigation link under "Principal" section**
 
 After the `Truta IA` NavLink:
+
 ```typescript
           <NavLink
             icon={RiListCheck2}
@@ -1105,6 +1126,7 @@ After the `Truta IA` NavLink:
 ## Task 7: Create Public Lists Discovery Page with Type Filters
 
 **Files:**
+
 - Create: `src/app/(public)/lists/page.tsx`
 - No middleware changes needed — (public) routes are already public
 
@@ -1210,6 +1232,7 @@ export default function ListsPage() {
 ## Task 8: Create Public List Detail Page
 
 **Files:**
+
 - Create: `src/app/(public)/lists/[id]/page.tsx`
 
 - [ ] **Step 1: Create public list detail page**
@@ -1257,6 +1280,7 @@ export default function ListDetailPage(props: ListDetailPageProps) {
 ## Task 9: Create Dashboard Lists Management Page
 
 **Files:**
+
 - Create: `src/app/(protected)/dashboard/lists/page.tsx`
 
 - [ ] **Step 1: Create dashboard lists management page**
@@ -1349,6 +1373,7 @@ export default function DashboardListsPage() {
 ## Task 10: Create Edit List Page
 
 **Files:**
+
 - Create: `src/app/(protected)/dashboard/lists/[id]/edit/page.tsx`
 
 - [ ] **Step 1: Create edit list page**
@@ -1465,17 +1490,21 @@ export default function EditListPage(props: EditListPageProps) {
 ## Task 11: Update Dashboard "Criar Lista" Card
 
 **Files:**
+
 - Modify: `src/features/dashboard/index.tsx`
 
 - [ ] **Step 1: Change "Criar Lista" href from "/" to "/dashboard/lists"**
 
 In `src/features/dashboard/index.tsx`, find the `Criar Lista` card (around line 77-99) and change:
+
 ```typescript
-href="/"
+href = "/";
 ```
+
 to:
+
 ```typescript
-href="/dashboard/lists"
+href = "/dashboard/lists";
 ```
 
 ---
@@ -1483,6 +1512,7 @@ href="/dashboard/lists"
 ## Task 12: Update User Type with `user_lists` Field
 
 **Files:**
+
 - Modify: `src/features/user/types/User.type.ts`
 
 - [ ] **Step 1: Add user_lists to User type**
@@ -1511,6 +1541,7 @@ export type User = {
 ## Task 13: Add Lists Tab to User Profile
 
 **Files:**
+
 - Modify: `src/features/user/components/Profile/index.tsx`
 
 - [ ] **Step 1: Add lists tab section to profile page**
@@ -1538,25 +1569,27 @@ After the "Sobre" section (after line 66) and before the `Flex minH="100vh"`, ad
 ```
 
 Also need to add imports at the top:
+
 ```typescript
 import NextLink from "next/link";
 import { Badge, Grid } from "@chakra-ui/react";
 ```
 
 And add the TYPE_LABELS and TYPE_COLORS before the component:
+
 ```typescript
 const TYPE_LABELS: Record<string, string> = {
   wish: "Desejo",
   like: "Curti",
   want: "Quero",
-  recommend: "Recomendo",
+  recommend: "Recomendo"
 };
 
 const TYPE_COLORS: Record<string, string> = {
   wish: "purple",
   like: "green",
   want: "orange",
-  recommend: "blue",
+  recommend: "blue"
 };
 ```
 
@@ -1565,6 +1598,7 @@ const TYPE_COLORS: Record<string, string> = {
 ## Task 14: Update Documentation
 
 **Files:**
+
 - Modify: `README.md`
 - Modify: `CHANGELOG.md`
 - Modify: `specs/lists.md` (correct inaccuracies)
@@ -1572,6 +1606,7 @@ const TYPE_COLORS: Record<string, string> = {
 - [ ] **Step 1: Update README.md**
 
 Add a bullet under a "Listas" category in the Features section:
+
 ```markdown
 - **Listas** — Crie e compartilhe coleções temáticas (desejo, curtidas, quero, recomendo) de itens relacionados ao skate.
 ```
@@ -1579,6 +1614,7 @@ Add a bullet under a "Listas" category in the Features section:
 - [ ] **Step 2: Update CHANGELOG.md**
 
 Add at the top of `## [Unreleased]`:
+
 ```markdown
 - 2026-07-10 - Add lists feature with public discovery, detail view, dashboard management, and profile integration
 ```
@@ -1586,6 +1622,7 @@ Add at the top of `## [Unreleased]`:
 - [ ] **Step 3: Update specs/lists.md with corrections**
 
 Fix the inaccuracies found during implementation:
+
 - `created_by_user` → `owner`
 - `/api/lists` → `/api/user-lists`
 - `/api/list-items` → `/api/user-list-items`

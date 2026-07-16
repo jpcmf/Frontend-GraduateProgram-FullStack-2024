@@ -1,8 +1,8 @@
 # Feature: Lists (Collections)
 
-**Status:** in-progress
+**Status:** done
 **Priority:** high
-**Affects:** New pages: `src/app/(protected)/dashboard/lists/index.tsx`, `src/app/(protected)/dashboard/lists/[id]/edit.tsx`, `src/app/(public)/lists/index.tsx`, `src/app/(public)/lists/[id].tsx`; New feature components, services, hooks, and types; Modified user profile component
+**Affects:** Pages: `src/app/(protected)/dashboard/lists/index.tsx`, `src/app/(protected)/dashboard/lists/[id]/edit.tsx`, `src/app/(public)/lists/[id].tsx`; Feature components, services, hooks, types; Modified user profile component, sidebar nav
 
 ## Problem Statement
 
@@ -10,15 +10,15 @@ Users need a way to curate and organize collections of skate-world items (spots,
 
 ## UI / UX Description
 
-### Lists discovery page (`/lists`)
+### List detail page (`/lists/[id]`) — reachable only from profile links
 
-- Public page (no auth required to view)
-- Shows a grid of all public lists with: list name, list type badge (wish / like / want / recommend), item count, creator avatar/name, and creation date
-- Each list card is clickable and navigates to `/lists/[id]`
-- Filter pills or dropdown at the top to filter by list type (wish, like, want, recommend, or "All")
-- Search/sort options (optional — initial MVP may have basic sort by date)
-
-### List detail page (`/lists/[id]`)
+- Public page
+- Shows full list info: name, description, list type badge, item count, creator info (avatar, username)
+- List of items in fixed order (by creation date, ascending)
+- Each item shows: title, optional image thumbnail, optional description, and optional source URL
+- Creator name/avatar is clickable and links to creator's profile
+- Edit and Delete buttons shown only to the list owner
+- No navigation to this page from sidebar or global routes — only from profile cards
 
 - Public page
 - Shows full list info: name, description, list type badge, item count, creator info (avatar, username)
@@ -63,10 +63,10 @@ Users need a way to curate and organize collections of skate-world items (spots,
 
 ### Profile integration
 
-- Add a "Lists" tab to the existing user profile component (`/skatistas/[username]`)
-- Tab shows all public lists created by that user
-- Same list card layout as `/lists` discovery page
-- No edit/delete buttons (viewing another user's lists, read-only)
+- Lists section in the user profile component (`/user/[id]`)
+- Shows all public lists created by that user with: list name, type badge, and item count
+- "Gerenciar" button visible only to the profile owner, linking to `/dashboard/lists`
+- Clicking a list card navigates to `/lists/[id]`
 
 ## Data Requirements
 
@@ -74,69 +74,67 @@ All endpoint shapes are defined in the backend spec: `specs/user-lists.md` (Stra
 
 Key endpoints consumed:
 
-| Endpoint | Auth | Used on |
-|----------|------|---------|
-| `GET /api/user-lists?populate[owner][fields][0]=username&populate[owner][fields][1]=name&populate[owner][populate][avatar]=true&populate[items]=true` | Public | `/lists` discovery page |
-| `GET /api/user-lists/:id?populate[owner][fields][0]=username&populate[owner][fields][1]=name&populate[owner][populate][avatar]=true&populate[items]=true` | Public | `/lists/[id]` detail page |
-| `GET /api/user-lists?filters[owner][$eq]=$USER_ID&populate[items]=true` | Bearer JWT | `/dashboard/lists` (my lists) |
-| `POST /api/user-lists` | Bearer JWT | Create list modal |
-| `PUT /api/user-lists/:id` | Bearer JWT + owner | `/dashboard/lists/[id]/edit` |
-| `DELETE /api/user-lists/:id` | Bearer JWT + owner | Dashboard delete button |
-| `POST /api/user-list-items` | Bearer JWT | Add item to list |
-| `PUT /api/user-list-items/:id` | Bearer JWT | Edit item in list |
-| `DELETE /api/user-list-items/:id` | Bearer JWT | Delete item from list |
+| Endpoint                                                                  | Auth               | Used on                       |
+| ------------------------------------------------------------------------- | ------------------ | ----------------------------- |
+| `GET /api/user-lists?populate=items`                                      | Public             | `/lists` discovery page       |
+| `GET /api/user-lists/:id?populate=items`                                  | Public             | `/lists/[id]` detail page     |
+| `GET /api/user-lists?filters[owner][$eq]=$USER_ID&populate=items`         | Public             | `/user/[id]` profile page     |
+| `GET /api/user-lists?filters[owner][$eq]=$CURRENT_USER_ID&populate=items` | Bearer JWT         | `/dashboard/lists` (my lists) |
+| `POST /api/user-lists`                                                    | Bearer JWT         | Create list modal             |
+| `PUT /api/user-lists/:id`                                                 | Bearer JWT + owner | `/dashboard/lists/[id]/edit`  |
+| `DELETE /api/user-lists/:id`                                              | Bearer JWT + owner | Dashboard delete button       |
+| `POST /api/user-list-items`                                               | Bearer JWT         | Add item to list              |
+| `PUT /api/user-list-items/:id`                                            | Bearer JWT         | Edit item in list             |
+| `DELETE /api/user-list-items/:id`                                         | Bearer JWT         | Delete item from list         |
 
 ## Component & File Plan
 
 ### New files
 
-| File | Purpose |
-|------|---------|
-| `src/features/lists/types/index.ts` | `List`, `ListItem`, `ListType`, API response types |
-| `src/features/lists/services/getLists.ts` | `GET /api/lists` (public discovery) |
-| `src/features/lists/services/getListsByUser.ts` | `GET /api/lists?filters[created_by_user]` (my lists) |
-| `src/features/lists/services/getListById.ts` | `GET /api/lists/:id` |
-| `src/features/lists/services/createList.ts` | `POST /api/lists` |
-| `src/features/lists/services/updateList.ts` | `PUT /api/lists/:id` |
-| `src/features/lists/services/deleteList.ts` | `DELETE /api/lists/:id` |
-| `src/features/lists/services/createListItem.ts` | `POST /api/list-items` |
-| `src/features/lists/services/updateListItem.ts` | `PUT /api/list-items/:id` |
-| `src/features/lists/services/deleteListItem.ts` | `DELETE /api/list-items/:id` |
-| `src/features/lists/hooks/useLists.ts` | TanStack Query hook — `queryKey: ["lists"]` |
-| `src/features/lists/hooks/useListsByUser.ts` | TanStack Query hook — `queryKey: ["my-lists"]` |
-| `src/features/lists/hooks/useList.ts` | TanStack Query hook — `queryKey: ["lists", id]` |
-| `src/features/lists/hooks/useCreateList.ts` | TanStack `useMutation` — invalidates `["lists"]` and `["my-lists"]` on success |
-| `src/features/lists/hooks/useUpdateList.ts` | TanStack `useMutation` — invalidates `["lists"]`, `["my-lists"]`, and `["lists", id]` |
-| `src/features/lists/hooks/useDeleteList.ts` | TanStack `useMutation` — invalidates `["lists"]` and `["my-lists"]` on success |
-| `src/features/lists/hooks/useCreateListItem.ts` | TanStack `useMutation` — invalidates `["lists", listId]` on success |
-| `src/features/lists/hooks/useUpdateListItem.ts` | TanStack `useMutation` — invalidates `["lists", listId]` on success |
-| `src/features/lists/hooks/useDeleteListItem.ts` | TanStack `useMutation` — invalidates `["lists", listId]` on success |
-| `src/features/lists/components/ListCard/index.tsx` | Card component for discovery and profile pages |
-| `src/features/lists/components/ListForm/index.tsx` | Shared create/edit form for name, description, type, public flag |
-| `src/features/lists/components/ListItemForm/index.tsx` | Modal form for adding/editing items |
-| `src/features/lists/components/ListItemList/index.tsx` | Display list of items with edit/delete buttons |
-| `src/features/lists/components/ListDetail/index.tsx` | Detail view of a list (public) |
-| `src/features/lists/components/CreateListModal/index.tsx` | Modal for quick list creation (from dashboard button) |
-| `src/features/lists/index.ts` | Barrel export |
-| `src/app/(protected)/dashboard/lists/page.tsx` | Dashboard lists management page |
-| `src/app/(protected)/dashboard/lists/[id]/edit/page.tsx` | Edit list with item management |
-| `src/app/(public)/lists/page.tsx` | Public discovery page |
-| `src/app/(public)/lists/[id]/page.tsx` | Public detail page |
+| File                                                      | Purpose                                                                               |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `src/features/lists/types/index.ts`                       | `List`, `ListItem`, `ListType`, API response types                                    |
+| `src/features/lists/services/getLists.ts`                 | `GET /api/lists` (public discovery)                                                   |
+| `src/features/lists/services/getListsByUser.ts`           | `GET /api/lists?filters[created_by_user]` (my lists)                                  |
+| `src/features/lists/services/getListById.ts`              | `GET /api/lists/:id`                                                                  |
+| `src/features/lists/services/createList.ts`               | `POST /api/lists`                                                                     |
+| `src/features/lists/services/updateList.ts`               | `PUT /api/lists/:id`                                                                  |
+| `src/features/lists/services/deleteList.ts`               | `DELETE /api/lists/:id`                                                               |
+| `src/features/lists/services/createListItem.ts`           | `POST /api/list-items`                                                                |
+| `src/features/lists/services/updateListItem.ts`           | `PUT /api/list-items/:id`                                                             |
+| `src/features/lists/services/deleteListItem.ts`           | `DELETE /api/list-items/:id`                                                          |
+| `src/features/lists/hooks/useLists.ts`                    | TanStack Query hook — `queryKey: ["lists"]`                                           |
+| `src/features/lists/hooks/useListsByUser.ts`              | TanStack Query hook — `queryKey: ["my-lists"]`                                        |
+| `src/features/lists/hooks/useList.ts`                     | TanStack Query hook — `queryKey: ["lists", id]`                                       |
+| `src/features/lists/hooks/useCreateList.ts`               | TanStack `useMutation` — invalidates `["lists"]` and `["my-lists"]` on success        |
+| `src/features/lists/hooks/useUpdateList.ts`               | TanStack `useMutation` — invalidates `["lists"]`, `["my-lists"]`, and `["lists", id]` |
+| `src/features/lists/hooks/useDeleteList.ts`               | TanStack `useMutation` — invalidates `["lists"]` and `["my-lists"]` on success        |
+| `src/features/lists/hooks/useCreateListItem.ts`           | TanStack `useMutation` — invalidates `["lists", listId]` on success                   |
+| `src/features/lists/hooks/useUpdateListItem.ts`           | TanStack `useMutation` — invalidates `["lists", listId]` on success                   |
+| `src/features/lists/hooks/useDeleteListItem.ts`           | TanStack `useMutation` — invalidates `["lists", listId]` on success                   |
+| `src/features/lists/components/ListCard/index.tsx`        | Card component for discovery and profile pages                                        |
+| `src/features/lists/components/ListForm/index.tsx`        | Shared create/edit form for name, description, type, public flag                      |
+| `src/features/lists/components/ListItemForm/index.tsx`    | Modal form for adding/editing items                                                   |
+| `src/features/lists/components/ListItemList/index.tsx`    | Display list of items with edit/delete buttons                                        |
+| `src/features/lists/components/ListDetail/index.tsx`      | Detail view of a list (public)                                                        |
+| `src/features/lists/components/CreateListModal/index.tsx` | Modal for quick list creation (from dashboard button)                                 |
+| `src/features/lists/index.ts`                             | Barrel export                                                                         |
+| `src/app/(protected)/dashboard/lists/page.tsx`            | Dashboard lists management page                                                       |
+| `src/app/(protected)/dashboard/lists/[id]/edit/page.tsx`  | Edit list with item management                                                        |
+| `src/app/(public)/lists/[id]/page.tsx`                    | Public detail page (no discovery page)                                                |
 
 ### Existing files to modify
 
-| File | Change |
-|------|--------|
-| `src/features/user/types/User.type.ts` | Add `user_lists?: Array<{ id: number; title: string; type: string }>` field |
-| `src/features/user/components/Profile/index.tsx` | Add "Lists" section to user profile component |
-| `src/features/dashboard/index.tsx` | Update "Criar Lista" card href from `/` to `/dashboard/lists` |
-| `src/shared/ui/Layout/Sidebar/SidebarNav.tsx` | Add "Listas" navigation link |
+| File                                             | Change                                                        |
+| ------------------------------------------------ | ------------------------------------------------------------- |
+| `src/features/user/types/User.type.ts`           | Add `user_lists` field with items for count                   |
+| `src/features/user/components/Profile/index.tsx` | Add Lists section with item count, Gerenciar button for owner |
+| `src/features/dashboard/index.tsx`               | Update "Criar Lista" card href from `/` to `/dashboard/lists` |
+| `src/shared/ui/Layout/Sidebar/SidebarNav.tsx`    | Removed "Listas" navigation link (profile-centric)            |
 
 ## Acceptance Criteria
 
-- [ ] `/lists` page displays all public lists with name, type badge, item count, creator info, and creation date
-- [ ] Clicking a list card on `/lists` navigates to `/lists/[id]`
-- [ ] Type filter pills on `/lists` filter lists by list type (wish/like/want/recommend/all)
+- [ ] `/lists` returns 404 (discovery page removed)
 - [ ] `/lists/[id]` shows full list details: name, description, type badge, item count, creator info
 - [ ] `/lists/[id]` displays items in fixed order (by creation date, ascending) with title, optional image, optional description, and optional URL
 - [ ] Creator name/avatar on `/lists/[id]` is clickable and links to creator's profile
@@ -154,8 +152,10 @@ Key endpoints consumed:
 - [ ] Items are displayed in a list on the edit page with edit and delete buttons
 - [ ] Delete button for items calls `DELETE /api/list-items/:id` and removes the item from the list
 - [ ] Delete button for lists calls `DELETE /api/lists/:id` with a confirmation modal
-- [ ] User profile page (`/skatistas/[username]`) has a "Lists" tab showing all public lists by that user
-- [ ] Lists tab on profile is read-only (no edit/delete buttons)
+- [ ] User profile page (`/user/[id]`) has a Lists section showing all public lists by that user with title, type badge, and item count
+- [ ] "Gerenciar" button appears on own profile Lists section, linking to `/dashboard/lists`
+- [ ] "Gerenciar" button does not appear when viewing other users' profiles
+- [ ] Sidebar no longer shows "Listas" link
 - [ ] All service files use `apiClient` — no bare `axios`
 - [ ] No `console.log`, `console.warn`, or `console.error` in any new file
 - [ ] TypeScript — no `any` types in new files

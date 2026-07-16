@@ -4,7 +4,8 @@
 
 **Goal:** Implement a complete user-curated collections (Lists) feature allowing users to create, organize, share, and discover typed item collections with a public browse page, user dashboard, and profile integration.
 
-**Architecture:** 
+**Architecture:**
+
 - **Phase 1:** Core types, services, and hooks (no UI yet)
 - **Phase 2:** User dashboard for list management (CRUD operations)
 - **Phase 3:** Public discovery and detail pages
@@ -77,6 +78,7 @@ Modifications:
 ### Task 1: TypeScript Types for Lists
 
 **Files:**
+
 - Create: `src/features/lists/types/lists.ts`
 - Create: `src/features/lists/types/index.ts`
 
@@ -90,7 +92,7 @@ Create `src/features/lists/types/lists.ts`:
 // List Type
 export interface ListAttributes {
   title: string;
-  type: 'wish' | 'like' | 'want' | 'recommend';
+  type: "wish" | "like" | "want" | "recommend";
   createdAt: string;
   updatedAt: string;
   owner: {
@@ -185,12 +187,12 @@ export interface ListItemResponse {
 // Request/Mutation Types
 export interface CreateListInput {
   title: string;
-  type: 'wish' | 'like' | 'want' | 'recommend';
+  type: "wish" | "like" | "want" | "recommend";
 }
 
 export interface UpdateListInput {
   title?: string;
-  type?: 'wish' | 'like' | 'want' | 'recommend';
+  type?: "wish" | "like" | "want" | "recommend";
 }
 
 export interface CreateListItemInput {
@@ -225,8 +227,8 @@ export type {
   CreateListInput,
   UpdateListInput,
   CreateListItemInput,
-  UpdateListItemInput,
-} from './lists';
+  UpdateListItemInput
+} from "./lists";
 ```
 
 - [ ] **1.3: Verify types by running TypeScript check**
@@ -249,6 +251,7 @@ git commit -m "feat(lists): add TypeScript types for List and ListItem"
 ### Task 2: Service Functions for Lists
 
 **Files:**
+
 - Create: `src/features/lists/services/getLists.ts`
 - Create: `src/features/lists/services/getListById.ts`
 - Create: `src/features/lists/services/getListsByUserId.ts`
@@ -264,34 +267,34 @@ git commit -m "feat(lists): add TypeScript types for List and ListItem"
 Create `src/features/lists/services/getLists.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { ListsResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { ListsResponse } from "../types";
 
 interface GetListsParams {
-  type?: 'wish' | 'like' | 'want' | 'recommend';
+  type?: "wish" | "like" | "want" | "recommend";
   page?: number;
   pageSize?: number;
 }
 
 export async function getLists(params?: GetListsParams): Promise<ListsResponse> {
   const query = new URLSearchParams();
-  
+
   // Populate query
-  query.append('populate[owner][fields][0]', 'username');
-  query.append('populate[owner][fields][1]', 'name');
-  query.append('populate[owner][populate][avatar][fields][0]', 'url');
-  query.append('populate[owner][populate][avatar][fields][1]', 'formats');
-  query.append('populate[items]', 'true');
-  
+  query.append("populate[owner][fields][0]", "username");
+  query.append("populate[owner][fields][1]", "name");
+  query.append("populate[owner][populate][avatar][fields][0]", "url");
+  query.append("populate[owner][populate][avatar][fields][1]", "formats");
+  query.append("populate[items]", "true");
+
   // Pagination
-  query.append('pagination[pageSize]', String(params?.pageSize ?? 12));
-  query.append('pagination[page]', String(params?.page ?? 1));
-  
+  query.append("pagination[pageSize]", String(params?.pageSize ?? 12));
+  query.append("pagination[page]", String(params?.page ?? 1));
+
   // Filter by type
   if (params?.type) {
-    query.append('filters[type][$eq]', params.type);
+    query.append("filters[type][$eq]", params.type);
   }
-  
+
   const { data } = await apiClient.get<ListsResponse>(`/api/lists?${query.toString()}`);
   return data;
 }
@@ -302,19 +305,19 @@ export async function getLists(params?: GetListsParams): Promise<ListsResponse> 
 Create `src/features/lists/services/getListById.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { ListResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { ListResponse } from "../types";
 
 export async function getListById(id: number): Promise<ListResponse> {
   const query = new URLSearchParams();
-  
-  query.append('populate[owner][fields][0]', 'username');
-  query.append('populate[owner][fields][1]', 'name');
-  query.append('populate[owner][populate][avatar][fields][0]', 'url');
-  query.append('populate[owner][populate][avatar][fields][1]', 'formats');
-  query.append('populate[items][populate][image][fields][0]', 'url');
-  query.append('populate[items][populate][image][fields][1]', 'formats');
-  
+
+  query.append("populate[owner][fields][0]", "username");
+  query.append("populate[owner][fields][1]", "name");
+  query.append("populate[owner][populate][avatar][fields][0]", "url");
+  query.append("populate[owner][populate][avatar][fields][1]", "formats");
+  query.append("populate[items][populate][image][fields][0]", "url");
+  query.append("populate[items][populate][image][fields][1]", "formats");
+
   const { data } = await apiClient.get<ListResponse>(`/api/lists/${id}?${query.toString()}`);
   return data;
 }
@@ -325,20 +328,20 @@ export async function getListById(id: number): Promise<ListResponse> {
 Create `src/features/lists/services/getListsByUserId.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { ListsResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { ListsResponse } from "../types";
 
 export async function getListsByUserId(userId: number): Promise<ListsResponse> {
   const query = new URLSearchParams();
-  
-  query.append('populate[owner][fields][0]', 'username');
-  query.append('populate[owner][fields][1]', 'name');
-  query.append('populate[owner][populate][avatar][fields][0]', 'url');
-  query.append('populate[owner][populate][avatar][fields][1]', 'formats');
-  query.append('populate[items]', 'true');
-  query.append('filters[owner][id][$eq]', String(userId));
-  query.append('pagination[pageSize]', '50');
-  
+
+  query.append("populate[owner][fields][0]", "username");
+  query.append("populate[owner][fields][1]", "name");
+  query.append("populate[owner][populate][avatar][fields][0]", "url");
+  query.append("populate[owner][populate][avatar][fields][1]", "formats");
+  query.append("populate[items]", "true");
+  query.append("filters[owner][id][$eq]", String(userId));
+  query.append("pagination[pageSize]", "50");
+
   const { data } = await apiClient.get<ListsResponse>(`/api/lists?${query.toString()}`);
   return data;
 }
@@ -349,12 +352,12 @@ export async function getListsByUserId(userId: number): Promise<ListsResponse> {
 Create `src/features/lists/services/createList.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { CreateListInput, ListResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { CreateListInput, ListResponse } from "../types";
 
 export async function createList(input: CreateListInput): Promise<ListResponse> {
-  const { data } = await apiClient.post<ListResponse>('/api/lists', {
-    data: input,
+  const { data } = await apiClient.post<ListResponse>("/api/lists", {
+    data: input
   });
   return data;
 }
@@ -365,15 +368,12 @@ export async function createList(input: CreateListInput): Promise<ListResponse> 
 Create `src/features/lists/services/updateList.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { UpdateListInput, ListResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { UpdateListInput, ListResponse } from "../types";
 
-export async function updateList(
-  id: number,
-  input: UpdateListInput
-): Promise<ListResponse> {
+export async function updateList(id: number, input: UpdateListInput): Promise<ListResponse> {
   const { data } = await apiClient.put<ListResponse>(`/api/lists/${id}`, {
-    data: input,
+    data: input
   });
   return data;
 }
@@ -384,7 +384,7 @@ export async function updateList(
 Create `src/features/lists/services/deleteList.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
+import { apiClient } from "@/shared/lib/apiClient";
 
 export async function deleteList(id: number): Promise<void> {
   await apiClient.delete(`/api/lists/${id}`);
@@ -396,15 +396,15 @@ export async function deleteList(id: number): Promise<void> {
 Create `src/features/lists/services/index.ts`:
 
 ```typescript
-export { getLists } from './getLists';
-export { getListById } from './getListById';
-export { getListsByUserId } from './getListsByUserId';
-export { createList } from './createList';
-export { updateList } from './updateList';
-export { deleteList } from './deleteList';
-export { createListItem } from './createListItem';
-export { updateListItem } from './updateListItem';
-export { deleteListItem } from './deleteListItem';
+export { getLists } from "./getLists";
+export { getListById } from "./getListById";
+export { getListsByUserId } from "./getListsByUserId";
+export { createList } from "./createList";
+export { updateList } from "./updateList";
+export { deleteList } from "./deleteList";
+export { createListItem } from "./createListItem";
+export { updateListItem } from "./updateListItem";
+export { deleteListItem } from "./deleteListItem";
 ```
 
 - [ ] **2.8: Verify no syntax errors**
@@ -427,6 +427,7 @@ git commit -m "feat(lists): add service functions for list operations"
 ### Task 3: Service Functions for List Items
 
 **Files:**
+
 - Create: `src/features/lists/services/createListItem.ts`
 - Create: `src/features/lists/services/updateListItem.ts`
 - Create: `src/features/lists/services/deleteListItem.ts`
@@ -438,32 +439,26 @@ git commit -m "feat(lists): add service functions for list operations"
 Create `src/features/lists/services/createListItem.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { CreateListItemInput, ListItemResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { CreateListItemInput, ListItemResponse } from "../types";
 
 interface CreateListItemWithListInput extends CreateListItemInput {
   listId: number;
 }
 
-export async function createListItem(
-  input: CreateListItemWithListInput
-): Promise<ListItemResponse> {
+export async function createListItem(input: CreateListItemWithListInput): Promise<ListItemResponse> {
   const formData = new FormData();
-  formData.append('data[name]', input.name);
-  if (input.description) formData.append('data[description]', input.description);
-  if (input.external_url) formData.append('data[external_url]', input.external_url);
-  formData.append('data[list]', String(input.listId));
-  if (input.image) formData.append('files.image', input.image);
+  formData.append("data[name]", input.name);
+  if (input.description) formData.append("data[description]", input.description);
+  if (input.external_url) formData.append("data[external_url]", input.external_url);
+  formData.append("data[list]", String(input.listId));
+  if (input.image) formData.append("files.image", input.image);
 
-  const { data } = await apiClient.post<ListItemResponse>(
-    '/api/list-items',
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+  const { data } = await apiClient.post<ListItemResponse>("/api/list-items", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
     }
-  );
+  });
   return data;
 }
 ```
@@ -473,28 +468,21 @@ export async function createListItem(
 Create `src/features/lists/services/updateListItem.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
-import type { UpdateListItemInput, ListItemResponse } from '../types';
+import { apiClient } from "@/shared/lib/apiClient";
+import type { UpdateListItemInput, ListItemResponse } from "../types";
 
-export async function updateListItem(
-  id: number,
-  input: UpdateListItemInput
-): Promise<ListItemResponse> {
+export async function updateListItem(id: number, input: UpdateListItemInput): Promise<ListItemResponse> {
   const formData = new FormData();
-  if (input.name) formData.append('data[name]', input.name);
-  if (input.description) formData.append('data[description]', input.description);
-  if (input.external_url) formData.append('data[external_url]', input.external_url);
-  if (input.image) formData.append('files.image', input.image);
+  if (input.name) formData.append("data[name]", input.name);
+  if (input.description) formData.append("data[description]", input.description);
+  if (input.external_url) formData.append("data[external_url]", input.external_url);
+  if (input.image) formData.append("files.image", input.image);
 
-  const { data } = await apiClient.put<ListItemResponse>(
-    `/api/list-items/${id}`,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+  const { data } = await apiClient.put<ListItemResponse>(`/api/list-items/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
     }
-  );
+  });
   return data;
 }
 ```
@@ -504,7 +492,7 @@ export async function updateListItem(
 Create `src/features/lists/services/deleteListItem.ts`:
 
 ```typescript
-import { apiClient } from '@/shared/lib/apiClient';
+import { apiClient } from "@/shared/lib/apiClient";
 
 export async function deleteListItem(id: number): Promise<void> {
   await apiClient.delete(`/api/list-items/${id}`);
@@ -531,6 +519,7 @@ git commit -m "feat(lists): add list item service functions"
 ### Task 4: TanStack Query Hooks for Lists
 
 **Files:**
+
 - Create: `src/features/lists/hooks/useLists.ts`
 - Create: `src/features/lists/hooks/useListsByUserId.ts`
 - Create: `src/features/lists/hooks/useList.ts`
@@ -546,20 +535,20 @@ git commit -m "feat(lists): add list item service functions"
 Create `src/features/lists/hooks/useLists.ts`:
 
 ```typescript
-import { useQuery } from '@tanstack/react-query';
-import { getLists } from '../services';
-import type { ListsResponse } from '../types';
+import { useQuery } from "@tanstack/react-query";
+import { getLists } from "../services";
+import type { ListsResponse } from "../types";
 
 interface UseListsParams {
-  type?: 'wish' | 'like' | 'want' | 'recommend';
+  type?: "wish" | "like" | "want" | "recommend";
   page?: number;
   pageSize?: number;
 }
 
 export function useLists(params?: UseListsParams) {
   return useQuery<ListsResponse, Error>({
-    queryKey: ['lists', params?.type, params?.page, params?.pageSize],
-    queryFn: () => getLists(params),
+    queryKey: ["lists", params?.type, params?.page, params?.pageSize],
+    queryFn: () => getLists(params)
   });
 }
 ```
@@ -569,14 +558,14 @@ export function useLists(params?: UseListsParams) {
 Create `src/features/lists/hooks/useListsByUserId.ts`:
 
 ```typescript
-import { useQuery } from '@tanstack/react-query';
-import { getListsByUserId } from '../services';
-import type { ListsResponse } from '../types';
+import { useQuery } from "@tanstack/react-query";
+import { getListsByUserId } from "../services";
+import type { ListsResponse } from "../types";
 
 export function useListsByUserId(userId: number) {
   return useQuery<ListsResponse, Error>({
-    queryKey: ['lists', 'user', userId],
-    queryFn: () => getListsByUserId(userId),
+    queryKey: ["lists", "user", userId],
+    queryFn: () => getListsByUserId(userId)
   });
 }
 ```
@@ -586,14 +575,14 @@ export function useListsByUserId(userId: number) {
 Create `src/features/lists/hooks/useList.ts`:
 
 ```typescript
-import { useQuery } from '@tanstack/react-query';
-import { getListById } from '../services';
-import type { ListResponse } from '../types';
+import { useQuery } from "@tanstack/react-query";
+import { getListById } from "../services";
+import type { ListResponse } from "../types";
 
 export function useList(id: number) {
   return useQuery<ListResponse, Error>({
-    queryKey: ['lists', id],
-    queryFn: () => getListById(id),
+    queryKey: ["lists", id],
+    queryFn: () => getListById(id)
   });
 }
 ```
@@ -603,9 +592,9 @@ export function useList(id: number) {
 Create `src/features/lists/hooks/useCreateList.ts`:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createList } from '../services';
-import type { CreateListInput, ListResponse } from '../types';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createList } from "../services";
+import type { CreateListInput, ListResponse } from "../types";
 
 export function useCreateList() {
   const queryClient = useQueryClient();
@@ -613,8 +602,8 @@ export function useCreateList() {
   return useMutation<ListResponse, Error, CreateListInput>({
     mutationFn: createList,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['lists'] });
-    },
+      queryClient.invalidateQueries({ queryKey: ["lists"] });
+    }
   });
 }
 ```
@@ -624,9 +613,9 @@ export function useCreateList() {
 Create `src/features/lists/hooks/useUpdateList.ts`:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateList } from '../services';
-import type { UpdateListInput, ListResponse } from '../types';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateList } from "../services";
+import type { UpdateListInput, ListResponse } from "../types";
 
 interface UpdateListParams {
   id: number;
@@ -638,10 +627,10 @@ export function useUpdateList() {
 
   return useMutation<ListResponse, Error, UpdateListParams>({
     mutationFn: ({ id, input }) => updateList(id, input),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['lists'] });
-      queryClient.invalidateQueries({ queryKey: ['lists', data.data.id] });
-    },
+    onSuccess: data => {
+      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ["lists", data.data.id] });
+    }
   });
 }
 ```
@@ -651,8 +640,8 @@ export function useUpdateList() {
 Create `src/features/lists/hooks/useDeleteList.ts`:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteList } from '../services';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteList } from "../services";
 
 export function useDeleteList() {
   const queryClient = useQueryClient();
@@ -660,8 +649,8 @@ export function useDeleteList() {
   return useMutation<void, Error, number>({
     mutationFn: deleteList,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['lists'] });
-    },
+      queryClient.invalidateQueries({ queryKey: ["lists"] });
+    }
   });
 }
 ```
@@ -671,15 +660,15 @@ export function useDeleteList() {
 Create `src/features/lists/hooks/index.ts`:
 
 ```typescript
-export { useLists } from './useLists';
-export { useListsByUserId } from './useListsByUserId';
-export { useList } from './useList';
-export { useCreateList } from './useCreateList';
-export { useUpdateList } from './useUpdateList';
-export { useDeleteList } from './useDeleteList';
-export { useCreateListItem } from './useCreateListItem';
-export { useUpdateListItem } from './useUpdateListItem';
-export { useDeleteListItem } from './useDeleteListItem';
+export { useLists } from "./useLists";
+export { useListsByUserId } from "./useListsByUserId";
+export { useList } from "./useList";
+export { useCreateList } from "./useCreateList";
+export { useUpdateList } from "./useUpdateList";
+export { useDeleteList } from "./useDeleteList";
+export { useCreateListItem } from "./useCreateListItem";
+export { useUpdateListItem } from "./useUpdateListItem";
+export { useDeleteListItem } from "./useDeleteListItem";
 ```
 
 - [ ] **4.8: Verify no syntax errors**
@@ -702,6 +691,7 @@ git commit -m "feat(lists): add TanStack Query hooks for lists"
 ### Task 5: TanStack Query Hooks for List Items
 
 **Files:**
+
 - Create: `src/features/lists/hooks/useCreateListItem.ts`
 - Create: `src/features/lists/hooks/useUpdateListItem.ts`
 - Create: `src/features/lists/hooks/useDeleteListItem.ts`
@@ -713,9 +703,9 @@ git commit -m "feat(lists): add TanStack Query hooks for lists"
 Create `src/features/lists/hooks/useCreateListItem.ts`:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createListItem } from '../services';
-import type { CreateListItemInput, ListItemResponse } from '../types';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createListItem } from "../services";
+import type { CreateListItemInput, ListItemResponse } from "../types";
 
 interface CreateListItemWithListInput extends CreateListItemInput {
   listId: number;
@@ -727,8 +717,8 @@ export function useCreateListItem() {
   return useMutation<ListItemResponse, Error, CreateListItemWithListInput>({
     mutationFn: createListItem,
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['lists', variables.listId] });
-    },
+      queryClient.invalidateQueries({ queryKey: ["lists", variables.listId] });
+    }
   });
 }
 ```
@@ -738,9 +728,9 @@ export function useCreateListItem() {
 Create `src/features/lists/hooks/useUpdateListItem.ts`:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateListItem } from '../services';
-import type { UpdateListItemInput, ListItemResponse } from '../types';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateListItem } from "../services";
+import type { UpdateListItemInput, ListItemResponse } from "../types";
 
 interface UpdateListItemParams {
   id: number;
@@ -754,8 +744,8 @@ export function useUpdateListItem() {
   return useMutation<ListItemResponse, Error, UpdateListItemParams>({
     mutationFn: ({ id, input }) => updateListItem(id, input),
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['lists', variables.listId] });
-    },
+      queryClient.invalidateQueries({ queryKey: ["lists", variables.listId] });
+    }
   });
 }
 ```
@@ -765,8 +755,8 @@ export function useUpdateListItem() {
 Create `src/features/lists/hooks/useDeleteListItem.ts`:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteListItem } from '../services';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteListItem } from "../services";
 
 interface DeleteListItemParams {
   id: number;
@@ -779,8 +769,8 @@ export function useDeleteListItem() {
   return useMutation<void, Error, DeleteListItemParams>({
     mutationFn: ({ id }) => deleteListItem(id),
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['lists', variables.listId] });
-    },
+      queryClient.invalidateQueries({ queryKey: ["lists", variables.listId] });
+    }
   });
 }
 ```
@@ -813,6 +803,7 @@ git commit -m "feat(lists): add list item hooks"
 ### Task 6: Feature Barrel Export
 
 **Files:**
+
 - Create: `src/features/lists/index.ts`
 
 **Steps:**
@@ -823,13 +814,46 @@ Create `src/features/lists/index.ts`:
 
 ```typescript
 // Services
-export { getLists, getListById, getListsByUserId, createList, updateList, deleteList, createListItem, updateListItem, deleteListItem } from './services';
+export {
+  getLists,
+  getListById,
+  getListsByUserId,
+  createList,
+  updateList,
+  deleteList,
+  createListItem,
+  updateListItem,
+  deleteListItem
+} from "./services";
 
 // Hooks
-export { useLists, useListsByUserId, useList, useCreateList, useUpdateList, useDeleteList, useCreateListItem, useUpdateListItem, useDeleteListItem } from './hooks';
+export {
+  useLists,
+  useListsByUserId,
+  useList,
+  useCreateList,
+  useUpdateList,
+  useDeleteList,
+  useCreateListItem,
+  useUpdateListItem,
+  useDeleteListItem
+} from "./hooks";
 
 // Types
-export type { List, ListAttributes, ListItem, ListItemAttributes, ListsResponse, ListResponse, ListItemsResponse, ListItemResponse, CreateListInput, UpdateListInput, CreateListItemInput, UpdateListItemInput } from './types';
+export type {
+  List,
+  ListAttributes,
+  ListItem,
+  ListItemAttributes,
+  ListsResponse,
+  ListResponse,
+  ListItemsResponse,
+  ListItemResponse,
+  CreateListInput,
+  UpdateListInput,
+  CreateListItemInput,
+  UpdateListItemInput
+} from "./types";
 ```
 
 - [ ] **6.2: Test barrel import**
@@ -856,6 +880,7 @@ git commit -m "feat(lists): add barrel export"
 ### Task 7: Create Basic UI Components
 
 **Files:**
+
 - Create: `src/features/lists/components/ListForm/index.tsx`
 - Create: `src/features/lists/components/ListItemForm/index.tsx`
 - Create: `src/features/lists/components/ListCard/index.tsx`
@@ -1302,6 +1327,7 @@ git commit -m "feat(lists): add basic UI components"
 ### Task 8: Middleware & Route Protection
 
 **Files:**
+
 - Modify: `src/middleware.ts`
 
 **Steps:**
@@ -1322,7 +1348,8 @@ Modify `src/middleware.ts` to add `/dashboard/lists` to the protected routes. Fi
 ```
 
 The exact location depends on your current middleware structure. Common patterns:
-- If using `matcher` array: add `/dashboard/lists/:path*` 
+
+- If using `matcher` array: add `/dashboard/lists/:path*`
 - If using route checking function: add `/dashboard/lists` to protected paths
 
 - [ ] **8.3: Verify middleware compiles**
@@ -1345,6 +1372,7 @@ git commit -m "feat(lists): add /dashboard/lists to protected routes"
 ### Task 9: Dashboard Pages
 
 **Files:**
+
 - Create: `src/app/(protected)/dashboard/lists/page.tsx`
 - Create: `src/app/(protected)/dashboard/lists/new/page.tsx`
 - Create: `src/app/(protected)/dashboard/lists/[id]/page.tsx`
@@ -1368,7 +1396,7 @@ export default function MyListsPage() {
   const router = useRouter();
   const toast = useToast();
   const { user } = useAuth();
-  
+
   const { data: listsResponse, isLoading } = useListsByUserId(user?.id ?? 0);
   const deleteListMutation = useDeleteList();
 
@@ -1656,6 +1684,7 @@ git commit -m "feat(lists): add dashboard pages for list management"
 ### Task 10: Public List Pages
 
 **Files:**
+
 - Create: `src/app/(public)/lists/page.tsx`
 - Create: `src/app/(public)/lists/[id]/page.tsx`
 - Create: `src/features/lists/components/ListTypeFilter/index.tsx`
@@ -1940,6 +1969,7 @@ git commit -m "feat(lists): add public discover and detail pages"
 ### Task 11: Update User Types & Profile
 
 **Files:**
+
 - Modify: `src/features/user/types/User.type.ts`
 - Modify: `src/features/user/components/Profile/index.tsx`
 
@@ -1962,12 +1992,13 @@ lists?: List[]; // Add this field
 Import List type at the top:
 
 ```typescript
-import type { List } from '@/features/lists';
+import type { List } from "@/features/lists";
 ```
 
 - [ ] **11.2: Update Profile component to show Lists tab**
 
 Read current profile component and add a Lists section. The section should:
+
 - Show lists only if the user has any
 - Display lists grid similar to discover page
 - Only show lists for the current profile user
@@ -1986,7 +2017,7 @@ const [selectedTab, setSelectedTab] = useState('overview'); // or whatever curre
 if (selectedTab === 'lists' || !hasTabsYet) {
   const { data: listsResponse } = useListsByUserId(userId);
   const lists = listsResponse?.data ?? [];
-  
+
   return (
     lists.length > 0 ? (
       <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={4}>
@@ -2021,6 +2052,7 @@ git commit -m "feat(lists): integrate lists into user profile"
 ### Task 12: Dashboard Navigation
 
 **Files:**
+
 - Modify: `src/app/(protected)/dashboard/layout.tsx` or dashboard navigation component
 
 **Steps:**
@@ -2078,6 +2110,7 @@ git commit -m "feat(lists): add lists to dashboard navigation"
 ### Task 13: Documentation
 
 **Files:**
+
 - Modify: `README.md`
 - Modify: `CHANGELOG.md`
 
@@ -2181,14 +2214,17 @@ gh pr create --base develop --head feature/lists --title "feat: add Lists (Colle
 ### Total effort: ~15-17 hours (across 4 phases)
 
 ### Files created: 30+
+
 ### Files modified: 5
 
 ### Routes implemented:
+
 - Public: `/lists`, `/lists/[id]`
 - Protected: `/dashboard/lists`, `/dashboard/lists/new`, `/dashboard/lists/[id]`
 - Integration: `/user/[id]` (Lists tab)
 
 ### Next steps after completion:
+
 1. Create feature branch and implement using this plan
 2. Test all flows locally
 3. Submit PR to `develop`
