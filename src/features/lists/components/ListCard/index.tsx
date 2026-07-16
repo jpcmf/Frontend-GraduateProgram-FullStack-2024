@@ -10,14 +10,14 @@ const TYPE_LABELS: Record<ListType, string> = {
   wish: "Desejo",
   like: "Curti",
   want: "Quero",
-  recommend: "Recomendo",
+  recommend: "Recomendo"
 };
 
 const TYPE_COLORS: Record<ListType, string> = {
   wish: "purple",
   like: "green",
   want: "orange",
-  recommend: "blue",
+  recommend: "blue"
 };
 
 interface ListCardProps {

@@ -9,6 +9,6 @@ export function useDeleteList() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       queryClient.invalidateQueries({ queryKey: ["my-lists"] });
-    },
+    }
   });
 }

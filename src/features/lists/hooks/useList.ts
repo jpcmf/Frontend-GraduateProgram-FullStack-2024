@@ -8,6 +8,6 @@ export function useList(id: string | number | undefined) {
     queryKey: ["lists", id],
     queryFn: () => getListById(id!),
     enabled: !!id,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5
   });
 }

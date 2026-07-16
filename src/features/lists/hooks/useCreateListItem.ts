@@ -9,6 +9,6 @@ export function useCreateListItem(listId: string | number) {
     mutationFn: createListItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
-    },
+    }
   });
 }

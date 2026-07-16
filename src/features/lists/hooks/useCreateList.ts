@@ -10,6 +10,6 @@ export function useCreateList() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       queryClient.invalidateQueries({ queryKey: ["my-lists"] });
-    },
+    }
   });
 }

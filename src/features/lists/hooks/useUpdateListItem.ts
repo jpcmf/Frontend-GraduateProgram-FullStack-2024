@@ -9,6 +9,6 @@ export function useUpdateListItem(listId: string | number) {
     mutationFn: ({ id, data }) => updateListItem(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
-    },
+    }
   });
 }

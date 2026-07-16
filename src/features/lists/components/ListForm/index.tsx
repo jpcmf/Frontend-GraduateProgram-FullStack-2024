@@ -1,14 +1,6 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Select,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Select, VStack } from "@chakra-ui/react";
 
 import type { List, ListType } from "../../types/lists";
 
@@ -49,12 +41,12 @@ export function ListForm({ initialData, onSubmit, isLoading }: ListFormProps) {
     <VStack as="form" onSubmit={handleSubmit} spacing={4} align="stretch">
       <FormControl isInvalid={!!errors.title}>
         <FormLabel>Título</FormLabel>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ex: Melhores marcas de shape" />
+        <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Ex: Melhores marcas de shape" />
         <FormErrorMessage>{errors.title}</FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={!!errors.type}>
         <FormLabel>Tipo</FormLabel>
-        <Select value={type} onChange={(e) => setType(e.target.value as ListType)} placeholder="Selecione o tipo">
+        <Select value={type} onChange={e => setType(e.target.value as ListType)} placeholder="Selecione o tipo">
           <option value="wish">Desejo</option>
           <option value="like">Curti</option>
           <option value="want">Quero</option>

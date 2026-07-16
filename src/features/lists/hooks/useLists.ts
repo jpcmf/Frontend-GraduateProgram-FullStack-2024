@@ -7,6 +7,6 @@ export function useLists() {
   return useQuery<ListsResponse, Error>({
     queryKey: ["lists"],
     queryFn: getLists,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5
   });
 }

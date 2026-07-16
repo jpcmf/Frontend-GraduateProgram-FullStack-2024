@@ -19,7 +19,12 @@ export type ListAttr = {
   type: ListType;
   createdAt: string;
   updatedAt: string;
-  owner?: { data: { id: number; attributes: { username: string; name: string; avatar?: { data: { attributes: { url: string } } | null } } } | null };
+  owner?: {
+    data: {
+      id: number;
+      attributes: { username: string; name: string; avatar?: { data: { attributes: { url: string } } | null } };
+    } | null;
+  };
   items?: { data: ListItem[] };
 };
 

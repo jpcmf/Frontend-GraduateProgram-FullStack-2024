@@ -8,6 +8,6 @@ export function useDeleteListItem(listId: string | number) {
     mutationFn: deleteListItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
-    },
+    }
   });
 }

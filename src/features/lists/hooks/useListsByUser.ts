@@ -8,6 +8,6 @@ export function useListsByUser(userId: string | number | undefined) {
     queryKey: ["my-lists", userId],
     queryFn: () => getListsByUser(userId!),
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5
   });
 }
