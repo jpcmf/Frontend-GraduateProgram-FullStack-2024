@@ -19,6 +19,7 @@ All pages in the `(public)` route group will be converted from client components
 Each affected feature will gain a parallel set of **server-safe service functions** — plain `async fetch()` wrappers callable from Server Components. The existing React Query hooks remain unchanged and continue to be used inside protected/authenticated routes.
 
 **Pattern:**
+
 ```
 // page.tsx (Server Component)
 //   → fetches data via server-safe service
@@ -32,19 +33,21 @@ Each affected feature will gain a parallel set of **server-safe service function
 
 Each public page exports a `generateMetadata()` function. Language is set to `pt-BR` in `layout.tsx`.
 
-| Page | `<title>` | `<description>` |
-|------|-----------|-----------------|
-| Home (`/`) | `SkateHub` | `"Plataforma social para a comunidade do skate"` |
-| Spots (`/spots`) | `Spots — SkateHub` | `"Descubra spots de skate compartilhados pela comunidade"` |
-| Spot detail (`/spots/[id]`) | `{spot.name} — SkateHub` | `{spot.description}` from Strapi, truncated to 160 chars |
-| Skatistas (`/skatistas`) | `Skatistas — SkateHub` | `"Conheça os skatistas da comunidade SkateHub"` |
+| Page                        | `<title>`                | `<description>`                                            |
+| --------------------------- | ------------------------ | ---------------------------------------------------------- |
+| Home (`/`)                  | `SkateHub`               | `"Plataforma social para a comunidade do skate"`           |
+| Spots (`/spots`)            | `Spots — SkateHub`       | `"Descubra spots de skate compartilhados pela comunidade"` |
+| Spot detail (`/spots/[id]`) | `{spot.name} — SkateHub` | `{spot.description}` from Strapi, truncated to 160 chars   |
+| Skatistas (`/skatistas`)    | `Skatistas — SkateHub`   | `"Conheça os skatistas da comunidade SkateHub"`            |
 
 **Tags added to every page via Next.js `metadata` object:**
+
 - `og:title`, `og:description`, `og:url`, `og:type`
 - `twitter:card`, `twitter:title`, `twitter:description`
 - `canonical` URL
 
 **`layout.tsx` changes:**
+
 - `<html lang="en">` → `<html lang="pt-BR">`
 - Root `metadata` export updated to Portuguese description
 
@@ -53,6 +56,7 @@ Each public page exports a `generateMetadata()` function. Language is set to `pt
 ## Sitemap & robots.txt
 
 **Sitemap:**
+
 - Old: static API route at `src/app/api/sitemap/route.ts` (3 hardcoded URLs)
 - New: dynamic `app/sitemap.ts` using Next.js native sitemap convention
   - Includes static routes: `/`, `/spots`, `/skatistas`
@@ -62,7 +66,9 @@ Each public page exports a `generateMetadata()` function. Language is set to `pt
 - The old `src/app/api/sitemap/` route file will be deleted
 
 **robots.txt:**
+
 - New file: `app/robots.ts` (Next.js native convention)
+
 ```
 User-agent: *
 Allow: /
@@ -86,6 +92,7 @@ src/features/skatistas/services/getSkatistas.server.ts
 ```
 
 **Caching strategy (Next.js `fetch` options):**
+
 - All listing pages (`/spots`, `/skatistas`, home): `{ next: { revalidate: 60 } }` — cached for 60 seconds (ISR)
 - Spot detail (`/spots/[id]`): `{ next: { revalidate: 60 } }`
 
@@ -97,11 +104,11 @@ These functions will be exported from each feature's `index.ts` barrel.
 
 Interactive UI extracted into `"use client"` leaf components:
 
-| Page | Extracted Component | Reason |
-|------|---------------------|--------|
-| `/spots` | `SpotsCreateButton` | Uses `useAuth` to conditionally render "Criar Spot" button |
-| `/skatistas` | `SkatistaPagination` | Uses `useState` for page and page size |
-| Home (`/`) | `StoriesHome`, `SkatistasHome` | Audit required — if they use hooks internally, they stay `"use client"` and receive data as props |
+| Page         | Extracted Component            | Reason                                                                                            |
+| ------------ | ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `/spots`     | `SpotsCreateButton`            | Uses `useAuth` to conditionally render "Criar Spot" button                                        |
+| `/skatistas` | `SkatistaPagination`           | Uses `useState` for page and page size                                                            |
+| Home (`/`)   | `StoriesHome`, `SkatistasHome` | Audit required — if they use hooks internally, they stay `"use client"` and receive data as props |
 
 Components that have no interactivity and no hooks can remain as plain (server) components receiving props.
 
@@ -112,6 +119,7 @@ Components that have no interactivity and no hooks can remain as plain (server) 
 All server-safe service functions call the existing Strapi REST API using the same base URL already configured in `apiClient.ts`. They use `fetch()` directly (not Axios) since Axios is not available in Server Components without extra setup.
 
 API endpoints used:
+
 - `GET /api/spots` — list of spots
 - `GET /api/spots/:id` — single spot
 - `GET /api/users` — list of users (skatistas)
@@ -122,6 +130,7 @@ API endpoints used:
 ## Component & File Plan
 
 **New files:**
+
 - `app/sitemap.ts`
 - `app/robots.ts`
 - `src/features/spots/services/getSpots.server.ts`
@@ -133,6 +142,7 @@ API endpoints used:
 - `src/features/skatistas/components/SkatistaPagination.tsx` (extracted client component)
 
 **Modified files:**
+
 - `app/layout.tsx` — `lang="pt-BR"`, updated metadata description
 - `app/page.tsx` — remove `"use client"`, convert to server component, add `generateMetadata`
 - `app/(public)/spots/page.tsx` — remove `"use client"`, server fetch, add `generateMetadata`
@@ -141,6 +151,7 @@ API endpoints used:
 - `next.config.ts` — remove sitemap rewrite rule
 
 **Deleted files:**
+
 - `src/app/api/sitemap/route.ts`
 
 ---
