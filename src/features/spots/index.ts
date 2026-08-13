@@ -8,6 +8,9 @@ export { useDeleteSpot } from "./hooks/useDeleteSpot";
 export { useSpot } from "./hooks/useSpot";
 export { useSpots } from "./hooks/useSpots";
 export { useUpdateSpot } from "./hooks/useUpdateSpot";
+// Server Services
+export { getSpotsServer } from "./services/getSpots.server";
+export { getSpotServer } from "./services/getSpot.server";
 // Services
 export { createSpot } from "./services/createSpot";
 export { deleteSpot } from "./services/deleteSpot";
