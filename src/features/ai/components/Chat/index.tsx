@@ -58,7 +58,14 @@ export function Chat() {
   };
 
   return (
-    <VStack h={isConversationStarted ? "100%" : "100%"} w="100%" spacing={0} justify="space-between">
+    <VStack
+      h={isConversationStarted ? "100%" : "100%"}
+      w="100%"
+      spacing={0}
+      justify="space-between"
+      minHeight="580px"
+      pb={8}
+    >
       {/* Hero Section - always visible */}
       <VStack spacing={4} textAlign="center" py={4}>
         <Box w={16} h={16} borderRadius="full" bg={bgColor} display="flex" alignItems="center" justifyContent="center">
@@ -78,7 +85,7 @@ export function Chat() {
       <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
         {!isConversationStarted ? (
           /* Suggestions (before conversation) */
-          <Center h="100%" flexDirection="column">
+          <Center h="50%" flexDirection="column">
             <VStack spacing={3} align="stretch" w="100%" maxW="500px">
               {INITIAL_SUGGESTIONS.map((suggestion, idx) => (
                 <Button
