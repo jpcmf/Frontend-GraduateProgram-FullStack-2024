@@ -1,6 +1,6 @@
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
-import { Box, Button, Divider, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 
 import type { UserBasicsWithPagination } from "@/features/user";
 import { useColors } from "@/shared/hooks/useColors";
@@ -60,22 +60,8 @@ export function Skatistas({
 
   return (
     <Box width={"100%"}>
-      <SimpleGrid columns={{ sm: 3, md: 4, xl: 6 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
-        {users.data.map(user => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </SimpleGrid>
-
-      <Flex
-        bg={bgColor}
-        borderRadius={8}
-        p={["2", "4"]}
-        alignItems="center"
-        justifyContent="start"
-        flexDirection={["column", "row"]}
-        gap={2}
-      >
-        <Flex alignItems="center">
+      <Flex>
+        <Flex alignItems="center" mb={4}>
           <Text
             as="div"
             fontSize="sm"
@@ -99,10 +85,7 @@ export function Skatistas({
             )}
           </Text>
         </Flex>
-
-        <Divider borderColor="gray.700" orientation="vertical" height="8px" mx="1" />
-
-        <Flex alignItems="center" gap={2}>
+        <Flex alignItems="center" gap={2} mb={4} marginLeft={{ base: "auto", md: "auto" }}>
           <Text fontSize="sm">Itens por página:</Text>
           <Select
             size="xs"
@@ -117,10 +100,25 @@ export function Skatistas({
             <option value={50}>50</option>
           </Select>
         </Flex>
+      </Flex>
+      <SimpleGrid columns={{ base: 2, sm: 3, md: 4, xl: 6 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
+        {users.data.map(user => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </SimpleGrid>
 
-        {totalPages > 1 && (
+      {totalPages > 1 && (
+        <Flex
+          bg={bgColor}
+          borderRadius={8}
+          p={["2", "4"]}
+          alignItems="center"
+          justifyContent="center"
+          flexDirection={{ base: "column-reverse", md: "row" }}
+          gap={2}
+        >
           <>
-            <HStack spacing={2} marginLeft={[0, "auto"]} mt={[2, 0]}>
+            <HStack spacing={2}>
               <Button
                 size="xs"
                 onClick={handlePreviousPage}
@@ -163,8 +161,8 @@ export function Skatistas({
               </Button>
             </HStack>
           </>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Box>
   );
 }
