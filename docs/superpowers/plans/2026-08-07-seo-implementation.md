@@ -86,7 +86,7 @@ docs/superpowers/specs/2026-07-31-seo-design.md  # MODIFY — mark acceptance cr
 
 **Files:** none
 
-- [ ] **Step 1: Ensure `develop` is current and create a feature branch**
+- [x] **Step 1: Ensure `develop` is current and create a feature branch**
 
 ```bash
 git checkout develop
@@ -94,7 +94,7 @@ git pull
 git checkout -b feature/seo-ssr-metadata
 ```
 
-- [ ] **Step 2: Verify branch**
+- [x] **Step 2: Verify branch**
 
 Run: `git branch --show-current`
 Expected: `feature/seo-ssr-metadata`
@@ -109,7 +109,7 @@ Expected: `feature/seo-ssr-metadata`
 - Create: `src/features/spots/services/getSpot.server.ts`
 - Modify: `src/features/spots/index.ts`
 
-- [ ] **Step 1: Write `getSpots.server.ts`**
+- [x] **Step 1: Write `getSpots.server.ts`**
 
 ```ts
 import type { SpotsResponse } from "../types/spots";
@@ -132,7 +132,7 @@ export async function getSpotsServer(): Promise<SpotsResponse> {
 }
 ```
 
-- [ ] **Step 2: Write `getSpot.server.ts`**
+- [x] **Step 2: Write `getSpot.server.ts`**
 
 ```ts
 import type { SpotResponse } from "../types/spots";
@@ -155,7 +155,7 @@ export async function getSpotServer(id: string | number): Promise<SpotResponse> 
 }
 ```
 
-- [ ] **Step 3: Export both from the spots barrel**
+- [x] **Step 3: Export both from the spots barrel**
 
 Edit `src/features/spots/index.ts` — add after the existing `// Services` block:
 
@@ -165,12 +165,12 @@ export { getSpotsServer } from "./services/getSpots.server";
 export { getSpotServer } from "./services/getSpot.server";
 ```
 
-- [ ] **Step 4: Type-check**
+- [x] **Step 4: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS, no new errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/features/spots/services/getSpots.server.ts src/features/spots/services/getSpot.server.ts src/features/spots/index.ts
@@ -188,7 +188,7 @@ git commit -m "feat(seo): add server-safe spot services with revalidate caching"
 - Create: `src/features/skatistas/services/` (directory)
 - Modify: `src/features/user/index.ts`
 
-- [ ] **Step 1: Write `getUsers.server.ts`**
+- [x] **Step 1: Write `getUsers.server.ts`**
 
 Mirrors the `useUsers` hook (`getCustomUsersWithPagination` + `getUsersCount`), returning the identical `{ users, totalFetchedUsers }` shape.
 
@@ -223,7 +223,7 @@ export async function getUsersServer(
 }
 ```
 
-- [ ] **Step 2: Export from the user barrel**
+- [x] **Step 2: Export from the user barrel**
 
 Edit `src/features/user/index.ts` — add after the existing `// Services` block:
 
@@ -232,7 +232,7 @@ Edit `src/features/user/index.ts` — add after the existing `// Services` block
 export { getUsersServer } from "./services/getUsers.server";
 ```
 
-- [ ] **Step 3: Write `getSkatistas.server.ts` (re-export)**
+- [x] **Step 3: Write `getSkatistas.server.ts` (re-export)**
 
 ```ts
 import { getUsersServer } from "@/features/user";
@@ -240,12 +240,12 @@ import { getUsersServer } from "@/features/user";
 export const getSkatistasServer = getUsersServer;
 ```
 
-- [ ] **Step 4: Type-check**
+- [x] **Step 4: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS, no new errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/features/user/services/getUsers.server.ts src/features/user/index.ts src/features/skatistas/services/getSkatistas.server.ts
@@ -261,7 +261,7 @@ git commit -m "feat(seo): add server-safe users service and skatistas alias"
 - Create: `src/features/stories/services/getStories.server.ts`
 - Modify: `src/features/stories/index.ts`
 
-- [ ] **Step 1: Write `getStories.server.ts`**
+- [x] **Step 1: Write `getStories.server.ts`**
 
 Mirrors `getStories.ts` exactly (same populate, no 24h filter — matching current behavior).
 
@@ -288,7 +288,7 @@ export async function getStoriesServer(): Promise<StoriesResponse> {
 }
 ```
 
-- [ ] **Step 2: Export from the stories barrel**
+- [x] **Step 2: Export from the stories barrel**
 
 Edit `src/features/stories/index.ts` — add after the existing `// Services` block:
 
@@ -297,12 +297,12 @@ Edit `src/features/stories/index.ts` — add after the existing `// Services` bl
 export { getStoriesServer } from "./services/getStories.server";
 ```
 
-- [ ] **Step 3: Type-check**
+- [x] **Step 3: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS, no new errors.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/features/stories/services/getStories.server.ts src/features/stories/index.ts
@@ -319,7 +319,7 @@ git commit -m "feat(seo): add server-safe stories service"
 - Modify: `src/features/spots/components/SpotCard/index.tsx` (add `"use client"`)
 - Modify: `src/features/spots/index.ts` (export SpotsCreateButton)
 
-- [ ] **Step 1: Write `SpotsCreateButton.tsx`**
+- [x] **Step 1: Write `SpotsCreateButton.tsx`**
 
 Preserves the auth-gated "Criar Spot" button exactly as it appears on the current `/spots` page.
 
@@ -348,7 +348,7 @@ export function SpotsCreateButton() {
 }
 ```
 
-- [ ] **Step 2: Add `"use client"` to `SpotCard`**
+- [x] **Step 2: Add `"use client"` to `SpotCard`**
 
 At the very top of `src/features/spots/components/SpotCard/index.tsx`, above the imports, add:
 
@@ -358,7 +358,7 @@ At the very top of `src/features/spots/components/SpotCard/index.tsx`, above the
 
 Rationale: `SpotCard` calls `useColors()` (→ `useColorModeValue`), so it cannot be a Server Component once rendered from the server-rendered `/spots` page.
 
-- [ ] **Step 3: Export `SpotsCreateButton` from the spots barrel**
+- [x] **Step 3: Export `SpotsCreateButton` from the spots barrel**
 
 Edit `src/features/spots/index.ts` — add to the `// Components` block:
 
@@ -366,12 +366,12 @@ Edit `src/features/spots/index.ts` — add to the `// Components` block:
 export { SpotsCreateButton } from "./components/SpotsCreateButton";
 ```
 
-- [ ] **Step 4: Type-check**
+- [x] **Step 4: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS, no new errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/features/spots/components/SpotsCreateButton.tsx src/features/spots/components/SpotCard/index.tsx src/features/spots/index.ts
@@ -392,7 +392,7 @@ git commit -m "feat(seo): extract auth-gated SpotsCreateButton and mark SpotCard
 
 > Note: Task 6 changes `Home/index.tsx` props; do not edit its body here. This task only moves the component, adds `"use client"`, creates the barrel, and creates `SkatistaPagination`.
 
-- [ ] **Step 1: Create `components/Skatistas.tsx`**
+- [x] **Step 1: Create `components/Skatistas.tsx`**
 
 Copy the entire contents of `src/features/skatistas/index.tsx` verbatim into `src/features/skatistas/components/Skatistas.tsx`, then prepend `"use client";` as the first line.
 
@@ -407,13 +407,13 @@ import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
 Change nothing else in the component body.
 
-- [ ] **Step 2: Delete the old component file**
+- [x] **Step 2: Delete the old component file**
 
 ```bash
 rm src/features/skatistas/index.tsx
 ```
 
-- [ ] **Step 3: Create `SkatistaPagination.tsx`**
+- [x] **Step 3: Create `SkatistaPagination.tsx`**
 
 ```tsx
 "use client";
@@ -470,7 +470,7 @@ export function SkatistaPagination({ initialUsers, initialTotalUsers, initialPag
 
 Rationale: during SSR, `useUsers` returns `data: undefined` (React Query does not fetch on the server), so `users` falls back to `initialUsers` — putting skatista names in the HTML. After hydration, the hook re-fetches and replaces the data, and pagination works as before.
 
-- [ ] **Step 4: Create the new barrel `index.ts`**
+- [x] **Step 4: Create the new barrel `index.ts`**
 
 ```ts
 // Components
@@ -481,7 +481,7 @@ export { SkatistasHome } from "./Home";
 export { getSkatistasServer } from "./services/getSkatistas.server";
 ```
 
-- [ ] **Step 5: Fix the circular import in `Home/index.tsx`**
+- [x] **Step 5: Fix the circular import in `Home/index.tsx`**
 
 Edit `src/features/skatistas/Home/index.tsx`:
 
@@ -494,12 +494,12 @@ import { Skatistas } from "../components/Skatistas";
 
 Do not touch anything else in this file here (props change comes in Task 6).
 
-- [ ] **Step 6: Type-check**
+- [x] **Step 6: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS, no new errors. (The `SkatistasHome`/`Skatistas` prop mismatch is expected to still compile — it receives props from `Skatistas` unchanged.)
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/features/skatistas/
@@ -515,7 +515,7 @@ git commit -m "refactor(seo): split skatistas feature into barrel and client com
 - Modify: `src/features/stories/components/Home/index.tsx`
 - Modify: `src/features/skatistas/Home/index.tsx`
 
-- [ ] **Step 1: Rewrite `StoriesHome`**
+- [x] **Step 1: Rewrite `StoriesHome`**
 
 Replace the entire contents of `src/features/stories/components/Home/index.tsx` with:
 
@@ -585,7 +585,7 @@ export function StoriesHome({ initialStories }: StoriesHomeProps) {
 
 Rationale: during SSR `data` is undefined, so `initialStories` (server-fetched) renders into the HTML. On the client the hook re-fetches and `data` replaces it. The `isLoading`/`isError` branches only show when there is no initial data (i.e., when rendered on a client-only route).
 
-- [ ] **Step 2: Rewrite `SkatistasHome`**
+- [x] **Step 2: Rewrite `SkatistasHome`**
 
 Replace the entire contents of `src/features/skatistas/Home/index.tsx` with:
 
@@ -647,12 +647,12 @@ export function SkatistasHome({ initialUsers, initialTotalUsers }: SkatistasHome
 }
 ```
 
-- [ ] **Step 3: Type-check**
+- [x] **Step 3: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS. If `Skatistas` props warn about `users` type, the fallback `users` variable is already narrowed to `UserBasicsWithPagination` by the `!users` guard.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/features/stories/components/Home/index.tsx src/features/skatistas/Home/index.tsx
@@ -667,7 +667,7 @@ git commit -m "feat(seo): home components accept server-fetched data as props"
 
 - Modify: `src/app/(public)/spots/page.tsx`
 
-- [ ] **Step 1: Replace the page**
+- [x] **Step 1: Replace the page**
 
 Replace the entire contents of `src/app/(public)/spots/page.tsx` with:
 
@@ -731,12 +731,12 @@ Notes:
 - Loading/error spinners are gone (server does the loading; an error bubbles to `src/app/error.tsx`).
 - `SpotsCreateButton` preserves the auth-gated button; `SpotCard` is a client component receiving serializable props.
 
-- [ ] **Step 2: Type-check**
+- [x] **Step 2: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add "src/app/(public)/spots/page.tsx"
@@ -751,7 +751,7 @@ git commit -m "feat(seo): convert /spots to server component with metadata"
 
 - Modify: `src/app/(public)/spots/[id]/page.tsx`
 
-- [ ] **Step 1: Replace the page**
+- [x] **Step 1: Replace the page**
 
 Replace the entire contents of `src/app/(public)/spots/[id]/page.tsx` with:
 
@@ -818,12 +818,12 @@ Notes:
 - Missing/invalid spots return HTTP 404 via `notFound()` (good for SEO).
 - `generateMetadata` fetches the spot independently; the shared `revalidate: 60` Data Cache dedupes the two fetches within 60s.
 
-- [ ] **Step 2: Type-check**
+- [x] **Step 2: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add "src/app/(public)/spots/[id]/page.tsx"
@@ -838,7 +838,7 @@ git commit -m "feat(seo): convert /spots/[id] to server component with generateM
 
 - Modify: `src/app/(public)/skatistas/page.tsx`
 
-- [ ] **Step 1: Replace the page**
+- [x] **Step 1: Replace the page**
 
 Replace the entire contents of `src/app/(public)/skatistas/page.tsx` with:
 
@@ -877,12 +877,12 @@ export default async function SkatistasPage() {
 }
 ```
 
-- [ ] **Step 2: Type-check**
+- [x] **Step 2: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add "src/app/(public)/skatistas/page.tsx"
@@ -897,7 +897,7 @@ git commit -m "feat(seo): convert /skatistas to server component with metadata"
 
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Replace the page**
+- [x] **Step 1: Replace the page**
 
 Replace the entire contents of `src/app/page.tsx` with:
 
@@ -939,12 +939,12 @@ export default async function HomePage() {
 }
 ```
 
-- [ ] **Step 2: Type-check**
+- [x] **Step 2: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/app/page.tsx
@@ -959,7 +959,7 @@ git commit -m "feat(seo): convert home page to server component with metadata"
 
 - Modify: `src/app/layout.tsx`
 
-- [ ] **Step 1: Update metadata and html lang**
+- [x] **Step 1: Update metadata and html lang**
 
 Edit `src/app/layout.tsx`:
 
@@ -984,12 +984,12 @@ to:
 
 Do NOT remove `export const dynamic = "force-dynamic";` (see Decisions).
 
-- [ ] **Step 2: Type-check**
+- [x] **Step 2: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/app/layout.tsx
@@ -1007,7 +1007,7 @@ git commit -m "feat(seo): set pt-BR lang and Portuguese description in root layo
 - Modify: `next.config.ts` (remove rewrite)
 - Delete: `src/app/api/sitemap/route.ts` (and empty folder)
 
-- [ ] **Step 1: Write `src/app/sitemap.ts`**
+- [x] **Step 1: Write `src/app/sitemap.ts`**
 
 ```ts
 import type { MetadataRoute } from "next";
@@ -1035,7 +1035,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 }
 ```
 
-- [ ] **Step 2: Write `src/app/robots.ts`**
+- [x] **Step 2: Write `src/app/robots.ts`**
 
 ```ts
 import type { MetadataRoute } from "next";
@@ -1054,7 +1054,7 @@ export default function robots(): MetadataRoute.Robots {
 }
 ```
 
-- [ ] **Step 3: Remove the `/sitemap.xml` rewrite from `next.config.ts`**
+- [x] **Step 3: Remove the `/sitemap.xml` rewrite from `next.config.ts`**
 
 Edit `next.config.ts` — remove the `rewrites` block so it looks like:
 
@@ -1075,19 +1075,19 @@ const nextConfig: NextConfig = {
 
 Keep `withSentryConfig(nextConfig, ...)` unchanged.
 
-- [ ] **Step 4: Delete the old sitemap API route**
+- [x] **Step 4: Delete the old sitemap API route**
 
 ```bash
 rm src/app/api/sitemap/route.ts
 rmdir src/app/api/sitemap
 ```
 
-- [ ] **Step 5: Type-check**
+- [x] **Step 5: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS.
 
-- [ ] **Step 6: Verify in dev**
+- [x] **Step 6: Verify in dev**
 
 Start the dev server and curl the new routes:
 
@@ -1104,7 +1104,7 @@ curl -s http://localhost:3000/robots.txt
 
 Expected: `/sitemap.xml` returns a URLset with the three static routes plus `/spots/{id}` entries; `/robots.txt` returns the disallow rules and sitemap URL. (May require Strapi to be running locally for the spot entries.)
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/app/sitemap.ts src/app/robots.ts next.config.ts
@@ -1125,7 +1125,7 @@ git commit -m "feat(seo): add dynamic sitemap and robots.txt, remove legacy site
 
 > Why: after Tasks 7-8 converted the public pages to server components, `useSpots` (only used by `/spots`), `useSpot` (only used by `/spots/[id]`), and `getSpots.ts` (only used by `useSpots`) have zero consumers. **Keep** `getSpotById.ts` — the protected edit page still imports it directly. No hooks are _modified_; the two hooks and one service are _removed_ as dead code.
 
-- [ ] **Step 1: Delete the dead files**
+- [x] **Step 1: Delete the dead files**
 
 ```bash
 rm src/features/spots/hooks/useSpots.ts
@@ -1133,7 +1133,7 @@ rm src/features/spots/hooks/useSpot.ts
 rm src/features/spots/services/getSpots.ts
 ```
 
-- [ ] **Step 2: Update `src/features/spots/index.ts`**
+- [x] **Step 2: Update `src/features/spots/index.ts`**
 
 Remove these lines (present in the current barrel):
 
@@ -1145,7 +1145,7 @@ export { useSpot } from "./hooks/useSpot";
 
 Do **not** remove `getSpotById` export — the protected edit page depends on it.
 
-- [ ] **Step 3: Verify no dangling imports**
+- [x] **Step 3: Verify no dangling imports**
 
 ```bash
 rg -n "useSpots|useSpot|services/getSpots" src/ || echo "no references"
@@ -1153,12 +1153,12 @@ rg -n "useSpots|useSpot|services/getSpots" src/ || echo "no references"
 
 Expected: no output (no references remain anywhere).
 
-- [ ] **Step 4: Type-check**
+- [x] **Step 4: Type-check**
 
 Run: `pnpm exec tsc --noEmit`
 Expected: PASS, no new errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A src/features/spots
@@ -1175,7 +1175,7 @@ git commit -m "refactor(seo): remove dead hooks and client service after SSR con
 - Modify: `CHANGELOG.md`
 - Modify: `docs/superpowers/specs/2026-07-31-seo-design.md`
 
-- [ ] **Step 1: Update README Features section**
+- [x] **Step 1: Update README Features section**
 
 Add a bullet under the appropriate category in `README.md` (read it first to find the right section):
 
@@ -1183,7 +1183,7 @@ Add a bullet under the appropriate category in `README.md` (read it first to fin
 - SEO: public pages are server-rendered with per-page titles, descriptions, and Open Graph tags for better search visibility
 ```
 
-- [ ] **Step 2: Update CHANGELOG**
+- [x] **Step 2: Update CHANGELOG**
 
 Prepend a new entry at the top of the `## [Unreleased]` section in `CHANGELOG.md`:
 
@@ -1193,11 +1193,11 @@ Prepend a new entry at the top of the `## [Unreleased]` section in `CHANGELOG.md
 
 Replace `<number>` with the actual PR number when the PR is opened.
 
-- [ ] **Step 3: Mark spec acceptance criteria**
+- [x] **Step 3: Mark spec acceptance criteria**
 
 In `docs/superpowers/specs/2026-07-31-seo-design.md`, check every acceptance criterion that is now satisfied. All eight items are covered by this implementation (verify `lang="pt-BR"`, og tags, hook immutability, auth-gated button, and pagination before checking).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add README.md CHANGELOG.md docs/superpowers/specs/2026-07-31-seo-design.md
@@ -1210,7 +1210,7 @@ git commit -m "docs(seo): update README, changelog, and mark spec acceptance cri
 
 **Files:** none
 
-- [ ] **Step 1: Lint + import sort**
+- [x] **Step 1: Lint + import sort**
 
 ```bash
 pnpm lint
@@ -1219,7 +1219,7 @@ pnpm run format:imports
 
 Expected: no errors. (`format:imports` fixes import ordering; lint-staged runs on commit too.)
 
-- [ ] **Step 2: Production build**
+- [x] **Step 2: Production build**
 
 ```bash
 pnpm build
@@ -1232,7 +1232,7 @@ Expected: build succeeds. The four public pages are marked `ƒ` (Dynamic, server
 > 1. The home page's server graph pulls the `user` barrel (via `getSkatistasServer`) and the `stories` barrel, which re-export client components that lack a `"use client"` boundary. Next/Turbopack then evaluates their client-only module-scope code (React Query hooks, `react-insta-stories` `createContext`) in the server bundle and the build fails. Fixed by adding `"use client"` to the genuinely client components: `src/features/lists/components/ListItemForm`, `ListForm`, `CreateListModal`, `src/features/user/components/Profile`, `src/features/stories/components/Modal`.
 > 2. `src/app/sitemap.ts` is a metadata route cached/prerendered at build time; the root layout's `force-dynamic` does not propagate to it, so `pnpm build` fetched Strapi and failed. Added `export const dynamic = "force-dynamic"` to `sitemap.ts` (consistent with the "keep force-dynamic to avoid build-time Strapi dependency" decision).
 
-- [ ] **Step 3: Manual curl checks (dev server)**
+- [x] **Step 3: Manual curl checks (dev server)**
 
 With Strapi running locally and `pnpm dev` up:
 
@@ -1246,7 +1246,7 @@ curl -s http://localhost:3000/ | grep -o 'lang="pt-BR"'
 
 Expected: `/spots` title is `Spots — SkateHub`; `/skatistas` body contains user links; sitemap has entries; robots.txt shows the rules; home html lang is `pt-BR`.
 
-- [ ] **Step 4: Verify remaining hooks were not modified**
+- [x] **Step 4: Verify remaining hooks were not modified**
 
 ```bash
 git diff develop --stat -- src/features/spots/hooks src/features/user/hooks src/features/stories/hooks
@@ -1254,7 +1254,7 @@ git diff develop --stat -- src/features/spots/hooks src/features/user/hooks src/
 
 Expected: only deletions of `useSpots.ts` and `useSpot.ts` (from Task 13). No other hook files changed. React Query hooks that remain are untouched.
 
-- [ ] **Step 5: Open PR**
+- [x] **Step 5: Open PR**
 
 ```bash
 git status
