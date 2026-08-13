@@ -2,10 +2,10 @@
 
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 
-import type { StoriesResponse } from "../../types/stories";
 import { StoriesSwiper } from "@/shared/ui/StoriesSwiper";
 
 import { useStories } from "../../hooks/useStories";
+import type { StoriesResponse } from "../../types/stories";
 
 interface StoriesHomeProps {
   initialStories?: StoriesResponse;

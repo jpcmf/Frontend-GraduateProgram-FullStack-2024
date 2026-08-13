@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Box, Grid, Text } from "@chakra-ui/react";
 
-import { getSpotsServer, SpotsCreateButton, SpotCard } from "@/features/spots";
+import { getSpotsServer, SpotCard, SpotsCreateButton } from "@/features/spots";
 import { TitleSection } from "@/shared/ui/TitleSection";
 
 export const metadata: Metadata = {

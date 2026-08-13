@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 
 import { Box } from "@chakra-ui/react";
 
-import { SkatistasHome } from "@/features/skatistas";
+import { getSkatistasServer, SkatistasHome } from "@/features/skatistas";
 import { getStoriesServer, StoriesHome } from "@/features/stories";
-import { getSkatistasServer } from "@/features/skatistas";
 
 export const metadata: Metadata = {
   title: "SkateHub",
@@ -24,10 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [stories, skatistas] = await Promise.all([
-    getStoriesServer(),
-    getSkatistasServer(1, 10)
-  ]);
+  const [stories, skatistas] = await Promise.all([getStoriesServer(), getSkatistasServer(1, 10)]);
 
   return (
     <Box>

@@ -13,11 +13,7 @@ interface SkatistaPaginationProps {
   initialPageSize?: number;
 }
 
-export function SkatistaPagination({
-  initialUsers,
-  initialTotalUsers,
-  initialPageSize = 50
-}: SkatistaPaginationProps) {
+export function SkatistaPagination({ initialUsers, initialTotalUsers, initialPageSize = 50 }: SkatistaPaginationProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialPageSize);
 
