@@ -18,6 +18,7 @@ export function useColors() {
     chatIAAnswerBg: useColorModeValue("blackAlpha.100", "gray.700"),
     chatIATextUser: useColorModeValue("gray.900", "whiteAlpha.900"),
     chatIATextAnswer: useColorModeValue("gray.900", "whiteAlpha.900"),
-    chatIASuggestionBg: useColorModeValue("blackAlpha.100", "gray.800")
+    chatIASuggestionBg: useColorModeValue("blackAlpha.100", "gray.800"),
+    userCollectionCardItemBg: useColorModeValue("blackAlpha.100", "whiteAlpha.50")
   };
 }
