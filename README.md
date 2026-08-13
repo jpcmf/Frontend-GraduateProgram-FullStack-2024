@@ -101,7 +101,8 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Dark and light mode
 - Responsive layout (mobile + desktop)
 - Custom 404 page
-- Sitemap API route
+- SEO: public pages are server-rendered with per-page titles, descriptions, and Open Graph tags for better search visibility
+- Dynamic sitemap and robots.txt
 - Vertical Slice Architecture (VSA) for organized, scalable feature structure
 
 ---

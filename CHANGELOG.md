@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- 2026-08-07 - SEO: server-side rendering + metadata for all public pages, dynamic sitemap, robots.txt [#PR](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/<number>) _(v2.2.0)_
+
 ## [2.1.0] - 2026-07-15
 
 - 2026-07-15 - Move lists routes from `/dashboard/lists` to `/lists`, add `/lists/new` page, remove legacy modal [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)
