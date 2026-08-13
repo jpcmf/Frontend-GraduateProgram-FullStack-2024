@@ -1,29 +1,22 @@
+"use client";
+
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 
+import type { StoriesResponse } from "../../types/stories";
 import { StoriesSwiper } from "@/shared/ui/StoriesSwiper";
 
 import { useStories } from "../../hooks/useStories";
 
-export function StoriesHome() {
+interface StoriesHomeProps {
+  initialStories?: StoriesResponse;
+}
+
+export function StoriesHome({ initialStories }: StoriesHomeProps) {
   const { data, isLoading, isError } = useStories();
 
-  if (isLoading) {
-    return (
-      <Flex justify="center" align="center" minH="139px">
-        <Spinner size="lg" color="green.400" />
-      </Flex>
-    );
-  }
+  const storiesResponse = data ?? initialStories;
 
-  if (isError) {
-    return (
-      <Flex justify="center" align="center" minH="139px">
-        <Text color="red.500">Erro ao carregar stories.</Text>
-      </Flex>
-    );
-  }
-
-  const stories = (data?.data ?? [])
+  const stories = (storiesResponse?.data ?? [])
     .filter(
       (
         story
@@ -43,6 +36,20 @@ export function StoriesHome() {
     }));
 
   if (stories.length === 0) {
+    if (isLoading && !initialStories) {
+      return (
+        <Flex justify="center" align="center" minH="139px">
+          <Spinner size="lg" color="green.400" />
+        </Flex>
+      );
+    }
+    if (isError && !initialStories) {
+      return (
+        <Flex justify="center" align="center" minH="139px">
+          <Text color="red.500">Erro ao carregar stories.</Text>
+        </Flex>
+      );
+    }
     return (
       <Flex justify="center" align="center" minH="139px">
         <Text color="gray.500">Nenhum story nas últimas 24 horas.</Text>
