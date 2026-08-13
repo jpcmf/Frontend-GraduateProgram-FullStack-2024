@@ -37,7 +37,7 @@ export function UserCard({ user }: { user: UserBasics }) {
       <VStack spacing={4}>
         <Link href={`/user/${user.id}`} prefetch={true}>
           <ChakraAvatar
-            size="xl"
+            size={["lg", "lg", "xl"]}
             name={user?.name}
             src={user?.avatar ? user.avatar?.formats?.thumbnail?.url : undefined}
             border="2px solid transparent"
@@ -47,7 +47,7 @@ export function UserCard({ user }: { user: UserBasics }) {
         </Link>
         <VStack spacing={1}>
           <Link href={`/user/${user.id}`} prefetch={true}>
-            <Text fontSize="xl" color={nameTextColor}>
+            <Text fontSize={{ base: "lg", md: "xl" }} color={nameTextColor}>
               {user.name}
             </Text>
           </Link>
@@ -58,7 +58,7 @@ export function UserCard({ user }: { user: UserBasics }) {
           </Box>
         </VStack>
 
-        <HStack spacing={1} color={textColor}>
+        <HStack spacing={1} color={textColor} display={["none", "flex"]}>
           <Icon as={TbMapPinHeart} size={16} color={iconColor} />
           <Text fontSize="sm" color="gray.500">
             {user?.address?.city ? user.address.city : "Unknown"}
@@ -71,7 +71,7 @@ export function UserCard({ user }: { user: UserBasics }) {
           </Text> */}
         </HStack>
 
-        <HStack spacing={4} h="5">
+        <HStack spacing={4} h="5" display={["none", "flex"]}>
           <VStack spacing={1} cursor="pointer" onClick={() => openInstagram(user.instagram_url)}>
             {user.instagram_url && (
               <Icon
