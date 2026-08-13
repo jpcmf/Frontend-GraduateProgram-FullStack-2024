@@ -85,7 +85,7 @@ export function Chat() {
       <Box flex={1} w="100%" overflowY="auto" borderRadius="md" mb={4} maxW="800px" mx="auto">
         {!isConversationStarted ? (
           /* Suggestions (before conversation) */
-          <Center h="50%" flexDirection="column">
+          <Center h={{ base: "100%", md: "50%" }} flexDirection="column">
             <VStack spacing={3} align="stretch" w="100%" maxW="500px">
               {INITIAL_SUGGESTIONS.map((suggestion, idx) => (
                 <Button
