@@ -1,3 +1,5 @@
+"use client";
+
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
 import { Box, Button, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
@@ -107,18 +109,61 @@ export function Skatistas({
         ))}
       </SimpleGrid>
 
-      {totalPages > 1 && (
-        <Flex
-          bg={bgColor}
-          borderRadius={8}
-          p={["2", "4"]}
-          alignItems="center"
-          justifyContent="center"
-          flexDirection={{ base: "column-reverse", md: "row" }}
-          gap={2}
-        >
+      <Flex
+        bg={bgColor}
+        borderRadius={8}
+        p={["2", "4"]}
+        alignItems="center"
+        justifyContent="center"
+        flexDirection={{ base: "column-reverse", md: "row" }}
+        gap={2}
+      >
+        {/* <Flex alignItems="center">
+          <Text
+            as="div"
+            fontSize="sm"
+            fontWeight="normal"
+            display={"flex"}
+            alignItems="center"
+            justifyContent={"center"}
+          >
+            {isLoading ? (
+              <Flex alignItems="center">
+                <Spinner size="xs" mr={2} />
+                Carregando...
+              </Flex>
+            ) : (
+              <>
+                Skatistas encontrados:{" "}
+                <Text as="span" ml={1} fontWeight="bold">
+                  {totalUsers}
+                </Text>
+              </>
+            )}
+          </Text>
+        </Flex>
+
+        <Divider borderColor="gray.700" orientation="vertical" height="8px" mx="1" />
+
+        <Flex alignItems="center" gap={2}>
+          <Text fontSize="sm">Itens por página:</Text>
+          <Select
+            size="xs"
+            width="auto"
+            value={pageSize}
+            onChange={e => onPageSizeChange(Number(e.target.value))}
+            variant="flushed"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </Select>
+        </Flex> */}
+
+        {totalPages > 1 && (
           <>
-            <HStack spacing={2}>
+            <HStack spacing={2} marginLeft={{ base: 0, md: "auto" }} mt={[0, 0]}>
               <Button
                 size="xs"
                 onClick={handlePreviousPage}
@@ -161,8 +206,8 @@ export function Skatistas({
               </Button>
             </HStack>
           </>
-        </Flex>
-      )}
+        )}
+      </Flex>
     </Box>
   );
 }
