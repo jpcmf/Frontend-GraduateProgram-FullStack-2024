@@ -1227,6 +1227,10 @@ pnpm build
 
 Expected: build succeeds. The four public pages are marked `ƒ` (Dynamic, server-rendered on demand) because of the root `force-dynamic`.
 
+> **Build-fix deviations (discovered during Task 15):**
+> 1. The home page's server graph pulls the `user` barrel (via `getSkatistasServer`) and the `stories` barrel, which re-export client components that lack a `"use client"` boundary. Next/Turbopack then evaluates their client-only module-scope code (React Query hooks, `react-insta-stories` `createContext`) in the server bundle and the build fails. Fixed by adding `"use client"` to the genuinely client components: `src/features/lists/components/ListItemForm`, `ListForm`, `CreateListModal`, `src/features/user/components/Profile`, `src/features/stories/components/Modal`.
+> 2. `src/app/sitemap.ts` is a metadata route cached/prerendered at build time; the root layout's `force-dynamic` does not propagate to it, so `pnpm build` fetched Strapi and failed. Added `export const dynamic = "force-dynamic"` to `sitemap.ts` (consistent with the "keep force-dynamic to avoid build-time Strapi dependency" decision).
+
 - [ ] **Step 3: Manual curl checks (dev server)**
 
 With Strapi running locally and `pnpm dev` up:
