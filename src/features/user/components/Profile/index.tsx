@@ -30,7 +30,7 @@ export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
   const { data: listsResponse } = useListsByUser(userId);
   const userLists = listsResponse?.data || [];
-  const { cardBg, textMuted, borderColor } = useColors();
+  const { cardBg, textMuted, borderColor, userCollectionCardItemBg } = useColors();
   const isOwnProfile = String(currentUser?.id) === String(userId);
 
   const tricks = [
@@ -113,7 +113,7 @@ export function UserProfile({ userId }: { userId: string }) {
                           as={NextLink}
                           href={`/lists/${listItem.id}`}
                           key={listItem.id}
-                          bg={cardBg}
+                          bg={userCollectionCardItemBg}
                           borderRadius="lg"
                           border="1px solid"
                           borderColor={borderColor}
