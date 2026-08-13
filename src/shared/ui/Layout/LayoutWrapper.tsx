@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { Flex, useColorMode } from "@chakra-ui/react";
 
 import { Footer } from "@/shared/ui/Layout/Footer";
@@ -12,6 +14,8 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   const { colorMode } = useColorMode();
+  const pathname = usePathname();
+  const isAIRoute = pathname === "/ai";
   return (
     <>
       <svg
@@ -42,7 +46,7 @@ export function Layout({ children }: LayoutProps) {
             <Flex flex={1} direction="column" mt={8} mx={{ base: 0, lg: 8 }}>
               {children}
             </Flex>
-            <Footer />
+            {!isAIRoute && <Footer />}
           </Flex>
         </Flex>
       </Flex>
