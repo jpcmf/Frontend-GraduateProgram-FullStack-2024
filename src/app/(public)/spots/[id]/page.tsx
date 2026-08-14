@@ -1,37 +1,54 @@
-"use client";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { use } from "react";
-
-import { Flex, Spinner, Text } from "@chakra-ui/react";
-
-import { SpotDetail, useSpot } from "@/features/spots";
+import { getSpotServer, SpotDetail } from "@/features/spots";
 
 type SpotDetailPageProps = {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 };
 
-export default function SpotDetailPage(props: SpotDetailPageProps) {
-  const params = use(props.params);
-  const { id } = params;
-  const { data, isLoading, isError } = useSpot(id);
+export async function generateMetadata({ params }: SpotDetailPageProps): Promise<Metadata> {
+  const { id } = await params;
 
-  if (isLoading || !id) {
-    return (
-      <Flex justify="center" align="center" minH="400px">
-        <Spinner size="lg" color="green.400" />
-      </Flex>
-    );
+  try {
+    const response = await getSpotServer(id);
+    const spot = response.data;
+    const description = (spot.attributes.description ?? "").slice(0, 160);
+
+    return {
+      title: `${spot.attributes.name} — SkateHub`,
+      description,
+      alternates: { canonical: `https://skatehub.vercel.app/spots/${id}` },
+      openGraph: {
+        title: `${spot.attributes.name} — SkateHub`,
+        description,
+        url: `https://skatehub.vercel.app/spots/${id}`,
+        type: "website"
+      },
+      twitter: {
+        card: "summary",
+        title: `${spot.attributes.name} — SkateHub`,
+        description
+      }
+    };
+  } catch {
+    return {
+      title: "Spot — SkateHub",
+      description: "Spot de skate compartilhado pela comunidade SkateHub"
+    };
+  }
+}
+
+export default async function SpotDetailPage({ params }: SpotDetailPageProps) {
+  const { id } = await params;
+
+  let spot;
+  try {
+    const response = await getSpotServer(id);
+    spot = response.data;
+  } catch {
+    notFound();
   }
 
-  if (isError || !data?.data) {
-    return (
-      <Flex justify="center" align="center" minH="400px">
-        <Text color="red.400">Spot não encontrado.</Text>
-      </Flex>
-    );
-  }
-
-  return <SpotDetail spot={data.data} />;
+  return <SpotDetail spot={spot} />;
 }

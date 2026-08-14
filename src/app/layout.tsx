@@ -9,14 +9,14 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "SkateHub",
-  description: "Social platform for the skateboarding community"
+  description: "Plataforma social para a comunidade do skate"
 };
 
 export const dynamic = "force-dynamic";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <meta name="google-site-verification" content="N5AS_Y5dpIzozQKynw_S6M24hl_0hqHhpsA-SrQuZ-g" />
         <style

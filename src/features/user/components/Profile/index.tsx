@@ -1,3 +1,5 @@
+"use client";
+
 import { RiEditLine } from "react-icons/ri";
 import NextLink from "next/link";
 

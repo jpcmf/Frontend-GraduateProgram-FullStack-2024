@@ -2,26 +2,25 @@
 
 import { useState } from "react";
 
-import { Flex, Spinner } from "@chakra-ui/react";
-
 import type { UserBasicsWithPagination } from "@/features/user";
 import { useUsers } from "@/features/user";
 
-import { Skatistas } from "../components/Skatistas";
+import { Skatistas } from "./Skatistas";
 
-interface SkatistasHomeProps {
-  initialUsers?: UserBasicsWithPagination;
-  initialTotalUsers?: number;
+interface SkatistaPaginationProps {
+  initialUsers: UserBasicsWithPagination;
+  initialTotalUsers: number;
+  initialPageSize?: number;
 }
 
-export function SkatistasHome({ initialUsers, initialTotalUsers }: SkatistasHomeProps) {
+export function SkatistaPagination({ initialUsers, initialTotalUsers, initialPageSize = 50 }: SkatistaPaginationProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(initialPageSize);
 
   const { data: paginatedUsers, isPending, isFetching, isError } = useUsers(currentPage, pageSize);
 
   const users = paginatedUsers?.users ?? initialUsers;
-  const totalUsers = paginatedUsers?.totalFetchedUsers ?? initialTotalUsers ?? 0;
+  const totalUsers = paginatedUsers?.totalFetchedUsers ?? initialTotalUsers;
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -34,11 +33,7 @@ export function SkatistasHome({ initialUsers, initialTotalUsers }: SkatistasHome
 
   if (!users) {
     if (isError) return <div>Error loading users</div>;
-    return (
-      <Flex justify="center" align="center" minH="300px">
-        <Spinner size="lg" color="green.400" />
-      </Flex>
-    );
+    return null;
   }
 
   return (
