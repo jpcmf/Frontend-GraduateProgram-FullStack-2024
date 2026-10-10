@@ -118,7 +118,7 @@
 - [ ] Step 1: Migrate `getUsers.ts` and `getUsersCount.ts` to `apiClient`
   - Replace `import axios` with `import { apiClient }`
   - Verify base URL is the same (both use `process.env.NEXT_PUBLIC_STRAPI_URL`)
-  - Convert `axios.get(\`${API}/...\`)` to `apiClient.get("/api/...")`
+  - Convert `axios.get(\`${API}/...\`)`to`apiClient.get("/api/...")`
   - Note: Leave `getUsers2` unchanged (legacy, out of scope)
 - [ ] Step 2: Rewrite `useUsers.ts`
   - Drop parallel `getUsersCount` call

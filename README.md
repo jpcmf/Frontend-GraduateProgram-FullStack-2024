@@ -79,6 +79,8 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Google Maps embed with address lookup
 - Owner-only edit and delete controls
 - Public spot detail pages
+- Comment on spots with up to 5 images, plus community reactions (hearts)
+- Recent comments activity feed on the home page with category badges and spot quick-links
 
 ### AI Assistant
 

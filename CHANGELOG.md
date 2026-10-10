@@ -5,6 +5,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- 2026-09-22 - Redesign home "Atividades recentes" feed to card-based layout with author category badges and linked spot pills _(v2.1.0)_
+- 2026-09-22 - Add spot comments: create/edit/delete with image upload, optimistic heart reactions, and a recent comments activity feed on the home page _(v2.1.0)_
+
 ## [2.1.0] - 2026-07-15
 
 - 2026-07-15 - Move lists routes from `/dashboard/lists` to `/lists`, add `/lists/new` page, remove legacy modal [#188](https://github.com/jpcmf/Frontend-GraduateProgram-FullStack-2024/pull/188)

@@ -24,7 +24,8 @@ Plan specified `src/__tests__/shared/ui/New/Pagination/getPageNumbers.test.ts`, 
 **Fix Applied:**  
 Changed to co-located test path: `src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts`
 
-**Why:**  
+**Why:**
+
 - Matches modern Vitest conventions (tests co-located with code).
 - Lighter than creating a parallel `src/__tests__/` structure.
 - All references in Task 3 updated (Step 1 header, Step 2 path, Step 3 run command).
@@ -41,7 +42,8 @@ Step 1 said "Fix the `getUsers2` offset bug" but `getUsers2` is legacy and out o
 **Fix Applied:**  
 Added explicit note: "Note: The legacy `getUsers2` function is not wired to any active feature; leave it unchanged (out of scope per the spec)."
 
-**Why:**  
+**Why:**
+
 - Clarifies that `getUsers2` should NOT be touched in this task.
 - Prevents accidental scope creep.
 - Aligns with the spec's "Out of Scope" section.
@@ -56,10 +58,12 @@ Added explicit note: "Note: The legacy `getUsers2` function is not wired to any 
 Plan assumes `apiClient.baseURL` and the `API` constant both equal `process.env.NEXT_PUBLIC_STRAPI_URL`, making relative paths safe. This assumption wasn't verified in the plan itself.
 
 **Fix Applied:**  
-Added a **Verification** subsection to Step 1:  
+Added a **Verification** subsection to Step 1:
+
 > "Verification: Both `apiClient.baseURL` (from `src/shared/api/apiClient.ts` line 7) and the `API` constant (from `src/shared/config/constants.ts` line 7) equal `process.env.NEXT_PUBLIC_STRAPI_URL`, so relative paths are safe."
 
-**Why:**  
+**Why:**
+
 - Provides explicit verification before migration.
 - Reduces risk of breaking the API client during refactoring.
 - Gives the implementer confidence.
@@ -75,13 +79,15 @@ The plan's new `useUsers` code didn't set defaults for optional `currentPage` an
 
 **Fix Applied:**  
 Added two lines to the `fetchUsers` function:
+
 ```typescript
 const page = currentPage ?? 1;
 const size = pageSize ?? 10;
 const users = await getCustomUsersWithPagination(page, size);
 ```
 
-**Why:**  
+**Why:**
+
 - Prevents invalid API calls.
 - Ensures the service always receives valid params.
 - Matches the hook's optional signature (`currentPage?: number`, `pageSize?: number`).
@@ -115,7 +121,8 @@ export function openWebsite(url: string) {
 
 Then updated all subsequent steps (Grid, Card, Type-check/lint, Commit).
 
-**Why:**  
+**Why:**
+
 - Creates the missing helper that Task 5 depends on.
 - Provides reusable social link logic (no hardcoded calls in Card).
 - Follows security best practices (`noopener,noreferrer`).
@@ -144,6 +151,7 @@ Then updated all subsequent steps (Grid, Card, Type-check/lint, Commit).
 **Next steps for implementer:**
 
 1. Create a new feature branch:
+
    ```bash
    git checkout develop && git pull
    git checkout -b feature/new-ui-layout
