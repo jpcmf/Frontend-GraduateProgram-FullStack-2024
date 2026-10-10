@@ -26,6 +26,7 @@ import {
   VStack
 } from "@chakra-ui/react";
 
+import { CommentList } from "@/features/comments";
 import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
 import { fetchCoordinates } from "@/shared/lib/mapbox";
@@ -228,19 +229,10 @@ export function SpotDetail({ spot }: SpotDetailProps) {
             )}
           </Box>
 
-          {/* Comentários — placeholder until backend is implemented */}
+          {/* Comentários */}
           <Box>
             <TitleSection title="Comentários" size="md" />
-            <Flex align="center" justify="center" bg={cardBg} borderRadius="lg" h="180px" mb={4}>
-              <Text color="gray.500" fontSize="sm">
-                Nenhum comentário disponível
-              </Text>
-            </Flex>
-            <Flex justify="flex-end">
-              <Button size="sm" colorScheme="green" isDisabled>
-                Escrever comentário
-              </Button>
-            </Flex>
+            <CommentList spotId={spot.id} />
           </Box>
         </Grid>
 

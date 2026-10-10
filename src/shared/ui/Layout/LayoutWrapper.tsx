@@ -2,11 +2,14 @@
 
 import { usePathname } from "next/navigation";
 
-import { Flex, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, Grid, Stack, useColorMode } from "@chakra-ui/react";
 
 import { Footer } from "@/shared/ui/Layout/Footer";
 import { Header } from "@/shared/ui/Layout/Header";
 import { Sidebar } from "@/shared/ui/Layout/Sidebar";
+import { Footer as NewFooter } from "@/shared/ui/New/Footer";
+import { Header as NewHeader } from "@/shared/ui/New/Header";
+import { LeftSidebar } from "@/shared/ui/New/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -50,6 +53,39 @@ export function Layout({ children }: LayoutProps) {
           </Flex>
         </Flex>
       </Flex>
+      {/* New Layout */}
+      <Box minH="100vh" display="flex" flexDirection="column">
+        <NewHeader />
+
+        <Box flex="1" w="full" maxW="1780px" mx="auto" px={{ base: 4, lg: 8 }} py={6}>
+          <Grid
+            alignItems="start"
+            gap={6}
+            templateColumns={{
+              base: "1fr",
+              lg: "220px minmax(0, 1fr)"
+              // xl: "220px minmax(0, 1.5fr) minmax(0, 1fr)"
+            }}
+          >
+            <LeftSidebar />
+
+            <Stack spacing={5} as="main">
+              {children}
+              {/* <div>1 </div>
+              <div>1 </div> */}
+            </Stack>
+
+            {/* <Stack spacing={4} as="aside" gridColumn={{ lg: '1 / -1', xl: 'auto' }}>
+              <div>1 </div>
+              <div>1 </div>
+              <div>1 </div>
+              <div>1 </div>
+              <div>1 </div>
+            </Stack> */}
+          </Grid>
+        </Box>
+        {!isAIRoute && <NewFooter />}
+      </Box>
     </>
   );
 }

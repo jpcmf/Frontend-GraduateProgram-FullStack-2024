@@ -4,7 +4,8 @@ import { Box, Button, Flex, HStack, Select, SimpleGrid, Spinner, Text } from "@c
 
 import type { UserBasicsWithPagination } from "@/features/user";
 import { useColors } from "@/shared/hooks/useColors";
-import { UserCard } from "@/shared/ui/CardUser";
+import { SkatersHeader } from "@/shared/ui/New/Skaters/Header";
+import { SkaterCard } from "@/shared/ui/New/User";
 
 interface SkatistasProps {
   users: UserBasicsWithPagination;
@@ -60,6 +61,7 @@ export function Skatistas({
 
   return (
     <Box width={"100%"}>
+      <SkatersHeader />
       <Flex>
         <Flex alignItems="center" mb={4}>
           <Text
@@ -101,9 +103,12 @@ export function Skatistas({
           </Select>
         </Flex>
       </Flex>
-      <SimpleGrid columns={{ base: 2, sm: 3, md: 4, xl: 6 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
+      <SimpleGrid columns={{ base: 2 }} spacing={{ base: 5, lg: 4 }} w="100%" mb={6}>
         {users.data.map(user => (
-          <UserCard key={user.id} user={user} />
+          <>
+            {/* <UserCard key={user.id} user={user} /> */}
+            <SkaterCard key={user.id} s={user} />
+          </>
         ))}
       </SimpleGrid>
 
