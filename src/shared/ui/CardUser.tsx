@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext } from "react";
 import { FaGlobe, FaInstagram } from "react-icons/fa";
 import { TbMapPinHeart, TbMessage, TbUserPlus } from "react-icons/tb";

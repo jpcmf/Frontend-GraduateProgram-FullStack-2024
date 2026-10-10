@@ -1,11 +1,11 @@
 "use client";
 
-import { FaHeart, FaReact } from 'react-icons/fa';
-import { SiChakraui, SiNextdotjs } from 'react-icons/si';
+import { FaHeart, FaReact } from "react-icons/fa";
+import { SiChakraui, SiNextdotjs } from "react-icons/si";
 
 import { Box, Button, Flex, Grid, HStack, Icon, Link, Stack, Text } from "@chakra-ui/react";
 
-import { useColors } from '@/shared/hooks/useColors';
+import { useColors } from "@/shared/hooks/useColors";
 
 import { LogoSkateHub } from "../../LogoSkateHub";
 import { SectionLabel } from "../SectionLabel";
