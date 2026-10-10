@@ -8,7 +8,6 @@ export * from "./form";
 export { ProfileHeader } from "./HeaderProfile";
 export { ImproveTextButton } from "./ImproveTextButton";
 // Layout components
-export * from "./Layout";
 export { LogoSkateHub } from "./LogoSkateHub";
 export { MapBox } from "./Map";
 export { default as QueryProvider } from "./QueryProvider";
