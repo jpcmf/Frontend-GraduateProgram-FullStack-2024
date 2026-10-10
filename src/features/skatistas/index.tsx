@@ -61,7 +61,7 @@ export function Skatistas({
 
   return (
     <Box width={"100%"}>
-      <SkatersHeader />
+      <SkatersHeader totalUsers={totalUsers} pageSize={pageSize} onPageSizeChange={onPageSizeChange} isLoading={isLoading} />
       <Flex>
         <Flex alignItems="center" mb={4}>
           <Text
