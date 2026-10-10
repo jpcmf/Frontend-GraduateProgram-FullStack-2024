@@ -104,6 +104,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Responsive layout (mobile + desktop)
 - Custom 404 page
 - Sitemap API route
+- Redesigned app shell (header, sidebar, footer) built on a new theme, with a paginated skatistas directory
 - Vertical Slice Architecture (VSA) for organized, scalable feature structure
 
 ---
