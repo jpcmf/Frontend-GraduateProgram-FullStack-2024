@@ -1,6 +1,11 @@
 "use client";
 
-import { Box, Button, Flex, Grid, HStack, Link, Stack, Text } from "@chakra-ui/react";
+import { FaHeart, FaReact } from 'react-icons/fa';
+import { SiChakraui, SiNextdotjs } from 'react-icons/si';
+
+import { Box, Button, Flex, Grid, HStack, Icon, Link, Stack, Text } from "@chakra-ui/react";
+
+import { useColors } from '@/shared/hooks/useColors';
 
 import { LogoSkateHub } from "../../LogoSkateHub";
 import { SectionLabel } from "../SectionLabel";
@@ -30,68 +35,91 @@ const FooterColumn = ({ title, links }: { title: string; links: string[] }) => (
   </Box>
 );
 
-export const Footer = () => (
-  <Box
-    as="footer"
-    mt={10}
-    pt={10}
-    pb={6}
-    px={{ base: 4, lg: 8 }}
-    bg="surface.header"
-    borderTop="1px solid"
-    borderColor="line.subtle"
-    fontSize="xs"
-    color="content.muted"
-  >
-    <Box maxW="1780px" mx="auto">
-      <Grid
-        templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }}
-        gap={8}
-        pb={8}
-        borderBottom="1px solid"
-        borderColor="line.faint"
-      >
-        <Stack spacing={2}>
-          {/* <Brand size="xl" /> */}
-          <LogoSkateHub width={150} color="gray" />
-          <Text lineHeight="relaxed">
-            Conectando skatistas de todo o mundo. Descubra novos picos, acompanhe sessões e fortaleça a cena local.
-          </Text>
-        </Stack>
-        <FooterColumn title="Navegação" links={["Dashboard", "Skatistas", "Spots", "Cadastro", "Login"]} />
-        <FooterColumn title="Legal" links={["Termos de Serviço", "Política de Privacidade", "Sobre Nós"]} />
-        <Box>
-          <SectionLabel color="content.body" mb={3}>
-            Contribua
-          </SectionLabel>
-          <Text mb={3}>
-            Esse projeto foi criado e é mantido por{" "}
-            <Link href="#" color="content.secondary" fontWeight="semibold" textDecoration="underline">
-              jpcmf.dev
-            </Link>
-          </Text>
-          <Button variant="danger" size="sm" leftIcon={<span>❤️</span>}>
+export function Footer() {
+  const { footerBgButtonColor, footerTextButtonColor } = useColors();
+  return (
+    <Box
+      as="footer"
+      mt={10}
+      pt={10}
+      pb={6}
+      px={{ base: 4, lg: 8 }}
+      bg="surface.header"
+      borderTop="1px solid"
+      borderColor="line.subtle"
+      fontSize="xs"
+      color="content.muted"
+    >
+      <Box maxW="1780px" mx="auto">
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }}
+          gap={8}
+          pb={8}
+          borderBottom="1px solid"
+          borderColor="line.faint"
+        >
+          <Stack spacing={2}>
+            {/* <Brand size="xl" /> */}
+            <LogoSkateHub width={150} color="gray" />
+            <Text lineHeight="relaxed">
+              Conectando skatistas de todo o mundo. Descubra novos picos, acompanhe sessões e fortaleça a cena local.
+            </Text>
+          </Stack>
+          <FooterColumn title="Navegação" links={["Dashboard", "Skatistas", "Spots", "Cadastro", "Login"]} />
+          <FooterColumn title="Legal" links={["Termos de Serviço", "Política de Privacidade", "Sobre Nós"]} />
+          <Box>
+            <SectionLabel color="content.body" mb={3}>
+              Contribua
+            </SectionLabel>
+            <Text mb={3}>
+              Esse projeto foi criado e é mantido por{" "}
+              <Link href="#" color="content.secondary" fontWeight="semibold" textDecoration="underline">
+                jpcmf.dev
+              </Link>
+            </Text>
+            {/* <Button variant="danger" size="sm" leftIcon={<span>❤️</span>}>
             Quero contribuir
-          </Button>
-        </Box>
-      </Grid>
-      <Flex
-        pt={6}
-        direction={{ base: "column", sm: "row" }}
-        justify="space-between"
-        align="center"
-        gap={4}
-        fontSize="11px"
-      >
-        <Text>© 2026 SkateHub. Todos os direitos reservados.</Text>
+          </Button> */}
+            <Button
+              leftIcon={<FaHeart />}
+              bg={footerBgButtonColor}
+              color={footerTextButtonColor}
+              size="sm"
+              fontWeight="semibold"
+            >
+              Quero contribuir
+            </Button>
+          </Box>
+        </Grid>
+        <Flex
+          pt={6}
+          direction={{ base: "column", sm: "row" }}
+          justify="space-between"
+          align="center"
+          gap={4}
+          fontSize="11px"
+        >
+          {/* <Text>© 2026 SkateHub. Todos os direitos reservados.</Text>
         <HStack spacing={3}>
           <Text>⚛️ React</Text>
           <Text>•</Text>
           <Text>Next.js</Text>
           <Text>•</Text>
           <Text>⚡ Chakra UI</Text>
-        </HStack>
-      </Flex>
+        </HStack> */}
+          <Text fontSize="sm" color="gray.600" display="flex" alignItems="center" gap={1}>
+            © {new Date().getFullYear()} SkateHub. Todos os direitos reservados.
+          </Text>
+
+          <HStack spacing={2}>
+            <Icon as={FaReact} boxSize={5} color="gray.600" />
+            <Text color="gray.500">+</Text>
+            <Icon as={SiNextdotjs} boxSize={5} color="gray.600" />
+            <Text color="gray.500">+</Text>
+            <Icon as={SiChakraui} boxSize={5} color="gray.600" />
+          </HStack>
+        </Flex>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+}
