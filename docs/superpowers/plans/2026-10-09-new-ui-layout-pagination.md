@@ -154,14 +154,14 @@ git commit -m "chore(preview): point /new at the live skatistas feature"
 **Files:**
 
 - Create: `vitest.config.ts`
-- Create: `src/shared/ui/New/Pagination/getPageNumbers.ts`
-- Create: `src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts` (co-located with implementation)
+- Create: `src/shared/hooks/usePagination.ts` (was an empty stub from the VSA migration; now the home of `getPageNumbers`) and export it from `src/shared/hooks/index.ts` (barrel: `export { getPageNumbers } from "./usePagination"`)
+- Create: `src/shared/hooks/__tests__/getPageNumbers.test.ts` (co-located with implementation)
 - Modify: `src/shared/ui/New/Pagination/index.tsx`
 - Modify: `package.json` (add `vitest` devDependency + `test` scripts)
 
 **Interfaces:**
 
-- Produces: `type PageItem = number | "…"` and `getPageNumbers(currentPage: number, totalPages: number, siblingCount?: number): PageItem[]` from `./getPageNumbers`.
+- Produces: `type PageItem = number | "…"` and `getPageNumbers(currentPage: number, totalPages: number, siblingCount?: number): PageItem[]` from `@/shared/hooks/usePagination`.
 - Produces: `Pagination({ currentPage, totalPages, onPageChange, isLoading }: PaginationProps)` where `onPageChange: (page: number) => void`.
 
 - [ ] **Step 1: Add the Vitest harness**
@@ -178,7 +178,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     environment: "node",
-    include: ["src/__tests__/**/*.test.ts"]
+    include: ["src/**/*.test.ts"]
   }
 });
 ```
@@ -192,12 +192,12 @@ Add to `package.json` `scripts`:
 
 - [ ] **Step 2: Write the failing test**
 
-`src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts`:
+`src/shared/hooks/__tests__/getPageNumbers.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
 
-import { getPageNumbers } from "@/shared/ui/New/Pagination/getPageNumbers";
+import { getPageNumbers } from "@/shared/hooks/usePagination";
 
 describe("getPageNumbers", () => {
   it("returns every page when the total fits", () => {
@@ -232,12 +232,12 @@ describe("getPageNumbers", () => {
 
 - [ ] **Step 3: Run the test and watch it fail**
 
-Run: `pnpm test src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts`
-Expected: FAIL — cannot resolve `@/shared/ui/New/Pagination/getPageNumbers`.
+Run: `pnpm test src/shared/hooks/__tests__/getPageNumbers.test.ts`
+Expected: FAIL — cannot resolve `@/shared/hooks/usePagination`.
 
 - [ ] **Step 4: Implement the helper**
 
-`src/shared/ui/New/Pagination/getPageNumbers.ts`:
+`src/shared/hooks/usePagination.ts`:
 
 ```ts
 export type PageItem = number | "…";
@@ -289,8 +289,9 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import { Button, HStack, Text } from "@chakra-ui/react";
 
+import { getPageNumbers } from "@/shared/hooks/usePagination";
+
 import { Panel } from "../Panel";
-import { getPageNumbers } from "./getPageNumbers";
 
 export interface PaginationProps {
   currentPage: number;
@@ -363,7 +364,7 @@ Expected: no errors.
 - [ ] **Step 8: Commit**
 
 ```bash
-git add vitest.config.ts package.json pnpm-lock.yaml src/shared/ui/New/Pagination src/__tests__
+git add vitest.config.ts package.json pnpm-lock.yaml src/shared/hooks src/shared/ui/New/Pagination
 git commit -m "feat(pagination): controlled pagination with page-number windowing and unit tests"
 ```
 

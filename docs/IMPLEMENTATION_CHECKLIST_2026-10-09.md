@@ -50,9 +50,9 @@
 **Goal:** Unit-tested page-number windowing + controlled Pagination component
 
 - [ ] Step 1: Add Vitest to `package.json` and create `vitest.config.ts`
-- [ ] Step 2: Write failing test in `src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts`
+- [ ] Step 2: Write failing test in `src/shared/hooks/__tests__/getPageNumbers.test.ts`
 - [ ] Step 3: Run test and confirm FAIL
-- [ ] Step 4: Implement `src/shared/ui/New/Pagination/getPageNumbers.ts`
+- [ ] Step 4: Implement `src/shared/hooks/usePagination.ts` (revives the empty VSA-migration stub; export `getPageNumbers` from `src/shared/hooks/index.ts`)
 - [ ] Step 5: Run test and confirm all PASS
 - [ ] Step 6: Rewrite `Pagination` component with `onPageChange`, `isLoading`, disabled states
 - [ ] Step 7: Type-check (`pnpm exec tsc --noEmit`)
