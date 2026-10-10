@@ -1,23 +1,19 @@
 "use client";
 
-import { useContext } from "react";
 import { FiGlobe, FiInstagram, FiMapPin } from "react-icons/fi";
 import Link from "next/link";
 
-import { Avatar as ChakraAvatar, Box, HStack, Link as ChakraLink, Stack, Text } from "@chakra-ui/react";
+import { Avatar as ChakraAvatar, Box, HStack, Stack, Text } from "@chakra-ui/react";
 
-import { AuthContext } from "@/features/auth";
 // type Skater = (typeof skaters)[number];
 import type { UserBasics } from "@/features/user";
+import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
 
 // import { skaters } from "../../../../mock";
 import { Muted } from "../index";
 import { Panel } from "../Panel";
 
 export const SkaterCard = ({ s }: { s: UserBasics }) => {
-  console.log(s);
-  const { isAuthenticated } = useContext(AuthContext);
-
   return (
     <Panel variant="interactive" role="group" p={3.5}>
       <Stack align="center" textAlign="center" spacing={0.5}>
@@ -61,12 +57,26 @@ export const SkaterCard = ({ s }: { s: UserBasics }) => {
           borderColor="line.faint"
           color="content.muted"
         >
-          <ChakraLink href="#" aria-label={`Instagram de ${s.name}`} _hover={{ color: "pink.400" }}>
-            <FiInstagram size={14} />
-          </ChakraLink>
-          <ChakraLink href="#" aria-label={`Site de ${s.name}`} _hover={{ color: "blue.400" }}>
-            <FiGlobe size={14} />
-          </ChakraLink>
+          {s.instagram_url && (
+            <Box
+              as="button"
+              aria-label={`Instagram de ${s.name}`}
+              onClick={() => openInstagram(s.instagram_url)}
+              _hover={{ color: "pink.400" }}
+            >
+              <FiInstagram size={14} />
+            </Box>
+          )}
+          {s.website_url && (
+            <Box
+              as="button"
+              aria-label={`Site de ${s.name}`}
+              onClick={() => openWebsite(s.website_url)}
+              _hover={{ color: "blue.400" }}
+            >
+              <FiGlobe size={14} />
+            </Box>
+          )}
         </HStack>
       </Stack>
     </Panel>
