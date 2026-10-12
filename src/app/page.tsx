@@ -5,6 +5,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { RecentCommentsFeed } from "@/features/comments";
 import { SkatistasHome } from "@/features/skatistas/Home";
 import { StoriesHome } from "@/features/stories";
+import { Communities } from "@/shared/ui/New/Communities";
 import { Composer } from "@/shared/ui/New/Composer";
 
 export default function HomePage() {
@@ -21,6 +22,7 @@ export default function HomePage() {
         {/* Right column */}
         <Box flex={{ lg: "1.5" }} w="full">
           <SkatistasHome />
+          <Communities />
         </Box>
       </Flex>
     </>
