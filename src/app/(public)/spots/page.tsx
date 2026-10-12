@@ -7,7 +7,6 @@ import { Box, Button, Flex, Grid, Spinner, Text } from "@chakra-ui/react";
 
 import { SpotCard, useSpots } from "@/features/spots";
 import { useAuth } from "@/shared/hooks/useAuth";
-import { TitleSection } from "@/shared/ui/TitleSection";
 
 export default function SpotsPage() {
   const { user } = useAuth();
@@ -15,7 +14,6 @@ export default function SpotsPage() {
 
   return (
     <Box position="relative">
-      <TitleSection title="Spots" />
       <Box width={"100%"}>
         <Box position="absolute" top={0} right={0}>
           {user && (
