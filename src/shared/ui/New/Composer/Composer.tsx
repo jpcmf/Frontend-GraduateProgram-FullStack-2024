@@ -12,7 +12,6 @@ export const Composer = () => {
   return (
     <Panel>
       <HStack spacing={3} pb={3} borderBottom="1px solid" borderColor="line.faint">
-        {/* <InitialsAvatar initials="LH" bg="surface.raised" size={10} /> */}
         <SkaterAvatar user={user} withRing={true} w="44px" h="44px" />
         <Input size="md" placeholder="Dropou onde hoje? Compartilhe manobra ou pico..." />
       </HStack>
