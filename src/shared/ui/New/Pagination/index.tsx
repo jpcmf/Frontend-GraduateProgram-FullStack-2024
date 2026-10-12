@@ -21,11 +21,11 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, isLoading = 
   const atEnd = currentPage >= totalPages;
 
   return (
-    <Panel size="sm">
-      <HStack justify="center" spacing={3} fontSize="xs">
+    <Panel>
+      <HStack justify="center" spacing={2} fontSize="xs">
         <Button
           variant="quiet"
-          size="sm"
+          size="xs"
           leftIcon={<FiChevronLeft />}
           onClick={() => onPageChange(currentPage - 1)}
           isDisabled={isLoading || atStart}
@@ -41,10 +41,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, isLoading = 
           ) : (
             <Button
               key={item}
-              size="sm"
-              minW={6}
-              h={6}
-              p={0}
+              size="xs"
               variant={item === currentPage ? "accent" : "quiet"}
               onClick={() => onPageChange(item)}
               isDisabled={isLoading}
@@ -57,7 +54,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange, isLoading = 
 
         <Button
           variant="quiet"
-          size="sm"
+          size="xs"
           color="accent.base"
           rightIcon={<FiChevronRight />}
           onClick={() => onPageChange(currentPage + 1)}

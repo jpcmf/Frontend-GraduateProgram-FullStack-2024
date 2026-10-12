@@ -18,10 +18,10 @@ export const SkatersHeader = ({ totalUsers, pageSize, onPageSizeChange, isLoadin
   <Panel size="md">
     <Flex justify="space-between" align="center" gap={4} wrap="wrap">
       <Box>
-        <Text fontSize="md" fontWeight="bold" color="white">
+        <Text fontSize="sm" fontWeight="bold" color="white" letterSpacing="tight">
           Skatistas em Destaque
         </Text>
-        <Muted fontSize="sm">
+        <Muted fontSize="xs">
           {isLoading ? (
             "Carregando…"
           ) : (
@@ -32,9 +32,9 @@ export const SkatersHeader = ({ totalUsers, pageSize, onPageSizeChange, isLoadin
         </Muted>
       </Box>
       <HStack spacing={2}>
-        <Muted fontSize="sm">Itens por página:</Muted>
+        <Muted fontSize="xs">Itens por página:</Muted>
         <Select
-          size="sm"
+          size="xs"
           w={16}
           variant="outline"
           bg="surface.solid"
