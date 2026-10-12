@@ -2,7 +2,9 @@
 
 import { useMemo } from "react";
 
-import { Box, Button, Flex, Heading, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack, Spinner, Text, useColorModeValue } from "@chakra-ui/react";
+
+import { LiveDot } from "@/shared/ui/New";
 
 import { useRecentComments } from "../../hooks/useRecentComments";
 import type { Comment } from "../../types/comments";
@@ -28,12 +30,25 @@ export function RecentCommentsFeed() {
   const header = (
     <Flex align="center" justify="space-between" mb={6}>
       <Flex align="center" gap={2}>
-        <Heading size="lg">Atividades recentes</Heading>
-        <Box w={2} h={2} borderRadius="full" bg="green.400" />
+        <Heading size="md">Atividades recentes</Heading>
       </Flex>
-      <Text fontSize="xs" color={mutedColor}>
-        Tempo real
-      </Text>
+      <HStack
+        display={{ base: "none", sm: "flex" }}
+        spacing={2}
+        px={3}
+        py={1}
+        borderRadius="full"
+        bg="surface.raised"
+        border="1px solid"
+        borderColor="line.subtle"
+        fontSize="xs"
+        color="content.secondary"
+      >
+        <LiveDot />
+        <Text fontSize="xs" color={mutedColor}>
+          Tempo real
+        </Text>
+      </HStack>
     </Flex>
   );
 
