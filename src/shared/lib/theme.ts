@@ -185,7 +185,7 @@ const Panel = defineStyleConfig({
 });
 
 const Button = defineStyleConfig({
-  baseStyle: { fontWeight: 600, borderRadius: "lg", transition: "all 0.2s" },
+  baseStyle: { fontWeight: 600, lineHeight: 1, borderRadius: "lg", transition: "all 0.2s" },
   sizes: {
     sm: { h: 8, px: 4, fontSize: "xs" },
     md: { h: 9, px: 4, fontSize: "sm" }
