@@ -9,10 +9,10 @@ import { StoriesHome } from "@/features/stories";
 export default function HomePage() {
   return (
     <>
-      <StoriesHome />
       <Flex direction={{ base: "column", lg: "row" }} gap={{ base: 5, lg: 4 }} align="flex-start">
         {/* Left column */}
         <Box flex={{ lg: "2" }} w="full">
+          <StoriesHome />
           <RecentCommentsFeed />
         </Box>
 
