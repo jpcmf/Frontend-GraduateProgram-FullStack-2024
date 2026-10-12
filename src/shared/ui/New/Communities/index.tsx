@@ -3,7 +3,7 @@
 import { Box, Center, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react";
 
 import { communities } from "../../../../mock";
-import { Muted } from "../index";
+import { Muted } from "../Muted";
 import { Panel } from "../Panel";
 import { SectionLabel } from "../SectionLabel";
 

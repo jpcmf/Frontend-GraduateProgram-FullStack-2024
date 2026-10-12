@@ -2,7 +2,7 @@
 
 import { Box, Flex, HStack, Select, Text } from "@chakra-ui/react";
 
-import { Muted } from "../index";
+import { Muted } from "../Muted";
 import { Panel } from "../Panel";
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
@@ -15,7 +15,7 @@ interface SkatersHeaderProps {
 }
 
 export const SkatersHeader = ({ totalUsers, pageSize, onPageSizeChange, isLoading = false }: SkatersHeaderProps) => (
-  <Panel size="lg">
+  <Panel size="md">
     <Flex justify="space-between" align="center" gap={4} wrap="wrap">
       <Box>
         <Text fontSize="md" fontWeight="bold" color="white">

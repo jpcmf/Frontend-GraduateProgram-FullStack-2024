@@ -9,8 +9,8 @@ import { Avatar as ChakraAvatar, Box, HStack, Stack, Text } from "@chakra-ui/rea
 import type { UserBasics } from "@/features/user";
 import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
 
+import { Muted } from "../Muted";
 // import { skaters } from "../../../../mock";
-import { Muted } from "../index";
 import { Panel } from "../Panel";
 
 export const SkaterCard = ({ s }: { s: UserBasics }) => {
