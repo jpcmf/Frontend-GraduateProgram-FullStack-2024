@@ -5,6 +5,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { RecentCommentsFeed } from "@/features/comments";
 import { SkatistasHome } from "@/features/skatistas/Home";
 import { StoriesHome } from "@/features/stories";
+import { Composer } from "@/shared/ui/New/Composer";
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
         {/* Left column */}
         <Box flex={{ lg: "2" }} w="full">
           <StoriesHome />
+          <Composer />
           <RecentCommentsFeed />
         </Box>
 
