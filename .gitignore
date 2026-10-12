@@ -41,3 +41,4 @@ launch.json
 .zed
 *.txt
 *.http
+/src/shared/ui/_OLD_REFERENCE/
