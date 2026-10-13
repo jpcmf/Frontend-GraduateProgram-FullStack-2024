@@ -30,7 +30,7 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 - **`src/shared/lib/theme.ts`**
   - Add a `hubLight` raw palette (light equivalents of `hub`).
   - Convert each semantic token from a string to `{ default: <current dark value>, _light: <light value> }` using the mapping below.
-  - Make global styles mode-aware: the body dotted `backgroundImage` uses a nested `_light` pseudo-selector; the scrollbar rules use top-level `[data-theme=light] ::-webkit-scrollbar-*` selectors (nesting `_light` under a pseudo-element emits invalid CSS and is dropped). Note: `{ default, _light }` object _values_ are invalid for style values (the rule is dropped), and a `global: (props) => …` function bakes at first render and goes stale after hydration — so `_light` pseudo-selectors are required.
+  - Make global styles mode-aware: the body dotted `backgroundImage` uses a nested `_light` pseudo-selector; the scrollbar rules use top-level selectors in **two forms** — `[data-theme=light] ::-webkit-scrollbar-*` (inner scroll containers) and `[data-theme=light]::-webkit-scrollbar-*` (the root viewport scroller, where the element carrying `data-theme` is itself the scroller). Nesting `_light` under a pseudo-element emits invalid CSS and is dropped. Note: `{ default, _light }` object _values_ are invalid for style values (the rule is dropped), and a `global: (props) => …` function bakes at first render and goes stale after hydration — so `_light` pseudo-selectors are required.
   - Keep `config = { initialColorMode: "dark", useSystemColorMode: false }` unchanged.
 
 - **`src/app/providers.tsx`** (a client component)
@@ -104,6 +104,6 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 - Migrating legacy `useColorModeValue` usages to semantic tokens.
 - `useSystemColorMode` (following the OS preference).
 - Per-component light-mode redesign beyond the token mapping above.
-- Hardcoded colors that are _not_ light-mode defects, e.g. white initials on a coloured avatar (`InitialsAvatar`), the black logo on a green tile (`New/Header`), and the footer link `_hover` in `New/Footer`.
+- Hardcoded colors that are _not_ light-mode defects, e.g. the black logo on a green tile (`New/Header`) and the footer link `_hover` in `New/Footer`.
 - Adding a new toggle UI (the existing one is reused).
 - Automated tests — test infrastructure is planned (see `specs/AUTOMATED_TESTING.md`); verification is manual.

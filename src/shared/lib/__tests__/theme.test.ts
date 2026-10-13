@@ -61,12 +61,25 @@ describe("theme component styles react to color mode", () => {
     expect(beta?.color).toBe("accent.strong");
   });
 
-  it("light scrollbar overrides use valid top-level selectors (not nested under a pseudo-element)", () => {
+  it("light scrollbar overrides use valid top-level selectors covering the root scroller", () => {
     const global = (theme.styles as { global?: Record<string, unknown> })?.global ?? {};
-    expect(global["[data-theme=light] ::-webkit-scrollbar-track"]).toBeTruthy();
-    expect(global["[data-theme=light] ::-webkit-scrollbar-thumb"]).toBeTruthy();
+    // The descendant form covers inner scroll containers…
+    expect(
+      global["[data-theme=light] ::-webkit-scrollbar-track"],
+      "light scrollbar-track override for descendants"
+    ).toBeTruthy();
+    expect(
+      global["[data-theme=light] ::-webkit-scrollbar-thumb"],
+      "light scrollbar-thumb override for descendants"
+    ).toBeTruthy();
+    // …and the label-free self form covers the root (viewport) scroller.
+    expect(global["[data-theme=light]::-webkit-scrollbar-track"], "light root scrollbar-track override").toBeTruthy();
+    expect(
+      global["[data-theme=light]::-webkit-scrollbar-thumb"],
+      "light scrollbar-thumb override for the root"
+    ).toBeTruthy();
+    expect((global["[data-theme=light]::-webkit-scrollbar-track"] as { bg?: string })?.bg).toBe("hubLight.raised");
     // Nesting `_light` under a pseudo-element generates invalid CSS, so it must NOT be used there.
-    const track = global["::-webkit-scrollbar-track"] as Record<string, unknown> | undefined;
-    expect(track?._light).toBeUndefined();
+    expect((global["::-webkit-scrollbar-track"] as Record<string, unknown> | undefined)?._light).toBeUndefined();
   });
 });

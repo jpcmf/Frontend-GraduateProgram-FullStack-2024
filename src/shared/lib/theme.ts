@@ -352,9 +352,14 @@ const styles = {
     "::-webkit-scrollbar-thumb:hover": { bg: "#393e42" },
     // Chakra's `_light` expands to a selector list whose last entry is invalid CSS
     // when nested under a pseudo-element, so light overrides use top-level selectors.
+    // Two forms per rule: the descendant form covers inner scroll containers, the
+    // `::-webkit-*` form on `[data-theme=light]` itself covers the root viewport scroller.
     "[data-theme=light] ::-webkit-scrollbar-track": { bg: "hubLight.raised" },
+    "[data-theme=light]::-webkit-scrollbar-track": { bg: "hubLight.raised" },
     "[data-theme=light] ::-webkit-scrollbar-thumb": { bg: "#c7ccce", borderRadius: "9999px" },
-    "[data-theme=light] ::-webkit-scrollbar-thumb:hover": { bg: "#aeb5b8" }
+    "[data-theme=light]::-webkit-scrollbar-thumb": { bg: "#c7ccce", borderRadius: "9999px" },
+    "[data-theme=light] ::-webkit-scrollbar-thumb:hover": { bg: "#aeb5b8" },
+    "[data-theme=light]::-webkit-scrollbar-thumb:hover": { bg: "#aeb5b8" }
   }
 };
 
