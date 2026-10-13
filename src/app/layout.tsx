@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { ColorModeScript } from "@chakra-ui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { fonts } from "@/shared/lib/fonts";
+import { theme } from "@/shared/lib/theme";
 
 import { Providers } from "./providers";
 
@@ -16,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="N5AS_Y5dpIzozQKynw_S6M24hl_0hqHhpsA-SrQuZ-g" />
         <style
@@ -36,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
         <Providers>{children}</Providers>
         {/*
           Vercel Speed Insights: Real User Monitoring for Core Web Vitals.
