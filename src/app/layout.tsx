@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 
-import { ColorModeScript } from "@chakra-ui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { fonts } from "@/shared/lib/fonts";
-import { theme } from "@/shared/lib/theme";
 
 import { Providers } from "./providers";
 
@@ -38,7 +36,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
         <Providers>{children}</Providers>
         {/*
           Vercel Speed Insights: Real User Monitoring for Core Web Vitals.
