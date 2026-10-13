@@ -82,7 +82,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
   return (
     <>
       <Panel size="md">
-        <Flex borderRadius="md" mb={0} overflow={"hidden"} maxW={1144} position="relative" h="107px">
+        <Flex overflow={"hidden"} maxW={1144} position="relative" h="107px">
           <HStack
             w="100%"
             position="absolute"

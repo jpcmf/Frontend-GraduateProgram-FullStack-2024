@@ -107,7 +107,7 @@ export function Footer() {
           <Text>•</Text>
           <Text>⚡ Chakra UI</Text>
         </HStack> */}
-          <Text fontSize="sm" color="gray.600" display="flex" alignItems="center" gap={1}>
+          <Text fontSize="xs" color="gray.600" display="flex" alignItems="center" gap={1}>
             © {new Date().getFullYear()} SkateHub. Todos os direitos reservados.
           </Text>
 

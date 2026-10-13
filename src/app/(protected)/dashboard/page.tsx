@@ -4,7 +4,6 @@ import { Box, Flex, Spinner } from "@chakra-ui/react";
 
 import { Dashboard } from "@/features/dashboard";
 import { useAuth } from "@/shared/hooks/useAuth";
-import { TitleSection } from "@/shared/ui/TitleSection";
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth();
@@ -20,11 +19,8 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <>
-      <TitleSection title="Área do Skatista" />
-      <Box flex="1" borderRadius={8} mb={8}>
-        <Dashboard user={user} />
-      </Box>
-    </>
+    <Box flex="1" mb={8}>
+      <Dashboard user={user} />
+    </Box>
   );
 }

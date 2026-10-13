@@ -107,7 +107,8 @@ export function Header() {
               <InputLeftElement pointerEvents="none" h="full" color="content.muted">
                 <FiSearch />
               </InputLeftElement>
-              <Input variant="pill" placeholder="Buscar skatistas, picos, manobras..." />
+              {/* <Input variant="pill" placeholder="Buscar skatistas, picos, manobras..." /> */}
+              <Input size="md" placeholder="Buscar skatistas, picos, manobras..." />
             </InputGroup>
           </HStack>
 

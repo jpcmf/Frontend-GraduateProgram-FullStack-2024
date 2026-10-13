@@ -4,7 +4,7 @@ import { Flex } from "@chakra-ui/react";
 
 import { RecentCommentsFeed } from "@/features/comments";
 import { SkatistasHome } from "@/features/skatistas/Home";
-import { StoriesHome } from '@/features/stories';
+import { StoriesHome } from "@/features/stories";
 import { Communities } from "@/shared/ui/New/Communities";
 import { Composer } from "@/shared/ui/New/Composer";
 

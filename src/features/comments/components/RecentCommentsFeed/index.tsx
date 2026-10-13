@@ -28,9 +28,9 @@ export function RecentCommentsFeed() {
   }, [data]);
 
   const header = (
-    <Flex align="center" justify="space-between" mb={6}>
+    <Flex align="center" justify="space-between" mb={4}>
       <Flex align="center" gap={2}>
-        <Heading size="md">Atividades recentes</Heading>
+        <Heading size="sm">Atividades recentes</Heading>
       </Flex>
       <HStack
         display={{ base: "none", sm: "flex" }}
@@ -54,10 +54,10 @@ export function RecentCommentsFeed() {
 
   if (isLoading) {
     return (
-      <Box py={8}>
+      <Box>
         {header}
         <Flex justify="center" py={8}>
-          <Spinner />
+          <Spinner size="lg" color="green.400" />
         </Flex>
       </Box>
     );
@@ -65,15 +65,17 @@ export function RecentCommentsFeed() {
 
   if (isError) {
     return (
-      <Box py={8}>
+      <Box textAlign="center">
         {header}
-        <Text color={mutedColor}>Não foi possível carregar as atividades recentes.</Text>
+        <Text size="xs" color={mutedColor}>
+          Não foi possível carregar as atividades recentes.
+        </Text>
       </Box>
     );
   }
 
   return (
-    <Box py={8}>
+    <Box>
       {header}
       {comments.length === 0 ? (
         <Text color={mutedColor}>Nenhuma atividade recente.</Text>
