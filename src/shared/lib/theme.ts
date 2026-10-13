@@ -336,21 +336,18 @@ const styles = {
     body: {
       bg: "surface.canvas",
       color: "content.body",
-      backgroundImage: {
-        default: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
-        _light: "radial-gradient(rgba(0,0,0,0.035) 1px, transparent 1px)"
-      },
+      backgroundImage: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
       backgroundSize: "24px 24px",
-      WebkitFontSmoothing: "antialiased"
+      WebkitFontSmoothing: "antialiased",
+      _light: {
+        backgroundImage: "radial-gradient(rgba(0,0,0,0.035) 1px, transparent 1px)"
+      }
     },
     "::selection": { bg: "brand.500", color: "white" },
     "::-webkit-scrollbar": { width: "6px", height: "6px" },
-    "::-webkit-scrollbar-track": { bg: { default: "hub.dark", _light: "hubLight.raised" } },
-    "::-webkit-scrollbar-thumb": {
-      bg: { default: "#2a2e30", _light: "#c7ccce" },
-      borderRadius: "9999px"
-    },
-    "::-webkit-scrollbar-thumb:hover": { bg: { default: "#393e42", _light: "#aeb5b8" } }
+    "::-webkit-scrollbar-track": { bg: "hub.dark", _light: { bg: "hubLight.raised" } },
+    "::-webkit-scrollbar-thumb": { bg: "#2a2e30", borderRadius: "9999px", _light: { bg: "#c7ccce" } },
+    "::-webkit-scrollbar-thumb:hover": { bg: "#393e42", _light: { bg: "#aeb5b8" } }
   }
 };
 
