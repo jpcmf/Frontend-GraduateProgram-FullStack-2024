@@ -95,6 +95,17 @@ const colors = {
     border: "#2c3033",
     muted: "#8e969b"
   },
+  hubLight: {
+    black: "#121415",
+    canvas: "#f6f7f7",
+    solid: "#ffffff",
+    raised: "#f1f3f4",
+    hover: "#e7eaeb",
+    border: "#e2e6e7",
+    header: "rgba(255, 255, 255, 0.85)",
+    panel: "rgba(255, 255, 255, 0.85)",
+    muted: "#697076"
+  },
   brand: {
     50: "#f0fdf4",
     100: "#dcfce7",
@@ -131,29 +142,29 @@ const radii = { md: "6px", lg: "8px", xl: "12px" };
  * ---------------------------------------------------------------- */
 const semanticTokens = {
   colors: {
-    "surface.canvas": "hub.canvas",
-    "surface.header": "rgba(18, 20, 21, 0.9)",
-    "surface.panel": "rgba(24, 26, 27, 0.7)",
-    "surface.solid": "hub.dark",
-    "surface.raised": "hub.surface",
-    "surface.hover": "hub.hover",
+    "surface.canvas": { default: "hub.canvas", _light: "hubLight.canvas" },
+    "surface.header": { default: "rgba(18, 20, 21, 0.9)", _light: "hubLight.header" },
+    "surface.panel": { default: "rgba(24, 26, 27, 0.7)", _light: "hubLight.panel" },
+    "surface.solid": { default: "hub.dark", _light: "hubLight.solid" },
+    "surface.raised": { default: "hub.surface", _light: "hubLight.raised" },
+    "surface.hover": { default: "hub.hover", _light: "hubLight.hover" },
 
-    "line.subtle": "hub.border",
-    "line.faint": "rgba(44, 48, 51, 0.5)",
+    "line.subtle": { default: "hub.border", _light: "hubLight.border" },
+    "line.faint": { default: "rgba(44, 48, 51, 0.5)", _light: "rgba(18, 20, 21, 0.08)" },
 
-    "content.primary": "white",
-    "content.secondary": "gray.300",
-    "content.body": "gray.200",
-    "content.muted": "hub.muted",
+    "content.primary": { default: "white", _light: "hubLight.black" },
+    "content.secondary": { default: "gray.300", _light: "gray.600" },
+    "content.body": { default: "gray.200", _light: "gray.700" },
+    "content.muted": { default: "hub.muted", _light: "hubLight.muted" },
 
-    "accent.base": "brand.500",
-    "accent.hover": "brand.600",
-    "accent.subtle": "rgba(34, 197, 94, 0.1)",
-    "accent.line": "rgba(34, 197, 94, 0.2)",
-    "accent.onSolid": "#000000",
+    "accent.base": { default: "brand.500", _light: "brand.600" },
+    "accent.hover": { default: "brand.600", _light: "brand.700" },
+    "accent.subtle": { default: "rgba(34, 197, 94, 0.1)", _light: "rgba(22, 163, 74, 0.12)" },
+    "accent.line": { default: "rgba(34, 197, 94, 0.2)", _light: "rgba(22, 163, 74, 0.25)" },
+    "accent.onSolid": { default: "#000000", _light: "#ffffff" },
 
-    "danger.base": "red.600",
-    "danger.hover": "red.700"
+    "danger.base": { default: "red.600", _light: "red.600" },
+    "danger.hover": { default: "red.700", _light: "red.700" }
   }
 };
 
