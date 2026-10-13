@@ -161,7 +161,9 @@ const semanticTokens = {
     "accent.hover": { default: "brand.600", _light: "brand.700" },
     "accent.subtle": { default: "rgba(34, 197, 94, 0.1)", _light: "rgba(22, 163, 74, 0.12)" },
     "accent.line": { default: "rgba(34, 197, 94, 0.2)", _light: "rgba(22, 163, 74, 0.25)" },
-    "accent.onSolid": { default: "#000000", _light: "#ffffff" },
+    "accent.onSolid": { default: "#000000", _light: "#000000" },
+    "accent.deep": { default: "brand.900", _light: "hubLight.raised" },
+    "accent.strong": { default: "brand.500", _light: "brand.800" },
 
     "danger.base": { default: "red.600", _light: "red.600" },
     "danger.hover": { default: "red.700", _light: "red.700" }
@@ -258,8 +260,8 @@ const Badge = defineStyleConfig({
   variants: {
     count: { bg: "accent.base", color: "accent.onSolid", px: 1.5, fontSize: "xs" },
     beta: {
-      bg: "brand.900",
-      color: "accent.base",
+      bg: "accent.deep",
+      color: "accent.strong",
       border: "1px solid",
       borderColor: "accent.line",
       borderRadius: "md",
@@ -345,9 +347,14 @@ const styles = {
     },
     "::selection": { bg: "brand.500", color: "white" },
     "::-webkit-scrollbar": { width: "6px", height: "6px" },
-    "::-webkit-scrollbar-track": { bg: "hub.dark", _light: { bg: "hubLight.raised" } },
-    "::-webkit-scrollbar-thumb": { bg: "#2a2e30", borderRadius: "9999px", _light: { bg: "#c7ccce" } },
-    "::-webkit-scrollbar-thumb:hover": { bg: "#393e42", _light: { bg: "#aeb5b8" } }
+    "::-webkit-scrollbar-track": { bg: "hub.dark" },
+    "::-webkit-scrollbar-thumb": { bg: "#2a2e30", borderRadius: "9999px" },
+    "::-webkit-scrollbar-thumb:hover": { bg: "#393e42" },
+    // Chakra's `_light` expands to a selector list whose last entry is invalid CSS
+    // when nested under a pseudo-element, so light overrides use top-level selectors.
+    "[data-theme=light] ::-webkit-scrollbar-track": { bg: "hubLight.raised" },
+    "[data-theme=light] ::-webkit-scrollbar-thumb": { bg: "#c7ccce", borderRadius: "9999px" },
+    "[data-theme=light] ::-webkit-scrollbar-thumb:hover": { bg: "#aeb5b8" }
   }
 };
 

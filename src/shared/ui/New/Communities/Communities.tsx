@@ -42,7 +42,7 @@ export const Communities = () => (
             {c.code}
           </Center>
           <Box overflow="hidden">
-            <Text fontSize="xs" fontWeight="semibold" color="white" noOfLines={1}>
+            <Text fontSize="xs" fontWeight="semibold" color="content.primary" noOfLines={1}>
               {c.name}
             </Text>
             <Muted fontSize="2xs">{c.info}</Muted>

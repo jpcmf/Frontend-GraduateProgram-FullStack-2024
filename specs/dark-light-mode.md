@@ -30,7 +30,7 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 - **`src/shared/lib/theme.ts`**
   - Add a `hubLight` raw palette (light equivalents of `hub`).
   - Convert each semantic token from a string to `{ default: <current dark value>, _light: <light value> }` using the mapping below.
-  - Make global styles mode-aware using nested `_light` pseudo-selectors (body dotted `backgroundImage` and the three scrollbar rules). Note: `{ default, _light }` object _values_ are invalid for style values (the rule is dropped), and a `global: (props) => …` function bakes at first render and goes stale after hydration — so `_light` pseudo-selectors are required.
+  - Make global styles mode-aware: the body dotted `backgroundImage` uses a nested `_light` pseudo-selector; the scrollbar rules use top-level `[data-theme=light] ::-webkit-scrollbar-*` selectors (nesting `_light` under a pseudo-element emits invalid CSS and is dropped). Note: `{ default, _light }` object _values_ are invalid for style values (the rule is dropped), and a `global: (props) => …` function bakes at first render and goes stale after hydration — so `_light` pseudo-selectors are required.
   - Keep `config = { initialColorMode: "dark", useSystemColorMode: false }` unchanged.
 
 - **`src/app/providers.tsx`** (a client component)
@@ -46,7 +46,7 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 ### Not modified
 
 - The 88 legacy `useColorModeValue` call sites (~21 files).
-- Any component — they already consume the semantic tokens.
+- Component structure/design — only hardcoded `color="white"` text was swapped for the `content.primary` token so light-mode text stays readable (dark mode is unchanged).
 - The toggle in `Header/Profile.tsx`.
 
 ### `hubLight` raw palette (new)
@@ -74,7 +74,7 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 | `surface.hover`     | `hub.hover`                 | `hubLight.hover`          |
 | `line.subtle`       | `hub.border`                | `hubLight.border`         |
 | `line.faint`        | `rgba(44, 48, 51, 0.5)`     | `rgba(18, 20, 21, 0.08)`  |
-| `content.primary`   | `white`                     | `hub.black`               |
+| `content.primary`   | `white`                     | `hubLight.black`          |
 | `content.secondary` | `gray.300`                  | `gray.600`                |
 | `content.body`      | `gray.200`                  | `gray.700`                |
 | `content.muted`     | `hub.muted`                 | `hubLight.muted`          |
@@ -82,7 +82,9 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 | `accent.hover`      | `brand.600`                 | `brand.700`               |
 | `accent.subtle`     | `rgba(34, 197, 94, 0.1)`    | `rgba(22, 163, 74, 0.12)` |
 | `accent.line`       | `rgba(34, 197, 94, 0.2)`    | `rgba(22, 163, 74, 0.25)` |
-| `accent.onSolid`    | `#000000`                   | `#ffffff`                 |
+| `accent.onSolid`    | `#000000`                   | `#000000`                 |
+| `accent.deep`       | `brand.900`                 | `hubLight.raised`         |
+| `accent.strong`     | `brand.500`                 | `brand.800`               |
 | `danger.base`       | `red.600`                   | `red.600`                 |
 | `danger.hover`      | `red.700`                   | `red.700`                 |
 
@@ -102,5 +104,6 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 - Migrating legacy `useColorModeValue` usages to semantic tokens.
 - `useSystemColorMode` (following the OS preference).
 - Per-component light-mode redesign beyond the token mapping above.
+- Hardcoded colors that are _not_ light-mode defects, e.g. white initials on a coloured avatar (`InitialsAvatar`), the black logo on a green tile (`New/Header`), and the footer link `_hover` in `New/Footer`.
 - Adding a new toggle UI (the existing one is reused).
 - Automated tests — test infrastructure is planned (see `specs/AUTOMATED_TESTING.md`); verification is manual.

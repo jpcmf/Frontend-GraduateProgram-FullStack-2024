@@ -41,7 +41,7 @@ export function Profile({ showProfileData = true }: ProfileProps) {
     <Flex align="center">
       {showProfileData && (
         <Box mr="3" textAlign="right">
-          <Text fontSize="sm" fontWeight="semibold" color="white" noOfLines={1}>
+          <Text fontSize="sm" fontWeight="semibold" color="content.primary" noOfLines={1}>
             {user?.name}
           </Text>
           <Muted noOfLines={1}>{user?.email}</Muted>

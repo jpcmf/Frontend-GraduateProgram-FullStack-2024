@@ -35,7 +35,7 @@ export const SkaterCard = ({ s }: { s: UserBasics }) => {
         <Text
           fontSize="xs"
           fontWeight="bold"
-          color="white"
+          color="content.primary"
           noOfLines={1}
           w="full"
           _groupHover={{ color: "accent.base" }}

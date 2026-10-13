@@ -16,7 +16,7 @@ import { SectionLabel } from "../SectionLabel";
 
 const Stat = ({ value, label, accent }: { value: string; label: string; accent?: boolean }) => (
   <Stack spacing={0} align="center">
-    <Text fontSize="xs" fontWeight="bold" color={accent ? "accent.base" : "white"}>
+    <Text fontSize="xs" fontWeight="bold" color={accent ? "accent.base" : "content.primary"}>
       {value}
     </Text>
     <Text fontSize="2xs" color="content.muted">
@@ -99,7 +99,7 @@ export function LeftSidebar() {
                 size={12}
               />
               <Box overflow="hidden">
-                <Text fontSize="sm" fontWeight="semibold" color="white" noOfLines={1}>
+                <Text fontSize="sm" fontWeight="semibold" color="content.primary" noOfLines={1}>
                   {user?.name}
                 </Text>
                 <Muted noOfLines={1}>{user?.category?.name}</Muted>

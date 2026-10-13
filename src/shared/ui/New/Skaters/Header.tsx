@@ -18,7 +18,7 @@ export const SkatersHeader = ({ totalUsers, pageSize, onPageSizeChange, isLoadin
   <Panel size="md">
     <Flex justify="space-between" align="center" gap={4} wrap="wrap">
       <Box>
-        <Text fontSize="sm" fontWeight="bold" color="white" letterSpacing="tight">
+        <Text fontSize="sm" fontWeight="bold" color="content.primary" letterSpacing="tight">
           Skatistas em Destaque
         </Text>
         <Muted fontSize="xs">
@@ -26,7 +26,10 @@ export const SkatersHeader = ({ totalUsers, pageSize, onPageSizeChange, isLoadin
             "Carregando…"
           ) : (
             <>
-              Skatistas encontrados: <b style={{ color: "white" }}>{totalUsers}</b>
+              Skatistas encontrados:{" "}
+              <Box as="b" color="content.primary">
+                {totalUsers}
+              </Box>
             </>
           )}
         </Muted>

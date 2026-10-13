@@ -34,7 +34,7 @@ export function NavLink({ icon, label, href, badge, ...rest }: NavLinkProps) {
       border="1px solid"
       borderColor={isActive ? "accent.line" : "transparent"}
       transition="all 0.2s"
-      _hover={isActive ? {} : { bg: "surface.raised", color: "white" }}
+      _hover={isActive ? {} : { bg: "surface.raised", color: "content.primary" }}
       aria-current={isActive ? "page" : undefined}
       {...rest}
     >
