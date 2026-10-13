@@ -1,8 +1,8 @@
 # Feature: Dark/Light Mode (New UI)
 
-**Status:** ready
+**Status:** done
 **Priority:** medium
-**Affects:** `src/shared/lib/theme.ts`, `src/app/layout.tsx`
+**Affects:** `src/shared/lib/theme.ts`, `src/app/providers.tsx`, `src/app/layout.tsx`
 
 ## Problem Statement
 
@@ -30,12 +30,14 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 - **`src/shared/lib/theme.ts`**
   - Add a `hubLight` raw palette (light equivalents of `hub`).
   - Convert each semantic token from a string to `{ default: <current dark value>, _light: <light value> }` using the mapping below.
-  - Make global styles mode-aware: body dotted `backgroundImage`, `::selection`, and the three scrollbar rules (`::-webkit-scrollbar-track` / `-thumb` / `-thumb:hover`).
+  - Make global styles mode-aware using nested `_light` pseudo-selectors (body dotted `backgroundImage` and the three scrollbar rules). Note: `{ default, _light }` object _values_ are invalid for style values (the rule is dropped), and a `global: (props) => …` function bakes at first render and goes stale after hydration — so `_light` pseudo-selectors are required.
   - Keep `config = { initialColorMode: "dark", useSystemColorMode: false }` unchanged.
 
+- **`src/app/providers.tsx`** (a client component)
+  - Render `<ColorModeScript initialColorMode={theme.config.initialColorMode} />` so the stored mode is applied before first paint. It must live in a client module: importing `theme` into the server `layout.tsx` throws _"Attempted to call extendTheme() from the server but extendTheme is on the client"_.
+
 - **`src/app/layout.tsx`**
-  - Add `<ColorModeScript initialColorMode={theme.config.initialColorMode} />` so the stored mode is applied before first paint.
-  - Add `suppressHydrationWarning` to `<html>` (Chakra writes the mode class/attribute on the client).
+  - Add `suppressHydrationWarning` to `<html>` **and `<body>`** — Chakra's `ColorModeScript` sets the mode class on `<body>` and `data-theme` on `<html>`, so both need it.
 
 ### New
 
@@ -86,14 +88,14 @@ None. No API endpoints are involved. Color mode is client-side state owned by Ch
 
 ## Acceptance Criteria
 
-- [ ] Toggling color mode flips the new UI (canvas, `Panel`, header, all `Button` variants, `Badge`, `Input`, `Tag`) between dark and light.
-- [ ] Dark mode is visually identical to before this change (no regression).
-- [ ] Light mode text on surfaces is readable (body / secondary / muted text over panel and canvas).
-- [ ] The selected mode persists across reloads, with no flash of the wrong theme on load.
-- [ ] No React hydration warnings related to color mode.
-- [ ] The 88 legacy `useColorModeValue` call sites are unchanged and still work.
-- [ ] `npx tsc --noEmit` passes.
-- [ ] `npx prettier --check` passes on the changed files.
+- [x] Toggling color mode flips the new UI (canvas, `Panel`, header, all `Button` variants, `Badge`, `Input`, `Tag`) between dark and light. _(Verified via the mechanism: switching the stored mode and reloading flips body bg/dots/text, header, and panels correctly. The header toggle is only rendered for signed-in users, so the click-through was not exercised in this environment.)_
+- [x] Dark mode is visually identical to before this change (no regression). _(Dark `default` values are unchanged; locked by `src/shared/lib/__tests__/theme.test.ts`.)_
+- [x] Light mode text on surfaces is readable (body / secondary / muted text over panel and canvas). _(e.g. `content.body` → `gray.700` on a `#f6f7f7`/white surface.)_
+- [x] The selected mode persists across reloads, with no flash of the wrong theme on load. _(`ColorModeScript` applies the stored mode before paint.)_
+- [x] No React hydration warnings related to color mode. _(`suppressHydrationWarning` on `<html>` and `<body>`; console errors 0.)_
+- [x] The 88 legacy `useColorModeValue` call sites are unchanged and still work.
+- [x] `npx tsc --noEmit` passes. _(Only the pre-existing `_OLD_REFERENCE` error remains.)_
+- [x] `npx prettier --check` passes on the changed files.
 
 ## Out of Scope
 

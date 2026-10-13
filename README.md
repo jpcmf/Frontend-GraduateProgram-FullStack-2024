@@ -100,7 +100,7 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 
 ### General
 
-- Dark and light mode
+- Dark and light mode across the new UI, with the choice persisted and applied before first paint
 - Responsive layout (mobile + desktop)
 - Custom 404 page
 - Sitemap API route
