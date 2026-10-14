@@ -88,7 +88,7 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
             position="absolute"
             top={0}
             left={0}
-            spacing={6}
+            spacing={4}
             overflowX="auto"
             overflowY="hidden"
             // pb={4}
@@ -131,8 +131,8 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
                       }}
                     >
                       <ChakraAvatar
-                        w="66px"
-                        h="66px"
+                        w="56px"
+                        h="56px"
                         name={story.name}
                         bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
                         src={story?.image ? story.image : undefined}
@@ -143,12 +143,15 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
                 </Box>
                 <Link
                   mt={1}
-                  fontSize="sm"
+                  fontSize="x-small"
                   fontWeight="medium"
                   color={story.isUserOffline ? textOfflineUser : textOnlineUser}
                   _hover={{
                     color: textHoverUser
                   }}
+                  noOfLines={1}
+                  w="60px"
+                  textAlign="center"
                 >
                   {story.name}
                 </Link>
