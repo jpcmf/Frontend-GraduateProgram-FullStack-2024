@@ -1,3 +1,5 @@
+"use client";
+
 import Stories from "react-insta-stories";
 
 import { Box, Center, Spinner, Text } from "@chakra-ui/react";

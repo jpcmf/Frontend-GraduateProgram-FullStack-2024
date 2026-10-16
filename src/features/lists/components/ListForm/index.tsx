@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import { Button, FormControl, FormErrorMessage, FormLabel, Input, Select, VStack } from "@chakra-ui/react";
