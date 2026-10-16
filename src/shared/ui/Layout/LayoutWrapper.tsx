@@ -2,11 +2,11 @@
 
 import { usePathname } from "next/navigation";
 
-import { Box, Grid, Stack } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 
+import { Sidebar } from "@/shared/ui/Layout/Sidebar";
 import { Footer } from "@/shared/ui/New/Footer";
 import { Header } from "@/shared/ui/New/Header";
-import { LeftSidebar } from "@/shared/ui/New/Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -17,17 +17,17 @@ export function Layout({ children }: LayoutProps) {
   const isAIRoute = pathname === "/ai";
 
   return (
-    <Box minH="100dvh" display="flex" flexDirection="column">
+    <Flex minH="100dvh" direction="column">
       <Header />
-      <Box flex="1" w="full" maxW="1780px" mx="auto" px={{ base: 4, lg: 8 }} py={6}>
-        <Grid alignItems="start" gap={6} templateColumns={{ base: "1fr", lg: "220px minmax(0, 1fr)" }}>
-          <LeftSidebar />
-          <Stack spacing={5} as="main">
+      <Flex flex={1} w="full">
+        <Sidebar />
+        <Box flex={1} w="full" px={{ base: 4, lg: 8 }} py={6}>
+          <Stack spacing={5} as="main" maxW="1780px" mx="auto">
             {children}
           </Stack>
-        </Grid>
-      </Box>
+        </Box>
+      </Flex>
       {!isAIRoute && <Footer />}
-    </Box>
+    </Flex>
   );
 }
