@@ -27,29 +27,33 @@ export function Sidebar() {
     lg: false
   });
 
-  if (isDrawerSidebar) {
-    return (
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay p={0}>
-          <DrawerContent>
-            <DrawerCloseButton mt={3} />
-            <DrawerHeader p={6} bg={bgColor} borderBottom="1px" borderColor={borderColor}>
-              <Link href="/" display={{ base: "flex", lg: "none" }} alignItems="center">
-                <LogoSkateHub />
-              </Link>
-            </DrawerHeader>
-            <DrawerBody p="0">
-              <SidebarNav />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-    );
-  }
-
   return (
-    <Box as="aside" w="56" flexShrink={0}>
-      <SidebarNav />
-    </Box>
+    <>
+      {/* Drawer for mobile - rendered at root level */}
+      {isDrawerSidebar && (
+        <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+          <DrawerOverlay p={0}>
+            <DrawerContent>
+              <DrawerCloseButton mt={3} />
+              <DrawerHeader p={6} bg={bgColor} borderBottom="1px" borderColor={borderColor}>
+                <Link href="/" display={{ base: "flex", lg: "none" }} alignItems="center">
+                  <LogoSkateHub />
+                </Link>
+              </DrawerHeader>
+              <DrawerBody p="0">
+                <SidebarNav />
+              </DrawerBody>
+            </DrawerContent>
+          </DrawerOverlay>
+        </Drawer>
+      )}
+
+      {/* Sidebar for desktop */}
+      {!isDrawerSidebar && (
+        <Box as="aside" w="56" flexShrink={0}>
+          <SidebarNav />
+        </Box>
+      )}
+    </>
   );
 }
