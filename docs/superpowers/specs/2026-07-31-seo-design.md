@@ -1,6 +1,6 @@
 # Feature: SEO — Full Server-Side Rendering & Metadata
 
-**Status:** ready
+**Status:** done
 **Priority:** high
 **Affects:** `app/layout.tsx`, `app/page.tsx`, `app/(public)/spots/page.tsx`, `app/(public)/spots/[id]/page.tsx`, `app/(public)/skatistas/page.tsx`, `app/sitemap.ts`, `app/robots.ts`, `next.config.ts`, `src/app/api/sitemap/`, `src/features/spots/services/`, `src/features/user/services/`, `src/features/stories/services/`, `src/features/skatistas/services/`
 
@@ -158,15 +158,15 @@ API endpoints used:
 
 ## Acceptance Criteria
 
-- [ ] `curl https://skatehub.vercel.app/spots/[id]` returns HTML with the spot name in `<title>`
-- [ ] `curl https://skatehub.vercel.app/skatistas` returns HTML with skatista names visible in the body
-- [ ] `curl https://skatehub.vercel.app/sitemap.xml` returns XML listing all spot URLs
-- [ ] `curl https://skatehub.vercel.app/robots.txt` returns the correct disallow rules
-- [ ] Each public page has unique `og:title` and `og:description` tags
-- [ ] `<html lang="pt-BR">` is set in the root layout
-- [ ] Existing React Query hooks are not modified and still work in protected routes
-- [ ] "Criar Spot" button still only appears to authenticated users
-- [ ] Skatistas pagination still works correctly
+- [x] `curl https://skatehub.vercel.app/spots/[id]` returns HTML with the spot name in `<title>`
+- [x] `curl https://skatehub.vercel.app/skatistas` returns HTML with skatista names visible in the body
+- [x] `curl https://skatehub.vercel.app/sitemap.xml` returns XML listing all spot URLs
+- [x] `curl https://skatehub.vercel.app/robots.txt` returns the correct disallow rules
+- [x] Each public page has unique `og:title` and `og:description` tags
+- [x] `<html lang="pt-BR">` is set in the root layout
+- [x] Existing React Query hooks are not modified and still work in protected routes
+- [x] "Criar Spot" button still only appears to authenticated users
+- [x] Skatistas pagination still works correctly
 
 ---
 

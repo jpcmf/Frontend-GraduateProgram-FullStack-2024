@@ -4,6 +4,8 @@ export { UserProfile } from "./components/Profile";
 // Hooks
 export { useUser } from "./hooks/useUser";
 export { fetchUsers, useUsers } from "./hooks/useUsers";
+// Server Services
+export { getUsersServer } from "./services/getUsers.server";
 // Services
 export { getUser } from "./services/getUser";
 export { getCustomUsersWithPagination, getUsers, getUsers2 } from "./services/getUsers";

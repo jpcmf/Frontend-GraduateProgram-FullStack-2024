@@ -11,14 +11,6 @@ const nextConfig: NextConfig = {
       { hostname: "strapi-production-b6f4.up.railway.app" },
       { hostname: "res.cloudinary.com" }
     ]
-  },
-  rewrites: async () => {
-    return [
-      {
-        source: "/sitemap.xml",
-        destination: "/api/sitemap"
-      }
-    ];
   }
 };
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { FiImage, FiMapPin } from "react-icons/fi";
 
 import { Button, Flex, HStack, Input } from "@chakra-ui/react";

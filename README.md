@@ -103,7 +103,8 @@ The frontend is built with **Next.js 16 App Router**, **TypeScript**, and **Chak
 - Dark and light mode across the new UI, with the choice persisted and applied before first paint
 - Responsive layout (mobile + desktop)
 - Custom 404 page
-- Sitemap API route
+- SEO: public pages are server-rendered with per-page titles, descriptions, and Open Graph tags for better search visibility
+- Dynamic sitemap and robots.txt
 - Redesigned app shell (header, sidebar, footer) built on a new theme, with a paginated skatistas directory
 - Vertical Slice Architecture (VSA) for organized, scalable feature structure
 
