@@ -7,6 +7,7 @@ import { Box, Button, Flex, Grid, Spinner, Text } from "@chakra-ui/react";
 
 import { SpotCard, useSpots } from "@/features/spots";
 import { useAuth } from "@/shared/hooks/useAuth";
+import { Panel } from "@/shared/ui/New/Panel";
 
 export default function SpotsPage() {
   const { user } = useAuth();
@@ -15,13 +16,23 @@ export default function SpotsPage() {
   return (
     <Box position="relative">
       <Box width={"100%"}>
-        <Box position="absolute" top={0} right={0}>
-          {user && (
-            <Button leftIcon={<RiPinDistanceLine />} as={NextLink} href="/spots/new" colorScheme="green" size="sm">
-              Criar Spot
-            </Button>
-          )}
-        </Box>
+        <Panel size="md" mb={4}>
+          <Flex justify="space-between" align="center" gap={4} wrap="wrap">
+            <Text fontSize="sm" fontWeight="bold" color="content.primary" letterSpacing="tight">
+              Spots
+            </Text>
+            {user && (
+              <Button leftIcon={<RiPinDistanceLine />} as={NextLink} href="/spots/new" colorScheme="green" size="sm">
+                Criar Spot
+              </Button>
+            )}
+          </Flex>
+        </Panel>
+        <Box
+        // position="absolute"
+        // top={0}
+        // right={0}
+        ></Box>
 
         {isLoading && (
           <Flex justify="center" align="center" minH="300px">

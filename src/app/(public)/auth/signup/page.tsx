@@ -7,17 +7,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  InputGroup,
-  InputRightElement,
-  Stack,
-  Text,
-  useColorModeValue
-} from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -26,7 +16,7 @@ import { CATEGORIES, getCategoryByValue } from "@/shared/config/categories";
 import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
 import { Input } from "@/shared/ui/form/Input";
 import { Select } from "@/shared/ui/form/Select";
-import { TitleSection } from "@/shared/ui/TitleSection";
+import { Panel } from "@/shared/ui/New/Panel";
 import { Toast } from "@/shared/ui/Toast";
 
 const signUpSchema = z
@@ -88,8 +78,6 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isExecutingRecaptcha, setIsExecutingRecaptcha] = useState(false);
   const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
-
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
 
   const {
     handleSubmit,
@@ -179,14 +167,12 @@ export default function SignUp() {
   };
 
   return (
-    <>
-      <TitleSection title="Criar conta" />
+    <Panel>
       <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="start" width="100%">
         <Flex
           as="form"
           w="100%"
-          bg={bgColor}
-          p={{ base: 4, md: 8 }}
+          p={{ base: 4, md: 4 }}
           borderRadius={8}
           flexDir="column"
           onSubmit={handleSubmit(handleSignUp)}
@@ -337,6 +323,6 @@ export default function SignUp() {
           </Flex>
         </Flex>
       </Flex>
-    </>
+    </Panel>
   );
 }

@@ -7,6 +7,7 @@ import { Box, Button, Flex, HStack, IconButton, Image, Text, Textarea } from "@c
 
 import { apiClient } from "@/shared/api/apiClient";
 import { useColors } from "@/shared/hooks/useColors";
+import { Muted } from "@/shared/ui/New/Muted";
 
 import type { CommentImage } from "../../types/comments";
 
@@ -84,6 +85,10 @@ export function CommentForm({ submitLabel, isSubmitting, initialImages, onCancel
       w="100%"
       flexDir="column"
       gap={2}
+      mb={6}
+      pb={6}
+      borderBottom="1px solid"
+      borderColor="hub.border"
       onSubmit={e => {
         e.preventDefault();
         void handleSubmit();
@@ -95,10 +100,11 @@ export function CommentForm({ submitLabel, isSubmitting, initialImages, onCancel
           onChange={e => setText(e.target.value)}
           placeholder="Escreva um comentário..."
           resize="vertical"
+          fontSize="sm"
         />
-        <Text fontSize="xs" textAlign="right" color={textError ? "red.500" : textSecondary} mt={1}>
+        <Muted fontSize="xs" textAlign="right" color={textError ? "red.500" : "content.muted"} mt={1}>
           {text.length}/{COMMENT_TEXT_MAX_LENGTH}
-        </Text>
+        </Muted>
       </Box>
 
       {uploadedImages.length > 0 && (

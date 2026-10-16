@@ -19,6 +19,7 @@ import {
 
 import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
+import { Muted } from "@/shared/ui/New/Muted";
 
 import { useComments } from "../../hooks/useComments";
 import { useCreateComment } from "../../hooks/useCreateComment";
@@ -121,7 +122,7 @@ export function CommentList({ spotId }: CommentListProps) {
       )}
 
       {!commentsQuery.isLoading && comments.length === 0 && (
-        <Text color="gray.500">Nenhum comentário ainda. Seja o primeiro.</Text>
+        <Muted size="sm">Nenhum comentário ainda. Seja o primeiro.</Muted>
       )}
 
       {comments.length > 0 && (

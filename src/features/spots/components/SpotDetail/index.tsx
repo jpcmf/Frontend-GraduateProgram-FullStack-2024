@@ -22,8 +22,7 @@ import {
   HStack,
   Icon,
   Text,
-  useDisclosure,
-  VStack
+  useDisclosure
 } from "@chakra-ui/react";
 
 import { CommentList } from "@/features/comments";
@@ -31,6 +30,7 @@ import { useAuth } from "@/shared/hooks/useAuth";
 import { useColors } from "@/shared/hooks/useColors";
 import { fetchCoordinates } from "@/shared/lib/mapbox";
 import { MapBox } from "@/shared/ui/Map";
+import { Panel } from "@/shared/ui/New/Panel";
 import { TitleSection } from "@/shared/ui/TitleSection";
 
 import { useDeleteSpot } from "../../hooks/useDeleteSpot";
@@ -97,176 +97,167 @@ export function SpotDetail({ spot }: SpotDetailProps) {
 
   return (
     <>
-      <Box position="relative">
-        <TitleSection title="Spot" />
-        <Box width={"100%"}>
-          <Box position="absolute" top={0} right={0}>
-            {isOwner && (
-              <Flex gap={2}>
-                <Button as={NextLink} href={`/spots/${spot.id}/edit`} size="sm" colorScheme="green">
-                  Editar
-                </Button>
-                <Button size="sm" colorScheme="red" onClick={onOpen}>
-                  Excluir
-                </Button>
-              </Flex>
-            )}
+      {isOwner && (
+        <Panel>
+          <Flex gap={2}>
+            <Button as={NextLink} href={`/spots/${spot.id}/edit`} size="sm" colorScheme="green">
+              Editar
+            </Button>
+            <Button size="sm" colorScheme="red" onClick={onOpen}>
+              Excluir
+            </Button>
+          </Flex>
+        </Panel>
+      )}
+      {/* <VStack align="stretch"> */}
+      {/* Hero image */}
+      <Box
+        position="relative"
+        w="100%"
+        h={{ base: "220px", md: "340px" }}
+        borderRadius="lg"
+        overflow="hidden"
+        bg={cardBg}
+      >
+        {heroPhoto ? (
+          <Box position="relative" h="100%" w="100%">
+            <NextImage
+              src={heroPhoto}
+              alt={name}
+              fill
+              priority
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 80vw"
+            />
+            {/* Gradient overlay */}
+            <Box
+              position="absolute"
+              inset={0}
+              bgGradient="linear(to-b, transparent 40%, blackAlpha.800 100%)"
+              zIndex={1}
+            />
           </Box>
+        ) : (
+          <Flex w="100%" h="100%" align="center" justify="center">
+            <Text color="gray.500" fontSize="sm">
+              Sem foto
+            </Text>
+          </Flex>
+        )}
+
+        {/* Type badge overlaid on hero */}
+        <Box position="absolute" bottom={0} left={0} zIndex={10} w="100%" p={4}>
+          <Badge bg={TYPE_COLORS[type] + ".400"} color="white" px={2} py={0} borderRadius="full">
+            {TYPE_LABELS[type]}
+          </Badge>
+          {/* Title + owner actions */}
+          <Flex justify="space-between" align="flex-start" gap={4} w="full">
+            <Flex gap={1} direction="column">
+              <Heading size={{ base: "md", md: "lg" }} color="white">
+                {name}
+              </Heading>
+              {address && (
+                <HStack>
+                  <Icon as={FaMapMarkerAlt} />
+                  <Text color="white" fontSize={{ base: "sm", md: "md" }}>
+                    {address}
+                  </Text>
+                </HStack>
+              )}
+              {creatorName && (
+                <Text fontSize="sm" color="white">
+                  Criado por{" "}
+                  <Box as="span" color="green.400">
+                    {creatorName}
+                  </Box>
+                </Text>
+              )}
+            </Flex>
+          </Flex>
         </Box>
       </Box>
-      <VStack align="stretch" spacing={6}>
-        {/* Hero image */}
-        <Box
-          position="relative"
-          w="100%"
-          h={{ base: "220px", md: "340px" }}
-          borderRadius="lg"
-          overflow="hidden"
-          bg={cardBg}
-        >
-          {heroPhoto ? (
-            <Box position="relative" h="100%" w="100%">
-              <NextImage
-                src={heroPhoto}
-                alt={name}
-                fill
-                priority
-                style={{ objectFit: "cover" }}
-                sizes="(max-width: 768px) 100vw, 80vw"
-              />
-              {/* Gradient overlay */}
-              <Box
-                position="absolute"
-                inset={0}
-                bgGradient="linear(to-b, transparent 40%, blackAlpha.800 100%)"
-                zIndex={1}
-              />
-            </Box>
-          ) : (
-            <Flex w="100%" h="100%" align="center" justify="center">
-              <Text color="gray.500" fontSize="sm">
-                Sem foto
-              </Text>
-            </Flex>
-          )}
 
-          {/* Type badge overlaid on hero */}
-          <Box position="absolute" bottom={0} left={0} zIndex={10} w="100%" p={4}>
-            <Badge bg={TYPE_COLORS[type] + ".400"} color="white" px={2} py={0} borderRadius="full">
-              {TYPE_LABELS[type]}
-            </Badge>
-            {/* Title + owner actions */}
-            <Flex justify="space-between" align="flex-start" gap={4} w="full">
-              <Flex gap={1} direction="column">
-                <Heading size={{ base: "md", md: "lg" }} color="white">
-                  {name}
-                </Heading>
-                {address && (
-                  <HStack>
-                    <Icon as={FaMapMarkerAlt} />
-                    <Text color="white" fontSize={{ base: "sm", md: "md" }}>
-                      {address}
-                    </Text>
-                  </HStack>
-                )}
-                {creatorName && (
-                  <Text fontSize="sm" color="white">
-                    Criado por{" "}
-                    <Box as="span" color="green.400">
-                      {creatorName}
-                    </Box>
-                  </Text>
-                )}
-              </Flex>
-            </Flex>
-          </Box>
-        </Box>
-
-        {/* Spot details card */}
-        {description && (
-          <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
-            <Heading size="md" py={0} pr={4} mb={4}>
-              Detalhes do Spot
-            </Heading>
-            <Text textAlign="left" lineHeight="tall">
+      {/* Spot details card */}
+      {description && (
+        <Box>
+          <TitleSection title="Detalhes do Spot" size="sm" />
+          <Panel>
+            <Text textAlign="left" lineHeight="tall" fontSize="sm">
               {description}
             </Text>
-          </Box>
-        )}
+          </Panel>
+        </Box>
+      )}
 
-        {/* Extra gallery photos (2nd photo onwards) */}
-        {galleryPhotos.length > 0 && (
-          <Grid templateColumns="repeat(auto-fill, minmax(260px, 1fr))" gap={4}>
-            {galleryPhotos.map(photo => (
-              <Box key={photo.id} position="relative" h="200px" borderRadius="lg" overflow="hidden">
-                <NextImage
-                  src={photo.attributes.url}
-                  alt={name}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </Box>
-            ))}
-          </Grid>
-        )}
-
-        {/* Map + Comments two-column layout */}
-        <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={6}>
-          {/* Localização */}
-          <Box>
-            <TitleSection title="Localização" size="md" />
-            {address ? (
-              <Box bg={cardBg} borderRadius="lg" overflow="hidden" h="500px">
-                <MapBox posix={[position?.longitude ?? 0, position?.latitude ?? 0]} zoom={16} />
-              </Box>
-            ) : (
-              <Box bg={cardBg} borderRadius="lg" h="260px" display="flex" alignItems="center" justifyContent="center">
-                <Text color="gray.500" fontSize="sm">
-                  Endereço não disponível
-                </Text>
-              </Box>
-            )}
-          </Box>
-
-          {/* Comentários */}
-          <Box>
-            <TitleSection title="Comentários" size="md" />
-            <CommentList spotId={spot.id} />
-          </Box>
+      {/* Extra gallery photos (2nd photo onwards) */}
+      {galleryPhotos.length > 0 && (
+        <Grid templateColumns="repeat(auto-fill, minmax(260px, 1fr))" gap={4}>
+          {galleryPhotos.map(photo => (
+            <Box key={photo.id} position="relative" h="200px" borderRadius="lg" overflow="hidden">
+              <NextImage
+                src={photo.attributes.url}
+                alt={name}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </Box>
+          ))}
         </Grid>
+      )}
 
-        {/* Delete confirmation dialog */}
-        <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-          <AlertDialogOverlay>
-            <AlertDialogContent bg={bgColorNoOpacity} borderRadius="lg" shadow="lg">
-              <AlertDialogHeader fontWeight="bold">Excluir spot</AlertDialogHeader>
-              <AlertDialogBody>
-                <Flex gap={2} w="full" align="start" mb={4} px={{ base: 2, md: 6 }}>
-                  <Text fontSize="sm" color={textMuted}>
-                    Tem certeza que deseja excluir <strong>{name}</strong>? <br />
-                    Esta ação não pode ser desfeita.
-                  </Text>
-                </Flex>
-              </AlertDialogBody>
-              <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose} variant="ghost">
-                  Cancelar
-                </Button>
-                <Button
-                  colorScheme="red"
-                  ml={3}
-                  onClick={handleDelete}
-                  isLoading={isDeleting}
-                  loadingText="Excluindo..."
-                >
-                  Excluir
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
-      </VStack>
+      {/* Map + Comments two-column layout */}
+      <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={6}>
+        {/* Localização */}
+        <Box>
+          <TitleSection title="Localização" size="sm" />
+          {address ? (
+            <Box bg={cardBg} borderRadius="lg" overflow="hidden" h="500px">
+              <MapBox posix={[position?.longitude ?? 0, position?.latitude ?? 0]} zoom={16} />
+            </Box>
+          ) : (
+            <Box bg={cardBg} borderRadius="lg" h="260px" display="flex" alignItems="center" justifyContent="center">
+              <Text color="gray.500" fontSize="sm">
+                Endereço não disponível
+              </Text>
+            </Box>
+          )}
+        </Box>
+
+        {/* Comentários */}
+        <Box>
+          <Panel>
+            <TitleSection title="Comentários" size="sm" />
+            <CommentList spotId={spot.id} />
+          </Panel>
+        </Box>
+      </Grid>
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent bg={bgColorNoOpacity} borderRadius="lg" shadow="lg">
+            <AlertDialogHeader fontWeight="bold">Excluir spot</AlertDialogHeader>
+            <AlertDialogBody>
+              <Flex gap={2} w="full" align="start" mb={4} px={{ base: 2, md: 6 }}>
+                <Text fontSize="sm" color={textMuted}>
+                  Tem certeza que deseja excluir <strong>{name}</strong>? <br />
+                  Esta ação não pode ser desfeita.
+                </Text>
+              </Flex>
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose} variant="ghost">
+                Cancelar
+              </Button>
+              <Button colorScheme="red" ml={3} onClick={handleDelete} isLoading={isDeleting} loadingText="Excluindo...">
+                Excluir
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+      {/* </VStack> */}
     </>
   );
 }

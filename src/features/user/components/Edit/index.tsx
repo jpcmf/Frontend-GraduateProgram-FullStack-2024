@@ -15,7 +15,6 @@ import { Input } from "@/shared/ui/form/Input";
 import { Select } from "@/shared/ui/form/Select";
 import { Textarea } from "@/shared/ui/form/Textarea";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
-import { TitleSection } from "@/shared/ui/TitleSection";
 import { Toast } from "@/shared/ui/Toast";
 
 // type RegisterForm = {
@@ -120,8 +119,6 @@ export function UserEdit() {
 
   return (
     <>
-      <TitleSection title="Editar perfil" />
-
       {user && <ProfileHeader user={user} variant="edit" />}
       <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]}>
         <Flex mb="8" direction="column">
