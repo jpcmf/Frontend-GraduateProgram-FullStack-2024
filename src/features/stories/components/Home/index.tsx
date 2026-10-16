@@ -46,7 +46,9 @@ export function StoriesHome({ initialStories }: StoriesHomeProps) {
     if (isError && !initialStories) {
       return (
         <Flex justify="center" align="center" minH="139px">
-          <Text color="red.500">Erro ao carregar stories.</Text>
+          <Text color="red.500" fontSize="sm">
+            Erro ao carregar stories.
+          </Text>
         </Flex>
       );
     }

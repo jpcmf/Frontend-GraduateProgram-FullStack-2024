@@ -67,7 +67,7 @@ export function RecentCommentsFeed() {
     return (
       <Box textAlign="center">
         {header}
-        <Text size="xs" color={mutedColor}>
+        <Text fontSize="sm" color="red.500">
           Não foi possível carregar as atividades recentes.
         </Text>
       </Box>
