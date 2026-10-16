@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext } from "react";
 import { RiContactsLine, RiDashboardLine, RiPencilRulerFill, RiPinDistanceLine, RiRobot2Line } from "react-icons/ri";
 import { TbUsers } from "react-icons/tb";
