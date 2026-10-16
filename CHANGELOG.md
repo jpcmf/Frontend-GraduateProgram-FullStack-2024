@@ -5,10 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- 2026-10-13 - Make the new UI theme-aware: light/dark semantic tokens, mode-aware page background and scrollbars, and the saved mode applied before first paint _(v2.1.0)_
-- 2026-10-09 - Adopt the new app shell (header, sidebar, footer) as the single layout and wire the skatistas directory to real data with working pagination _(v2.1.0)_
-- 2026-09-22 - Redesign home "Atividades recentes" feed to card-based layout with author category badges and linked spot pills _(v2.1.0)_
-- 2026-09-22 - Add spot comments: create/edit/delete with image upload, optimistic heart reactions, and a recent comments activity feed on the home page _(v2.1.0)_
+## [3.0.0] - 2026-10-16
+
+- 2026-10-16 - Apply the Panel-based layout to spot detail, profile, sign-up, and comments pages for a consistent card-driven UI _(v3.0.0)_
+- 2026-10-13 - Make the new UI theme-aware: light/dark semantic tokens, mode-aware page background and scrollbars, and the saved mode applied before first paint _(v3.0.0)_
+- 2026-10-13 - Adjust stories swiper layout for compact display _(v3.0.0)_
+- 2026-10-09 - Adopt the new app shell (header, sidebar, footer) as the single layout and wire the skatistas directory to real data with working pagination _(v3.0.0)_
+- 2026-09-22 - Redesign home "Atividades recentes" feed to card-based layout with author category badges and linked spot pills _(v3.0.0)_
+- 2026-09-22 - Add spot comments: create/edit/delete with image upload, optimistic heart reactions, and a recent comments activity feed on the home page _(v3.0.0)_
 
 ## [2.1.0] - 2026-07-15
 
