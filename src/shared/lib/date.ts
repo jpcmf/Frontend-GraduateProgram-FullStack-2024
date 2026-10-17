@@ -5,7 +5,7 @@
  * - This week: "Segunda-feira às 14:30"
  * - Older: "18/12/2025"
  */
-import { format, formatRelative, isToday, isYesterday, parseISO } from "date-fns";
+import { format, formatDistanceToNow, formatRelative, isToday, isYesterday, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export function formatSmartDate(date: string | Date | number): string {
@@ -29,6 +29,20 @@ export function formatSmartDate(date: string | Date | number): string {
     }
 
     return format(parsedDate, "dd/MM/yyyy", { locale: ptBR });
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Relative time in PT-BR ("há 2 horas", "há 5 minutos"). Returns "" on invalid input.
+ */
+export function formatTimeAgo(date: string | Date | number): string {
+  if (!date) return "";
+
+  try {
+    const parsedDate = typeof date === "string" ? parseISO(date) : new Date(date);
+    return `há ${formatDistanceToNow(parsedDate, { locale: ptBR })}`;
   } catch {
     return "";
   }

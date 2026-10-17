@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { getSkatistasServer, SkatistaPagination } from "@/features/skatistas";
-import { TitleSection } from "@/shared/ui/TitleSection";
 
 export const metadata: Metadata = {
   title: "Skatistas — SkateHub",
@@ -23,10 +22,5 @@ export const metadata: Metadata = {
 export default async function SkatistasPage() {
   const { users, totalFetchedUsers } = await getSkatistasServer(1, 50);
 
-  return (
-    <>
-      <TitleSection title="Skatistas" />
-      <SkatistaPagination initialUsers={users} initialTotalUsers={totalFetchedUsers} initialPageSize={50} />
-    </>
-  );
+  return <SkatistaPagination initialUsers={users} initialTotalUsers={totalFetchedUsers} initialPageSize={50} />;
 }

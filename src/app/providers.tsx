@@ -1,6 +1,6 @@
 "use client";
 
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
@@ -34,6 +34,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <PostHogProvider client={posthog}>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <ErrorBoundary>
         <AuthProvider>
           <ChakraProvider theme={theme}>

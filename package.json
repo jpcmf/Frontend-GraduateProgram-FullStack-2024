@@ -1,6 +1,6 @@
 {
   "name": "skatehub-frontend",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
     "format:imports": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@chakra-ui/anatomy": "^2.3.4",
@@ -68,7 +70,8 @@
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "typescript": "^5",
-    "typescript-eslint": "^8.46.4"
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^5.0.3"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx,md,mdx,css,yaml,yml}": [

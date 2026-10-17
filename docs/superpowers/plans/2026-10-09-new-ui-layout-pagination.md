@@ -34,6 +34,7 @@
 ### Task 1: Replace the app shell with a single new layout
 
 **Files:**
+
 - Modify: `src/shared/ui/Layout/LayoutWrapper.tsx`
 - Modify: `src/shared/ui/index.ts:11` (remove `export * from "./Layout";`)
 - Delete: `src/shared/ui/Layout/Header/` (index, Notification, Profile, Search)
@@ -42,6 +43,7 @@
 - Delete: `src/shared/ui/Layout/index.ts`
 
 **Interfaces:**
+
 - Produces: `Layout({ children }: { children: React.ReactNode })` — renders the new shell once; hides `Footer` when `pathname === "/ai"`.
 
 - [ ] **Step 1: Rewrite `LayoutWrapper.tsx`**
@@ -116,9 +118,11 @@ git commit -m "refactor(layout): replace dual old+new layout with single new she
 The mock composition in `/new` directly imports `SkatersHeader`, `SkaterGrid`, and `Pagination`, whose signatures change in Tasks 3–5. Repoint it at the live feature so it stays a working preview and nothing breaks.
 
 **Files:**
+
 - Modify: `src/app/(public)/new/page.tsx`
 
 **Interfaces:**
+
 - Consumes: `SkatistasHome` from `@/features/skatistas/Home` (client component).
 
 - [ ] **Step 1: Replace the page body**
@@ -148,14 +152,16 @@ git commit -m "chore(preview): point /new at the live skatistas feature"
 ### Task 3: Working Pagination (pure helper + Vitest + controlled component)
 
 **Files:**
+
 - Create: `vitest.config.ts`
-- Create: `src/shared/ui/New/Pagination/getPageNumbers.ts`
-- Create: `src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts` (co-located with implementation)
+- Create: `src/shared/hooks/usePagination.ts` (was an empty stub from the VSA migration; now the home of `getPageNumbers`) and export it from `src/shared/hooks/index.ts` (barrel: `export { getPageNumbers } from "./usePagination"`)
+- Create: `src/shared/hooks/__tests__/getPageNumbers.test.ts` (co-located with implementation)
 - Modify: `src/shared/ui/New/Pagination/index.tsx`
 - Modify: `package.json` (add `vitest` devDependency + `test` scripts)
 
 **Interfaces:**
-- Produces: `type PageItem = number | "…"` and `getPageNumbers(currentPage: number, totalPages: number, siblingCount?: number): PageItem[]` from `./getPageNumbers`.
+
+- Produces: `type PageItem = number | "…"` and `getPageNumbers(currentPage: number, totalPages: number, siblingCount?: number): PageItem[]` from `@/shared/hooks/usePagination`.
 - Produces: `Pagination({ currentPage, totalPages, onPageChange, isLoading }: PaginationProps)` where `onPageChange: (page: number) => void`.
 
 - [ ] **Step 1: Add the Vitest harness**
@@ -172,7 +178,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     environment: "node",
-    include: ["src/__tests__/**/*.test.ts"]
+    include: ["src/**/*.test.ts"]
   }
 });
 ```
@@ -186,12 +192,12 @@ Add to `package.json` `scripts`:
 
 - [ ] **Step 2: Write the failing test**
 
-`src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts`:
+`src/shared/hooks/__tests__/getPageNumbers.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
 
-import { getPageNumbers } from "@/shared/ui/New/Pagination/getPageNumbers";
+import { getPageNumbers } from "@/shared/hooks/usePagination";
 
 describe("getPageNumbers", () => {
   it("returns every page when the total fits", () => {
@@ -226,18 +232,17 @@ describe("getPageNumbers", () => {
 
 - [ ] **Step 3: Run the test and watch it fail**
 
-Run: `pnpm test src/shared/ui/New/Pagination/__tests__/getPageNumbers.test.ts`
-Expected: FAIL — cannot resolve `@/shared/ui/New/Pagination/getPageNumbers`.
+Run: `pnpm test src/shared/hooks/__tests__/getPageNumbers.test.ts`
+Expected: FAIL — cannot resolve `@/shared/hooks/usePagination`.
 
 - [ ] **Step 4: Implement the helper**
 
-`src/shared/ui/New/Pagination/getPageNumbers.ts`:
+`src/shared/hooks/usePagination.ts`:
 
 ```ts
 export type PageItem = number | "…";
 
-const range = (start: number, end: number): number[] =>
-  Array.from({ length: end - start + 1 }, (_, i) => start + i);
+const range = (start: number, end: number): number[] => Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
 /**
  * Build the page list for a paginated control, inserting ellipses when the
@@ -284,8 +289,9 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import { Button, HStack, Text } from "@chakra-ui/react";
 
+import { getPageNumbers } from "@/shared/hooks/usePagination";
+
 import { Panel } from "../Panel";
-import { getPageNumbers } from "./getPageNumbers";
 
 export interface PaginationProps {
   currentPage: number;
@@ -358,7 +364,7 @@ Expected: no errors.
 - [ ] **Step 8: Commit**
 
 ```bash
-git add vitest.config.ts package.json pnpm-lock.yaml src/shared/ui/New/Pagination src/__tests__
+git add vitest.config.ts package.json pnpm-lock.yaml src/shared/hooks src/shared/ui/New/Pagination
 git commit -m "feat(pagination): controlled pagination with page-number windowing and unit tests"
 ```
 
@@ -367,9 +373,11 @@ git commit -m "feat(pagination): controlled pagination with page-number windowin
 ### Task 4: Controlled `SkatersHeader`
 
 **Files:**
+
 - Modify: `src/shared/ui/New/Skaters/Header.tsx`
 
 **Interfaces:**
+
 - Produces: `SkatersHeader({ totalUsers, pageSize, onPageSizeChange, isLoading }: SkatersHeaderProps)` with `onPageSizeChange: (pageSize: number) => void`; page-size options `[5, 10, 20, 50]`.
 
 - [ ] **Step 1: Rewrite the component**
@@ -450,11 +458,13 @@ git commit -m "feat(skaters): controlled page-size select and real total in head
 ### Task 5: Presentational `SkaterGrid` and cleaned `SkaterCard`
 
 **Files:**
+
 - Create: `src/shared/lib/socialMedia.ts` (social link helpers)
 - Modify: `src/shared/ui/New/Skaters/Grid.tsx`
 - Modify: `src/shared/ui/New/User/Card.tsx`
 
 **Interfaces:**
+
 - Produces: `SkaterGrid({ users }: { users: UserBasics[] })`.
 - Consumes: `UserBasics` type from `@/features/user` (type-only import — the existing `Card.tsx` already follows this pattern).
 
@@ -522,6 +532,7 @@ export const SkaterGrid = ({ users }: { users: UserBasics[] }) => (
 - [ ] **Step 3: Clean `Card.tsx`**
 
 Apply these edits to `src/shared/ui/New/User/Card.tsx`:
+
 - Delete `import { useContext } from "react";` and `import { AuthContext } from "@/features/auth";`.
 - Delete the `console.log(s);` line and the unused `const { isAuthenticated } = useContext(AuthContext);` line.
 - Replace the unconditional Instagram/Globe `ChakraLink href="#"` pair with conditional links using the social helpers:
@@ -540,16 +551,26 @@ import { openInstagram, openWebsite } from "@/shared/lib/socialMedia";
   color="content.muted"
 >
   {s.instagram_url && (
-    <Box as="button" aria-label={`Instagram de ${s.name}`} onClick={() => openInstagram(s.instagram_url)} _hover={{ color: "pink.400" }}>
+    <Box
+      as="button"
+      aria-label={`Instagram de ${s.name}`}
+      onClick={() => openInstagram(s.instagram_url)}
+      _hover={{ color: "pink.400" }}
+    >
       <FiInstagram size={14} />
     </Box>
   )}
   {s.website_url && (
-    <Box as="button" aria-label={`Site de ${s.name}`} onClick={() => openWebsite(s.website_url)} _hover={{ color: "blue.400" }}>
+    <Box
+      as="button"
+      aria-label={`Site de ${s.name}`}
+      onClick={() => openWebsite(s.website_url)}
+      _hover={{ color: "blue.400" }}
+    >
       <FiGlobe size={14} />
     </Box>
   )}
-</HStack>
+</HStack>;
 ```
 
 Remove the now-unused `ChakraLink` import. Keep the `ChakraAvatar`, `Box`, `HStack`, `Stack`, `Text` imports.
@@ -571,9 +592,11 @@ git commit -m "feat(skaters): presentational grid, social helpers, and console/a
 ### Task 6: Wire the Skatistas feature to the new components
 
 **Files:**
+
 - Modify: `src/features/skatistas/index.tsx`
 
 **Interfaces:**
+
 - Consumes: `SkatersHeader`, `SkaterGrid` (from `@/shared/ui/New/Skaters`) and `Pagination` (from `@/shared/ui/New/Pagination`).
 - Keeps: `SkatistasProps` unchanged (`users: UserBasicsWithPagination`, `currentPage`, `pageSize`, `totalUsers`, `isLoading`, `onPageChange`, `onPageSizeChange`) — callers in `src/app/(public)/skatistas/page.tsx` and `src/features/skatistas/Home/index.tsx` do not change.
 
@@ -643,6 +666,7 @@ Expected: no errors; no unused imports.
 - [ ] **Step 3: Manual check**
 
 Run: `pnpm dev`, open `/skatistas`. Expected:
+
 - Header shows the real total; changing page size refetches and resets to page 1.
 - Grid shows real skaters (2/3/4 columns by breakpoint).
 - Pagination appears only with more than one page; clicking a number, "Anterior", and "Próxima" fetches the correct page; controls are disabled while fetching and at the bounds.
@@ -659,11 +683,13 @@ git commit -m "feat(skatistas): compose new header, grid, and pagination over th
 ### Task 7: Modernize the users data layer
 
 **Files:**
+
 - Modify: `src/features/user/services/getUsers.ts`
 - Modify: `src/features/user/services/getUsersCount.ts`
 - Modify: `src/features/user/hooks/useUsers.ts`
 
 **Interfaces:**
+
 - Keeps: `useUsers(currentPage?, pageSize?, filter?)` returning `{ users: UserBasicsWithPagination; totalFetchedUsers: number }` — consumers unchanged.
 
 - [ ] **Step 1: Migrate services to `apiClient`**
@@ -741,6 +767,7 @@ git commit -m "refactor(users): apiClient migration and derive total from pagina
 ### Task 8: Server/client boundary hardening
 
 **Files:**
+
 - Modify (add `"use client"` as the first line): `src/shared/ui/CardUser.tsx`, `src/shared/ui/LogoSkateHub.tsx`, `src/shared/ui/TitleSection.tsx`, `src/shared/ui/Toast.tsx`, `src/shared/ui/ErrorBoundary.tsx`, `src/shared/ui/ReusableModal.tsx`, `src/shared/ui/form/Input.tsx`, `src/shared/ui/form/Select.tsx`, `src/shared/ui/form/Textarea.tsx`
 - Modify: `src/shared/ui/New/IconLabel/index.tsx` (remove `as any`)
 - Delete: `src/shared/ui/Pagination.tsx` (empty 0-byte dead file, superseded by `New/Pagination`)
@@ -790,6 +817,7 @@ git commit -m "fix(rsc): mark hook-rendering shared components as client; drop a
 ### Task 9: Documentation + spec acceptance criteria
 
 **Files:**
+
 - Modify: `README.md` (Features section)
 - Modify: `CHANGELOG.md` (`[Unreleased]`)
 - Modify: `specs/new-ui-layout.md` (mark acceptance criteria `[x]`)

@@ -7,8 +7,9 @@ import { Badge, Box, Button, Flex, Grid, GridItem, Image, Spinner, Text } from "
 
 import { useListsByUser } from "@/features/lists";
 import { useAuth } from "@/shared/hooks/useAuth";
-import { useColors } from "@/shared/hooks/useColors";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
+import { Muted } from "@/shared/ui/New/Muted";
+import { Panel } from "@/shared/ui/New/Panel";
 import { TitleSection } from "@/shared/ui/TitleSection";
 
 import { useUser } from "../../hooks/useUser";
@@ -32,7 +33,6 @@ export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
   const { data: listsResponse } = useListsByUser(userId);
   const userLists = listsResponse?.data || [];
-  const { cardBg, textMuted, borderColor, userCollectionCardItemBg } = useColors();
   const isOwnProfile = String(currentUser?.id) === String(userId);
 
   const tricks = [
@@ -77,86 +77,76 @@ export function UserProfile({ userId }: { userId: string }) {
 
   return (
     <>
-      <TitleSection title="Perfil" />
       <ProfileHeader user={user} variant="profile" />
       <Flex minH="100vh" w="full" direction="column">
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={{ base: 0, md: 6 }} mb={6}>
           <GridItem colSpan={{ base: 1, md: 3 }}>
             {user.about && (
-              <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={6}>
-                <TitleSection title="Sobre" size="md" />
-                {/* <Heading size="md" py={0} pr={4} mb={4}>
-                Sobre
-              </Heading> */}
-                <Text textAlign="left" lineHeight="tall">
-                  {user?.about}
-                </Text>
-              </Box>
+              <>
+                <TitleSection title="Sobre" size="sm" />
+                <Panel mb={6}>
+                  <Text textAlign="left" lineHeight="tall" fontSize="sm">
+                    {user?.about}
+                  </Text>
+                </Panel>
+              </>
             )}
           </GridItem>
           <GridItem colSpan={{ base: 1, md: 2 }}>
-            <Box bg={cardBg} borderRadius="lg" p={{ base: 4, md: 8 }} mb={0}>
-              <Flex justify="space-between" align="start" mb={0}>
-                <TitleSection title="Coleções" size="md" />
-                {isOwnProfile && (
-                  <Button leftIcon={<RiEditLine />} as={NextLink} href="/lists" colorScheme="green" size="xs">
-                    Editar coleções
-                  </Button>
-                )}
-              </Flex>
-              {userLists && userLists.length > 0 ? (
-                <>
-                  <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(1, 1fr)" }} gap={4}>
-                    {userLists.map(listItem => {
-                      const list = listItem.attributes;
-                      const itemCount = list.items?.data?.length ?? 0;
-                      return (
-                        <Box
-                          as={NextLink}
-                          href={`/lists/${listItem.id}`}
-                          key={listItem.id}
-                          bg={userCollectionCardItemBg}
-                          borderRadius="lg"
-                          border="1px solid"
-                          borderColor={borderColor}
-                          p={4}
-                          _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s" }}
-                        >
-                          <Badge colorScheme={TYPE_COLORS[list.type] || "gray"} px={2} borderRadius="full">
-                            {TYPE_LABELS[list.type] || list.type}
-                          </Badge>
-                          <Text fontWeight="semibold" mt={2}>
-                            {list.title}
-                          </Text>
-                          <Text fontSize="sm" color={textMuted} mt={1}>
-                            {itemCount} {itemCount === 1 ? "item" : "itens"}
-                          </Text>
-                        </Box>
-                      );
-                    })}
-                  </Grid>
-                </>
-              ) : (
-                <Text>Nenhuma coleção encontrada.</Text>
+            <Flex justify="space-between" align="start" mb={0}>
+              <TitleSection title="Coleções" size="sm" />
+              {isOwnProfile && (
+                <Button leftIcon={<RiEditLine />} as={NextLink} href="/lists" colorScheme="green" size="xs">
+                  Editar coleções
+                </Button>
               )}
-            </Box>
+            </Flex>
+            <Panel>
+              <Box mb={0}>
+                {userLists && userLists.length > 0 ? (
+                  <>
+                    <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(1, 1fr)" }} gap={4}>
+                      {userLists.map(listItem => {
+                        const list = listItem.attributes;
+                        const itemCount = list.items?.data?.length ?? 0;
+                        return (
+                          <Box as={NextLink} href={`/lists/${listItem.id}`} key={listItem.id}>
+                            <Badge colorScheme={TYPE_COLORS[list.type] || "gray"} px={2} borderRadius="full">
+                              {TYPE_LABELS[list.type] || list.type}
+                            </Badge>
+                            <Text fontWeight="semibold" fontSize="sm" mt={2}>
+                              {list.title}
+                            </Text>
+                            <Muted mt={0.5}>
+                              {itemCount} {itemCount === 1 ? "item" : "itens"}
+                            </Muted>
+                          </Box>
+                        );
+                      })}
+                    </Grid>
+                  </>
+                ) : (
+                  <Text fontSize="sm">Nenhuma coleção encontrada.</Text>
+                )}
+              </Box>
+            </Panel>
           </GridItem>
         </Grid>
         <Box flex={1}>
           <Box>
             <Box>
-              <TitleSection title="Últimas" size="md" />
+              <TitleSection title="Últimas" size="sm" />
               <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
                 {tricks.map(trick => (
-                  <Box key={trick.id} bg={cardBg} borderRadius="lg" overflow="hidden">
+                  <Panel key={trick.id} p={0} overflow="hidden">
                     <Image src={trick.image} alt={trick.title} w="full" h="160px" objectFit="cover" />
                     <Box p={4}>
-                      <Text fontWeight="semibold">{trick.title}</Text>
-                      <Text fontSize="sm" color={textMuted} mt={1}>
-                        {trick.date}
+                      <Text fontWeight="semibold" fontSize="sm">
+                        {trick.title}
                       </Text>
+                      <Muted mt={0.5}>{trick.date}</Muted>
                     </Box>
-                  </Box>
+                  </Panel>
                 ))}
               </Grid>
             </Box>

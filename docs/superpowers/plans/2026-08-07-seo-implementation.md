@@ -450,7 +450,12 @@ export function SkatistaPagination({ initialUsers, initialTotalUsers, initialPag
   };
 
   if (!users) {
-    if (isError) return <div>Error loading users</div>;
+    if (isError)
+      return (
+        <Text color="red.500" fontSize="sm">
+          Error loading users
+        </Text>
+      );
     return null;
   }
 
@@ -568,7 +573,9 @@ export function StoriesHome({ initialStories }: StoriesHomeProps) {
     if (isError && !initialStories) {
       return (
         <Flex justify="center" align="center" minH="139px">
-          <Text color="red.500">Erro ao carregar stories.</Text>
+          <Text color="red.500" fontSize="sm">
+            Erro ao carregar stories.
+          </Text>
         </Flex>
       );
     }
@@ -625,7 +632,12 @@ export function SkatistasHome({ initialUsers, initialTotalUsers }: SkatistasHome
   };
 
   if (!users) {
-    if (isError) return <div>Error loading users</div>;
+    if (isError)
+      return (
+        <Text color="red.500" fontSize="sm">
+          Error loading users
+        </Text>
+      );
     return (
       <Flex justify="center" align="center" minH="300px">
         <Spinner size="lg" color="green.400" />

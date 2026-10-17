@@ -9,6 +9,7 @@
 ## What's Happening
 
 This is a production slice that:
+
 1. **Replaces the app shell** with the new design system (header, sidebar, footer)
 2. **Wires real data** to the skatistas list with a paginated interface
 3. **Implements pagination logic** with page-number windowing and unit tests
@@ -40,15 +41,15 @@ The spec is solid, the plan is detailed, and all issues have been fixed.
 
 ## Quick Facts
 
-| Metric | Value |
-|--------|-------|
-| **Number of tasks** | 9 (shell → pagination → data layer → docs) |
+| Metric                  | Value                                                |
+| ----------------------- | ---------------------------------------------------- |
+| **Number of tasks**     | 9 (shell → pagination → data layer → docs)           |
 | **New files to create** | 3 (`socialMedia.ts`, `getPageNumbers.ts`, test file) |
-| **Files to modify** | ~15 (listed in spec) |
-| **Files to delete** | 5 old layout components |
-| **Commits** | 9 named commits, one per task |
-| **Tests to write** | 7 pagination helper tests (Vitest) |
-| **Manual checks** | Tasks 1, 5, 6, 7 (run `pnpm dev` in browser) |
+| **Files to modify**     | ~15 (listed in spec)                                 |
+| **Files to delete**     | 5 old layout components                              |
+| **Commits**             | 9 named commits, one per task                        |
+| **Tests to write**      | 7 pagination helper tests (Vitest)                   |
+| **Manual checks**       | Tasks 1, 5, 6, 7 (run `pnpm dev` in browser)         |
 
 ---
 
@@ -59,19 +60,19 @@ The spec is solid, the plan is detailed, and all issues have been fixed.
 ✅ **API client:** Migrating from bare `axios` to `apiClient`  
 ✅ **Total count:** Read from `pagination.meta.total` (not parallel call)  
 ✅ **Defaults:** Added for optional `currentPage` / `pageSize`  
-✅ **Legacy code:** `getUsers2` left unchanged (out of scope)  
+✅ **Legacy code:** `getUsers2` left unchanged (out of scope)
 
 ---
 
 ## The 5 Issues That Were Fixed
 
-| # | What | Impact | Status |
-|---|------|--------|--------|
-| 1 | Test path didn't match directory structure | Low | ✅ Fixed (co-located path) |
-| 2 | Confusing wording about `getUsers2` | Low | ✅ Fixed (clarified it's legacy) |
-| 3 | Base URL assumption unverified | Low | ✅ Fixed (added verification) |
-| 4 | Missing defaults for optional params | **Medium** | ✅ Fixed (added `?? 1` and `?? 10`) |
-| 5 | Social helper module didn't exist | **Medium** | ✅ Fixed (created `socialMedia.ts`) |
+| #   | What                                       | Impact     | Status                              |
+| --- | ------------------------------------------ | ---------- | ----------------------------------- |
+| 1   | Test path didn't match directory structure | Low        | ✅ Fixed (co-located path)          |
+| 2   | Confusing wording about `getUsers2`        | Low        | ✅ Fixed (clarified it's legacy)    |
+| 3   | Base URL assumption unverified             | Low        | ✅ Fixed (added verification)       |
+| 4   | Missing defaults for optional params       | **Medium** | ✅ Fixed (added `?? 1` and `?? 10`) |
+| 5   | Social helper module didn't exist          | **Medium** | ✅ Fixed (created `socialMedia.ts`) |
 
 **None are blockers. All are incorporated into the plan.**
 
@@ -100,6 +101,7 @@ Use `IMPLEMENTATION_CHECKLIST.md` to track progress through all 9 tasks.
 ### Step 4: Verify often
 
 After each task, run:
+
 ```bash
 pnpm exec tsc --noEmit  # Type-check
 pnpm lint              # Lint (catches console.log, any, imports)
@@ -129,7 +131,7 @@ When you're done, you'll have:
 ✅ Unit tests for pagination logic  
 ✅ All user services using `apiClient` (no bare axios)  
 ✅ README and CHANGELOG updated  
-✅ Spec acceptance criteria all checked  
+✅ Spec acceptance criteria all checked
 
 ---
 

@@ -1,6 +1,6 @@
 # Feature: New UI Layout — App Shell & Skatistas Pagination
 
-**Status:** draft
+**Status:** done
 **Priority:** high
 **Affects:** `src/shared/ui/Layout/LayoutWrapper.tsx`, `src/shared/ui/index.ts`, `src/shared/ui/New/*`, `src/features/skatistas/*`, `src/features/user/services/getUsers.ts`, `src/features/user/services/getUsersCount.ts`, `src/features/user/hooks/useUsers.ts`, `src/app/(public)/new/page.tsx`
 
@@ -32,7 +32,12 @@ Consumes the existing frontend pagination flow, backed by:
 
 - `GET /api/custom-users?pagination[page]=<page>&pagination[pageSize]=<pageSize>` — public (`auth: false`), returns:
   ```json
-  { "data": [/* sanitized UserBasics */], "meta": { "pagination": { "page": 1, "pageSize": 10, "pageCount": 3, "total": 23 } } }
+  {
+    "data": [
+      /* sanitized UserBasics */
+    ],
+    "meta": { "pagination": { "page": 1, "pageSize": 10, "pageCount": 3, "total": 23 } }
+  }
   ```
   Sensitive fields (`password`, `role`, `email`, confirmation tokens) are stripped server-side.
 
@@ -44,22 +49,22 @@ The total count is read from `meta.pagination.total`. The separate `GET /api/use
 
 **Rewrite / modify**
 
-| File                                            | Change                                                                                          |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `src/shared/ui/Layout/LayoutWrapper.tsx`        | Replace with the single new shell; remove old Header/Sidebar/Footer usage and the SVG backdrop. |
-| `src/shared/ui/index.ts`                        | Remove `export * from "./Layout";`.                                                             |
-| `src/shared/ui/New/Pagination/index.tsx`        | Controlled component: `currentPage`, `totalPages`, `onPageChange`, `isLoading`.                |
-| `src/shared/ui/New/Pagination/getPageNumbers.ts` | New — pure page-number windowing helper.                                                       |
-| `src/shared/ui/New/Skaters/Header.tsx`          | Controlled page-size select + real total.                                                       |
-| `src/shared/ui/New/Skaters/Grid.tsx`            | Presentational — takes `users` prop, no mock import.                                            |
-| `src/shared/ui/New/User/Card.tsx`               | Remove `console.log` and unused `AuthContext`; gate social links.                               |
-| `src/features/skatistas/index.tsx`              | Use `SkatersHeader` + `SkaterGrid` + `Pagination`; delete inline pagination/duplicate header.   |
-| `src/features/user/services/getUsers.ts`        | Migrate to `apiClient`; fix `getUsers2` offset.                                                 |
-| `src/features/user/services/getUsersCount.ts`   | Migrate to `apiClient`.                                                                         |
-| `src/features/user/hooks/useUsers.ts`           | Total from `meta.pagination.total`; drop parallel count call; lowercase query key.              |
-| `src/app/(public)/new/page.tsx`                 | Repurpose to render the live `SkatistasHome` instead of mock components.                        |
-| `src/shared/ui/New/IconLabel/index.tsx`         | Remove the `as any` cast.                                                                       |
-| `"use client"` hardening                        | `CardUser`, `LogoSkateHub`, `TitleSection`, `Toast`, `ErrorBoundary`, `ReusableModal`, `form/*`. |
+| File                                             | Change                                                                                           |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `src/shared/ui/Layout/LayoutWrapper.tsx`         | Replace with the single new shell; remove old Header/Sidebar/Footer usage and the SVG backdrop.  |
+| `src/shared/ui/index.ts`                         | Remove `export * from "./Layout";`.                                                              |
+| `src/shared/ui/New/Pagination/index.tsx`         | Controlled component: `currentPage`, `totalPages`, `onPageChange`, `isLoading`.                  |
+| `src/shared/ui/New/Pagination/getPageNumbers.ts` | New — pure page-number windowing helper.                                                         |
+| `src/shared/ui/New/Skaters/Header.tsx`           | Controlled page-size select + real total.                                                        |
+| `src/shared/ui/New/Skaters/Grid.tsx`             | Presentational — takes `users` prop, no mock import.                                             |
+| `src/shared/ui/New/User/Card.tsx`                | Remove `console.log` and unused `AuthContext`; gate social links.                                |
+| `src/features/skatistas/index.tsx`               | Use `SkatersHeader` + `SkaterGrid` + `Pagination`; delete inline pagination/duplicate header.    |
+| `src/features/user/services/getUsers.ts`         | Migrate to `apiClient`; fix `getUsers2` offset.                                                  |
+| `src/features/user/services/getUsersCount.ts`    | Migrate to `apiClient`.                                                                          |
+| `src/features/user/hooks/useUsers.ts`            | Total from `meta.pagination.total`; drop parallel count call; lowercase query key.               |
+| `src/app/(public)/new/page.tsx`                  | Repurpose to render the live `SkatistasHome` instead of mock components.                         |
+| `src/shared/ui/New/IconLabel/index.tsx`          | Remove the `as any` cast.                                                                        |
+| `"use client"` hardening                         | `CardUser`, `LogoSkateHub`, `TitleSection`, `Toast`, `ErrorBoundary`, `ReusableModal`, `form/*`. |
 
 **Delete**
 
@@ -68,17 +73,17 @@ The total count is read from `meta.pagination.total`. The separate `GET /api/use
 
 ## Acceptance Criteria
 
-- [ ] Every route renders the new shell exactly once (one header, one sidebar, one footer, children once).
-- [ ] Old `Layout/Header`, `Layout/Sidebar`, `Layout/Footer`, and `Layout/index.ts` are removed; no dangling imports remain.
-- [ ] `getPageNumbers(currentPage, totalPages, siblingCount?)` is unit-tested for small totals, middle pages, first/last pages, clamping, and a single page.
-- [ ] `Pagination` calls `onPageChange` for number, previous, and next buttons; disables prev/next at bounds and all buttons while `isLoading`; marks the active page with `aria-current="page"`.
-- [ ] `SkatersHeader` page-size select is controlled and calls `onPageSizeChange`; options are `5/10/20/50`; the total shown is real.
-- [ ] `SkaterGrid` renders the provided `users` (no mock import) with `key={user.id}`.
-- [ ] `/skatistas` shows the live total, a responsive grid, and working pagination; changing page size resets to page 1.
-- [ ] All user data services use `apiClient` (no bare `axios`).
-- [ ] No `console.log`/`console.warn`/`console.error` added; no new `any` types.
-- [ ] Every hook/Chakra-rendering shared component carries `"use client"`.
-- [ ] README and CHANGELOG updated.
+- [x] Every route renders the new shell exactly once (one header, one sidebar, one footer, children once).
+- [x] Old `Layout/Header`, `Layout/Sidebar`, `Layout/Footer`, and `Layout/index.ts` are removed; no dangling imports remain.
+- [x] `getPageNumbers(currentPage, totalPages, siblingCount?)` is unit-tested for small totals, middle pages, first/last pages, clamping, and a single page.
+- [x] `Pagination` calls `onPageChange` for number, previous, and next buttons; disables prev/next at bounds and all buttons while `isLoading`; marks the active page with `aria-current="page"`.
+- [x] `SkatersHeader` page-size select is controlled and calls `onPageSizeChange`; options are `5/10/20/50`; the total shown is real.
+- [x] `SkaterGrid` renders the provided `users` (no mock import) with `key={user.id}`.
+- [x] `/skatistas` shows the live total, a responsive grid, and working pagination; changing page size resets to page 1.
+- [x] All user data services use `apiClient` (no bare `axios`).
+- [x] No `console.log`/`console.warn`/`console.error` added; no new `any` types.
+- [x] Every hook/Chakra-rendering shared component carries `"use client"`.
+- [x] README and CHANGELOG updated.
 
 ## Out of Scope
 

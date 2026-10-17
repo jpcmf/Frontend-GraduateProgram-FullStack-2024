@@ -1,3 +1,5 @@
+"use client";
+
 import { useColors } from "@/shared/hooks/useColors";
 
 interface LogoSkateHubProps {

@@ -5,7 +5,6 @@ import { TbMoon, TbSun } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 
 import {
-  Avatar,
   Box,
   Flex,
   Menu,
@@ -20,6 +19,9 @@ import {
 } from "@chakra-ui/react";
 
 import { useAuth } from "@/shared/hooks/useAuth";
+
+import { Muted } from "../Muted";
+import { SkaterAvatar } from "../Skaters/Avatar";
 
 interface ProfileProps {
   showProfileData: boolean | undefined;
@@ -38,26 +40,21 @@ export function Profile({ showProfileData = true }: ProfileProps) {
   return (
     <Flex align="center">
       {showProfileData && (
-        <Box mr="4" textAlign="right">
-          <Text>{user?.name}</Text>
-          <Text color="gray.600" fontSize="small">
-            {user?.email}
+        <Box mr="3" textAlign="right">
+          <Text fontSize="sm" fontWeight="semibold" color="content.primary" noOfLines={1}>
+            {user?.name}
           </Text>
+          <Muted noOfLines={1}>{user?.email}</Muted>
         </Box>
       )}
       <Menu>
         <MenuButton
-          border={"2px solid"}
+          // border={"2px solid"}
           borderColor="transparent"
-          _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
+          // _hover={{ cursor: "pointer", border: "2px solid", borderColor: "green.400" }}
           borderRadius="full"
         >
-          <Avatar
-            size="md"
-            bgColor="green.300"
-            src={user?.avatar ? user?.avatar.url : "https://robohash.org/" + user?.email}
-            m={0.5}
-          />
+          <SkaterAvatar user={user} withRing={true} w="44px" h="44px" />
         </MenuButton>
 
         <MenuList bg={bgColor} borderColor={borderColor}>

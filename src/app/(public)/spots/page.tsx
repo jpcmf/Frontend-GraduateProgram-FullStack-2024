@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Text } from "@chakra-ui/react";
 
 import { getSpotsServer, SpotCard, SpotsCreateButton } from "@/features/spots";
-import { TitleSection } from "@/shared/ui/TitleSection";
+import { Panel } from "@/shared/ui/New/Panel";
 
 export const metadata: Metadata = {
   title: "Spots — SkateHub",
@@ -28,12 +28,15 @@ export default async function SpotsPage() {
 
   return (
     <Box position="relative">
-      <TitleSection title="Spots" />
-      <Box width="100%">
-        <Box position="absolute" top={0} right={0}>
+      <Panel size="md" mb={4}>
+        <Flex justify="space-between" align="center" gap={4} wrap="wrap">
+          <Text fontSize="sm" fontWeight="bold" color="content.primary" letterSpacing="tight">
+            Spots
+          </Text>
           <SpotsCreateButton />
-        </Box>
-
+        </Flex>
+      </Panel>
+      <Box width="100%">
         {spots.length === 0 ? (
           <Text color="gray.400" textAlign="center" mt={12}>
             Nenhum spot encontrado. Seja o primeiro a adicionar!

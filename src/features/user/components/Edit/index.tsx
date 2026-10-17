@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Flex, HStack, SimpleGrid, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, SimpleGrid, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -15,7 +15,7 @@ import { Input } from "@/shared/ui/form/Input";
 import { Select } from "@/shared/ui/form/Select";
 import { Textarea } from "@/shared/ui/form/Textarea";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
-import { TitleSection } from "@/shared/ui/TitleSection";
+import { Panel } from "@/shared/ui/New/Panel";
 import { Toast } from "@/shared/ui/Toast";
 
 // type RegisterForm = {
@@ -48,9 +48,6 @@ export function UserEdit() {
   const { addToast } = Toast();
   const [isError, setIsError] = useState(false);
   const { user, updateUser } = useContext(AuthContext);
-
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.800");
-  const bgCancelButton = useColorModeValue("whiteAlpha.100", "blackAlpha.300");
 
   const {
     register,
@@ -120,60 +117,64 @@ export function UserEdit() {
 
   return (
     <>
-      <TitleSection title="Editar perfil" />
-
       {user && <ProfileHeader user={user} variant="edit" />}
-      <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} bg={bgColor} p={["4", "8"]}>
-        <Flex mb="8" direction="column">
-          <VStack spacing="4">
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
-              <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Input label="Usuário" {...register("username")} error={errors.username} isDisabled />
-              <Select
-                label="Categoria"
-                placeholder="Selecione sua categoria"
-                error={errors.categoryValue}
-                {...register("categoryValue")}
-              >
-                {CATEGORIES.map(category => (
-                  <option key={category.value} value={category.value}>
-                    {category.name}
-                  </option>
-                ))}
-              </Select>
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Flex flexDirection="column">
-                <Textarea label="Sobre você" placeholder="Sobre você..." {...register("about")} error={errors.about} />
-              </Flex>
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
-              <Input
-                isInputGroup
-                InputLeftAddonText="instagram.com/"
-                label="Perfil Instagram"
-                placeholder="Ex. nome_do_usuário"
-                {...register("instagram_url")}
-                error={errors.instagram_url}
-                isInvalid={isError}
-                size="md"
-              />
-              <Input
-                isInputGroup
-                InputLeftAddonText="https://"
-                label="Website pessoal"
-                placeholder="Ex. www.site.com.br"
-                {...register("website_url")}
-                error={errors.website_url}
-                isInvalid={isError}
-                size="md"
-              />
-            </SimpleGrid>
-            {/* TODO: implement password change */}
-            {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+      <Panel>
+        <Box as="form" onSubmit={handleSubmit(handleEditUser)} flex="1" borderRadius={8} p={{ base: 4, md: 4 }}>
+          <Flex direction="column">
+            <VStack spacing="4">
+              <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+                <Input label="Nome completo" {...register("name")} error={errors.name} isDisabled />
+                <Input type="email" label="E-mail" {...register("email")} error={errors.email} />
+              </SimpleGrid>
+              <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+                <Input label="Usuário" {...register("username")} error={errors.username} isDisabled />
+                <Select
+                  label="Categoria"
+                  placeholder="Selecione sua categoria"
+                  error={errors.categoryValue}
+                  {...register("categoryValue")}
+                >
+                  {CATEGORIES.map(category => (
+                    <option key={category.value} value={category.value}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Select>
+              </SimpleGrid>
+              <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+                <Flex flexDirection="column">
+                  <Textarea
+                    label="Sobre você"
+                    placeholder="Sobre você..."
+                    {...register("about")}
+                    error={errors.about}
+                  />
+                </Flex>
+              </SimpleGrid>
+              <SimpleGrid minChildWidth="240px" spacing="4" w="100%">
+                <Input
+                  isInputGroup
+                  InputLeftAddonText="instagram.com/"
+                  label="Perfil Instagram"
+                  placeholder="Ex. nome_do_usuário"
+                  {...register("instagram_url")}
+                  error={errors.instagram_url}
+                  isInvalid={isError}
+                  size="md"
+                />
+                <Input
+                  isInputGroup
+                  InputLeftAddonText="https://"
+                  label="Website pessoal"
+                  placeholder="Ex. www.site.com.br"
+                  {...register("website_url")}
+                  error={errors.website_url}
+                  isInvalid={isError}
+                  size="md"
+                />
+              </SimpleGrid>
+              {/* TODO: implement password change */}
+              {/* <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <Input type="password" label="Senha" {...register("password")} error={errors.password} />
               <Input
                 type="password"
@@ -182,26 +183,20 @@ export function UserEdit() {
                 error={errors.password_confirmation}
               />
             </SimpleGrid> */}
-          </VStack>
-          <Flex mt="8" justify="flex-end">
-            <HStack spacing="4">
-              <Button cursor="pointer" as="a" size="md" bg={bgCancelButton} onClick={() => router.push("/dashboard")}>
-                Cancelar
-              </Button>
-              <Button
-                type="submit"
-                isLoading={isSubmitting}
-                size="md"
-                color="white"
-                bg="green.400"
-                isDisabled={!user?.email}
-              >
-                Salvar
-              </Button>
-            </HStack>
+            </VStack>
+            <Flex mt="8" justify="flex-end">
+              <HStack spacing="4">
+                <Button cursor="pointer" variant="outline" as="a" size="md" onClick={() => router.push("/dashboard")}>
+                  Cancelar
+                </Button>
+                <Button type="submit" isLoading={isSubmitting} size="md" isDisabled={!user?.email}>
+                  Salvar
+                </Button>
+              </HStack>
+            </Flex>
           </Flex>
-        </Flex>
-      </Box>
+        </Box>
+      </Panel>
     </>
   );
 }

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { Text } from "@chakra-ui/react";
+
 import type { UserBasicsWithPagination } from "@/features/user";
 import { useUsers } from "@/features/user";
 
@@ -32,7 +34,12 @@ export function SkatistaPagination({ initialUsers, initialTotalUsers, initialPag
   };
 
   if (!users) {
-    if (isError) return <div>Error loading users</div>;
+    if (isError)
+      return (
+        <Text color="red.500" fontSize="sm">
+          Error loading users
+        </Text>
+      );
     return null;
   }
 

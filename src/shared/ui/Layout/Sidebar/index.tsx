@@ -1,5 +1,6 @@
+"use client";
+
 import {
-  Box,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -14,6 +15,8 @@ import { useSidebarDrawer } from "@/app/SidebarDrawerContext";
 import { useColors } from "@/shared/hooks/useColors";
 import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
 
+import { LeftSidebar } from "../../New/Sidebar";
+
 import { SidebarNav } from "./SidebarNav";
 
 export function Sidebar() {
@@ -25,29 +28,29 @@ export function Sidebar() {
     lg: false
   });
 
-  if (isDrawerSidebar) {
-    return (
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay p={0}>
-          <DrawerContent>
-            <DrawerCloseButton mt={3} />
-            <DrawerHeader p={6} bg={bgColor} borderBottom="1px" borderColor={borderColor}>
-              <Link href="/" display={{ base: "flex", lg: "none" }} alignItems="center">
-                <LogoSkateHub />
-              </Link>
-            </DrawerHeader>
-            <DrawerBody p="0">
-              <SidebarNav />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-    );
-  }
-
   return (
-    <Box as="aside" w="56" flexShrink={0}>
-      <SidebarNav />
-    </Box>
+    <>
+      {/* Drawer for mobile - rendered at root level */}
+      {isDrawerSidebar && (
+        <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+          <DrawerOverlay p={0}>
+            <DrawerContent>
+              <DrawerCloseButton mt={3} />
+              <DrawerHeader p={6} bg={bgColor} borderBottom="1px" borderColor={borderColor}>
+                <Link href="/" display={{ base: "flex", lg: "none" }} alignItems="center">
+                  <LogoSkateHub />
+                </Link>
+              </DrawerHeader>
+              <DrawerBody p={0}>
+                <SidebarNav />
+              </DrawerBody>
+            </DrawerContent>
+          </DrawerOverlay>
+        </Drawer>
+      )}
+
+      {/* Sidebar for desktop */}
+      {!isDrawerSidebar && <LeftSidebar />}
+    </>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Flex, Heading } from "@chakra-ui/react";
 
 interface TitleSectionProps {
@@ -8,7 +10,7 @@ interface TitleSectionProps {
 
 export function TitleSection({ title, size = "lg", fontWeight = "semibold" }: TitleSectionProps) {
   return (
-    <Box mb={6}>
+    <Box mb={4}>
       <Flex direction="row" alignItems="center">
         <Heading size={size} fontWeight={fontWeight} py={0} pr={4}>
           {title}

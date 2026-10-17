@@ -8,6 +8,8 @@ import { Avatar as ChakraAvatar, Box, Flex, HStack, Link, useColorModeValue, VSt
 import { StoriesModal } from "@/features/stories";
 import { ReusableModal } from "@/shared/ui/ReusableModal";
 
+import { Panel } from "./New/Panel";
+
 interface StoriesSwiperProps {
   stories: Array<{
     id: number;
@@ -79,80 +81,85 @@ export function StoriesSwiper({ stories }: StoriesSwiperProps) {
 
   return (
     <>
-      <Flex borderRadius="md" mb={0} overflow={"hidden"} maxW={1144} position="relative" h="134px">
-        <HStack
-          w="100%"
-          position="absolute"
-          top={0}
-          left={0}
-          spacing={6}
-          overflowX="auto"
-          overflowY="hidden"
-          pb={4}
-          css={{
-            "&::-webkit-scrollbar": {
-              height: "8px"
-            },
-            "&::-webkit-scrollbar-track": {
-              background: "#f1f1f1",
-              borderRadius: "10px"
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#888",
-              borderRadius: "10px"
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              background: "#555"
-            }
-          }}
-        >
-          {uniqueStories.map(story => (
-            <VStack key={story.id} spacing={1} flexShrink={0}>
-              <Box position="relative">
-                <Box
-                  bgGradient={
-                    story.isUserOffline ? "linear(to-tr, gray.800, gray.700)" : "linear(to-tr, green.100, purple.600)"
-                  }
-                  borderRadius="full"
-                  p={0.5}
-                >
-                  <Link
-                    onClick={() => handleViewStory(story)}
-                    display="block"
-                    bg={bgColor}
+      <Panel size="md">
+        <Flex overflow={"hidden"} maxW={1144} position="relative" h="107px">
+          <HStack
+            w="100%"
+            position="absolute"
+            top={0}
+            left={0}
+            spacing={4}
+            overflowX="auto"
+            overflowY="hidden"
+            // pb={4}
+            css={{
+              "&::-webkit-scrollbar": {
+                height: "8px"
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "#f1f1f1",
+                borderRadius: "10px"
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#888",
+                borderRadius: "10px"
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                background: "#555"
+              }
+            }}
+          >
+            {uniqueStories.map(story => (
+              <VStack key={story.id} spacing={1} flexShrink={0}>
+                <Box position="relative">
+                  <Box
+                    bgGradient={
+                      story.isUserOffline ? "linear(to-tr, gray.800, gray.700)" : "linear(to-tr, green.100, purple.600)"
+                    }
                     borderRadius="full"
-                    p={1}
-                    transition="transform 0.2s"
-                    _hover={{
-                      transform: story?.isUserOffline ? "inherit" : "rotate(-6deg)"
-                    }}
+                    p={0.5}
                   >
-                    <ChakraAvatar
-                      w="66px"
-                      h="66px"
-                      name={story.name}
-                      bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
-                      src={story?.image ? story.image : undefined}
-                      style={{ filter: story.isUserOffline ? `grayscale(100%)` : "none" }}
-                    />
-                  </Link>
+                    <Link
+                      onClick={() => handleViewStory(story)}
+                      display="block"
+                      bg={bgColor}
+                      borderRadius="full"
+                      p={1}
+                      transition="transform 0.2s"
+                      _hover={{
+                        transform: story?.isUserOffline ? "inherit" : "rotate(-6deg)"
+                      }}
+                    >
+                      <ChakraAvatar
+                        w="56px"
+                        h="56px"
+                        name={story.name}
+                        bgColor={story.isUserOffline ? bgUserAvatar : "green.300"}
+                        src={story?.image ? story.image : undefined}
+                        style={{ filter: story.isUserOffline ? `grayscale(100%)` : "none" }}
+                      />
+                    </Link>
+                  </Box>
                 </Box>
-              </Box>
-              <Link
-                mt={1}
-                fontSize="sm"
-                fontWeight="medium"
-                color={story.isUserOffline ? textOfflineUser : textOnlineUser}
-                _hover={{
-                  color: textHoverUser
-                }}
-              >
-                {story.name}
-              </Link>
-            </VStack>
-          ))}
-        </HStack>
-      </Flex>
+                <Link
+                  mt={1}
+                  fontSize="x-small"
+                  fontWeight="medium"
+                  color={story.isUserOffline ? textOfflineUser : textOnlineUser}
+                  _hover={{
+                    color: textHoverUser
+                  }}
+                  noOfLines={1}
+                  w="60px"
+                  textAlign="center"
+                >
+                  {story.name}
+                </Link>
+              </VStack>
+            ))}
+          </HStack>
+        </Flex>
+      </Panel>
       <ReusableModal isOpen={isStoryModalOpen} onClose={handleCloseModal} size="full">
         <StoriesModal userId={currentUserId} onClose={handleCloseModal} onAllStoriesEnd={handleAdvanceToNextUser} />
       </ReusableModal>
