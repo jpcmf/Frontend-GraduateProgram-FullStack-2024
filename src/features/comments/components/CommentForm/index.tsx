@@ -6,7 +6,6 @@ import { RiImageAddLine } from "react-icons/ri";
 import { Box, Button, Flex, HStack, IconButton, Image, Text, Textarea } from "@chakra-ui/react";
 
 import { apiClient } from "@/shared/api/apiClient";
-import { useColors } from "@/shared/hooks/useColors";
 import { Muted } from "@/shared/ui/New/Muted";
 
 import type { CommentImage } from "../../types/comments";
@@ -25,7 +24,6 @@ type CommentFormProps = {
 };
 
 export function CommentForm({ submitLabel, isSubmitting, initialImages, onCancel, onSubmit }: CommentFormProps) {
-  const { textSecondary } = useColors();
   const [text, setText] = useState("");
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(
     (initialImages ?? []).map(image => ({ id: image.id, url: image.attributes.url }))

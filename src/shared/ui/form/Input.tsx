@@ -25,10 +25,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { name, label, error = null, isInputGroup, InputLeftAddonText, ...rest },
   ref
 ) => {
-  // const bgColor = useColorModeValue("blackAlpha.100", "gray.900");
   const bgInputGroupColor = useColorModeValue("blackAlpha.200", "blackAlpha.500");
   const textColor = useColorModeValue("gray.800", "gray.100");
-  const bgHoverColor = useColorModeValue("blackAlpha.200", "blackAlpha.300");
+
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
@@ -37,27 +36,24 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           name={name}
           id={name}
           focusBorderColor="gray.600"
-          color={textColor}
-          // bgColor={bgColor}
           variant="filled"
-          _hover={{ bgColor: bgHoverColor }}
           size="md"
+          fontSize="sm"
           ref={ref}
           {...rest}
         />
       ) : (
         <InputGroup size="md">
-          <InputLeftAddon bgColor={bgInputGroupColor} borderColor={bgInputGroupColor} textColor={textColor}>
+          <InputLeftAddon bgColor={bgInputGroupColor} textColor={textColor} fontSize="sm">
             {InputLeftAddonText}
           </InputLeftAddon>
           <ChakraInput
             name={name}
             id={name}
             focusBorderColor="gray.600"
-            // bgColor={bgColor}
             variant="filled"
-            _hover={{ bgColor: bgHoverColor }}
             size="md"
+            fontSize="sm"
             ref={ref}
             {...rest}
           />

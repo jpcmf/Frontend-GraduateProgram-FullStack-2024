@@ -23,8 +23,7 @@ type DashboardProps = {
 };
 
 export function Dashboard({ user }: DashboardProps) {
-  const { textSecondary, borderColor, bgColor } = useColors();
-  const buttonBgColor = useColorModeValue("transparent", "transparent");
+  const { textSecondary } = useColors();
   const headingBgColor = useColorModeValue("white", "gray.800");
   return (
     <>
@@ -33,7 +32,6 @@ export function Dashboard({ user }: DashboardProps) {
           <Box
             as={Link}
             href="/"
-            // p={["4", "6"]}
             alignItems="center"
             justifyContent="center"
             textAlign="center"
@@ -53,17 +51,11 @@ export function Dashboard({ user }: DashboardProps) {
           <Box
             as={Link}
             href="/spots/new"
-            // p={["4", "6"]}
-            // bg={buttonBgColor}
-            // border="4px"
-            // borderColor={borderColor}
-            // borderRadius="lg"
             alignItems="center"
             justifyContent="center"
             textAlign="center"
             display="flex"
             flexDirection="column"
-            // _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
           >
             <Icon as={RiMapPin2Line} boxSize={8} mb={4} />
             <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
@@ -78,17 +70,11 @@ export function Dashboard({ user }: DashboardProps) {
           <Box
             as={Link}
             href="/lists/new"
-            // p={["4", "6"]}
-            // bg={buttonBgColor}
-            // border="4px"
-            // borderColor={borderColor}
-            // borderRadius="lg"
             alignItems="center"
             justifyContent="center"
             textAlign="center"
             display="flex"
             flexDirection="column"
-            // _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
           >
             <Icon as={RiListCheck2} boxSize={8} mb={4} />
             <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
@@ -103,17 +89,11 @@ export function Dashboard({ user }: DashboardProps) {
           <Box
             as={Link}
             href="/user/edit"
-            // p={["4", "6"]}
-            // bg={buttonBgColor}
-            // border="4px"
-            // borderColor={borderColor}
-            // borderRadius="lg"
             alignItems="center"
             justifyContent="center"
             textAlign="center"
             display="flex"
             flexDirection="column"
-            // _hover={{ transform: "translateY(-2px)", transition: "transform 0.2s", opacity: 0.9 }}
           >
             <Icon as={RiAccountBoxLine} boxSize={8} mb={4} />
             <Heading size="sm" mb={2} bg={headingBgColor} borderRadius="full" px={4} py={1}>
@@ -204,7 +184,7 @@ export function Dashboard({ user }: DashboardProps) {
 
       <SimpleGrid m={0} columns={{ base: 1 }} spacing={{ base: 5, lg: 4 }}>
         <Panel>
-          <Box flex="50%">Hello</Box>
+          <Box flex="50%">Hello World</Box>
         </Panel>
       </SimpleGrid>
     </>

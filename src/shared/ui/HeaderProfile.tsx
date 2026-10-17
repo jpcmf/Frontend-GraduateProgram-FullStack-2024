@@ -44,7 +44,6 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
-  // const cardBg = useColorModeValue("blackAlpha.100", "gray.800");
   const textSecondary = useColorModeValue("slate.500", "zinc.400");
 
   const handleEditProfileClick = () => {
@@ -105,7 +104,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
             h="full"
             objectFit="cover"
             opacity=".5"
-            src="https://placehold.net/default.svg"
+            src="https://placehold.jp/16/8e969b/ffffff/1128x192.png"
           />
         </Box>
 
@@ -175,14 +174,7 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
               </Text>
             </HStack>
             {variant === "edit" && authUser?.id === user?.id && (
-              <Text
-                position={"absolute"}
-                top={4}
-                left={4}
-                fontSize="sm"
-                color={textSecondary}
-                mb={{ base: "2", md: "0" }}
-              >
+              <Text position={"absolute"} top={4} left={4} fontSize="xs" mb={{ base: "2", md: "0" }}>
                 Personalize como os outros veem você na plataforma.
               </Text>
             )}
@@ -203,16 +195,9 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
                     </Link>
                   )}
                 </HStack>
-                {authUser?.id === user?.id && (
-                  <Button
-                    variant="ghost"
-                    onClick={handleEditProfileClick}
-                    color="white"
-                    bg="blackAlpha.300"
-                    size={["sm", "md"]}
-                    gap={2}
-                  >
-                    <Icon as={TbEdit} />
+                {authUser?.id == user?.id && (
+                  <Button onClick={handleEditProfileClick} size="sm" gap={2}>
+                    <Icon as={TbEdit} w={4} h={4} />
                     Editar perfil
                   </Button>
                 )}
@@ -220,15 +205,8 @@ export function ProfileHeader({ user, variant }: ProfileHeaderProps) {
             )}
 
             {variant === "edit" && (
-              <Button
-                variant="ghost"
-                onClick={handleViewProfileClick}
-                color="white"
-                bg="blackAlpha.300"
-                size={["sm", "md"]}
-                gap={2}
-              >
-                <Icon as={TbEye} />
+              <Button onClick={handleViewProfileClick} bg="blackAlpha.300" size="sm" gap={2}>
+                <Icon as={TbEye} w={4} h={4} />
                 Visualizar perfil
               </Button>
             )}

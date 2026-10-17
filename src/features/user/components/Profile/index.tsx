@@ -7,7 +7,6 @@ import { Badge, Box, Button, Flex, Grid, GridItem, Image, Spinner, Text } from "
 
 import { useListsByUser } from "@/features/lists";
 import { useAuth } from "@/shared/hooks/useAuth";
-import { useColors } from "@/shared/hooks/useColors";
 import { ProfileHeader } from "@/shared/ui/HeaderProfile";
 import { Muted } from "@/shared/ui/New/Muted";
 import { Panel } from "@/shared/ui/New/Panel";
@@ -34,7 +33,6 @@ export function UserProfile({ userId }: { userId: string }) {
   const { data: user, isLoading, error } = useUser(userId);
   const { data: listsResponse } = useListsByUser(userId);
   const userLists = listsResponse?.data || [];
-  const { cardBg } = useColors();
   const isOwnProfile = String(currentUser?.id) === String(userId);
 
   const tricks = [

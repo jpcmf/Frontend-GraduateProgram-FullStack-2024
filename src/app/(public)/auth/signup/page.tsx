@@ -7,7 +7,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { RiAlertLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Flex, IconButton, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, InputGroup, InputRightElement, Stack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -16,6 +16,7 @@ import { CATEGORIES, getCategoryByValue } from "@/shared/config/categories";
 import { REGEX_PATTERNS, VALIDATION_MESSAGES, VALIDATION_RULES } from "@/shared/config/validation";
 import { Input } from "@/shared/ui/form/Input";
 import { Select } from "@/shared/ui/form/Select";
+import { Muted } from "@/shared/ui/New/Muted";
 import { Panel } from "@/shared/ui/New/Panel";
 import { Toast } from "@/shared/ui/Toast";
 
@@ -302,10 +303,7 @@ export default function SignUp() {
           <Flex flexDir={["column", null, "row"]} alignItems="end" mt={2}>
             <Button
               type="submit"
-              color="white"
-              bg="green.400"
-              _hover={{ bg: "green.600" }}
-              size={["sm", "md"]}
+              size="md"
               isLoading={isSubmitting || isExecutingRecaptcha}
               isDisabled={!isRecaptchaReady}
               loadingText={isExecutingRecaptcha ? "Cadastrando..." : "Finalizando..."}
@@ -315,10 +313,10 @@ export default function SignUp() {
               Cadastrar
             </Button>
             <Box mt={[4, null, 0]} textAlign="center">
-              <Text fontSize="smaller" display="flex" justifyContent="center" color="gray.600">
-                <RiAlertLine size={16} style={{ marginRight: "0.3rem", flexShrink: "0" }} />
+              <Muted display="flex" alignItems="center">
+                <RiAlertLine size={14} style={{ marginRight: "0.3rem", flexShrink: "0" }} />
                 Verifique sua caixa de entrada para o e-mail de confirmação.
-              </Text>
+              </Muted>
             </Box>
           </Flex>
         </Flex>

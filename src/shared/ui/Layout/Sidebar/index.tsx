@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Box,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -15,6 +14,8 @@ import {
 import { useSidebarDrawer } from "@/app/SidebarDrawerContext";
 import { useColors } from "@/shared/hooks/useColors";
 import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
+
+import { LeftSidebar } from "../../New/Sidebar";
 
 import { SidebarNav } from "./SidebarNav";
 
@@ -40,7 +41,7 @@ export function Sidebar() {
                   <LogoSkateHub />
                 </Link>
               </DrawerHeader>
-              <DrawerBody p="0">
+              <DrawerBody p={0}>
                 <SidebarNav />
               </DrawerBody>
             </DrawerContent>
@@ -49,11 +50,7 @@ export function Sidebar() {
       )}
 
       {/* Sidebar for desktop */}
-      {!isDrawerSidebar && (
-        <Box as="aside" w="56" flexShrink={0}>
-          <SidebarNav />
-        </Box>
-      )}
+      {!isDrawerSidebar && <LeftSidebar />}
     </>
   );
 }

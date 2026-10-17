@@ -3,7 +3,7 @@ import { TbMapPin } from "react-icons/tb";
 import NextImage from "next/image";
 import NextLink from "next/link";
 
-import { Avatar, Badge, Box, Flex, Grid, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Avatar, Badge, Box, Flex, Grid, HStack, Text } from "@chakra-ui/react";
 
 import { formatTimeAgo } from "@/shared/lib/date";
 import { Muted } from "@/shared/ui/New/Muted";
@@ -16,8 +16,6 @@ type FeedCommentCardProps = {
 };
 
 export function FeedCommentCard({ comment }: FeedCommentCardProps) {
-  const mutedColor = useColorModeValue("gray.600", "gray.400");
-
   const { text, author, images, spot, createdAt } = comment.attributes;
 
   const authorName = author?.data?.attributes.name || author?.data?.attributes.username || "Desconhecido";
@@ -89,7 +87,6 @@ export function FeedCommentCard({ comment }: FeedCommentCardProps) {
               px={2.5}
               py={1}
               borderRadius="md"
-              // bg={badgeBg}
               fontSize="sm"
               fontWeight="medium"
               color="green.400"

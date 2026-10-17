@@ -8,8 +8,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Textarea as ChakraTextarea,
-  TextareaProps as ChakraTextareaProps,
-  useColorModeValue
+  TextareaProps as ChakraTextareaProps
 } from "@chakra-ui/react";
 
 interface TextareaProps extends ChakraTextareaProps {
@@ -21,9 +20,6 @@ const TextareaBase: ForwardRefRenderFunction<HTMLTextAreaElement, TextareaProps>
   { name, label, error = null, ...rest },
   ref
 ) => {
-  const bgColor = useColorModeValue("blackAlpha.100", "gray.900");
-  const bgHoverColor = useColorModeValue("blackAlpha.200", "blackAlpha.300");
-  const textColor = useColorModeValue("gray.800", "gray.100");
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
@@ -31,11 +27,9 @@ const TextareaBase: ForwardRefRenderFunction<HTMLTextAreaElement, TextareaProps>
         name={name}
         id={name}
         focusBorderColor="gray.600"
-        bgColor={bgColor}
-        color={textColor}
         variant="filled"
-        _hover={{ bgColor: bgHoverColor }}
         size="md"
+        fontSize="sm"
         ref={ref}
         {...rest}
       />

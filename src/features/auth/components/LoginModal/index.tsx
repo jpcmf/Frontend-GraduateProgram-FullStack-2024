@@ -25,6 +25,7 @@ import { AuthContext } from "@/features/auth";
 import { type SignInFormSchema, signInFormSchema } from "@/features/user/signInFormSchema";
 import { Input } from "@/shared/ui/form/Input";
 import { LogoSkateHub } from "@/shared/ui/LogoSkateHub";
+import { Panel } from "@/shared/ui/New/Panel";
 import { Toast } from "@/shared/ui/Toast";
 
 import packageJson from "../../../../../package.json";
@@ -40,8 +41,6 @@ export function LoginModal() {
   const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
 
   const bgColor = useColorModeValue("white", "gray.800");
-  const bgColorPrimaryButton = useColorModeValue("green.300", "green.400");
-  const primaryTextColor = useColorModeValue("white", "gray.100");
   const textSecondaryButton = useColorModeValue("gray.800", "green.400");
   const titleTextColor = useColorModeValue("gray.800", "gray.100");
   const subTitleTextColor = useColorModeValue("gray.600", "gray.500");
@@ -130,137 +129,133 @@ export function LoginModal() {
   };
 
   return (
-    <Grid templateColumns={["1fr", "repeat(5, 1fr)"]} gap="0">
-      <GridItem
-        hideBelow="md"
-        colSpan={{ md: 2, lg: 2, xl: 3 }}
-        bg={bgColor}
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        backgroundBlendMode="overlay"
-        backgroundPosition="center 15%"
-        backgroundImage="./tom-morbey-unsplash-2.jpeg"
-      >
-        <Flex marginLeft="6" marginTop="6">
-          <LogoSkateHub />
-        </Flex>
-      </GridItem>
-      <GridItem colStart={{ base: 1, md: 3, lg: 3, xl: 4 }} colEnd={6} bgColor={bgColor}>
-        <Stack spacing="4" py={["4", "8"]} px={["4", "12"]}>
-          <Flex flexDir="column" flexGrow="1" alignItems="center" justifyContent="center">
-            <Flex flexDir="column" w="100%" alignItems="center" mb="10">
-              <Flex hideFrom="md" marginBottom="10" marginTop={6}>
-                <LogoSkateHub />
+    <Panel>
+      <Grid templateColumns={["1fr", "repeat(5, 1fr)"]} gap="0">
+        <GridItem
+          hideBelow="md"
+          colSpan={{ md: 2, lg: 2, xl: 3 }}
+          bg={bgColor}
+          backgroundSize="cover"
+          backgroundRepeat="no-repeat"
+          backgroundBlendMode="overlay"
+          backgroundPosition="center 15%"
+          backgroundImage="./tom-morbey-unsplash-2.jpeg"
+        >
+          <Flex marginLeft="6" marginTop="6">
+            <LogoSkateHub />
+          </Flex>
+        </GridItem>
+        <GridItem
+          colStart={{ base: 1, md: 3, lg: 3, xl: 4 }}
+          colEnd={6}
+          // bgColor={bgColor}
+        >
+          <Stack spacing="4" py={["4", "8"]} px={["4", "12"]}>
+            <Flex flexDir="column" flexGrow="1" alignItems="center" justifyContent="center">
+              <Flex flexDir="column" w="100%" alignItems="center" mb="10">
+                <Flex hideFrom="md" marginBottom="10" marginTop={6}>
+                  <LogoSkateHub />
+                </Flex>
+                <Text fontWeight="bold" fontSize={{ base: "xl", md: "2xl" }} align="center" color={titleTextColor}>
+                  Junte-se à comunidade! Faça parte da evolução do esporte.
+                </Text>
+                <Text mt="4" fontSize="sm" fontWeight="medium" align="center" color={subTitleTextColor}>
+                  Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
+                </Text>
               </Flex>
-              <Text fontWeight="bold" fontSize={{ base: "xl", md: "3xl" }} align="center" color={titleTextColor}>
-                Junte-se à comunidade! Faça parte da evolução do esporte.
-              </Text>
-              <Text
-                mt="4"
-                fontSize={{ base: "md", md: "lg" }}
-                fontWeight="medium"
-                align="center"
-                color={subTitleTextColor}
-              >
-                Faça login ou cadastre-se para começar a explorar todas as funcionalidades.
-              </Text>
-            </Flex>
-            <Flex alignItems="center" justifyContent="center" flexDirection="row" gap="3" w="100%">
-              <Flex
-                as="form"
-                w="100%"
-                maxWidth={480}
-                p="0"
-                borderRadius={8}
-                flexDir="column"
-                onSubmit={handleSubmit(handleSignIn)}
-              >
-                <Stack spacing={4}>
-                  <Flex flexDir="column">
-                    <Input id="email" type="email" placeholder="E-mail" {...register("email")} error={errors.email} />
-                  </Flex>
-                  <Flex flexDir="column">
-                    <InputGroup>
-                      <Input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Senha"
-                        {...register("password")}
-                        error={errors.password}
-                      />
-                      <InputRightElement top={0} right="-2">
-                        <IconButton
-                          icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                          variant="unstyled"
-                          aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                          onClick={() => setShowPassword(!showPassword)}
-                          size="lg"
-                          color="gray.600"
+              <Flex alignItems="center" justifyContent="center" flexDirection="row" gap="3" w="100%">
+                <Flex
+                  as="form"
+                  w="100%"
+                  maxWidth={480}
+                  p="0"
+                  borderRadius={8}
+                  flexDir="column"
+                  onSubmit={handleSubmit(handleSignIn)}
+                >
+                  <Stack spacing={4}>
+                    <Flex flexDir="column">
+                      <Input id="email" type="email" placeholder="E-mail" {...register("email")} error={errors.email} />
+                    </Flex>
+                    <Flex flexDir="column">
+                      <InputGroup>
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Senha"
+                          {...register("password")}
+                          error={errors.password}
                         />
-                      </InputRightElement>
-                    </InputGroup>
-                  </Flex>
-                  <Flex flexDir="column" alignItems="center">
-                    <ReCAPTCHA
-                      ref={recaptchaRef}
-                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                      size="invisible"
-                      hl="pt-BR"
-                      badge="bottomright"
-                      id="recaptcha"
-                      asyncScriptOnLoad={() => setIsRecaptchaReady(true)}
-                    />
-                  </Flex>
-                </Stack>
+                        <InputRightElement top={0} right="-2">
+                          <IconButton
+                            icon={showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                            variant="unstyled"
+                            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                            onClick={() => setShowPassword(!showPassword)}
+                            size="lg"
+                            color="gray.600"
+                          />
+                        </InputRightElement>
+                      </InputGroup>
+                    </Flex>
+                    <Flex flexDir="column" alignItems="center">
+                      <ReCAPTCHA
+                        ref={recaptchaRef}
+                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                        size="invisible"
+                        hl="pt-BR"
+                        badge="bottomright"
+                        id="recaptcha"
+                        asyncScriptOnLoad={() => setIsRecaptchaReady(true)}
+                      />
+                    </Flex>
+                  </Stack>
+                  <Button
+                    type="submit"
+                    mt="6"
+                    size="md"
+                    isLoading={isSubmitting || isExecutingRecaptcha}
+                    isDisabled={!isRecaptchaReady}
+                    loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
+                  >
+                    Entrar
+                  </Button>
+                  <ChakraLink
+                    onClick={() => router.push("/auth/forgot-password")}
+                    color="gray.600"
+                    mt="2"
+                    fontSize="xs"
+                    textAlign="right"
+                    textDecoration="underline"
+                    fontWeight="medium"
+                  >
+                    Esqueci minha senha
+                  </ChakraLink>
+                </Flex>
+              </Flex>
+              <Flex alignItems="center" justifyContent="center" flexDirection="row" gap="3" w="100%">
                 <Button
-                  type="submit"
-                  mt="6"
-                  bg={bgColorPrimaryButton}
-                  color={primaryTextColor}
-                  _hover={{ bg: "green.600" }}
+                  type="button"
+                  mt="3"
+                  variant="outline"
+                  color={textSecondaryButton}
                   fontWeight="bold"
                   size={["sm", "md"]}
-                  isLoading={isSubmitting || isExecutingRecaptcha}
-                  isDisabled={!isRecaptchaReady}
-                  loadingText={isExecutingRecaptcha ? "Verificando..." : "Entrando..."}
+                  w="100%"
+                  onClick={() => router.push("/auth/signup")}
                 >
-                  Entrar
+                  Criar conta
                 </Button>
-                <ChakraLink
-                  onClick={() => router.push("/auth/forgot-password")}
-                  color="gray.600"
-                  mt="2"
-                  fontSize="xs"
-                  textAlign="right"
-                  textDecoration="underline"
-                  fontWeight="medium"
-                >
-                  Esqueci minha senha
-                </ChakraLink>
               </Flex>
             </Flex>
-            <Flex alignItems="center" justifyContent="center" flexDirection="row" gap="3" w="100%">
-              <Button
-                type="button"
-                mt="3"
-                variant="ghost"
-                color={textSecondaryButton}
-                fontWeight="bold"
-                size={["sm", "md"]}
-                w="100%"
-                onClick={() => router.push("/auth/signup")}
-              >
-                Criar conta
-              </Button>
+            <Flex position="absolute" bottom="2" right="3">
+              <Text as="small" fontSize="x-small" color="gray.700" align="center">
+                versão {packageJson.version}
+              </Text>
             </Flex>
-          </Flex>
-          <Flex position="absolute" bottom="2" right="3">
-            <Text as="small" fontSize="x-small" color="gray.700" align="center">
-              versão {packageJson.version}
-            </Text>
-          </Flex>
-        </Stack>
-      </GridItem>
-    </Grid>
+          </Stack>
+        </GridItem>
+      </Grid>
+    </Panel>
   );
 }
